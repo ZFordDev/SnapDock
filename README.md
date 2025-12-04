@@ -83,12 +83,11 @@ I’d love help fixing these!
 
 ## Screenshots
 
-## Screenshots
 
 <h3 align="center">Screenshots</h3>
 
 <div align="center">
-    <img src="assets/screenshot_1.png" alt="Live preview in light theme" width="700" />
+    <img src="assets/Screenshot_1.png" alt="Live preview in light theme" width="700" />
     <br/>
     **Live preview:** Light theme
 </div>
@@ -96,7 +95,7 @@ I’d love help fixing these!
 <br/>
 
 <div align="center">
-    <img src="assets/screenshot_2.png" alt="Editor view in dark theme" width="700" />
+    <img src="assets/Screenshot_2.png" alt="Editor view in dark theme" width="700" />
     <br/>
     **Editor view:** Dark theme
 </div>

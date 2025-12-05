@@ -23,6 +23,12 @@ If you think SnapDock is cool, please help me make it better!
 
 ---
 
+## Branch: rust-filetree
+This branch introduces a Rust crate under `src/filetree/` to begin transitioning file tree logic
+from JavaScript to Rust. The goal is to phase out `scripts.js` into a lightweight handler layer.
+
+---
+
 ## Project structure
 
 ```
@@ -32,6 +38,10 @@ snapdock/
 ├── markdown-it-master/  # Markdown parser (customized, slated for removal)
 ├── node_modules/        # Dependencies (ignored in git)
 ├── src/                 # Source code
+│   ├── filetree/        # Rust crate for file tree logic
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       └── lib.rs
 │   ├── scripts.js       # Core logic (being phased into Rust handler)
 │   └── styles.css       # Styling
 ├── .gitignore           # Git ignore rules

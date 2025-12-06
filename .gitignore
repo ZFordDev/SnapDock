@@ -1,23 +1,41 @@
+# -------------------------
 # Dependencies
-/node_modules
-/package-lock.json
+# -------------------------
+node_modules/
+package-lock.json
 
+# -------------------------
 # Build and Distribution
-/dist
-/out
-/release
+# -------------------------
+dist/
+out/
+release/
 *.asar
 *.asar.unpacked
 
+# -------------------------
 # Electron-Builder Cache
+# -------------------------
 .cache/
+electron-builder-cache/
+builder-debug.yml
+builder-effective-config.yaml
 
+# -------------------------
 # Logs and Debug
+# -------------------------
 npm-debug.log*
+*.log
 .DS_Store
 .vscode/
 
-# Ignore files created during the build/package process
-electron-builder-cache/
-/builder-debug.yml
-/builder-effective-config.yaml
+# -------------------------
+# Rust WASM build output
+# -------------------------
+src/filetree/pkg/
+src/filetree/target/
+
+# -------------------------
+# Misc
+# -------------------------
+Thumbs.db

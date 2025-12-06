@@ -56,6 +56,15 @@ snapdock/
 
 ---
 
+## SnapDock v1R.3.0 (Rust Integration Branch)
+
+This branch introduces Rust-powered filesystem integration:
+- Directory selection via Electron dialog
+- Rust-backed listing of folders and files
+- Collapsible tree view with file open support
+
+The `R` in the version tag indicates the Rust branch. Once stable, this will merge into the mainline version and the `R` will be dropped.
+
 ## Key features (Beta)
 
 - **Live preview:** Real‑time markdown rendering

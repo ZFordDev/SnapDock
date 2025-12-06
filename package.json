@@ -1,6 +1,6 @@
 {
   "name": "snapdock",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "A powerful desktop markdown editor.",
   "main": "main.js",
   "scripts": {

@@ -8,8 +8,9 @@ assignees: ''
 ---
 
 <h1 align="center">
-  <img src="assets/logo.png" alt="SnapDock Icon" width="120" style="border-radius:12px;" /><br/>
+  <img src="../../assets/logo.png" alt="SnapDock Icon" width="120" style="border-radius:12px;" /><br/>
 </h1>
+
 
 <p align="center">
    <strong>SnapDock Bug Report</strong><br/>

@@ -106,6 +106,17 @@ I’d love help fixing these!
 
 ---
 
+## Known issues (Rust branch v1R.3.0)
+
+These are specific to the Rust integration branch and will be resolved before merging into main:
+
+1. **App icon:** SnapDock icon not loading in UI.
+2. **Version tag:** `version.json` not being fetched/rendered correctly.
+3. **Render button:** Broken logic; folder open handler needs consolidation.
+4. **Packaging:** Ensure assets (icons, JSON, docs) are bundled into `dist/`.
+
+---
+
 ## Screenshots
 
 

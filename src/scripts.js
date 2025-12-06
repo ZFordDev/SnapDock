@@ -1,6 +1,8 @@
 /* SnapDock - A simple markdown editor and viewer
    Core script: scripts.js
 */
+import { initRust, getDirectory } from './fsHandler.js';
+
 const MarkdownIt = window.markdownit;
 
 function debounce(func, timeout = 300) {
@@ -16,13 +18,12 @@ function debounce(func, timeout = 300) {
 const $ = id => document.getElementById(id);
 
 const themeToggleBtn = $('themeToggleBtn');
-const openFileBtn = $('openFileBtn');
-const exportPdfBtn = $('exportPdfBtn');
-const markdownEditor = $('markdownEditor');
-const previewPane = $('previewPane');
-const toggleViewBtn = $('toggleViewBtn');
+const openFileBtn     = $('openFileBtn');
+const exportPdfBtn    = $('exportPdfBtn');
+const markdownEditor  = $('markdownEditor');
+const previewPane     = $('previewPane');
+const toggleViewBtn   = $('toggleViewBtn');
 const editorContainer = $('editorContainer');
-// Toggle view mode
 toggleViewBtn.addEventListener('click', () => {
     const isPreviewMode = editorContainer.classList.contains('preview-mode');
     editorContainer.classList.remove('preview-mode', 'edit-mode');
@@ -42,7 +43,6 @@ toggleViewBtn.addEventListener('click', () => {
 
 // Start in edit mode so the main window is writable by default
 window.addEventListener('DOMContentLoaded', () => {
-    // Defensive checks in case elements aren't present
     if (editorContainer && toggleViewBtn) {
         editorContainer.classList.add('edit-mode');
         toggleViewBtn.classList.add('edit-mode');
@@ -50,17 +50,18 @@ window.addEventListener('DOMContentLoaded', () => {
         markdownEditor.focus();
     }
 });
-const saveFileBtn = $('saveFileBtn');
+
+const saveFileBtn  = $('saveFileBtn');
 const filenameDisplay = $('filenameDisplay');
-const filenameInput = $('filenameInput');
-const versionTag = $('versionTag');
-const fileList = $('fileList');
-const tabs = $('tabs');
-const openFolderBtn = $('openFolderBtn');
-const folderTree = $('folderTree');
-const helpBtn = $('helpBtn');
-const updateBtn = $('updateBtn');
-const newFileBtn = $('newFileBtn');
+const filenameInput   = $('filenameInput');
+const versionTag      = $('versionTag');
+const fileList        = $('fileList');
+const tabs            = $('tabs');
+const openFolderBtn   = $('openFolderBtn');
+const folderTree      = $('folderTree');
+const helpBtn         = $('helpBtn');
+const updateBtn       = $('updateBtn');
+const newFileBtn      = $('newFileBtn');
 
 /*  Utility helpers */
 
@@ -73,11 +74,70 @@ function getLS(key, def = null) {
 }
 function triggerDownload(name, content, mime = 'text/plain') {
     const blob = new Blob([content], { type: mime });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = name; a.click();
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href   = url; a.download = name; a.click();
     URL.revokeObjectURL(url);
 }
+
+/* new rust filetree and file button */
+
+// Renderer
+openFolderBtn.addEventListener('click', async () => {
+  const dirPath = await window.electronAPI.openDirectory();
+  if (!dirPath) {
+    folderTree.innerHTML = "<li>No directory selected</li>";
+    return;
+  }
+
+  const entries = await window.electronAPI.listDirectory(dirPath);
+  renderFolderTree(entries);
+});
+
+// Renderer for entries from preload (expects { name, isDir, path })
+function renderFolderTree(entries, parent = folderTree) {
+  parent.innerHTML = '';
+
+  entries.forEach(entry => {
+    const li = document.createElement('li');
+
+    if (entry.isDir) {
+      li.className = 'folder';
+
+      const label = document.createElement('span');
+      label.textContent = `📁 ${entry.name}`;
+      label.style.cursor = 'pointer';
+
+      const sub = document.createElement('ul');
+      sub.style.display = 'none';
+
+      label.addEventListener('click', async () => {
+        const isHidden = sub.style.display === 'none';
+        sub.style.display = isHidden ? 'block' : 'none';
+
+        if (isHidden && sub.childElementCount === 0) {
+          const children = await window.electronAPI.listDirectory(entry.path);
+          renderFolderTree(children, sub);
+        }
+      });
+
+      li.appendChild(label);
+      li.appendChild(sub);
+    } else {
+      li.className = 'file';
+      li.textContent = `📄 ${entry.name}`;
+
+      // Add click handler to load file contents
+      li.addEventListener('click', async () => {
+        const text = await window.electronAPI.readFile(entry.path);
+        openFileInTab(entry.name, text);
+      });
+    }
+
+    parent.appendChild(li);
+  });
+}
+
 // Initialize markdown-it with all available features
 const md = new MarkdownIt({
     html: true,
@@ -133,10 +193,11 @@ window.addEventListener('DOMContentLoaded', () => {
     if (getLS(THEME_KEY, 'light') === 'dark')
         document.body.classList.add('dark-mode');
 });
+
 /* File operations */
 
 const AUTOSAVE_KEY = 'snapdock-autosave';
-const RECENT_KEY = 'snapdock-recent';
+const RECENT_KEY   = 'snapdock-recent';
 
 function pickFile(accept, callback) {
     const input = document.createElement('input');
@@ -279,8 +340,8 @@ function setActiveTab(tab) {
 
 tabs.addEventListener('click', e => {
     if (e.target.classList.contains('closeTab')) {
-        const tab = e.target.parentElement;
-        const name = tab.dataset.name;
+        const tab   = e.target.parentElement;
+        const name  = tab.dataset.name;
         tab.remove();
         delete openTabs[name]; // Remove the content from openTabs
 
@@ -292,79 +353,6 @@ tabs.addEventListener('click', e => {
 function openFileInEditor(content) {
     const filename = `untitled-${Date.now()}.md`;
     loadContent(filename, content);
-}
-
-/*  Folder tree handling */
-
-function buildFolderTree(files) {
-    const root = {};
-    files.forEach(file => {
-        const parts = file.webkitRelativePath.split('/');
-        let node = root;
-        parts.forEach((p, i) => {
-            if (i === parts.length - 1) { node[p] = file; }
-            else { node[p] = node[p] || {}; node = node[p]; }
-        });
-    });
-    return root;
-}
-function renderFolderTree(tree, parent = folderTree) {
-    parent.innerHTML = '';
-    Object.entries(tree).forEach(([name, val]) => {
-        const li = document.createElement('li');
-        if (val instanceof File) {
-            li.className = 'file';
-            li.textContent = `📄 ${name}`;
-            li.addEventListener('click', () => {
-                const r = new FileReader();
-                r.onload = e => openFileInTab(name, e.target.result);
-                r.readAsText(val);
-            });
-        } else {
-            li.className = 'folder';
-            const label = document.createElement('span');
-            label.textContent = `📁 ${name}`;
-            label.style.cursor = 'pointer';
-
-            const sub = document.createElement('ul');
-            sub.style.display = 'none'; // collapsed
-
-            label.addEventListener('click', () => {
-                sub.style.display = sub.style.display === 'none' ? 'block' : 'none';
-            });
-
-            li.appendChild(label);
-            renderFolderTree(val, sub);
-            li.appendChild(sub);
-        }
-        parent.appendChild(li);
-    });
-}
-openFolderBtn.addEventListener('click', () => pickFolder(files => renderFolderTree(buildFolderTree(files))));
-document.body.addEventListener('dragover', e => e.preventDefault());
-document.body.addEventListener('drop', async e => {
-    e.preventDefault();
-    const items = Array.from(e.dataTransfer.items);
-    const files = [];
-    for (const item of items) {
-        const entry = item.webkitGetAsEntry();
-        if (entry) await traverseFileTree(entry, '', files);
-    }
-    renderFolderTree(buildFolderTree(files));
-});
-function traverseFileTree(entry, path, out) {
-    return new Promise(resolve => {
-        if (entry.isFile) {
-            entry.file(f => { f.webkitRelativePath = path + f.name; if (f.name.endsWith('.md')) out.push(f); resolve(); });
-        } else if (entry.isDirectory) {
-            const reader = entry.createReader();
-            reader.readEntries(ents => {
-                let pending = ents.length;
-                if (!pending) return resolve();
-                ents.forEach(e => traverseFileTree(e, path + entry.name + '/', out).then(() => { if (--pending === 0) resolve(); }));
-            });
-        }
-    });
 }
 
 
@@ -405,4 +393,5 @@ fetch('version.json')
     .then(d => { versionTag.textContent = `v${d.version} ${d.build}`; })
     .catch(() => { versionTag.textContent = 'v2.0.0'; });
 
-
+/* Kick off Rust WASM initialization early */
+initRust();

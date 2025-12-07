@@ -82,6 +82,16 @@ function triggerDownload(name, content, mime = 'text/plain') {
 
 /* new rust filetree and file button */
 
+(async () => {
+  try {
+    await initRust();
+    console.log('Rust WASM initialized');
+  } catch (e) {
+    console.error('Failed to initialize Rust WASM:', e);
+  }
+})();
+
+
 // Renderer
 openFolderBtn.addEventListener('click', async () => {
   const dirPath = await window.electronAPI.openDirectory();
@@ -212,18 +222,7 @@ function pickFile(accept, callback) {
     };
     input.click();
 }
-function pickFolder(callback) {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.webkitdirectory = true;
-    input.multiple = true;
-    input.accept = '.md';
-    input.onchange = e => {
-        const files = Array.from(e.target.files).filter(f => f.name.endsWith('.md'));
-        callback(files);
-    };
-    input.click();
-}
+
 function loadContent(name, text) {
     markdownEditor.value = text;
     renderMarkdown(text);
@@ -279,20 +278,24 @@ filenameInput.addEventListener('blur', () => {
 });
 
 /*  Recent files & sidebar */
-function renderRecentFiles(files) {
-    fileList.innerHTML = '';
-    files.forEach(f => {
-        const li = document.createElement('li');
-        li.textContent = f.name;
-        li.addEventListener('click', () => openFileInTab(f.name, f.content));
-        fileList.appendChild(li);
-    });
-}
 function saveToRecentFiles(name, content) {
-    const recent = getLS(RECENT_KEY, []);
-    const updated = [{ name, content }, ...recent.filter(r => r.name !== name)].slice(0, 10);
-    setLS(RECENT_KEY, updated);
-    renderRecentFiles(updated);
+  const recent = getLS(RECENT_KEY, []) || [];
+  const updated = [{ name, content }, ...recent.filter(r => r.name !== name)].slice(0, 10);
+  setLS(RECENT_KEY, updated);
+  renderRecentFiles(updated);
+}
+
+function renderRecentFiles(files) {
+  const fileListEl = document.getElementById('fileList');
+  if (!fileListEl) return;
+  const safeFiles = files || [];
+  fileListEl.innerHTML = '';
+  safeFiles.forEach(f => {
+    const li = document.createElement('li');
+    li.textContent = f.name;
+    li.addEventListener('click', () => openFileInTab(f.name, f.content));
+    fileListEl.appendChild(li);
+  });
 }
 /* Load recent files on startup */
 window.addEventListener('DOMContentLoaded', () => {
@@ -333,8 +336,8 @@ function setActiveTab(tab) {
         markdownEditor.value = content;
         renderMarkdown(content);
     }
-
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('recentFilesPanel').classList.remove('active');
+    document.getElementById('editorContainer').style.display = 'block';
     tab.classList.add('active');
 }
 
@@ -354,18 +357,6 @@ function openFileInEditor(content) {
     const filename = `untitled-${Date.now()}.md`;
     loadContent(filename, content);
 }
-
-
-/* Open file / folder via button (single & multi) */
-
-openFileBtn.addEventListener('click', () => pickFile('.md,.txt', (text, name) => openFileInTab(name, text)));
-pickFolder(files => files.forEach(f => {
-    const r = new FileReader();
-    r.onload = e => openFileInTab(f.name, e.target.result);
-    r.readAsText(f);
-}));
-
-/* Help & Update dialogs */
 
 function showHelp() {
     fetch('assets/resources/docs/user_guide.md')

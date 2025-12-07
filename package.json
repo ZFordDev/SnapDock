@@ -1,6 +1,6 @@
 {
   "name": "snapdock",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "A powerful desktop markdown editor.",
   "main": "main.js",
   "scripts": {
@@ -28,14 +28,21 @@
       "output": "dist"
     },
     "files": [
-      "main.js",
-      "index.html",
-      "src/scripts.js",
-      "src/styles.css",
-      "node_modules/",
-      "markdown-it-master/",
-      "version.json",
-      "assets/icon.ico"
+        "main.js",
+              "preload.js",
+              "index.html",
+              "src/scripts.js",
+              "src/styles.css",
+              "src/fsHandler.js",
+              "node_modules/",
+              "markdown-it-master/",
+              "version.json",
+              "assets/icon.ico",
+              "assets/logo.png",
+              "assets/resources/**"
+    ],
+     "extraResources": [
+      { "from": "src/filetree/pkg", "to": "filetree/pkg" }
     ],
     "win": {
       "icon": "assets/icon.ico",

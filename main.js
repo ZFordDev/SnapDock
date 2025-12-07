@@ -15,7 +15,8 @@ function createWindow() {
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
-            contextIsolation: true
+            contextIsolation: true,
+            sandbox: false
         }
     });
     mainWindow.loadFile('index.html');

@@ -10,44 +10,56 @@
 </head>
 
 <body>
-    <header>
-        <h1>
-            <a href="https://zetolabs.com.au/snapdock" target="_blank"
-                style="display:inline-block; text-decoration:none;">
-                <img src="assets/logo.png" alt="SnapDock Icon" width="80" style="border-radius:20px; cursor:pointer;" />
-            </a>
-        </h1>
-        <div id="filenameWrapper">
-            <span id="filenameDisplay">untitled.md</span>
-            <input type="text" id="filenameInput" value="untitled.md" />
-        </div>
-        <nav id="toolbar">
-            <div class="toolbar-group">
-                <button id="newFileBtn" class="btn" title="New File"><b>📝<br>New File</b></button>
-                <button id="openFileBtn" class="btn" title="Open File">📂<br><b>Open File</b></button>
-                <button id="saveFileBtn" class="btn" title="Save">💾<br><b>Save</b></button>
-                <button id="toggleViewBtn" class="btn" title="Toggle Editor"></button>
-            </div>
-        </nav>
-    </header>
+  <header>
+    <h1>
+      <a href="https://zetolabs.com.au/snapdock" target="_blank"
+         style="display:inline-block; text-decoration:none;">
+        <img src="assets/logo.png" alt="SnapDock Icon" width="80"
+             style="border-radius:20px; cursor:pointer;" />
+      </a>
+    </h1>
+    <div id="filenameWrapper">
+      <span id="filenameDisplay">untitled.md</span>
+      <input type="text" id="filenameInput" value="untitled.md" />
+    </div>
+    <nav id="toolbar">
+      <div class="toolbar-group">
+        <button id="newFileBtn" class="btn" title="New File"><b>📝<br>New File</b></button>
+        <button id="openFileBtn" class="btn" title="Open File">📂<br><b>Open File</b></button>
+        <button id="saveFileBtn" class="btn" title="Save">💾<br><b>Save</b></button>
+        <button id="toggleViewBtn" class="btn" title="Toggle Editor"></button>
+      </div>
+    </nav>
+  </header>
 
-    <main>
-        <aside id="sidebar">
-            <h2>Files</h2>
-            <button id="openFolderBtn" class="btn">Open Folder</button>
-            <ul id="folderTree">
-            </ul>
-        </aside>
+  <main>
+    <!-- Sidebar: only folder tree -->
+    <aside id="sidebar">
+      <h2>Files</h2>
+      <button id="openFolderBtn" class="btn">Open Folder</button>
+      <ul id="folderTree"></ul>
+    </aside>
 
-        <section id="editorPanel">
-            <div id="tabs">
-            </div>
-            <div id="editorContainer" class="edit-mode">
-                <textarea id="markdownEditor" placeholder="Start writing..."></textarea>
-                <div id="previewPane"></div>
-            </div>
+    <!-- Editor panel with tabs and recent files panel -->
+    <section id="editorPanel">
+          <!-- Tabs bar -->
+          <div id="tabs">
+            <!-- File tabs will be injected here -->
+            <div id="recentTab" class="tab">Recent Files</div>
+          </div>
+      
+          <!-- Recent Files panel (hidden until Recent tab is active) -->
+          <div id="recentFilesPanel" class="tab-content">
+            <ul id="fileList"></ul>
+          </div>
+      
+          <!-- Editor container -->
+          <div id="editorContainer" class="edit-mode">
+            <textarea id="markdownEditor" placeholder="Start writing..."></textarea>
+            <div id="previewPane"></div>
+          </div>
         </section>
-    </main>
+  </main>
 
     <footer>
         <p>

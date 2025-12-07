@@ -261,19 +261,28 @@ body.dark-mode #filenameInput {
 /*======================================================================
   🔧 Tabs (editor tabs)
 ======================================================================*/
+/* Tabs styling */
 .tab {
-    background-color: #ddd;
-    padding: .3rem .6rem;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: .5rem;
-    font-size: .9rem;
-    position: relative;
+  padding: .5rem 1rem;
+  background: var(--bg-editor);
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+}
+.tab.active {
+  background: var(--bg-main);
+  font-weight: bold;
 }
 
-.tab.active {
-    background-color: var(--btn-bg);
-    color: white;
+/* Tab content panels */
+.tab-content {
+  display: none;
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background: var(--bg-editor);
+}
+.tab-content.active {
+  display: block;
 }
 
 .closeTab {

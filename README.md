@@ -99,7 +99,7 @@ SnapDock is now packaged as a full desktop app:
 
 ## Known Issues (Beta 2.1.0)
 
-1. **PDF export:** Not implemented — planned for an upcoming release  
+1. **PDF export:** Not implemented — planned for an upcoming release  (done)
 2. **File‑tree behavior:** Selecting items may override unsaved changes  
 3. **Saving logic:** Basic editor support only; not a full Markdown editor yet  
 4. **Preview gaps:** Some Markdown features are not fully supported  

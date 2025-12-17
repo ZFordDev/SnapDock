@@ -326,3 +326,40 @@ button:active {
   max-height: 80vh;
   overflow-y: auto;
 }
+
+/* ============================
+   SnapDock Update System Styles
+   ============================ */
+
+#update {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* When an update is available */
+#update.update-available {
+  background-color: #ffcc00;
+  color: #222;
+  border-color: #e0b200;
+  font-weight: 600;
+}
+
+/* Downloading state */
+#update.downloading {
+  background-color: #0078d4;
+  color: #fff;
+  border-color: #005a9e;
+}
+
+/* Restart to update */
+#update.restart-ready {
+  background-color: #28a745;
+  color: #fff;
+  border-color: #1e7e34;
+}
+
+/* Error state */
+#update.update-error {
+  background-color: #d9534f;
+  color: #fff;
+  border-color: #b52b27;
+}

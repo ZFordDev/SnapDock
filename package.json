@@ -1,28 +1,22 @@
 {
   "name": "snapdock",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "buildStage": "Beta",
-  "releaseDate": "2025-12-10",
+  "releaseDate": "2025-12-17",
   "description": "SnapDock — lightweight markdown editor with file tree, recent files, and dynamic preview.",
   "author": "ZetoLabs",
-  "update": {
-    "repo": "https://github.com/ZFordDev/SnapDock",
-    "assets": {
-      "bundle": "https://github.com/ZFordDev/SnapDock/releases/latest/download/bundle.js",
-      "html": "https://github.com/ZFordDev/SnapDock/releases/latest/download/index.html",
-      "css": "https://github.com/ZFordDev/SnapDock/releases/latest/download/styles.css"
-    }
-  },
   "private": true,
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "bundle": "node build.js", 
+    "bundle": "node build.js",
     "pack": "electron-packager . SnapDock --platform=win32 --arch=x64 --out=dist --icon=assets/icon.ico",
     "build": "npm run bundle && electron-builder",
     "lint": "echo \"Add ESLint later\""
   },
   "dependencies": {
+    "electron-log": "^5.4.3",
+    "electron-updater": "^6.6.2",
     "markdown-it": "^14.1.0"
   },
   "devDependencies": {
@@ -37,13 +31,19 @@
     "files": [
       "dist/**/*",
       "index.html",
-      "src/styles.css",
+      "src/**/*",
       "assets/**/*",
-      "main.js",
-      "src/preload.js"
+      "main.js"
     ],
     "win": {
       "icon": "assets/icon.ico"
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "ZFordDev",
+        "repo": "SnapDock"
+      }
+    ]
   }
 }

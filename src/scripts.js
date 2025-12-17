@@ -16,6 +16,9 @@ const recentList = byId("recentFilesList");
 const fileTreeList = byId("fileTreeList");
 const sidebar = document.getElementById("sidebar");
 const resizer = document.getElementById("resizer");
+const updateBtn = document.getElementById("update");
+
+// INITIALIZATION
 
 initInitialState({ editor });
 initTheme({ toggleBtn: themeToggleBtn });
@@ -24,19 +27,25 @@ initAutosave({ editor });
 renderRecentFiles(recentList, editor);
 renderFileTree(fileTreeList);
 setVersionTag();
+checkForUpdatesOnLaunch();
+
+// VERSION TAG
 
 async function setVersionTag() {
   const info = await window.electronAPI.getVersion();
-  const versionTag = document.getElementById("versionTag");
-  versionTag.textContent = `SnapDock ${info.version} (${info.build}) — ${info.date}`;
+  versionTag.textContent = `SnapDock ${info.version} (${info.stage}) — ${info.date}`;
 }
 
+// FILENAME DISPLAY
+
 function setFilenameDisplay(filePath) {
-  const parts = filePath.split(/[\\/]/); 
-  const base = parts[parts.length - 1]; 
+  const parts = filePath.split(/[\\/]/);
+  const base = parts[parts.length - 1];
   const name = base.replace(/\.[^/.]+$/, "");
   document.getElementById("filenameDisplay").textContent = name;
 }
+
+// FILE OPERATIONS
 
 document.getElementById("newFileBtn")?.addEventListener("click", () => {
   editor.value = "";
@@ -49,11 +58,11 @@ document.getElementById("saveFileBtnTop")?.addEventListener("click", () => {
 });
 
 document.getElementById("openFileBtnTop")?.addEventListener("click", async () => {
-  const result = await loadContent(editor); 
+  const result = await loadContent(editor);
   if (result && result.filePath) {
     saveToRecentFiles(result.filePath);
     renderRecentFiles(recentList, editor);
-    setFilenameDisplay(result.filePath); 
+    setFilenameDisplay(result.filePath);
   }
 });
 
@@ -64,6 +73,8 @@ document.getElementById("openFolderBtnTop")?.addEventListener("click", async () 
     renderFileTree(fileTreeList, folderPath);
   }
 });
+
+// HELP MODAL
 
 document.getElementById("helpBtn")?.addEventListener("click", async () => {
   const content = await window.electronAPI.openHelp();
@@ -82,6 +93,8 @@ document.getElementById("helpBtn")?.addEventListener("click", async () => {
   document.getElementById("closeHelp").addEventListener("click", () => modal.remove());
 });
 
+// FILE TREE
+
 async function renderFileTree(container, dirPath) {
   const files = await window.electronAPI.listFiles(dirPath);
   files.forEach(f => {
@@ -92,6 +105,7 @@ async function renderFileTree(container, dirPath) {
     if (f.type === "folder") {
       const nested = document.createElement("ul");
       nested.style.display = "none";
+
       li.addEventListener("click", async () => {
         if (nested.childElementCount === 0) {
           const subFiles = await window.electronAPI.listFiles(f.fullPath);
@@ -99,6 +113,7 @@ async function renderFileTree(container, dirPath) {
             const subLi = document.createElement("li");
             subLi.textContent = sf.name;
             subLi.className = sf.type;
+
             if (sf.type === "file") {
               subLi.addEventListener("click", async (e) => {
                 e.stopPropagation();
@@ -106,11 +121,13 @@ async function renderFileTree(container, dirPath) {
                 if (content !== null) editor.value = content;
               });
             }
+
             nested.appendChild(subLi);
           });
         }
         nested.style.display = nested.style.display === "none" ? "block" : "none";
       });
+
       li.appendChild(nested);
     } else {
       li.addEventListener("click", async () => {
@@ -123,15 +140,57 @@ async function renderFileTree(container, dirPath) {
   });
 }
 
-document.getElementById("update")?.addEventListener("click", async () => {
-  try {
-    const result = await window.electronAPI.updateApp();
-    alert(result);
-    location.reload(); 
-  } catch (err) {
-    alert("Update failed:\n" + err);
+// UPDATE SYSTEM (NEW)
+
+async function checkForUpdatesOnLaunch() {
+  const result = await window.electronAPI.checkForUpdates();
+
+  if (result?.updateAvailable) {
+    updateBtn.classList.add("update-available");
+    updateBtn.textContent = "Update Available";
   }
+}
+
+// User clicks update button
+updateBtn?.addEventListener("click", async () => {
+  updateBtn.disabled = true;
+  updateBtn.textContent = "Checking...";
+
+  const result = await window.electronAPI.checkForUpdates();
+
+  if (!result.updateAvailable) {
+    updateBtn.textContent = "No Updates";
+    setTimeout(() => {
+      updateBtn.textContent = "Update";
+      updateBtn.disabled = false;
+    }, 1500);
+    return;
+  }
+
+  updateBtn.textContent = "Downloading...";
+  await window.electronAPI.downloadUpdate();
 });
+
+// Update events
+window.electronAPI.onUpdateProgress((progress) => {
+  updateBtn.textContent = `Downloading ${Math.floor(progress.percent)}%`;
+});
+
+window.electronAPI.onUpdateReady(() => {
+  updateBtn.textContent = "Restart to Update";
+  updateBtn.disabled = false;
+
+  updateBtn.onclick = () => {
+    window.electronAPI.installUpdate();
+  };
+});
+
+window.electronAPI.onUpdateError((err) => {
+  updateBtn.textContent = "Update Failed";
+  console.error("Update error:", err);
+});
+
+// SIDEBAR RESIZER
 
 resizer.addEventListener("mousedown", e => {
   document.addEventListener("mousemove", resize);

@@ -1,39 +1,53 @@
-<h1 align="center">
-  <img src="assets/logo.png" alt="SnapDock Icon" width="150" style="border-radius:12px;" /><br/>
-</h1>
+<p align="center">
+  <img src="assets/banner.png" alt="SnapDock Banner" width="100%">
+</p>
 
 <p align="center">
-   <strong>SnapDock — Markdown Reader with File‑Tree Navigation</strong><br/>
+   <strong>Markdown Reader with File‑Tree Navigation</strong><br/>
    Built by <strong>ZFordDev</strong>
 </p>
 
 ---
 
-## 📄 Overview
+> ⚠️ **Important Notice — Update System Issue**
+>
+> The in‑app **Update** button is currently not applying updates correctly.  
+> It fetches the latest build but does **not** install it.
+>
+> A fix is in progress.  
+> Until then, please download updates directly from the **Releases** page.
+>
+> 👉 https://github.com/ZFordDev/SnapDock/releases
+
+---
+
+## Overview
 
 SnapDock is a lightweight Markdown reader with a built‑in file‑tree dock, designed for navigating folders of `.md` files quickly and cleanly.  
 It’s ideal for documentation, notes, and study workflows where simplicity and speed matter.
 
-## 📦 Release Status
+---
+
+## Release Status
 
 **Current build:** Beta 2.0.1  
-This release introduces a redesigned UI, improved Markdown rendering, and a more stable file‑tree dock.
+This update includes a redesigned UI, improved Markdown rendering, and a more stable file‑tree dock.
 
-**Next milestone:** RC 2.0.1 (planned January 2026)
-
----
-
-## ✨ Why I Made SnapDock
-
-During my studies, I had an exam that required writing in Markdown. Many students were new to Markdown, and most existing tools felt overly complex or cluttered.
-
-SnapDock was created to be a **simple, fast, distraction‑free Markdown reader** with a **file‑tree dock** for navigating folders of `.md` files. It’s perfect for documentation, notes, study materials, and project browsing.
-
-Future plans include expanding support to **PDF viewing**, improving the editor experience, and eventually integrating **AI‑powered writing assistance**.
+**Next milestone:** Continued Beta improvements — PDF support, performance upgrades, and enhanced file‑handling safety.
 
 ---
 
-## 📥 Download & Install
+## Why I Made SnapDock
+
+While studying, I noticed how many Markdown tools were overloaded with features, cluttered interfaces, or slow performance — especially for students and developers who just needed to read and navigate `.md` files quickly.
+
+SnapDock was built to be a **simple, fast, distraction‑free Markdown reader** with a **file‑tree dock** that makes browsing folders of notes effortless. It’s ideal for documentation, study materials, and project exploration.
+
+Looking ahead, SnapDock will gain **PDF viewing**, a more capable editor, and eventually **AI‑assisted writing tools**.
+
+---
+
+## Download & Install
 
 SnapDock is now packaged as a full desktop app:
 
@@ -45,7 +59,7 @@ SnapDock is now packaged as a full desktop app:
 
 ---
 
-## 🖼️ Screenshots
+## Screenshots
 
 <div align="center">
     <img src="assets/ren_v2_lite.png" alt="Live preview in light theme" width="700" />
@@ -71,61 +85,56 @@ SnapDock is now packaged as a full desktop app:
 
 ---
 
-## ✨ Features
+## Features
 
-- Markdown rendering with live preview  
-- File‑tree dock for navigating folders  
-- Light and dark themes  
-- Clean, distraction‑free UI  
-- Basic editing support  
-
-## 🐞 Known Issues (Beta 2.0.1)
-
-1. **PDF export:** Not implemented — planned for future versions  
-2. **File tree:** Selecting items may override unsaved changes  
-3. **Saving:** Basic editor support only; not a full Markdown editor yet  
-4. **Preview gaps:** Some Markdown features not fully supported  
-5. **Update logic:** Works for core assets, but needs broader integration 
+- Live Markdown preview for fast, accurate reading  
+- Integrated file‑tree dock for navigating folders of `.md` files  
+- Light and dark themes for comfortable viewing  
+- Minimal, distraction‑free interface  
+- Basic editing support for quick adjustments  
 
 ---
 
-## 🛠 Roadmap
+## Known Issues (Beta 2.0.1)
 
-- **RC milestone:** Promote Beta 2.0.1 to RC once stability is confirmed  
+1. **PDF export:** Not implemented — planned for an upcoming release  
+2. **File‑tree behavior:** Selecting items may override unsaved changes  
+3. **Saving logic:** Basic editor support only; not a full Markdown editor yet  
+4. **Preview gaps:** Some Markdown features are not fully supported  
+5. **Update system:** Works for core assets but needs broader integration  
+
+---
+
+## Roadmap
+
 - **PDF support:** Add PDF viewing and export  
-- **Markdown engine:** Improve rendering accuracy and performance  
-- **Editor upgrade:** Expand editing capabilities beyond basic text input  
-- **Rust integration:** Use Rust for PDF export and Markdown parsing  
+- **Performance upgrades:** Improve rendering speed and overall responsiveness  
+- **File‑handling safety:** Add fail‑safes to reduce the risk of lost work  
+- **Markdown engine improvements:** Increase accuracy and compatibility with more Markdown features  
+- **Editor enhancements:** Expand editing capabilities beyond basic text input  
+- **Pro features (future):** Rust‑powered PDF export and advanced parsing reserved for SnapDock Pro  
 
 ---
 
-## 🤝 Contributions Welcome
+## Contribute
 
-This is open source, and I’d be thrilled if you contribute:  
-- **Fork & PR:** Bug fixes, features, refactors  
-- **Issues:** Report bugs or suggest improvements  
-- **Discord:** Join our community for feedback & collaboration  
+SnapDock is an active, evolving project — if you have ideas, improvements, or expertise to share, you’re welcome to jump in.
 
-- [💬 Discord](https://discord.gg/4RGzagyt7C)
+- **Pull Requests:** Features, fixes, refactors  
+- **Issues:** Bug reports, suggestions, feedback  
+- **Community:** Discuss ideas and development on Discord  
+
+[💬 Join the Discord](https://discord.gg/4RGzagyt7C)
 
 ---
 
-## 📜 License
+## License
 
 MIT License — free to use, modify, and distribute. Please keep this notice.
 
 ---
 
-## 🫂 Stay Connected
+## Explore More
 
-- [**Join me on Discord**](https://discord.gg/4RGzagyt7C)  
-- [**Find this project on GitHub**](https://github.com/ZFordDev/SnapDock)  
-- [**Connect on Facebook**](https://www.facebook.com/zachary.ford.944654)
-
----
-
-## ❤️ Support
-
-SnapDock is free and open source.  
-If it helps you, consider supporting the creator via ZetoLabs:  
-- [**Ko‑Fi**](https://ko-fi.com/zetolabs)
+See what else I'm building at:  
+https://zford.dev

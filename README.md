@@ -9,18 +9,6 @@
 
 ---
 
-> ⚠️ **Important Notice — Update System Issue**
->
-> The in‑app **Update** button is currently not applying updates correctly.  
-> It fetches the latest build but does **not** install it.
->
-> A fix is in progress.  
-> Until then, please download updates directly from the **Releases** page.
->
-> 👉 https://github.com/ZFordDev/SnapDock/releases
-
----
-
 ## Overview
 
 SnapDock is a lightweight Markdown reader with a built‑in file‑tree dock, designed for navigating folders of `.md` files quickly and cleanly.  
@@ -30,8 +18,16 @@ It’s ideal for documentation, notes, and study workflows where simplicity and 
 
 ## Release Status
 
-**Current build:** Beta 2.0.1  
-This update includes a redesigned UI, improved Markdown rendering, and a more stable file‑tree dock.
+**Current build:** Beta 2.1.0  
+This release introduces SnapDock’s new **automatic update system**, powered by Electron’s native updater.  
+Once installed, SnapDock can now:
+
+- Check for updates on launch  
+- Notify you when a new version is available  
+- Download updates in the background  
+- Restart to apply updates automatically  
+
+This marks a major step toward a fully self‑maintaining desktop app.
 
 **Next milestone:** Continued Beta improvements — PDF support, performance upgrades, and enhanced file‑handling safety.
 
@@ -51,9 +47,14 @@ Looking ahead, SnapDock will gain **PDF viewing**, a more capable editor, and ev
 
 SnapDock is now packaged as a full desktop app:
 
-- **GitHub Releases (free builds):** [Download the latest Windows installer](https://github.com/ZFordDev/SnapDock/releases)  
-- **Ko‑Fi (support the project):** [Pay‑what‑you‑want](https://ko-fi.com/zetolabs) — grab the same build here if you’d like to support development  
-- **Other platforms:** macOS and Linux builds are planned once testing is complete  
+- **GitHub Releases (free builds):**  
+  [Download the latest Windows installer](https://github.com/ZFordDev/SnapDock/releases)
+
+- **Ko‑Fi (support the project):**  
+  [Pay‑what‑you‑want](https://ko-fi.com/zetolabs) — grab the same build here if you’d like to support development
+
+- **Other platforms:**  
+  macOS and Linux builds are planned once testing is complete
 
 > Developers can still build from source if they prefer, but most users should grab the packaged app.
 
@@ -92,16 +93,17 @@ SnapDock is now packaged as a full desktop app:
 - Light and dark themes for comfortable viewing  
 - Minimal, distraction‑free interface  
 - Basic editing support for quick adjustments  
+- Automatic updates (new in 2.1.x)
 
 ---
 
-## Known Issues (Beta 2.0.1)
+## Known Issues (Beta 2.1.0)
 
 1. **PDF export:** Not implemented — planned for an upcoming release  
 2. **File‑tree behavior:** Selecting items may override unsaved changes  
 3. **Saving logic:** Basic editor support only; not a full Markdown editor yet  
 4. **Preview gaps:** Some Markdown features are not fully supported  
-5. **Update system:** Works for core assets but needs broader integration  
+5. **macOS/Linux builds:** Pending testing and packaging  
 
 ---
 

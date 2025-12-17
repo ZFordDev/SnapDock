@@ -74,6 +74,13 @@ document.getElementById("openFolderBtnTop")?.addEventListener("click", async () 
   }
 });
 
+console.log("EDITOR ELEMENT:", editor);
+
+document.getElementById("exportPdfBtn").addEventListener("click", () => {
+    const htmlContent = window.markdown?.render(editor?.value || "");
+    window.electronAPI.exportToPDF(htmlContent);
+});
+
 // HELP MODAL
 
 document.getElementById("helpBtn")?.addEventListener("click", async () => {

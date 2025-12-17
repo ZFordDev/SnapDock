@@ -2,6 +2,10 @@ const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const pkg = require("./package.json");
+const pdfModule = require("./src/modules/pdf/pdf.js");
+
+console.log("RUNNING FROM:", __dirname);
+console.log("PRELOAD PATH:", path.join(__dirname, "src", "preload.js"));
 
 // Import updater module
 const setupUpdater = require("./src/modules/update");
@@ -14,6 +18,9 @@ function createWindow() {
     height: 800,
     webPreferences: {
       preload: path.join(__dirname, "src", "preload.js"),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: false,
     },
   });
 
@@ -106,4 +113,9 @@ ipcMain.handle("dialog:getVersion", async () => {
     stage: pkg.buildStage,
     date: pkg.releaseDate,
   };
+});
+
+// PDF Export Handler
+ipcMain.on("export-pdf", (event, htmlContent) => {
+    pdfModule.exportCurrentMarkdown(htmlContent);
 });

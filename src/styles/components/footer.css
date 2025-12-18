@@ -1,6 +1,10 @@
 /* Footer and status bar styles */
 
 .footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
   flex-shrink: 0;          
   height: 50px;         
   display: flex;

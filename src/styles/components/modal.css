@@ -28,6 +28,7 @@
    ============================ */
 
 #update {
+  margin-right: 40px;
   transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 

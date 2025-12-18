@@ -1,0 +1,13 @@
+/* Dark theme variables and styles */
+
+body.dark-theme {
+  --editor-bg: #1c1f24;
+  --editor-text: #e6e6e6;
+  --toolbar-bg: #1c1f24;
+  --sidebar-bg: #181b20;
+  --footer-bg: #1c1f24;
+  --workspace-bg: #0f1216;
+  --border-color: #333;
+  background: #0f1216;
+  color: #e6e6e6;
+}

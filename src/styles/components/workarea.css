@@ -1,0 +1,25 @@
+/* Workspace and editor container styles */
+
+.workspace {
+  flex: 1;
+  display: flex;
+  justify-content: center;  
+  align-items: flex-start;  
+  padding: 40px;             
+  background: var(--workspace-bg, #f0f2f5);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.editor-bubble {
+  width: 80%;
+  max-width: 900px;
+  height: 100%;
+  background: var(--editor-bg);
+  color: var(--editor-text);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}

@@ -1,0 +1,21 @@
+/* Button and interactive element styles */
+
+button {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  background: var(--toolbar-bg);
+  color: inherit;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+button:hover {
+  background: var(--border-color);
+  border-color: var(--border-color);
+}
+
+button:active {
+  opacity: 0.8;
+}

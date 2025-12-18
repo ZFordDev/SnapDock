@@ -1,0 +1,14 @@
+/* Main layout structure */
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-container {
+  flex: 1;                
+  display: flex;          
+  min-height: 0;           
+  overflow: hidden;
+}

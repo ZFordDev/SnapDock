@@ -1,0 +1,13 @@
+/* Light theme variables and styles */
+
+body.light-theme {
+  --editor-bg: #ffffff;
+  --editor-text: #111111;
+  --toolbar-bg: #f5f5f5;
+  --sidebar-bg: #fafafa;
+  --footer-bg: #f5f5f5;
+  --workspace-bg: #f0f2f5;
+  --border-color: #ddd;
+  background: #ffffff;
+  color: #111;
+}

@@ -1,0 +1,20 @@
+/* Arctic Dark Theme */
+body.arctic-theme {
+  --workspace-bg: #2E3440;  
+  --toolbar-bg:   #3B4252; 
+  --sidebar-bg:   #3B4252;
+  --footer-bg:    #3B4252;
+
+  --editor-bg:  #3B4252;
+  --editor-text: #D8DEE9;
+
+  --border-color: #4C566A;   
+  --text-color:   #D8DEE9;  
+
+  --accent-blue:  #81A1C1;
+  --accent-cyan:  #88C0D0;
+  --accent-green: #A3BE8C;
+
+  background: var(--workspace-bg);
+  color: var(--text-color);
+}

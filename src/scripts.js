@@ -1,5 +1,5 @@
 import { initInitialState } from "./modules/ui/editorState.js";
-import { initTheme } from "./modules/ui/theme.js";
+import { initTheme, applyTheme } from "./modules/ui/theme.js";
 import { initViewModeToggle } from "./modules/ui/viewMode.js";
 import { loadContent, saveCurrentFile } from "./modules/file/operations.js";
 import { initAutosave } from "./modules/file/autosave.js";
@@ -9,25 +9,39 @@ function byId(id) { return document.getElementById(id); }
 
 const editor = byId("markdownInputMain");
 const preview = byId("previewMain");
-const themeToggleBtn = byId("themeToggleBtnBottom");
+const themeToggleBtn = document.getElementById("themeBtn");
 const previewToggleBtn = byId("previewToggleBtn");
 const versionTag = byId("versionTag");
 const recentList = byId("recentFilesList");
 const fileTreeList = byId("fileTreeList");
-const sidebar = document.getElementById("sidebar");
-const resizer = document.getElementById("resizer");
-const updateBtn = document.getElementById("update");
+const sidebar = byId("sidebar");
+const resizer = byId("resizer");
+const updateBtn = byId("update");
+const themeMenu = document.getElementById("themeMenu");
+
 
 // INITIALIZATION
-
 initInitialState({ editor });
-initTheme({ toggleBtn: themeToggleBtn });
+initTheme({});
 initViewModeToggle({ toggleBtn: previewToggleBtn, editor, preview });
 initAutosave({ editor });
 renderRecentFiles(recentList, editor);
 renderFileTree(fileTreeList);
 setVersionTag();
 checkForUpdatesOnLaunch();
+
+// THEME MENU
+document.querySelectorAll(".theme-menu button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    applyTheme(btn.dataset.theme);
+    themeMenu.classList.remove("open");
+  });
+});
+
+// Open/close menu
+themeToggleBtn.addEventListener("click", () => {
+  themeMenu.classList.toggle("open");
+});
 
 // VERSION TAG
 

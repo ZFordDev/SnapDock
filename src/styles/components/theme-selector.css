@@ -1,0 +1,57 @@
+.theme-selector {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+/* Main button */
+#themeBtn {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  background: var(--toolbar-bg);
+  color: inherit;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#themeBtn:hover {
+  background: var(--border-color);
+}
+
+/* Drop-up menu */
+.theme-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background: var(--toolbar-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 0;
+  min-width: 140px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: none;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.theme-menu.open {
+  display: block;
+}
+
+/* Menu buttons override global button styles */
+.theme-menu button {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9em;
+  color: inherit;
+  transition: background 0.15s;
+}
+
+.theme-menu button:hover {
+  background: var(--border-color);
+}

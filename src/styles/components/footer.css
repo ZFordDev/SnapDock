@@ -1,0 +1,25 @@
+/* Footer and status bar styles */
+
+.footer {
+  flex-shrink: 0;          
+  height: 50px;         
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding: 0 16px;
+  background: var(--footer-bg);
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.version {
+  font-size: 0.85em;
+  opacity: 0.7;
+}

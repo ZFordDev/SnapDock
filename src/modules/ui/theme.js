@@ -1,18 +1,30 @@
 const THEME_KEY = "snapdock_theme";
 
-export function initTheme({ toggleBtn }) {
-  const current = localStorage.getItem(THEME_KEY) || "light";
-  applyTheme(current);
-  if (toggleBtn) toggleBtn.addEventListener("click", toggleTheme);
+// List of all supported themes
+const THEMES = ["light", "dark", "solarized", "arctic"];
+
+export function initTheme({ selector }) {
+  const saved = localStorage.getItem(THEME_KEY) || "light";
+  applyTheme(saved);
+
+  // If a dropdown/select element is provided
+  if (selector) {
+    selector.value = saved;
+    selector.addEventListener("change", (e) => {
+      applyTheme(e.target.value);
+    });
+  }
 }
 
 export function applyTheme(theme) {
-  document.body.classList.toggle("dark-theme", theme === "dark");
-  document.body.classList.toggle("light-theme", theme === "light");
-  localStorage.setItem(THEME_KEY, theme);
-}
+  // Remove all theme classes
+  THEMES.forEach(t => {
+    document.body.classList.remove(`${t}-theme`);
+  });
 
-function toggleTheme() {
-  const current = localStorage.getItem(THEME_KEY) || "light";
-  applyTheme(current === "light" ? "dark" : "light");
+  // Apply the selected theme
+  document.body.classList.add(`${theme}-theme`);
+
+  // Save preference
+  localStorage.setItem(THEME_KEY, theme);
 }

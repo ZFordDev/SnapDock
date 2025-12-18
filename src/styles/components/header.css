@@ -1,0 +1,69 @@
+/* Header and top navigation styles */
+
+.top-header {
+  flex-shrink: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--toolbar-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 16px;
+  gap: 24px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.top-header .logo {
+  height: 32px;
+  width: auto;
+}
+
+#filenameWrapper {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+#filenameDisplay {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: .25rem .5rem;
+  display: inline-block;
+}
+
+#filenameInput {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: .25rem .5rem;
+  border: none;
+  border-radius: 4px;
+  display: none;
+  text-align: center;
+  background-color: #fff;
+  color: #333;
+}
+
+body.dark-mode #filenameInput {
+  background-color: var(--bg-editor);
+  color: var(--fg-main);
+}

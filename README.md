@@ -19,23 +19,50 @@ It’s ideal for documentation, notes, and study workflows where simplicity, spe
 ## Release Status
 
 **Current build:** Beta 2.1.1  
-This update introduces SnapDock’s new **modern Markdown rendering engine** and the first stage of the **PDF export pipeline upgrade**.
+This update introduces SnapDock’s new **theme engine**, a fully modular **CSS architecture**, and major upgrades to the **Markdown preview** and **PDF export pipeline**.
 
 ### 🔧 What’s new in 2.1.1
 
-- **Modern Markdown renderer (Preview Engine v2)**  
-  Supports tables, footnotes, callouts, syntax highlighting, sub/superscript, and more.
+#### **✨ New Theme Engine (4 Themes + Drop‑Up Selector)**
+SnapDock now includes a fully modular theme system with:
 
-- **PDF export pipeline upgraded**  
-  PDF rendering now uses a dedicated styling layer, separate from the preview.  
-  This unlocks:
-  - Page‑break rules  
-  - Print‑safe colors  
-  - Layout control  
-  - Future header/footer support  
+- **Light**
+- **Dark**
+- **Solarized Light**
+- **Arctic Dark (Nord‑inspired)**
 
-- **Architecture cleanup**  
-  Rendering logic is now modular, maintainable, and ready for future expansion.
+A new **drop‑up theme selector** in the footer makes switching instant and intuitive.  
+Themes are now isolated, maintainable, and easy to extend.
+
+#### **📝 Modern Markdown Renderer (Preview Engine v2)**
+Supports:
+
+- Tables  
+- Footnotes  
+- Callouts  
+- Syntax highlighting  
+- Subscript / superscript  
+- Cleaner typography  
+- Better spacing and layout  
+
+#### **📄 PDF Export Pipeline Upgrade**
+PDF rendering now uses a dedicated styling layer, separate from the preview.  
+This unlocks:
+
+- Page‑break rules  
+- Print‑safe colors  
+- Layout control  
+- Future header/footer support  
+
+#### **🧹 Architecture Cleanup**
+The entire CSS system has been refactored into:
+
+- `base/` (layout, variables)  
+- `components/` (header, sidebar, editor, theme selector, etc.)  
+- `themes/` (each theme isolated)  
+- `markdown/` (preview + PDF styles)  
+
+This makes SnapDock easier to maintain, extend, and theme.
 
 **Next milestone:** UI editor upgrade — improved text box, spacing, and writing experience.
 
@@ -99,7 +126,7 @@ SnapDock is now packaged as a full desktop app:
 
 - Modern Markdown rendering (tables, code, callouts, footnotes, etc.)
 - Integrated file‑tree dock for navigating folders of `.md` files
-- Light and dark themes for comfortable viewing
+- **Four themes** with a new drop‑up theme selector
 - Minimal, distraction‑free interface
 - Basic editing support for quick adjustments
 - Automatic updates (2.1.x)

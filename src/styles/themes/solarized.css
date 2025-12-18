@@ -1,0 +1,28 @@
+/* True Solarized Light Theme */
+body.solarized-theme {
+  --workspace-bg: #fdf6e3;  
+  --toolbar-bg:   #eee8d5;   
+  --sidebar-bg:   #eee8d5;  
+  --footer-bg:    #eee8d5;   
+
+  --editor-bg: #fdf6e3;
+  --editor-text: #657b83;
+
+  --text-color:   #657b83; 
+  --border-color: #93a1a1;  
+
+  background: #fdf6e3;    
+  color: var(--text-color);
+}
+
+/* Solarized accent colors for buttons, highlights, etc. */
+body.solarized-theme {
+  --accent-yellow:  #b58900;
+  --accent-orange:  #cb4b16;
+  --accent-red:     #dc322f;
+  --accent-magenta: #d33682;
+  --accent-violet:  #6c71c4;
+  --accent-blue:    #268bd2;
+  --accent-cyan:    #2aa198;
+  --accent-green:   #859900;
+}

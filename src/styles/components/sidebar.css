@@ -1,0 +1,67 @@
+/* Sidebar and file navigation styles */
+
+.sidebar-left {
+  display: flex;
+  flex-direction: column;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  min-width: 180px;
+  max-width: 400px;
+  width: 250px;
+  position: relative;
+}
+
+.recent-files {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.recent-files h3,
+.file-tree h3 {
+  margin: 0 0 8px 0;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recent-files ul,
+.file-tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.recent-files li,
+.file-tree li {
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.recent-files li:hover,
+.file-tree li:hover {
+  background: var(--border-color);
+}
+
+.file-tree {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.resizer {
+  width: 4px;
+  height: 100%;
+  background: var(--border-color);
+  cursor: col-resize;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: background 0.2s;
+}
+
+.resizer:hover {
+  background: var(--border-color);
+  opacity: 0.8;
+}

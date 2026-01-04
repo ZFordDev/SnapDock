@@ -1,4 +1,4 @@
-/* No longer used kept for reference */
+/* No longer used kept for reference 
 html {
   margin: 0;
   padding: 0;
@@ -325,13 +325,13 @@ button:active {
 
 /* ============================
    SnapDock Update System Styles
-   ============================ */
+   ============================ 
 
 #update {
   transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-/* When an update is available */
+/* When an update is available 
 #update.update-available {
   background-color: #ffcc00;
   color: #222;
@@ -339,23 +339,24 @@ button:active {
   font-weight: 600;
 }
 
-/* Downloading state */
+/* Downloading state 
 #update.downloading {
   background-color: #0078d4;
   color: #fff;
   border-color: #005a9e;
 }
 
-/* Restart to update */
+/* Restart to update 
 #update.restart-ready {
   background-color: #28a745;
   color: #fff;
   border-color: #1e7e34;
 }
 
-/* Error state */
+/* Error state 
 #update.update-error {
   background-color: #d9534f;
   color: #fff;
   border-color: #b52b27;
 }
+  */

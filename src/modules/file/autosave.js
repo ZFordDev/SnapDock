@@ -1,3 +1,4 @@
+
 // no longer needed for the new app structure but kept for reference
 /*
 const AUTOSAVE_KEY = "snapdock_autosave";

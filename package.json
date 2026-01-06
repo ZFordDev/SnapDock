@@ -1,8 +1,8 @@
 {
   "name": "snapdock",
-  "version": "2.2.3",
-  "buildStage": "RC",
-  "releaseDate": "2026-01-05",
+  "version": "2.2.4",
+  "buildStage": "Stable",
+  "releaseDate": "2026-01-15",
   "description": "SnapDock — lightweight markdown editor with file tree, recent files, and dynamic preview.",
   "author": "ZetoLabs",
   "private": true,
@@ -49,10 +49,14 @@
     ],
   
     "win": {
+      "artifactName": "SnapDock-Setup.exe",
       "icon": "assets/icon.ico",
       "target": [
         "nsis"
       ]
+    },
+    "nsis": {
+      "artifactName": "SnapDock-Setup.exe"
     },
   
     "linux": {

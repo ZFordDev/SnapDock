@@ -60,7 +60,7 @@
     },
   
     "linux": {
-      "icon": "assets/icon.png",
+      "icon": "assets/linux_logo.png",
       "category": "Utility",
       "target": [
         "AppImage",

@@ -6,14 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build for ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+  build-windows:
+    name: Build Windows Installer
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
@@ -27,17 +22,74 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build SnapDock
-        run: npm run build
+      - name: Build Windows (NSIS)
+        run: npx electron-builder --win nsis --publish=never
 
-      - name: Upload artifacts
+      - name: Upload Windows Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: SnapDock-${{ matrix.os }}
+          name: SnapDock-Windows
           path: |
             dist/*.exe
+            dist/*.blockmap
+            dist/latest.yml
+          if-no-files-found: error
+
+  build-macos:
+    name: Build macOS Artifacts
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build macOS (DMG + ZIP)
+        run: npx electron-builder --mac dmg zip --publish=never
+
+      - name: Upload macOS Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: SnapDock-macOS
+          path: |
             dist/*.dmg
             dist/*.zip
+            dist/latest-mac.yml
+          if-no-files-found: ignore
+
+  build-linux:
+    name: Build Linux Artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Linux (AppImage + DEB)
+        run: npx electron-builder --linux AppImage deb --publish=never
+
+      - name: Upload Linux Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: SnapDock-Linux
+          path: |
             dist/*.AppImage
             dist/*.deb
+            dist/latest-linux.yml
           if-no-files-found: ignore
+

@@ -68,7 +68,9 @@
         "deb"
       ]
     },
-
+    "deb": {
+      "artifactName": "SnapDock.deb"
+    },
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",

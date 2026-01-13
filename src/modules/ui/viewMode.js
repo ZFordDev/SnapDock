@@ -15,7 +15,9 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
   toggleBtn.textContent = "Show Preview";
 
   const updatePreview = () => {
-    preview.innerHTML = renderMarkdown(editor.value);
+    const html = renderMarkdown(editor.value);
+    const parsed = new DOMParser().parseFromString(html, "text/html");
+    preview.replaceChildren(...parsed.body.childNodes);
   };
 
   toggleBtn.addEventListener("click", () => {

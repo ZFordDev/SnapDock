@@ -26,7 +26,7 @@ jobs:
         run: npx electron-builder --win nsis --publish=never
 
       - name: Upload Windows Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: SnapDock-Windows
           path: |
@@ -55,7 +55,7 @@ jobs:
         run: npx electron-builder --mac dmg zip --publish=never
 
       - name: Upload macOS Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: SnapDock-macOS
           path: |
@@ -84,7 +84,7 @@ jobs:
         run: npx electron-builder --linux AppImage deb --publish=never
 
       - name: Upload Linux Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: SnapDock-Linux
           path: |

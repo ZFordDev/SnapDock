@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="SnapDock Banner" width="25%">
+  <img src="assets/SnapDock.png" alt="SnapDock Banner" width="100%">
 </p>
 
 <p align="center">
@@ -123,8 +123,9 @@ macOS and Linux builds are planned and will be added once cross‑platform testi
 # ⚠️ **Known Issues**
 
 1. **PDF export:** Fully functional, but advanced layout tuning (page breaks, headers/footers) is still planned  
-2. **macOS/Linux builds:** Packaging and testing are still in progress  
-3. **File‑tree edge cases:** Rapid switching between files may still override unsaved changes in rare cases  
+2. **macOS builds:** Packaging and testing are still in progress  
+3. **Linux (.deb):** Released and stable, but broader Linux packaging (Snap/AppImage/Flatpak) is no longer planned  
+4. **File‑tree edge cases:** Rapid switching between files may still override unsaved changes in rare cases  
 
 ---
 
@@ -135,6 +136,7 @@ macOS and Linux builds are planned and will be added once cross‑platform testi
 - **PDF enhancements:** Better page layout, print presets, and cleaner formatting  
 - **Editor refinements:** Smoother typing experience, spacing improvements, and quality‑of‑life upgrades  
 - **Performance tuning:** Faster rendering and more responsive navigation  
+- **macOS support:** Finalize packaging and testing for a stable macOS release  
 
 ---
 
@@ -142,6 +144,7 @@ macOS and Linux builds are planned and will be added once cross‑platform testi
 
 - Fixed update pipeline issue introduced in 2.2.2  
 - Marked SnapDock as **Stable** and transitioned to a Stable / Pre‑release channel system  
+- Updated platform distribution: Windows (.exe) and Linux (.deb) now fully supported; AppImage removed  
 
 ---
 

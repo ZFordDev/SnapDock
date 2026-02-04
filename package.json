@@ -1,8 +1,8 @@
 {
   "name": "snapdock",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "buildStage": "LTS",
-  "releaseDate": "2026-02-02",
+  "releaseDate": "2026-02-05",
   "description": "SnapDock — lightweight markdown editor with file tree, recent files, and dynamic preview.",
   "author": "ZetoLabs",
   "private": true,
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "electron": "^40.0.0",
-    "electron-builder": "^26.4.0",
+    "electron-builder": "^26.7.0",
     "esbuild": "^0.27.2",
     "rcedit": "^5.0.2"
   },

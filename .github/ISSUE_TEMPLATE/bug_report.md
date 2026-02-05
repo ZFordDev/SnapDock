@@ -1,53 +1,47 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create a report to help improve SnapDock
 title: ''
-labels: ''
+labels: bug
 assignees: ''
+---
+
+# 🐞 SnapDock Bug Report
+
+Thanks for taking the time to help improve SnapDock.  
+Please fill out the details below so we can reproduce and fix the issue.
 
 ---
 
-<h1 align="center">
-  <img src="../../assets/logo.png" alt="SnapDock Icon" width="120" style="border-radius:12px;" /><br/>
-</h1>
-
-
-<p align="center">
-   <strong>SnapDock Bug Report</strong><br/>
-   Lightweight Markdown Editor & Viewer
-</p>
+## Bug Description
+A clear and concise description of the problem.
 
 ---
 
-##  Bug Description
-A clear and concise description of what the bug is.
+## Steps to Reproduce
+1. …
+2. …
+3. …
+4. …
 
 ---
 
-##  Steps to Reproduce
-1. Go to '...'
-2. Click on '...'
-3. Scroll down to '...'
-4. See error
-
----
-
-##  Expected Behavior
+## Expected Behavior
 What you expected to happen.
 
 ---
 
-##  Screenshots / Logs
-If applicable, add screenshots or logs to help explain your problem.
+## Screenshots / Logs
+If applicable, add screenshots or logs to help explain the issue.
 
 ---
 
-##  Environment
-- OS: [e.g. Windows 11, Ubuntu 22.04]
-- SnapDock Version: [e.g. v1R.3.0]
-- Build Method: [e.g. npm start, electron-builder]
+## Environment
+- **OS:** (e.g., Windows 11, Ubuntu 22.04)
+- **SnapDock Version:** (e.g., 2.3.0)
+- **Build Method:** (e.g., packaged release, built from source)
 
 ---
 
-##  Additional Context
-Add any other context about the problem here.
+## Additional Context
+Anything else we should know.

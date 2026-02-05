@@ -1,8 +1,7 @@
 [![Website](https://img.shields.io/badge/Website-zford.dev-000000?style=flat-square)](https://zford.dev)
 [![Store](https://img.shields.io/badge/Store-staxdash.com-4CAF50?style=flat-square)](https://staxdash.com)
 [![Ko‑Fi](https://img.shields.io/badge/Support-KoFi-FF5E5B?style=flat-square)](https://ko-fi.com/zforddev)
-[![itch.io](https://img.shields.io/badge/itch.io-SnapDock-FA5C5C?style=flat-square)]([https://zforddev.itch.io/snapdock)
-
+[![itch.io](https://img.shields.io/badge/itch.io-SnapDock-FA5C5C?style=flat-square)](https://zforddev.itch.io/snapdock)
 
 ---
 
@@ -18,37 +17,39 @@
 ---
 
 ### 🌐 Official Website  
-[https://snapdock.app](https://snapdock.app)
+https://snapdock.app
 
 ---
 
 ## **Overview**
 
-SnapDock is a lightweight Markdown editor built with Electron and powered by **markdown‑it**. It delivers a clean, modern writing experience with a layout inspired by professional editors — but without the bloat. The interface feels closer to a traditional word processor, making it approachable for everyday writing while still supporting full Markdown syntax.
+SnapDock is a lightweight Markdown editor built with Electron and powered by **markdown‑it**.  
+It delivers a clean, modern writing experience with a layout inspired by professional editors — but without the bloat.
 
-SnapDock is designed to be fast, minimal, and distraction‑free. It stays out of your way so you can focus on your notes, documents, and projects.
+SnapDock feels closer to a traditional writing app than a developer tool.  
+It’s designed for clarity, stability, and long‑term reliability, making it ideal for notes, documents, and everyday writing.
 
 ---
 
 ## 🛡️ **Long‑Term Support (LTS)**
 
-SnapDock is a **Long‑Term Support (LTS)** application.
+SnapDock is a **Long‑Term Support** application.
 
-The current architecture, framework choices, and core design are considered **stable and complete**. Future updates focus exclusively on:
+The architecture is intentionally stable and complete.  
+Future updates focus exclusively on:
 
 - Bug fixes  
-- Security patches  
-- Performance improvements  
+- Safety improvements  
+- Performance tuning  
 - Minor quality‑of‑life refinements  
 
-SnapDock will **not** undergo major rewrites, framework migrations, or experimental feature additions. This ensures:
+SnapDock will **not** undergo major rewrites or experimental feature additions.  
+This ensures:
 
-- Predictable behavior  
+- Predictable behaviour  
 - Long‑term reliability  
 - Consistent performance  
-- Trust for users who rely on SnapDock daily  
-
-If you want a Markdown editor that won’t shift under your feet, SnapDock is built for exactly that.
+- A stable writing environment you can trust  
 
 ---
 
@@ -82,35 +83,26 @@ SnapDock/
 
 ## 🚫 **Why SnapDock Avoids Node.js in the Renderer**
 
-Although SnapDock is built with Electron, it **intentionally avoids Node.js APIs in the renderer process**.
-
-This is a deliberate architectural choice.
+SnapDock intentionally avoids Node.js APIs in the renderer process.
 
 By relying on **pure HTML, CSS, and browser‑standard JavaScript**, SnapDock benefits from:
 
 - Lower memory usage  
-- Faster startup times  
-- A smaller runtime footprint  
+- Faster startup  
+- Smaller runtime footprint  
 - Reduced attack surface  
 - Fewer long‑term dependencies  
 
-Most Electron apps tightly couple their UI to Node.js, which increases complexity and memory overhead. SnapDock instead treats Electron as a **lightweight desktop shell**, allowing the app to behave like a self‑contained offline web app.
-
-This approach directly supports SnapDock’s LTS philosophy: stable, predictable, and easy to maintain for years.
+Electron is treated as a **lightweight desktop shell**, not a full Node.js runtime.  
+This directly supports SnapDock’s LTS philosophy.
 
 ---
 
 # **Download & Install**
 
-SnapDock is available as a full desktop application.
-
----
-
-### **1. GitHub Releases (Recommended)**
-
-Download the latest Windows installer:
-
-**`https://github.com/ZFordDev/SnapDock/releases` [(github.com)](https://www.bing.com/search?q="https%3A%2F%2Fgithub.com%2FZFordDev%2FSnapDock%2Freleases")**
+### **1. GitHub Releases (Recommended)**  
+Download the latest Windows installer:  
+https://github.com/ZFordDev/SnapDock/releases
 
 ---
 
@@ -121,13 +113,18 @@ npm install
 npm run build
 ```
 
-This produces a packaged build identical to the official release.
-
 ---
 
 ### **Other Platforms**
 
-macOS and Linux builds are planned and will be added after cross‑platform testing.
+Linux builds are available, but behaviour may vary depending on distribution and environment.
+
+SnapDock V3 is planned to introduce official store distribution, including:
+
+- **Windows Store (Microsoft Store)**  
+- **Snap Store (for Linux)**  
+
+macOS App Store distribution is not currently planned due to the high cost of development and platform requirements, but may be considered if requested.
 
 ---
 
@@ -168,24 +165,26 @@ macOS and Linux builds are planned and will be added after cross‑platform test
 # ✅ **Features**
 
 - Modern Markdown rendering (tables, code blocks, callouts, footnotes, etc.)  
-- Integrated file‑tree dock for navigating `.md` folders  
-- **Four themes** with a clean drop‑up selector  
 - Stable tabbed editing  
+- Integrated file‑tree dock  
+- **Four themes** with a clean drop‑up selector  
 - Recent files with workspace‑aware history  
-- Minimal, distraction‑free interface  
 - Theme‑accurate live preview  
 - PDF export  
 - Automatic update checker  
-- Workspace auto‑loading on startup  
+- Workspace‑aware behaviour without forced auto‑restore  
+- Minimal, distraction‑free interface  
 
 ---
 
 # ⚠️ **Known Issues**
 
 1. **PDF export:** Fully functional, but advanced layout tuning is still planned  
-2. **macOS builds:** Packaging and testing in progress  
-3. **Linux (.deb):** Stable; broader Linux packaging (Snap/AppImage/Flatpak) is no longer planned  
-4. **File‑tree edge cases:** Rapid switching may override unsaved changes in rare cases  
+2. **macOS builds:** Packaging and testing are in progress; macOS support is not guaranteed yet  
+3. **Linux builds:** `.deb` and AppImage are supported, but behaviour may vary across distributions; feedback is encouraged  
+4. **Preview mode:** Some advanced Markdown features may render differently between themes  
+
+*(Note: “rapid switching may override unsaved changes” has been removed — it is no longer an issue as of 2.3.0.)*
 
 ---
 
@@ -198,15 +197,18 @@ SnapDock is actively maintained with a focus on:
 - Performance tuning  
 - Platform compatibility  
 
-Major feature expansion is intentionally limited to preserve SnapDock’s LTS identity.
+Major feature expansion is intentionally limited to preserve the LTS identity.
 
 ---
 
-### **Recent Changes**
+## **Recent Changes**
 
-- Fixed update pipeline issue introduced in 2.2.2  
-- Marked SnapDock as **Stable** and introduced Stable / Pre‑release channels  
-- Updated platform distribution: Windows (.exe) and Linux (.deb) fully supported; AppImage removed  
+- Fixed workspace close safety  
+- Fixed tab‑close freeze caused by blocking dialogs  
+- Improved unsaved‑changes detection  
+- Preview mode now updates correctly when switching tabs  
+- Updated dependency stack  
+- Marked SnapDock as **Stable** with a clear LTS roadmap  
 
 ---
 
@@ -217,8 +219,6 @@ Contributions are welcome:
 - **Pull Requests:** Features, fixes, refactors  
 - **Issues:** Bugs, suggestions, questions  
 
-Thanks for taking the time to explore the project.
-
 ---
 
 ## **License**
@@ -228,46 +228,35 @@ Please keep the original notice.
 
 ---
 
-# ⭐ **SnapDock‑Pro (Coming Later)**
+# ⭐ **SnapDock V3 (Coming Soon)**
 
-SnapDock‑Pro is a **separate, advanced feature edition** currently in development.
+SnapDock V3 is the next major evolution of the editor.  
+It focuses on improved performance, a refreshed UI, and a more modern architecture designed for long‑term growth.
 
-While SnapDock remains stable and LTS‑focused, SnapDock‑Pro explores advanced capabilities that require a different architecture.
+V3 is also planned to support:
 
-Planned areas include:
+- **Windows Store distribution**  
+- **Snap Store distribution (Linux)**  
+- `.deb` and AppImage builds (as today)
 
-### **Social Collaboration**
-- Offline local‑network collaboration  
-- Optional online linking via SnapDock services  
-- Shared documents, projects, and workspaces  
+macOS support is not currently planned due to the high cost of development on the platform, but may be considered if requested.
 
-### **AI‑Assisted Writing**
-- Document summarisation  
-- Structural cleanup and clarity improvements  
-- Context‑aware document discovery  
+### **V2 and V3 Will Remain Separate**
 
-### **Real‑Time Interaction**
-- Messaging between linked collaborators  
-- Cooperative editing workflows  
-- Project‑level awareness across documents  
+SnapDock V2 will continue to receive Long‑Term Support (LTS) updates.  
+V2 **will not automatically upgrade into V3** — both versions will exist side‑by‑side.
 
-These features are intentionally **not** part of the LTS edition.
+- **V2** remains the stable, minimal, long‑term Markdown editor  
+- **V3** introduces new UI, improved performance, and modern features  
 
-**SnapDock will remain free, lightweight, and stable.  
-SnapDock‑Pro exists for users who need collaboration and AI‑enhanced workflows.**
+Users can choose the version that best fits their workflow.
 
 ---
 
 ## Explore More
 
-[**zford.dev**](https://zford.dev) — the projects that shape the platform.  
-Not everything makes the cut, but everything matters.
-
-[**staxdash.com**](https://staxdash.com) — the storefront for all tools, big and small.  
-Clean, minimal, purpose‑built utilities.
-
-**Ko‑Fi** — support the work and help fuel the dream:  
-https://ko-fi.com/zforddev
+**zford.dev** — the projects that shape the platform  
+**staxdash.com** — the storefront for all tools  
+**Ko‑Fi** — support the work: https://ko-fi.com/zforddev
 
 ---
-

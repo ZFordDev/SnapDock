@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
     listFiles: (path) => ipcRenderer.invoke("list-files", path),
     openRecentFile: (path) => ipcRenderer.invoke("open-recent-file", path),
     saveFile: (path, content) => ipcRenderer.invoke("save-file", path, content),
+    confirmTabClose: (title) => ipcRenderer.invoke("confirm-tab-close", title),
     openFileByPath: (path) => ipcRenderer.invoke("open-file-by-path", path),
 
     // PDF export
@@ -46,4 +47,12 @@ contextBridge.exposeInMainWorld("electronAPI", {
 
     onUpdateError: (callback) =>
         ipcRenderer.on("update:error", (_, err) => callback(err)),
+});
+
+contextBridge.exposeInMainWorld("workspaceAPI", {
+    onDirtyStateRequest: (callback) =>
+        ipcRenderer.on("workspace:isDirty:request", () => callback()),
+
+    sendDirtyState: (isDirty) =>
+        ipcRenderer.send("workspace:isDirty:response", isDirty)
 });

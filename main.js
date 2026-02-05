@@ -8,6 +8,7 @@ const pdfModule = require("./src/modules/pdf/pdf.js");
 const setupUpdater = require("./src/modules/update");
 
 let mainWindow;
+let lastKnownDirtyState = false;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -35,7 +36,37 @@ function createWindow() {
       event.preventDefault();
     }
   });
-  
+
+  // Unsaved changes / workspace dirty failsafe
+  mainWindow.on("close", (event) => {
+    // Ask renderer for dirty state
+    mainWindow.webContents.send("workspace:isDirty:request");
+
+    // Prevent the window from closing until we decide
+    event.preventDefault();
+
+    // Give the renderer a moment to respond
+    setTimeout(() => {
+      if (lastKnownDirtyState) {
+        const choice = dialog.showMessageBoxSync(mainWindow, {
+          type: "warning",
+          buttons: ["Cancel", "Discard Changes"],
+          defaultId: 0,
+          cancelId: 0,
+          title: "Unsaved Changes",
+          message: "You have unsaved changes. Close SnapDock anyway?",
+        });
+
+        if (choice === 1) {
+          // User chose "Discard Changes"
+          mainWindow.destroy();
+        }
+      } else {
+        // Clean workspace → safe to close
+        mainWindow.destroy();
+      }
+    }, 50);
+  });
 
   mainWindow.loadFile("index.html");
   setupUpdater(mainWindow);
@@ -76,7 +107,7 @@ ipcMain.handle("save-file", async (event, filePath, content, suggestedName) => {
     if (!filePath) {
       const { canceled, filePath: newFilePath } = await dialog.showSaveDialog({
         title: "Save File",
-        defaultPath: suggestedName || "untitled"
+        defaultPath: suggestedName || "untitled",
       });
 
       if (canceled || !newFilePath) return false;
@@ -87,7 +118,6 @@ ipcMain.handle("save-file", async (event, filePath, content, suggestedName) => {
 
     fs.writeFileSync(filePath, content, "utf-8");
     return true;
-
   } catch (err) {
     console.error("Failed to save file:", err);
     return false;
@@ -112,7 +142,7 @@ ipcMain.handle("list-files", async (event, dirPath) => {
   try {
     const files = fs.readdirSync(dirPath, { withFileTypes: true });
 
-    return files.map(f => ({
+    return files.map((f) => ({
       name: f.name,
       type: f.isDirectory() ? "folder" : "file",
       fullPath: path.join(dirPath, f.name),
@@ -123,12 +153,25 @@ ipcMain.handle("list-files", async (event, dirPath) => {
   }
 });
 
-ipcMain.handle("open-file-by-path", async (_, path) => {
+ipcMain.handle("open-file-by-path", async (_, pathArg) => {
   try {
-    return await fs.promises.readFile(path, "utf8");
+    return await fs.promises.readFile(pathArg, "utf8");
   } catch {
     return null;
   }
+});
+
+ipcMain.handle("confirm-tab-close", async (event, title) => {
+  const choice = await dialog.showMessageBox({
+    type: "warning",
+    buttons: ["Cancel", "Discard Changes"],
+    defaultId: 0,
+    cancelId: 0,
+    title: "Unsaved Changes",
+    message: `"${title}" has unsaved changes. Close anyway?`
+  });
+
+  return choice.response === 1;
 });
 
 // -----------------------------
@@ -137,7 +180,13 @@ ipcMain.handle("open-file-by-path", async (_, path) => {
 
 ipcMain.handle("dialog:openHelp", async () => {
   try {
-    const helpPath = path.join(__dirname, "assets", "resources", "docs", "user_guide.md");
+    const helpPath = path.join(
+      __dirname,
+      "assets",
+      "resources",
+      "docs",
+      "user_guide.md"
+    );
     return fs.readFileSync(helpPath, "utf-8");
   } catch (err) {
     console.error("Failed to load help doc:", err);
@@ -163,4 +212,12 @@ ipcMain.handle("get-version", async () => {
 
 ipcMain.handle("export-pdf", (event, htmlContent) => {
   pdfModule.exportCurrentMarkdown(htmlContent);
+});
+
+// -----------------------------
+// WORKSPACE DIRTY STATE IPC
+// -----------------------------
+
+ipcMain.on("workspace:isDirty:response", (event, isDirty) => {
+  lastKnownDirtyState = isDirty;
 });

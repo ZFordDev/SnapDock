@@ -1,44 +1,72 @@
-<h1 align="center">
-  <img src="assets/logo.png" alt="SnapDock Icon" width="150" style="border-radius:12px;" /><br/>
-</h1>
-
 <p align="center">
-   <strong>SnapDock Security Policy</strong><br/>
-   Lightweight Markdown Editor & Viewer
+  <strong>SnapDock Security Policy</strong><br/>
+  A clean, focused Markdown editor built with user safety in mind.
 </p>
 
 ---
 
-# Security Policy
+# Supported Versions
 
-## 🔒 Supported Versions
+SnapDock follows a simple, predictable support model:
 
-SnapDock is still in active development. Security updates are provided for the latest release branch only.
+- **The latest stable release (2.x LTS)** receives security fixes.
+- Older versions are not maintained.
 
-| Version   | Supported          |
-| --------- | ------------------ |
-| v1R.3.x   | :white_check_mark: |
-| v1R.2.x   | :x:                |
-| v1R.1.x   | :x:                |
-| < v1R.1   | :x:                |
+| Version | Supported |
+|--------|-----------|
+| 2.x LTS | ✔ Active |
+| 1.x     | ✖ No longer supported |
 
----
-
-## 🛡 Reporting a Vulnerability
-
-If you discover a security vulnerability in SnapDock:
-
-- **Report via Discord**: [Join the ZetoLabs Community Discord](https://discord.gg/4RGzagyt7C) and send a direct message to the moderators.  
-- **Confidentiality**: Please do not disclose the issue publicly until it has been reviewed.  
-- **Response time**: You can expect an initial response within **72 hours**.  
-- **Resolution**: If accepted, we will work on a fix promptly and notify you when it is released.  
-- **Declined reports**: If the issue is not considered a vulnerability, we will explain why.
+SnapDock 3.x will adopt the same model once released.
 
 ---
 
-## ✅ Best Practices for Reporters
-- Include steps to reproduce the issue.  
-- Share environment details (OS, SnapDock version, build method).  
-- Suggest possible mitigations if you have ideas.  
+# Reporting a Vulnerability
+
+If you believe you’ve found a security issue in SnapDock:
+
+- **Email directly:** `zforddev@gmail.com`  
+- **Do not disclose publicly** until the issue has been reviewed.  
+- You’ll receive an initial response within **72 hours**.  
+- If confirmed, a fix will be prepared and released as soon as possible.
+
+This project is maintained by a single developer, so clear, detailed reports are appreciated.
 
 ---
+
+# What to Include in a Report
+
+To help reproduce and resolve the issue:
+
+- Steps to reproduce  
+- SnapDock version  
+- Operating system  
+- Whether you used a packaged build or compiled from source  
+- Any logs or screenshots that help illustrate the issue  
+
+---
+
+# Security Scope
+
+SnapDock is a local Markdown editor.  
+Security concerns typically relate to:
+
+- file handling  
+- workspace safety  
+- data loss prevention  
+- sandboxing (future SnapDock 3.x)  
+- dependency vulnerabilities  
+
+Network‑based vulnerabilities are unlikely because SnapDock does not connect to external services.
+
+---
+
+# Responsible Disclosure
+
+If a vulnerability is confirmed:
+
+- You will be credited in the release notes (optional).  
+- The fix will be included in the next patch release.  
+- Severe issues may trigger an immediate hotfix release.  
+
+Thank you for helping keep SnapDock safe for everyone.

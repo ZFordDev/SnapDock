@@ -1,68 +1,63 @@
-<h1 align="center">
-  <img src="assets/logo.png" alt="SnapDock Icon" width="150" style="border-radius:12px;" /><br/>
-</h1>
-
 <p align="center">
-   <strong>Contributing to SnapDock</strong><br/>
-   Lightweight Markdown Editor & Viewer
+  <strong>Contributing to SnapDock</strong><br/>
+  A clean, focused Markdown editor built in public.
 </p>
 
 ---
 
+# Welcome
+Thanks for your interest in improving SnapDock!  
+This project is built openly, and contributions of all sizes are welcome — from bug fixes and documentation improvements to new ideas that align with SnapDock’s philosophy.
+
+---
+
 # How to Contribute
-Thanks for your interest in improving SnapDock! 🎉  
-This project is built in public, and contributions of all sizes are welcome — whether it’s fixing a bug, adding a feature, or improving documentation.
-
-# Contributing to SnapDock
-
-Thanks for your interest in improving SnapDock!
-This project is built in public, and contributions of all sizes are welcome — whether it’s fixing a bug, adding a feature, or improving documentation.
-
----
-
-## How to Contribute
 - **Fork the repo** and create a branch for your changes.  
-- Keep commits **clear and clean** — one logical change per commit is ideal.  
-- Write commit messages in **imperative mood** (e.g., `Fix PDF export bug`).  
-- Open a **pull request (PR)** with a description of what you changed and why.
+- Keep commits **focused and clear** — one logical change per commit.  
+- Use imperative commit messages (e.g., `Fix PDF export layout`).  
+- Open a **pull request** with a short description of what changed and why.
 
 ---
 
-## Reporting Issues
-- Use the **Issues tab** to report bugs or suggest improvements.  
-- Include steps to reproduce, expected behavior, and screenshots/logs if possible.  
-- If you’re unsure whether it’s a bug or feature request, open an issue anyway — discussion helps.
+# Reporting Issues
+- Use the **Issues** tab to report bugs or suggest improvements.  
+- Include steps to reproduce, expected behavior, and logs/screenshots if helpful.  
+- If you’re unsure whether something is a bug or a feature request, open an issue anyway — discussion helps.
 
 ---
 
-## Coding Guidelines
-- Follow the existing style in the codebase.  
+# Coding Guidelines
+- Follow the existing style and structure.  
+- Keep modules **modular and intentional** — avoid unnecessary complexity.  
 - Document new functions or modules clearly.  
-- Keep changes focused — avoid mixing unrelated fixes/features in one PR.  
-- For Rust integration, keep modules modular and well‑scoped.
+- Avoid mixing unrelated fixes/features in one PR.
 
 ---
 
-## Testing
+# Testing
 - Run the app locally before submitting changes.  
-- Make sure your changes don’t break existing functionality.  
-- Add tests if possible, especially for Rust modules.
+- Ensure your changes don’t break existing functionality.  
+- Add tests where practical (especially for Rust modules).
 
 ---
 
-## Community Standards
-- Respect the [Code of Conduct](CODE_OF_CONDUCT.md).  
+# Community
+- Be respectful, constructive, and professional.  
 - Collaboration happens via [Discord](https://discord.gg/4RGzagyt7C).  
-- Be constructive, inclusive, and professional in discussions.
+- See the simplified [Community Guidelines](CODE_OF_CONDUCT.md).
 
 ---
 
-## Security
-- If you discover a vulnerability, please follow the [SECURITY.md](SECURITY.md) policy.  
-- Do not disclose security issues publicly until reviewed.
+# Security
+If you discover a vulnerability, please follow the [SECURITY.md](SECURITY.md) policy.  
+Do not disclose security issues publicly until reviewed.
 
 ---
 
-## 🚀 Roadmap Alignment
-Check the [README](README.md) roadmap before starting big features.  
-This helps avoid duplicate work and keeps contributions aligned with project goals.
+# Roadmap Alignment
+Before starting large features, check the [README](README.md) roadmap.  
+This helps avoid duplicate work and keeps contributions aligned with SnapDock’s long‑term direction.
+
+---
+
+Thanks again for helping make SnapDock better.

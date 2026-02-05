@@ -49,7 +49,6 @@ export function clearTabs() {
  */
 export function switchToTab(tabId) {
   const editor = getEditor();
-  
 
   // Save outgoing tab content
   const current = getActiveTab();
@@ -67,20 +66,27 @@ export function switchToTab(tabId) {
   const filenameEl = document.getElementById("filenameDisplay");
   if (filenameEl) filenameEl.textContent = next.title;
 
+  // If preview mode is active, refresh it
+  if (!document.querySelector(".preview-wrapper").classList.contains("hidden")) {
+      const event = new CustomEvent("snapdock:updatePreview");
+      document.dispatchEvent(event);
+  }
+
   renderTabs();
 }
 
 /**
- * Close a tab
+ * Close a tab (now async + safe)
  */
-export function closeTab(tabId) {
+export async function closeTab(tabId) {
   const index = tabs.findIndex(t => t.id === tabId);
   if (index === -1) return;
 
   const tab = tabs[index];
 
+  // SAFE: Replace blocking confirm with async IPC dialog
   if (tab.isDirty) {
-    const ok = window.confirm(`"${tab.title}" has unsaved changes. Close anyway?`);
+    const ok = await window.electronAPI.confirmTabClose(tab.title);
     if (!ok) return;
   }
 

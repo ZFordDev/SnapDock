@@ -1,7 +1,7 @@
 const THEME_KEY = "snapdock_theme";
 
 // List of all supported themes
-const THEMES = ["light", "dark", "solarized", "arctic"];
+const THEMES = ["light", "dark", "solarized", "arctic"]; 
 
 export function initTheme({ selector }) {
   const saved = localStorage.getItem(THEME_KEY) || "light";

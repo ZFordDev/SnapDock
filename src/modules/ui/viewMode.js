@@ -3,7 +3,6 @@ import { renderMarkdown } from "../markdown.js";
 export function initViewModeToggle({ toggleBtn, editor, preview }) {
   if (!toggleBtn || !editor || !preview) return;
 
-  // NEW: get the wrapper elements
   const editorWrapper = document.querySelector(".editor-wrapper");
   const previewWrapper = document.querySelector(".preview-wrapper");
 
@@ -20,16 +19,21 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
     preview.replaceChildren(...parsed.body.childNodes);
   };
 
+  // Update preview when switching tabs
+  document.addEventListener("snapdock:updatePreview", () => {
+    if (!previewWrapper.classList.contains("hidden")) {
+      updatePreview();
+    }
+  });
+
   toggleBtn.addEventListener("click", () => {
     const showingPreview = !previewWrapper.classList.contains("hidden");
 
     if (showingPreview) {
-      // Switch to editor mode
       previewWrapper.classList.add("hidden");
       editorWrapper.classList.remove("hidden");
       toggleBtn.textContent = "Show Preview";
     } else {
-      // Switch to preview mode
       updatePreview();
       previewWrapper.classList.remove("hidden");
       editorWrapper.classList.add("hidden");
@@ -37,7 +41,6 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
     }
   });
 
-  // Live update preview while typing (only if preview is visible)
   editor.addEventListener("input", () => {
     if (!previewWrapper.classList.contains("hidden")) {
       updatePreview();

@@ -1,37 +1,32 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Suggest an idea to help improve SnapDock
 title: ''
-labels: ''
+labels: enhancement
 assignees: ''
+---
+
+# ✨ SnapDock Feature Request
+
+Thanks for taking the time to share an idea.  
+SnapDock grows through real use cases, so clear descriptions are appreciated.
 
 ---
 
-<h1 align="center">
-  <img src="../../assets/logo.png" alt="SnapDock Icon" width="120" style="border-radius:12px;" /><br/>
-</h1>
-
-<p align="center">
-   <strong>SnapDock Feature Request</strong><br/>
-   Lightweight Markdown Editor & Viewer
-</p>
-
----
-
-##  Feature Description
+## Feature Description
 A clear and concise description of the feature you’d like to see.
 
 ---
 
-##  Use Case
-Explain why this feature would be useful and how you’d use it.
+## Use Case
+Explain why this feature would be useful and how it fits into your workflow.
 
 ---
 
-##  Alternatives Considered
+## Alternatives Considered
 Describe any alternative solutions or workarounds you’ve tried.
 
 ---
 
-##  Additional Context
-Add any other context, screenshots, or references here.
+## Additional Context
+Add any other context, references, or examples that help explain the request.

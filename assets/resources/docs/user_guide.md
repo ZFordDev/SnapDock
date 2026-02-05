@@ -1,7 +1,7 @@
 # **SnapDock User Guide**
 
 ## **Overview**
-SnapDock is a fast, minimal markdown workspace designed for clean writing, simple file management, and distraction‑free focus. It offers tabs, workspaces, theme switching, and PDF export — all wrapped in a lightweight Windows‑first interface.
+SnapDock is a fast, minimal markdown workspace designed for clean writing, simple file management, and distraction‑free focus. It supports tabs, workspaces, themes, and PDF export — all in a lightweight Windows‑first interface.
 
 For full documentation, visit:  
 **https://docs.snapdock.app/docs/snapdock/**
@@ -9,103 +9,95 @@ For full documentation, visit:
 ---
 
 ## **Core Features**
-- **New File** — Start a blank markdown document instantly.  
-- **Open File** — Load any `.md` file from your system.  
-- **Open Folder** — Browse and edit files inside a workspace folder.  
-- **Tabs** — Work across multiple documents at once.  
-- **Recent Files** — Quickly reopen your latest documents.  
-- **Theme Switching** — Choose from built‑in themes for comfort and readability.  
-- **PDF Export** — Generate a clean PDF from your rendered markdown.  
-- **Update Checker** — See if a new version of SnapDock is available.
+
+### **New File**
+Create a blank markdown document instantly and begin writing.
+
+### **Open File**
+Load any `.md` file from your device.
+
+### **Open Folder (Workspace Mode)**
+Browse and edit multiple files inside a folder using the sidebar.
+
+### **Tabs**
+Open several documents at once and switch between them easily.
+
+### **Recent Files**
+Quickly reopen documents you’ve worked on recently.
+
+### **Theme Switching**
+Choose from built‑in themes for comfort and readability.
+
+### **PDF Export**
+Generate a clean PDF from your rendered markdown.
+
+### **Update Checker**
+Check if a new version of SnapDock is available.
 
 ---
 
-## **Getting Started**
+## **Using SnapDock**
 
-### **Creating a New File**
-Select **New File** from the toolbar to begin writing immediately.
+### **Creating and Editing Documents**
+- Use **New File** to start writing immediately  
+- Use **Open File** to load existing markdown  
+- Use **Open Folder** to work inside a project directory  
 
-### **Opening a File**
-Choose **Open File** and select any markdown document on your device.
+### **Saving Your Work**
+SnapDock uses manual saving for clarity and control.  
+Click **Save** in the toolbar to write changes to disk.
 
-### **Opening a Folder (Workspace Mode)**
-Use **Open Folder** to load a directory and browse files in the sidebar.
-
-### **Switching Themes**
-Click the **Theme** button in the footer to switch between the available themes.
+### **Previewing Markdown**
+Switch between **Editor** and **Preview** to see your formatted document.
 
 ### **Exporting to PDF**
-Select **Export** to generate a PDF of your rendered markdown.  
-Note: Page breaks are not yet supported.
+Select **Export** to generate a PDF version of your document.  
+Review the PDF before printing to ensure layout accuracy.
 
 ---
 
-## **Troubleshooting**
+## **Workspaces**
 
-### **My changes aren’t saving**
-SnapDock does **not** auto‑save.  
-Each tab must be saved manually using the **Save** button.
+### **Opening a Workspace**
+Choose **Open Folder** to load a directory.  
+Files appear in the sidebar for quick navigation.
 
-Current behaviour:
-- If you close a tab with unsaved changes, SnapDock will warn you.  
-- A **Save All** option is planned for a future release.  
-- Some builds may save files without the `.md` extension — please add `.md` manually until the fix is released.
-
----
-
-### **The preview isn’t updating**
-This is a known issue when switching tabs while in Preview mode.
-
-Workaround:
-1. Switch back to **Editor** mode  
-2. Select the tab you want  
-3. Press **Preview** again  
-
-A fix is in progress.
+### **Tabs in Workspace Mode**
+Each file opens in its own tab.  
+You can switch, close, or save tabs independently.
 
 ---
 
-### **My files aren’t being saved as markdown files**
-Some versions may save files without the `.md` extension.  
-This is a known issue — please manually add `.md` when saving.  
-A permanent fix is coming soon.
+## **Settings & Themes**
 
----
+### **Theme Selection**
+Use the **Theme** button in the footer to switch between available themes.
 
-### **I closed my workspace and it didn’t prompt me to save changes**
-This is a critical known issue affecting workspace closing and reopening.
-
-Current behaviour:
-- SnapDock may not warn you about unsaved changes when closing a workspace  
-- The workspace may not reopen automatically on next launch  
-
-Until the fix is released:
-- Please manually save all tabs before closing the app  
-- Persistent workspaces and improved unsaved‑change prompts are being restored soon
+### **Preferences**
+SnapDock keeps settings minimal and focused on writing.  
+Additional customization options are available in the docs.
 
 ---
 
 ## **Feedback & Support**
 SnapDock is an open‑source project.  
-If you have suggestions, bug reports, or want to contribute:
+If you have suggestions or want to contribute:
 
 - **GitHub:** https://github.com/ZFordDev/SnapDock  
 - **Email:** zforddev@gmail.com
 
 ---
 
-## **Future Updates**
-SnapDock 2.x remains the long‑term supported version of the app, receiving ongoing stability improvements, bug fixes, and UI refinements. It will continue to be maintained and supported for the foreseeable future.
+## **Updates**
+SnapDock 2.x is the long‑term supported version, receiving ongoing stability improvements and refinements.  
+Development of **SnapDock V3** is underway and will be introduced when ready.
 
-Alongside this, development has begun on **SnapDock V3** — a modern evolution of the editor with a refreshed interface and new capabilities. V3 is being built carefully and will be introduced when it’s ready, without affecting the reliability of the current LTS version.
-
-Use the **Update Checker** to see when new releases become available.
+Use the **Update Checker** to stay current.
 
 ---
 
 ## **Thank You**
 Thank you for using SnapDock.  
-Your support helps keep the project focused on what matters:  
-**a clean, fast, reliable writing experience.**
+SnapDock is built to deliver a clean, fast, reliable writing experience — nothing more, nothing less.
 
 ---

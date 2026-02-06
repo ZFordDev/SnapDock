@@ -214,10 +214,13 @@ Major feature expansion is intentionally limited to preserve the LTS identity.
 
 ## **Contribute**
 
-Contributions are welcome:
+SnapDock is built to grow — and contributions of all kinds are genuinely appreciated.
 
 - **Pull Requests:** Features, fixes, refactors  
 - **Issues:** Bugs, suggestions, questions  
+- **First‑Time Contributors:** Look for issues tagged **good first issue** or **help wanted** — they’re intentionally designed to be approachable  
+
+If you’re new to open‑source, this is a great place to start. The project is clean, well‑structured, and we’re happy to guide you through your first PR.
 
 ---
 

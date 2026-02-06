@@ -1,47 +1,47 @@
 /* True Solarized Light Theme */
 body.solarized-theme {
   /* Core layout */
-  --workspace-bg: #fdf6e3;   
-  --toolbar-bg:   #eee8d5; 
-  --sidebar-bg:   #eee8d5; 
-  --footer-bg:    #eee8d5; 
+  --workspace-bg: #eee8d5;
+  --toolbar-bg: #eee8d5;
+  --sidebar-bg: #eee8d5;
+  --footer-bg: #eee8d5;
 
   /* Editor */
-  --editor-bg:    #fdf6e3; 
-  --editor-text:  #657b83;  
-  --editor-text-secondary: #586e75; 
+  --editor-bg: #fdf6e3;
+  --editor-text: #657b83;
+  --editor-text-secondary: #586e75;
 
   /* Borders */
-  --border-color: #93a1a1;  
+  --border-color: #93a1a1;
 
   /* Markdown preview: code blocks */
-  --code-bg:        #eee8d5; 
-  --code-text:      #586e75; 
+  --code-bg: #eee8d5;
+  --code-text: #586e75;
   --inline-code-bg: #eee8d5;
 
   /* Notes, warnings, tips */
-  --note-bg:        #e7f3ff;  
-  --note-accent:    #268bd2;   
+  --note-bg: #e7f3ff;
+  --note-accent: #268bd2;
 
-  --warning-bg:     #fff3cd;   
-  --warning-accent: #b58900;  
+  --warning-bg: #fff3cd;
+  --warning-accent: #b58900;
 
-  --tip-bg:         #e8f5e9;  
-  --tip-accent:     #859900;   
+  --tip-bg: #e8f5e9;
+  --tip-accent: #859900;
 
   /* Tables */
-  --table-header-bg: #eee8d5; 
-  --table-row-bg:    #fdf6e3; 
+  --table-header-bg: #eee8d5;
+  --table-row-bg: #fdf6e3;
 
   /* Solarized accent colors */
-  --accent-yellow:  #b58900;
-  --accent-orange:  #cb4b16;
-  --accent-red:     #dc322f;
+  --accent-yellow: #b58900;
+  --accent-orange: #cb4b16;
+  --accent-red: #dc322f;
   --accent-magenta: #d33682;
-  --accent-violet:  #6c71c4;
-  --accent-blue:    #268bd2;
-  --accent-cyan:    #2aa198;
-  --accent-green:   #859900;
+  --accent-violet: #6c71c4;
+  --accent-blue: #268bd2;
+  --accent-cyan: #2aa198;
+  --accent-green: #859900;
 
   /* Global */
   background: var(--workspace-bg);
@@ -61,12 +61,12 @@ body.solarized-theme {
   --hljs-deletion-bg: #ffeef0;
   --hljs-deletion-text: #b31d28;
 
-  --tab-bar-bg:    #eee8d5;
-  --tab-idle-bg:   #e4ddc3; /* Slightly deeper than bar */
+  --tab-bar-bg: #eee8d5;
+  --tab-idle-bg: #e4ddc3; /* Slightly deeper than bar */
   --tab-active-bg: #fdf6e3; /* Matches editor bg */
-  --tab-text:      var(--editor-text-secondary);
-  --tab-accent:    var(--accent-blue);
-  --tab-border:    var(--border-color);
+  --tab-text: var(--editor-text-secondary);
+  --tab-accent: var(--accent-blue);
+  --tab-border: var(--border-color);
 
   --footer-bg-glass: rgba(238, 232, 213, 0.7);
 }

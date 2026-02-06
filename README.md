@@ -81,23 +81,6 @@ SnapDock/
 
 ---
 
-## 🚫 **Why SnapDock Avoids Node.js in the Renderer**
-
-SnapDock intentionally avoids Node.js APIs in the renderer process.
-
-By relying on **pure HTML, CSS, and browser‑standard JavaScript**, SnapDock benefits from:
-
-- Lower memory usage  
-- Faster startup  
-- Smaller runtime footprint  
-- Reduced attack surface  
-- Fewer long‑term dependencies  
-
-Electron is treated as a **lightweight desktop shell**, not a full Node.js runtime.  
-This directly supports SnapDock’s LTS philosophy.
-
----
-
 # **Download & Install**
 
 ### **1. GitHub Releases (Recommended)**  
@@ -112,19 +95,6 @@ https://github.com/ZFordDev/SnapDock/releases
 npm install
 npm run build
 ```
-
----
-
-### **Other Platforms**
-
-Linux builds are available, but behaviour may vary depending on distribution and environment.
-
-SnapDock V3 is planned to introduce official store distribution, including:
-
-- **Windows Store (Microsoft Store)**  
-- **Snap Store (for Linux)**  
-
-macOS App Store distribution is not currently planned due to the high cost of development and platform requirements, but may be considered if requested.
 
 ---
 
@@ -221,6 +191,15 @@ SnapDock is built to grow — and contributions of all kinds are genuinely appre
 - **First‑Time Contributors:** Look for issues tagged **good first issue** or **help wanted** — they’re intentionally designed to be approachable  
 
 If you’re new to open‑source, this is a great place to start. The project is clean, well‑structured, and we’re happy to guide you through your first PR.
+
+---
+
+### **Community Contributors**
+
+SnapDock is built with the help of our community.
+
+- **@misbahmansoori** — Added default `.md` extension when saving new files (#27)  
+- **@Abmarne** — Improved Solarized theme contrast (#25)
 
 ---
 

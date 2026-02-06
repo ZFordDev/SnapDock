@@ -112,8 +112,15 @@ ipcMain.handle("save-file", async (event, filePath, content, suggestedName) => {
 
       if (canceled || !newFilePath) return false;
 
-      fs.writeFileSync(newFilePath, content, "utf-8");
-      return { newFilePath };
+      let finalPath = newFilePath;
+
+      // If user didn't provide any extension, add .md
+      if (!path.extname(finalPath)) {
+        finalPath += ".md";
+      }
+
+      fs.writeFileSync(finalPath, content, "utf-8");
+      return { newFilePath: finalPath };
     }
 
     fs.writeFileSync(filePath, content, "utf-8");
@@ -168,7 +175,7 @@ ipcMain.handle("confirm-tab-close", async (event, title) => {
     defaultId: 0,
     cancelId: 0,
     title: "Unsaved Changes",
-    message: `"${title}" has unsaved changes. Close anyway?`
+    message: `"${title}" has unsaved changes. Close anyway?`,
   });
 
   return choice.response === 1;
@@ -185,7 +192,7 @@ ipcMain.handle("dialog:openHelp", async () => {
       "assets",
       "resources",
       "docs",
-      "user_guide.md"
+      "user_guide.md",
     );
     return fs.readFileSync(helpPath, "utf-8");
   } catch (err) {

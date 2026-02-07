@@ -15,9 +15,9 @@ body.light-theme {
   --border-color: #ddd;
 
   /* Markdown preview: code blocks */
-  --code-bg:      #2a2d33;
-  --code-text:    #f0f0f0;
-  --inline-code-bg: #33373d;
+  --code-bg:      #f6f8fa;
+  --code-text:    #24292e;
+  --inline-code-bg: #eef1f4;
 
   /* Markdown preview: notes, warnings, tips */
   --note-bg:        #e7f3ff;

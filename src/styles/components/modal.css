@@ -23,6 +23,46 @@
   overflow-y: auto;
 }
 
+/* Help modal: floating close button (stays visible when scrolling) */
+.modal-content--help {
+  padding-top: 0;
+}
+
+.modal-close-float-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  margin: 0 -24px 16px -24px;
+  padding: 24px 16px 0 24px;
+  background: var(--workspace-bg);
+  min-height: 56px;
+  box-sizing: border-box;
+}
+
+.modal-close-float {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  border: 1px solid var(--border-color, rgba(128, 128, 128, 0.4));
+  border-radius: 50%;
+  background: var(--workspace-bg);
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.modal-close-float:hover {
+  background: var(--hover-bg, rgba(128, 128, 128, 0.15));
+}
+
 /* ============================
    SnapDock Update System Styles
    ============================ */

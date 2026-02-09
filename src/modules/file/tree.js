@@ -23,6 +23,7 @@ export function initFileTree(container) {
 // ------------------------------------------------------------------
 // Render directory contents (container MUST be a <ul>)
 export async function renderFileTree(container, dirPath) {
+  const emptyState = document.getElementById("fileTreeEmptyState");
   const entries = await window.electronAPI.listFiles(dirPath);
 
   for (const entry of entries) {
@@ -36,17 +37,14 @@ export async function renderFileTree(container, dirPath) {
 
       li.addEventListener("click", async (e) => {
         e.stopPropagation();
-
         li.classList.toggle("open");
         nested.style.display = li.classList.contains("open") ? "block" : "none";
 
-        // Lazy-load folder contents
         if (nested.childElementCount === 0) {
           await renderFileTree(nested, entry.fullPath);
         }
       });
     } else {
-      // File click
       li.addEventListener("click", async (e) => {
         e.stopPropagation();
         await handleFileOpen(entry.fullPath, entry.name);
@@ -54,5 +52,12 @@ export async function renderFileTree(container, dirPath) {
     }
 
     container.appendChild(li);
+  }
+
+  // Empty-state toggle
+  if (container.childElementCount === 0) {
+    emptyState.style.display = "block";
+  } else {
+    emptyState.style.display = "none";
   }
 }

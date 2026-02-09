@@ -7,6 +7,11 @@ const pdfModule = require("./src/modules/pdf/pdf.js");
 // Updater
 const setupUpdater = require("./src/modules/update");
 
+// Disable sandbox only for AppImage builds
+if (process.env.APPIMAGE) {
+  app.commandLine.appendSwitch("no-sandbox");
+}
+
 let mainWindow;
 let lastKnownDirtyState = false;
 

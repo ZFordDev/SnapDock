@@ -1,4 +1,5 @@
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
+const chokidar = require("chokidar");
 const fs = require("fs");
 const path = require("path");
 const pkg = require("./package.json");
@@ -12,6 +13,8 @@ if (process.env.APPIMAGE) {
   app.commandLine.appendSwitch("no-sandbox");
 }
 
+let workspaceWatcher = null;
+let currentWorkspacePath = null;
 let mainWindow;
 let lastKnownDirtyState = false;
 
@@ -103,8 +106,27 @@ ipcMain.handle("open-folder", async () => {
   });
 
   if (canceled || filePaths.length === 0) return null;
+  const workspacePath = filePaths[0];
 
-  return filePaths[0];
+  //Close previous watcher if exists
+  if (workspaceWatcher) {
+    workspaceWatcher.close();
+  }
+
+  currentWorkspacePath = workspacePath;
+
+  workspaceWatcher = chokidar.watch(workspacePath, {
+    ignored: /(^|[\/\\])\../, // ignore dotfiles
+    persistent: true,
+  });
+
+  workspaceWatcher.on("all", ()=>{
+    if(mainWindow){
+      mainWindow.webContents.send("workspace-updated");
+    }
+  });
+
+  return workspacePath;
 });
 
 ipcMain.handle("save-file", async (event, filePath, content, suggestedName) => {

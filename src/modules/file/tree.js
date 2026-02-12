@@ -1,4 +1,6 @@
 // src/modules/file/tree.js
+let activeWorkspacePath = null;
+let activeContainer = null;
 
 import { handleFileOpen } from "./open.js";
 
@@ -13,8 +15,12 @@ function createElement(tag, className, text) {
 // ------------------------------------------------------------------
 // Initialise tree when workspace loads
 export function initFileTree(container) {
+  activeContainer = container;
+
   document.addEventListener("snapdock:workspaceLoaded", async (e) => {
     const path = e.detail.path;
+    activeWorkspacePath = path;
+
     container.innerHTML = "";
     await renderFileTree(container, path);
   });
@@ -61,3 +67,10 @@ export async function renderFileTree(container, dirPath) {
     emptyState.style.display = "none";
   }
 }
+
+window.electronAPI.onWorkspaceUpdated(async () => {
+  if (activeWorkspacePath && activeContainer) {
+    activeContainer.innerHTML = "";
+    await renderFileTree(activeContainer, activeWorkspacePath);
+  }
+});

@@ -185,35 +185,29 @@ _If anyone tests SnapDock on a Raspberry Pi, we’d love to hear how it performs
 
 ## **Screenshots**
 
-<style>
-  .shot {
-    border-radius: 8px;
-  }
-</style>
-
 <div align="center">
 
 <table>
   <tr>
     <td align="center">
-      <img src="assets/screenshots/win_light.png" width="650" class="shot" />
+      <img src="assets/screenshots/win_light.png" width="650"/>
       <br/>
       <em>Light (Windows)</em>
     </td>
     <td align="center">
-      <img src="assets/screenshots/win_dark.png" width="650" class="shot" />
+      <img src="assets/screenshots/win_dark.png" width="650"/>
       <br/>
       <em>Dark (Windows)</em>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="assets/screenshots/lin_pol.png" width="650" class="shot" />
+      <img src="assets/screenshots/lin_pol.png" width="650"/>
       <br/>
       <em>Solarized (Linux)</em>
     </td>
     <td align="center">
-      <img src="assets/screenshots/lin_arc.png" width="650" class="shot" />
+      <img src="assets/screenshots/lin_arc.png" width="650" />
       <br/>
       <em>Arctic (Linux)</em>
     </td>

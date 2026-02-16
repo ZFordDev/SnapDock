@@ -108,24 +108,36 @@ ipcMain.handle("open-folder", async () => {
   if (canceled || filePaths.length === 0) return null;
   const workspacePath = filePaths[0];
 
-  //Close previous watcher if exists
+  // Close previous watcher if exists
   if (workspaceWatcher) {
     workspaceWatcher.close();
   }
-
+  
   currentWorkspacePath = workspacePath;
-
+  
   workspaceWatcher = chokidar.watch(workspacePath, {
     ignored: /(^|[\/\\])\../, // ignore dotfiles
     persistent: true,
   });
-
-  workspaceWatcher.on("all", ()=>{
-    if(mainWindow){
-      mainWindow.webContents.send("workspace-updated");
-    }
-  });
-
+  
+  let ready = false;
+  let refreshTimeout = null;
+  
+  workspaceWatcher
+    .on("ready", () => {
+      ready = true;
+    })
+    .on("all", () => {
+      if (!ready) return; // ignore initial scan events
+    
+      clearTimeout(refreshTimeout);
+      refreshTimeout = setTimeout(() => {
+        if (mainWindow) {
+          mainWindow.webContents.send("workspace-updated");
+        }
+      }, 100); // debounce to avoid double-refresh on Windows
+    });
+  
   return workspacePath;
 });
 

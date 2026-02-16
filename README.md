@@ -1,23 +1,52 @@
-[![Website](https://img.shields.io/badge/Website-zford.dev-000000?style=flat-square)](https://zford.dev)
-[![Store](https://img.shields.io/badge/Store-staxdash.com-4CAF50?style=flat-square)](https://staxdash.com)
-[![Ko‑Fi](https://img.shields.io/badge/Support-KoFi-FF5E5B?style=flat-square)](https://ko-fi.com/zforddev)
-[![itch.io](https://img.shields.io/badge/itch.io-SnapDock-FA5C5C?style=flat-square)](https://zforddev.itch.io/snapdock)
+<table align="center" style="border-collapse:collapse;">
+  <tr>
+    <td style="padding:6px;">
+      <a href="https://snapdock.app">
+        <img src="https://img.shields.io/badge/snapdock.app-0f172a?style=for-the-badge&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+    <td style="padding:6px;">
+      <a href="https://github.com/ZFordDev/SnapDock/issues">
+        <img src="https://img.shields.io/badge/Issues-0f172a?style=for-the-badge&logo=github&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+    <td style="padding:6px;">
+      <a href="https://github.com/ZFordDev/SnapDock/blob/main/CONTRIBUTING.md">
+        <img src="https://img.shields.io/badge/Contributing-0f172a?style=for-the-badge&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+    <td style="padding:6px;">
+      <a href="https://docs.snapdock.app">
+        <img src="https://img.shields.io/badge/Docs-0f172a?style=for-the-badge&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+    <td style="padding:6px;">
+      <a href="https://staxdash.com">
+        <img src="https://img.shields.io/badge/StaxDash-0f172a?style=for-the-badge&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+    <td style="padding:6px;">
+      <a href="https://ko-fi.com/zforddev">
+        <img src="https://img.shields.io/badge/Ko--Fi-0f172a?style=for-the-badge&logo=kofi&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+    <td style="padding:6px;">
+      <a href="https://zforddev.itch.io/snapdock">
+        <img src="https://img.shields.io/badge/itch.io-0f172a?style=for-the-badge&logo=itchdotio&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+  </tr>
+</table>
 
----
 
 <p align="center">
-  <img src="assets/SnapDock.png" alt="SnapDock Banner" width="100%">
+  <img src="assets/SnapDock.png" alt="SnapDock Banner" width="100%" style="border-radius:8px;">
 </p>
 
 <p align="center">
    <strong>Clean, stable, long‑term Markdown editing</strong><br/>
    Built by <strong>ZFordDev</strong>
 </p>
-
----
-
-### 🌐 Official Website  
-https://snapdock.app
 
 ---
 
@@ -53,7 +82,7 @@ This ensures:
 
 ---
 
-## 📁 Project Structure
+## 📁 **Project Structure**
 
 ```
 SnapDock/
@@ -81,58 +110,115 @@ SnapDock/
 
 ---
 
-# **Download & Install**
+### **Download & Install**
 
-### **1. GitHub Releases (Recommended)**  
-Download the latest Windows installer:  
-https://github.com/ZFordDev/SnapDock/releases
+<table align="center" style="border-collapse:collapse; margin: 20px auto;">
+  <tr>
+    <td style="padding:8px;">
+      <a href="https://github.com/ZFordDev/SnapDock/releases/latest/download/SnapDock-Setup.exe">
+        <img src="https://img.shields.io/badge/Windows%20(.exe)-0f172a?style=for-the-badge&logo=windows&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+    <td style="padding:8px;">
+      <a href="https://github.com/ZFordDev/SnapDock/releases/latest/download/SnapDock-Setup.deb">
+        <img src="https://img.shields.io/badge/Linux%20(.deb)-0f172a?style=for-the-badge&logo=linux&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+    <td style="padding:8px;">
+      <a href="https://github.com/ZFordDev/SnapDock/releases/latest/download/SnapDock-Setup.AppImage">
+        <img src="https://img.shields.io/badge/AppImage-0f172a?style=for-the-badge&logo=appimage&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+    <td style="padding:8px;">
+      <a href="https://github.com/ZFordDev/SnapDock/releases">
+        <img src="https://img.shields.io/badge/All%20Releases-0f172a?style=for-the-badge&logo=github&logoColor=white&labelColor=1e293b" />
+      </a>
+    </td>
+  </tr>
+</table>
+
+Simply run the installer for your OS. Once installed, SnapDock will open automatically.
+
+SnapDock includes an auto‑update feature — download once and update inside the app.
+
+_**Note:** WSL cannot run the in‑app updater and requires manual updates. WSL is not recommended for SnapDock, but it does work._
 
 ---
 
-### **2. Build From Source**
+### **Build From Source**
 
 ```bash
 npm install
 npm run build
 ```
 
+Then look inside `dist/` for your OS build and run it. SnapDock will open once ready.
+
+_**Note:** When building in **WSL**, AppImage builds can take a long time. If you're still waiting after **30 minutes**, assume it has stalled and try again._
+
+---
+
+### **System Requirements**
+
+SnapDock is lightweight and runs on virtually any modern system.
+
+**Operating System**
+- Windows 10 or later
+- Linux (Ubuntu, Debian, Fedora, Arch, Mint, Pop!_OS, etc.)
+- WSL is supported, but the in‑app updater is disabled
+- macOS support is not currently available
+
+**Hardware**
+- **CPU:** 1 core minimum (2 cores recommended)
+- **Memory:** 512 MB minimum (1 GB recommended)
+- **Disk Space:**  
+  - Windows / Linux (.deb): ~200 MB after installation  
+  - AppImage: ~750 MB (runs directly, no install)  
+  - User data: ~5 MB  
+  - **Recommended free space:** 1 GB
+
+**Performance**
+SnapDock typically uses **~180 MB RAM** and **under 1% CPU** during normal editing, making it suitable even for low‑power laptops, VMs, and older hardware.  
+_If anyone tests SnapDock on a Raspberry Pi, we’d love to hear how it performs._
+
 ---
 
 ## **Screenshots**
 
+<div align="center">
+
 <table>
   <tr>
-      <td align="center">
-      <img src="assets/Screenshot 2026-01-20 065757.png" width="300" />
+    <td align="center">
+      <img src="assets/screenshots/win_light.png" width="650"/>
       <br/>
-      <em>2026 (LTS) — Light theme</em>
+      <em>Light (Windows)</em>
     </td>
     <td align="center">
-      <img src="assets/Screenshot 2026-01-20 065739.png" width="300" />
+      <img src="assets/screenshots/win_dark.png" width="650"/>
       <br/>
-      <em>2026 (LTS) — Arctic Dark</em>
+      <em>Dark (Windows)</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/screenshots/lin_pol.png" width="650"/>
+      <br/>
+      <em>Solarized (Linux)</em>
     </td>
     <td align="center">
-      <img src="assets/ren_v2_lite.png" width="300" />
+      <img src="assets/screenshots/lin_arc.png" width="650" />
       <br/>
-      <em>Live preview — Light theme</em>
-    </td>
-    <td align="center">
-      <img src="assets/v2_dark.png" width="300" />
-      <br/>
-      <em>Editor view — Dark theme</em>
-    </td>
-    <td align="center">
-      <img src="assets/OG.png" width="300" />
-      <br/>
-      <em>The original V1 design</em>
+      <em>Arctic (Linux)</em>
     </td>
   </tr>
 </table>
 
+</div>
+
 ---
 
-# ✅ **Features**
+## ✅ **Features**
 
 - Modern Markdown rendering (tables, code blocks, callouts, footnotes, etc.)  
 - Stable tabbed editing  
@@ -147,7 +233,7 @@ npm run build
 
 ---
 
-# ⚠️ **Known Issues**
+## ⚠️ **Known Issues**
 
 1. **PDF export:** Fully functional, but advanced layout tuning is still planned  
 2. **macOS builds:** Packaging and testing are in progress; macOS support is not guaranteed yet  
@@ -198,8 +284,9 @@ If you’re new to open‑source, this is a great place to start. The project is
 
 SnapDock is built with the help of our community.
 
-- **@misbahmansoori** — Added default `.md` extension when saving new files (#27)  
-- **@Abmarne** — Improved Solarized theme contrast (#25)
+- **@misbahmansoori** — Default `.md` extension for new files (#27), file‑tree empty state (#34), Lite Mode code block fixes (#35)  
+- **@Abmarne** — Improved Solarized theme contrast (#25)  
+- **@Karel-cz** — Added close button to the Help popup (#36)
 
 ---
 
@@ -210,7 +297,7 @@ Please keep the original notice.
 
 ---
 
-# ⭐ **SnapDock V3 (Coming Soon)**
+### ⭐ **SnapDock V3 (Coming Soon)**
 
 SnapDock V3 is the next major evolution of the editor.  
 It focuses on improved performance, a refreshed UI, and a more modern architecture designed for long‑term growth.
@@ -235,10 +322,13 @@ Users can choose the version that best fits their workflow.
 
 ---
 
-## Explore More
+## **Explore More**  
+_follow the links to find out more_
 
-**zford.dev** — the projects that shape the platform  
-**staxdash.com** — the storefront for all tools  
-**Ko‑Fi** — support the work: https://ko-fi.com/zforddev
+### [**ZFordDev**](https://zford.dev) — the projects that shape the platform  
+### [**staxdash**](https://staxdash.com) — explore the brand and discover more tools  
+### [**Ko‑Fi**](https://ko-fi.com/zforddev) — support the work, help the platform grow  
 
 ---
+
+## **Thanks for reading.**

@@ -20,7 +20,7 @@ Load any `.md` file from your device.
 Browse and edit multiple files inside a folder using the sidebar.
 
 ### **Tabs**
-Open several documents at once and switch between them easily.
+Open several documents at once and switch between them easily. 
 
 ### **Recent Files**
 Quickly reopen documents you’ve worked on recently.
@@ -33,6 +33,9 @@ Generate a clean PDF from your rendered markdown.
 
 ### **Update Checker**
 Check if a new version of SnapDock is available.
+
+### **Quick Keys**
+Navigate entirely via keyboard for a seamless experience.
 
 ---
 
@@ -53,6 +56,41 @@ Switch between **Editor** and **Preview** to see your formatted document.
 ### **Exporting to PDF**
 Select **Export** to generate a PDF version of your document.  
 Review the PDF before printing to ensure layout accuracy.
+
+---
+
+# **Keyboard Shortcuts (Quick Keys)**
+
+SnapDock includes a set of simple, intuitive keyboard shortcuts designed to keep your writing flow uninterrupted.  
+These shortcuts work across Windows, macOS, and Linux.
+
+## **Core Shortcuts**
+
+| Action | Shortcut |
+|--------|----------|
+| Save File | **Ctrl/Cmd + S** |
+| New Tab | **Ctrl/Cmd + N** |
+| Close Tab | **Ctrl/Cmd + W** |
+| Open File | **Ctrl/Cmd + O** |
+| Open Folder | **Ctrl/Cmd + Shift + O** |
+
+---
+
+## **Navigation**
+
+| Action | Shortcut |
+|--------|----------|
+| Next Tab | **Ctrl/Cmd + Shift + →** |
+| Previous Tab | **Ctrl/Cmd + Shift + ←** |
+| Toggle Preview | **Ctrl/Cmd + Shift + P** |
+
+---
+
+## **Help & Support**
+
+| Action | Shortcut |
+|--------|----------|
+| Open Help | **Ctrl/Cmd + /** |
 
 ---
 
@@ -98,6 +136,6 @@ Use the **Update Checker** to stay current.
 
 ## **Thank You**
 Thank you for using SnapDock.  
-SnapDock is built to deliver a clean, fast, reliable writing experience — nothing more, nothing less.
+SnapDock is built to deliver a clean, fast, reliable writing experience.
 
 ---

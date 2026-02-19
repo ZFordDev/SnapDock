@@ -361,10 +361,3 @@ button:active {
 }
   */
 
-.file-tree-empty {
-  font-size: 0.85rem;
-  color: #888;
-  padding: 12px;
-  text-align: center;
-  opacity: 0.8;
-}

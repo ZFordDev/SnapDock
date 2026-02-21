@@ -1,8 +1,8 @@
 {
   "name": "snapdock",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "buildStage": "LTS",
-  "releaseDate": "2026-02-16",
+  "releaseDate": "2026-02-23",
   "description": "SnapDock — lightweight markdown editor with file tree, recent files, and dynamic preview.",
   "homepage": "https://github.com/ZFordDev/SnapDock",
   "author": "ZetoLabs",
@@ -16,6 +16,7 @@
     "lint": "echo \"Add ESLint later\""
   },
   "dependencies": {
+    "chokidar": "^5.0.0",
     "electron-log": "^5.4.3",
     "electron-updater": "^6.7.3",
     "highlight.js": "^11.11.1",
@@ -36,8 +37,7 @@
     "esbuild": "^0.27.3",
     "rcedit": "^5.0.2"
   },
-
-    "build": {
+  "build": {
     "appId": "com.zetolabs.snapdock",
     "productName": "SnapDock",
     "files": [
@@ -48,7 +48,6 @@
       "main.js",
       "src/preloads.js"
     ],
-  
     "win": {
       "artifactName": "SnapDock-Setup.exe",
       "icon": "assets/icon.ico",
@@ -59,7 +58,6 @@
     "nsis": {
       "artifactName": "SnapDock-Setup.exe"
     },
-  
     "linux": {
       "icon": "assets/icons",
       "category": "Utility",
@@ -79,14 +77,13 @@
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",
       "target": [
-      "dmg",
-      "zip"
+        "dmg",
+        "zip"
       ]
     },
     "dmg": {
       "artifactName": "SnapDock-Setup.dmg"
     },
-  
     "publish": [
       {
         "provider": "github",

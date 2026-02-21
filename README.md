@@ -105,7 +105,7 @@ SnapDock/
 │       ├── base/           # Reset + layout
 │       ├── components/     # Editor, tabs, sidebar, footer
 │       ├── markdown/       # Highlighting + markdown styling
-│       └── themes/         # Light, Dark, Solarized, Arctic
+│       └── themes/         # Light, Dark, Solarized, Arctic Forest
 ```
 
 ---
@@ -219,7 +219,7 @@ _If anyone tests SnapDock on a Raspberry Pi, we’d love to hear how it performs
 - Modern Markdown rendering (tables, code blocks, callouts, footnotes, etc.)  
 - Stable tabbed editing  
 - Integrated file‑tree dock  
-- **Four themes** with a clean drop‑up selector  
+- **Five themes** with a clean drop‑up selector  
 - Recent files with workspace‑aware history  
 - Theme‑accurate live preview  
 - PDF export  
@@ -231,14 +231,12 @@ _If anyone tests SnapDock on a Raspberry Pi, we’d love to hear how it performs
 
 ## ⚠️ **Known Issues**
 
-1. **PDF export:** Fully functional, but advanced layout tuning is still planned  
-2. **macOS builds:** Packaging and testing are in progress; macOS support is not guaranteed yet  
-3. **Linux builds:** `.deb` and AppImage are supported, but behaviour may vary across distributions; feedback is encouraged  
-4. **Preview mode:** Some advanced Markdown features may render differently between themes  
-
-*(Note: “rapid switching may override unsaved changes” has been removed — it is no longer an issue as of 2.3.0.)*
+1. **PDF export:** Fully functional, but advanced layout tuning and page‑break controls are still planned  
+2. **macOS builds:** Packaging and testing are ongoing; macOS support is not guaranteed yet  
+3. **File tree:** In rare cases, the empty‑state message may briefly reappear after opening a workspace  
 
 ---
+
 
 ## 🔧 **Maintenance & Stability**
 
@@ -255,14 +253,15 @@ Major feature expansion is intentionally limited to preserve the LTS identity.
 
 ## **Recent Changes**
 
-- Fixed workspace close safety  
-- Fixed tab‑close freeze caused by blocking dialogs  
-- Improved unsaved‑changes detection  
-- Preview mode now updates correctly when switching tabs  
-- Updated dependency stack  
-- Marked SnapDock as **Stable** with a clear LTS roadmap  
+- Added **Forest theme** and improved theme system
+- Improved file‑tree stability and auto‑refresh behaviour
+- Fixed empty‑state styling and layout issues
+- Updated screenshots and documentation
+- Dependency stack updated for Electron and build tooling
+- Continued refinement of workspace safety and unsaved‑changes logic
 
 ---
+
 
 ## **Contribute**
 
@@ -278,10 +277,18 @@ If you’re new to open‑source, this is a great place to start. The project is
 
 ### **Community Contributors**
 
-SnapDock is built with the help of our community.
+SnapDock grows thanks to the work of our community.  
+Here are the contributors who’ve helped shape recent releases:
 
-- **@misbahmansoori** — Default `.md` extension for new files (#27), file‑tree empty state (#34), Lite Mode code block fixes (#35)  
-- **@Abmarne** — Improved Solarized theme contrast (#25)  
+- **@misbahmansoori** — Multiple improvements across the app, including:
+  - Default `.md` extension for new files (#27)
+  - File‑tree empty state fix (#34)
+  - Lite Mode code block background fixes (#35)
+  - Forest theme (#52)
+  - Empty‑state CSS improvements (#51)
+
+- **@Abmarne** — Improved Solarized theme contrast (#25)
+
 - **@Karel-cz** — Added close button to the Help popup (#36)
 
 ---

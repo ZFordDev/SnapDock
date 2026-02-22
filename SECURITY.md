@@ -7,15 +7,13 @@
 
 # Supported Versions
 
-SnapDock follows a simple, predictable support model:
-
-- **The latest stable release (2.x LTS)** receives security fixes.
-- Older versions are not maintained.
+SnapDock 2.x is in **Long‑Term Support (LTS)**.  
+Only the latest 2.x release receives security updates.
 
 | Version | Supported |
 |--------|-----------|
 | 2.x LTS | ✔ Active |
-| 1.x     | ✖ No longer supported |
+| 1.x     | ✖ End of life |
 
 SnapDock 3.x will adopt the same model once released.
 
@@ -25,37 +23,37 @@ SnapDock 3.x will adopt the same model once released.
 
 If you believe you’ve found a security issue in SnapDock:
 
-- **Email directly:** `zforddev@gmail.com`  
+- **Email:** `zforddev@gmail.com`  
 - **Do not disclose publicly** until the issue has been reviewed.  
-- You’ll receive an initial response within **72 hours**.  
-- If confirmed, a fix will be prepared and released as soon as possible.
+- Expect an initial response within **72 hours**.  
+- If confirmed, a fix will be prepared and released promptly.
 
-This project is maintained by a single developer, so clear, detailed reports are appreciated.
+SnapDock 2.x is maintained by a single developer, so clear, detailed reports are appreciated.
 
 ---
 
 # What to Include in a Report
 
-To help reproduce and resolve the issue:
+To help reproduce and resolve the issue, please include:
 
 - Steps to reproduce  
 - SnapDock version  
 - Operating system  
-- Whether you used a packaged build or compiled from source  
-- Any logs or screenshots that help illustrate the issue  
+- Whether you used a packaged build or built from source  
+- Logs or screenshots if available  
 
 ---
 
 # Security Scope
 
-SnapDock is a local Markdown editor.  
+SnapDock is a **local‑first Markdown editor** with no network features.  
 Security concerns typically relate to:
 
 - file handling  
 - workspace safety  
 - data loss prevention  
-- sandboxing (future SnapDock 3.x)  
 - dependency vulnerabilities  
+- sandboxing (planned for SnapDock 3.x)
 
 Network‑based vulnerabilities are unlikely because SnapDock does not connect to external services.
 
@@ -65,8 +63,8 @@ Network‑based vulnerabilities are unlikely because SnapDock does not connect t
 
 If a vulnerability is confirmed:
 
-- You will be credited in the release notes (optional).  
+- You may be credited in the release notes (optional).  
 - The fix will be included in the next patch release.  
-- Severe issues may trigger an immediate hotfix release.  
+- Critical issues may trigger an immediate hotfix.
 
 Thank you for helping keep SnapDock safe for everyone.

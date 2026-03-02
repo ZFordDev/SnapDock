@@ -1,0 +1,61 @@
+body.forest-theme {
+  /* Core layout */
+  --workspace-bg: #0b1f16;
+  --toolbar-bg:   #123024;
+  --sidebar-bg:   #0f261c;
+  --footer-bg:    #123024;
+
+  /* Editor */
+  --editor-bg:    #123024;
+  --editor-text:  #f1f8f4;
+  --editor-text-secondary: #cde6d8;
+
+  /* Borders */
+  --border-color: #1f4d38;
+
+  /* Markdown preview: code blocks */
+  --code-bg:      #163a2c;
+  --code-text:    #e6fff2;
+  --inline-code-bg: #1b4434;
+
+  /* Markdown preview: notes, warnings, tips */
+  --note-bg:        #163a2c;
+  --note-accent:    #4caf50;
+
+  --warning-bg:     #2e2412;
+  --warning-accent: #ffb74d;
+
+  --tip-bg:         #1b3f2e;
+  --tip-accent:     #81c784;
+
+  /* Tables */
+  --table-header-bg: #163a2c;
+  --table-row-bg:    #123024;
+
+  /* Global */
+  background: var(--workspace-bg);
+  color: var(--editor-text);
+
+  /* Syntax highlighting */
+  --hljs-bg: #163a2c;
+  --hljs-text: #f1f8f4;
+  --hljs-comment: #6c9f85;
+  --hljs-keyword: #81c784;
+  --hljs-number: #4caf50;
+  --hljs-string: #a5d6a7;
+  --hljs-title: #66bb6a;
+  --hljs-variable: #c8e6c9;
+  --hljs-addition-bg: #1f4d38;
+  --hljs-addition-text: #b9f6ca;
+  --hljs-deletion-bg: #402020;
+  --hljs-deletion-text: #ff8a8a;
+
+  --tab-bar-bg:    #0b1f16;
+  --tab-idle-bg:   #0f261c;
+  --tab-active-bg: #123024;
+  --tab-text:      var(--editor-text-secondary);
+  --tab-accent:    var(--note-accent);
+  --tab-border:    var(--border-color);
+
+  --footer-bg-glass: rgba(10, 30, 20, 0.75);
+}

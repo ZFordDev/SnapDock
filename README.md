@@ -11,8 +11,6 @@
 
 <img src="assets/SnapDock.png" alt="SnapDock Banner" width="100%" style="border-radius:12px; margin: 20px 0;">
 
-A product of [StaxDash](https://staxdash.com) **|** Life Made Simple
-
 ---
 </div>
 
@@ -101,6 +99,19 @@ SnapDock is community-driven! Whether you're fixing a bug or suggesting a theme,
 
 ---
 
+## Project Status & Updates
+
+SnapDock and the wider ZFordDev ecosystem are still actively maintained.  
+Development has slowed temporarily while I balance full‑time work and parenting, but the mission continues.
+
+For the latest detailed update, visit **ZFord.dev**:  
+🔗 https://zford.dev
+
+For archived announcements and historical notes, see the **News** section:  
+🔗 https://docs.zford.dev/docs/news/
+
+---
+
 ## 🌟 SnapDock V3 (Coming Soon)
 
 V3 is a parallel evolution focusing on a refreshed UI and wider distribution via the **Windows Store** and **Snap Store**.
@@ -111,7 +122,7 @@ V3 is a parallel evolution focusing on a refreshed UI and wider distribution via
 
 <div align="center">
 
-### [Website](https://snapdock.app) • [StaxDash](https://staxdash.com) • [Support on Ko-fi](https://ko-fi.com/zforddev)
+### [SnapDock's Website](https://snapdock.app) • [ZFordDev](https://zford.dev) • [Support on Ko-fi](https://ko-fi.com/zforddev)
 
 Licensed under [MIT](https://www.google.com/search?q=LICENSE) © ZFordDev
 

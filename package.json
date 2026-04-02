@@ -32,7 +32,7 @@
     "markdown-it-task-lists": "^2.1.1"
   },
   "devDependencies": {
-    "electron": "^41.0.3",
+    "electron": "^41.1.1",
     "electron-builder": "^26.7.0",
     "esbuild": "^0.27.4",
     "rcedit": "^5.0.2"

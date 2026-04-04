@@ -1,8 +1,8 @@
 {
   "name": "snapdock",
-  "version": "2.3.7",
+  "version": "2.3.8",
   "buildStage": "LTS",
-  "releaseDate": "2026-03-22",
+  "releaseDate": "2026-04-04",
   "description": "SnapDock — lightweight markdown editor with file tree, recent files, and dynamic preview.",
   "homepage": "https://github.com/ZFordDev/SnapDock",
   "author": "ZetoLabs",

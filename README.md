@@ -1,129 +1,87 @@
+# SnapDock — A Minimal, Modern Markdown Editor
 
-<div align="center">
+<p align="center">
+  <img src="https://img.shields.io/github/v/release/zforddev/snapdock?style=for-the-badge&color=78C2AD" alt="Version">
+  <img src="https://img.shields.io/github/license/zforddev/snapdock?style=for-the-badge&color=blue" alt="License">
+  <img src="https://img.shields.io/github/stars/zforddev/snapdock?style=for-the-badge&color=FFD700" alt="Stars">
+</p>
 
-# SnapDock
-
-[![SnapDock](https://img.shields.io/badge/snapdock.app-0f172a?style=for-the-badge&logoColor=white&labelColor=1e293b)](https://snapdock.app)
-[![Issues](https://img.shields.io/badge/Issues-0f172a?style=for-the-badge&logo=github&logoColor=white&labelColor=1e293b)](https://github.com/ZFordDev/SnapDock/issues)
-[![Docs](https://img.shields.io/badge/Docs-0f172a?style=for-the-badge&logoColor=white&labelColor=1e293b)](https://docs.snapdock.app/docs/snapdock/2/)
-[![itch.io](https://img.shields.io/badge/itch.io-0f172a?style=for-the-badge&logo=itchdotio&logoColor=white&labelColor=1e293b)](https://zforddev.itch.io/snapdock)
-[![Ko-Fi](https://img.shields.io/badge/Support-0f172a?style=for-the-badge&logo=kofi&logoColor=white&labelColor=1e293b)](https://ko-fi.com/zforddev)
-
-<img src="assets/SnapDock.png" alt="SnapDock Banner" width="100%" style="border-radius:12px; margin: 20px 0;">
-
----
-</div>
-
-## 📖 Overview
-
-SnapDock is a lightweight Markdown editor built with Electron and powered by **markdown‑it**. It delivers a clean, modern writing experience with a layout inspired by professional IDEs—minus the complexity.
-
-Designed for clarity and stability, SnapDock feels like a traditional writing app, making it the ideal home for your notes, technical docs, and daily thoughts.
+SnapDock is a clean, distraction‑free Markdown editor built for people who want to write — not configure, not manage plugins, not learn a system. It sits in the middle ground between “too complex” tools like Obsidian and “too developer‑focused” IDE‑style editors. SnapDock gives you a writing space that feels natural, predictable, and modern.
 
 ---
 
-## 🛡️ Long‑Term Support (LTS)
+## 💡 Why SnapDock Exists
 
-> [!IMPORTANT]
-> **SnapDock is an LTS application.** The architecture is intentionally "feature-complete." Future updates focus strictly on security, performance, and bug fixes rather than experimental feature creep.
+There’s a clear gap in the Markdown world:
 
-- **Predictable:** No breaking UI changes.
-- **Reliable:** Focused on long-term file safety.
-- **Lightweight:** Stays fast as your library grows.
+*   **Obsidian** is powerful but overwhelming.
+*   Many editors feel like **code tools**, not writing tools.
+*   Writers just want a **calm, stable space** to think.
 
----
-
-## 🚀 Download & Install
-
-| Platform | Download Link |
-| :--- | :--- |
-| **Windows** | [Setup (.exe)](https://github.com/ZFordDev/SnapDock/releases/latest/download/SnapDock-Setup.exe) |
-| **Linux** | [Debian (.deb)](https://github.com/ZFordDev/SnapDock/releases/latest/download/SnapDock-Setup.deb) |
-| **Universal** | [AppImage](https://github.com/ZFordDev/SnapDock/releases/latest/download/SnapDock-Setup.AppImage) |
-| **Source** | [All Releases](https://github.com/ZFordDev/SnapDock/releases) |
-
-> **Note:** SnapDock includes an auto‑update feature. WSL is supported but cannot run the in‑app updater.
+SnapDock fills that gap with a writing‑first experience that stays minimal, local‑first, and intentionally simple.
 
 ---
 
-## ✨ Features
+## ✨ Philosophy
 
-- 🎨 **Five Themes:** Light, Dark, Solarized, Forest, and Arctic.
-- 📂 **Workspace-Aware:** Integrated file-tree dock and recent files history.
-- 📑 **Tabbed Editing:** Clean management of multiple open documents.
-- ⚡ **Performance:** Uses ~180MB RAM and <1% CPU.
-- 📄 **PDF Export:** Clean, professional document rendering.
-- 🛠️ **Modern MD:** Full support for tables, callouts, and footnotes.
+SnapDock is built on a few core principles:
 
----
-
-## 📸 Screenshots
-
-<div align="center">
-
-| Light (Windows) | Dark (Windows) |
-| :---: | :---: |
-| <img src="assets/screenshots/win_light.png" width="400"> | <img src="assets/screenshots/win_dark.png" width="400"> |
-| **Solarized (Linux)** | **Arctic (Linux)** |
-| <img src="assets/screenshots/lin_pol.png" width="400"> | <img src="assets/screenshots/lin_arc.png" width="400"> |
-
-</div>
+*   **Local‑first** — your work lives on your machine.
+*   **No feature gating** — core tools stay free and accessible.
+*   **Stability over novelty** — predictable updates, long‑term support.
+*   **Minimalism** — fewer buttons, more writing.
+*   **Modernization** — clean UI, smooth workflow, no clutter.
 
 ---
 
-## 🛠️ Build From Source
+## 🛠 Current State
 
-```bash
-# Clone and install dependencies
-npm install
-
-# Build for your current OS
-npm run build
-
-```
+| Version | Status | Focus |
+| :--- | :--- | :--- |
+| **SnapDock 2.x (LTS)** | `Stable` | The classic experience: minimal, reliable, and trusted. |
+| **SnapDock 3.0** | `In Dev` | A total modernization. Cleaner foundation and intentional design. |
+| **SnapDock Online** | `Preview` | Lightweight, browser-based experimental version. |
 
 ---
 
-## 🤝 Contributing
+## 🌐 Part of a Larger Ecosystem
 
-SnapDock is community-driven! Whether you're fixing a bug or suggesting a theme, your input is welcome.
-
-* **New to OS?** Look for `good first issue` tags.
-* **Hall of Fame:** Special thanks to **@misbahmansoori** for their significant contributions to the V2 stack.
-
-### Community Contributors
-
-* **@misbahmansoori**
-* **@Abmarne**
-* **@Karel-cz** 
+SnapDock began as a simple writing app, but it’s now a key component in a broader interconnected ecosystem. It serves as the **writing anchor** in that system.
 
 ---
 
-## Project Status & Updates
+## 🚀 Installation
 
-SnapDock and the wider ZFordDev ecosystem are still actively maintained.  
-Development has slowed temporarily while I balance full‑time work and parenting, but the mission continues.
-
-For the latest detailed update, visit **ZFord.dev**:  
-🔗 https://zford.dev
-
-For archived announcements and historical notes, see the **News** section:  
-🔗 https://docs.zford.dev/docs/news/
+1.  **Download** and run the installer.
+2.  **Setup**: SnapDock sets itself up automatically.
+3.  **Updates**: No reinstalling required. Updates appear in the bottom‑right corner.
 
 ---
 
-## 🌟 SnapDock V3 (Coming Soon)
+## 📖 Documentation & Links
 
-V3 is a parallel evolution focusing on a refreshed UI and wider distribution via the **Windows Store** and **Snap Store**.
+**Local Resources:**
+*   `assets/resources/docs/user_guide.md`
+*   `assets/resources/docs/versioning-strategy.md`
+*   `SECURITY.md` (Updating Soon)
+*   `ROADMAP.md` (Updating Soon)
 
-*Note: V2 will remain maintained as the classic LTS version. You choose the experience that fits your workflow.*
+**External Links:**
+*   [**Official Website**](https://snapdock.app/)
+*   [**Documentation Hub**](https://docs.snapdock.app/docs/snapdock/)
 
 ---
 
-<div align="center">
+## 👥 Credits
 
-### [SnapDock's Website](https://snapdock.app) • [ZFordDev](https://zford.dev) • [Support on Ko-fi](https://ko-fi.com/zforddev)
+Created and maintained by **ZFordDev**.  
+Special thanks to **Masbah** and early contributors for shaping the secure‑writing phase.
 
-Licensed under [MIT](https://www.google.com/search?q=LICENSE) © ZFordDev
+---
 
-</div>
+## ❤️ Support the Project
+
+If SnapDock helps you stay focused, please consider supporting the work:
+
+*   **Leave a ⭐ star** on this repository to help others find it!
+*   **Support on Ko-fi**: [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/zforddev)

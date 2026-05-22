@@ -1,7 +1,7 @@
 {
   "name": "snapdock",
   "version": "2.3.12",
-  "buildStage": "LTS-Final",
+  "buildStage": "Classic",
   "releaseDate": "Final V2 Release",
   "description": "SnapDock — lightweight markdown editor with file tree, recent files, and dynamic preview.",
   "homepage": "https://github.com/ZFordDev/SnapDock",

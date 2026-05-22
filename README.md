@@ -1,4 +1,4 @@
-# **SnapDock — The Classic, Minimal, Modern Markdown Editor (V2 LTS)**
+# **SnapDock — The Classic, Minimal, Modern Markdown Editor (V2 Classic)**
 
 <p align="center">
   <img src="https://img.shields.io/github/v/release/zforddev/snapdock?style=for-the-badge&color=78C2AD" alt="Version">
@@ -10,9 +10,9 @@ SnapDock 2.x is the **classic**, distraction‑free Markdown editor built for pe
 
 ---
 
-## ⚓ **SnapDock 2.x — Long‑Term Support (LTS)**
+## ⚓ **SnapDock 2.x — End-of-Life Support (Classic)**
 
-SnapDock **2.x is now in Long‑Term Support**.  
+SnapDock **2.x is now in End-of-Life Support**.  
 This version is **feature‑complete**, stable, and no longer receives updates or automatic update checks.
 
 It remains fully functional for anyone who prefers the classic SnapDock experience.
@@ -52,7 +52,7 @@ SnapDock is built on a few core principles:
 
 | Version | Status | Focus |
 | :--- | :--- | :--- |
-| **SnapDock 2.x (LTS)** | `Stable` | The classic experience: minimal, reliable, and trusted. |
+| **SnapDock 2.x (Classic)** | `Stable` | The classic experience: minimal, reliable, and trusted. |
 | **SnapDock 3.0** | `In Dev` | A total modernization. Cleaner foundation and intentional design. |
 | **SnapDock Online** | `Preview` | Lightweight, browser-based experimental version. |
 
@@ -69,7 +69,7 @@ SnapDock began as a simple writing app, but it’s now a key component in a broa
 1. **Download** and run the installer.  
 2. **Setup**: SnapDock configures itself automatically.  
 3. **Updates**:  
-   SnapDock 2.x is now LTS and does **not** receive further updates.  
+   SnapDock 2.x is now Classic and does **not** receive further updates.  
    For the latest features, see SnapDock V3.
 
 ---

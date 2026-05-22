@@ -1,5 +1,5 @@
 <p align="center">
-  <strong>Contributing to SnapDock 2.x (Final LTS)</strong><br/>
+  <strong>Contributing to SnapDock 2.x (Classic)</strong><br/>
   SnapDock 2.x — Stable, archived, and no longer accepting contributions.
 </p>
 
@@ -7,7 +7,7 @@
 
 # 📦 Project Status
 
-SnapDock **2.x is now in Final Long‑Term Support (LTS)**.  
+SnapDock **2.x is now in Final End-of-Life Support (Classic)**.  
 This version is **feature‑complete**, stable, and frozen.  
 No further updates, patches, or contributions will be accepted for this branch.
 

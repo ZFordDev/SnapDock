@@ -127,7 +127,7 @@ If you have suggestions or want to contribute:
 ---
 
 ## **Updates**
-SnapDock **2.x is now in Long‑Term Support (LTS)** and no longer receives feature updates or automatic update checks.  
+SnapDock **2.x is now in End-of-Life Support (Classic)** and no longer receives feature updates or automatic update checks.  
 This version remains stable and fully supported for users who prefer the classic SnapDock experience.
 
 The next major release, **SnapDock V3**, is now in active development with a redesigned UI and modern architecture.

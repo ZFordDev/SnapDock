@@ -1,7 +1,7 @@
 # **SnapDock User Guide**
 
 ## **Overview**
-SnapDock is a fast, minimal markdown workspace designed for clean writing, simple file management, and distraction‑free focus. It supports tabs, workspaces, themes, and PDF export — all in a lightweight Windows‑first interface.
+SnapDock is a fast, minimal Markdown workspace designed for clean writing, simple file management, and distraction‑free focus. It supports tabs, workspaces, themes, and PDF export — all in a lightweight Windows‑first interface.
 
 For full documentation, visit:  
 **https://docs.snapdock.app/docs/snapdock/**
@@ -11,7 +11,7 @@ For full documentation, visit:
 ## **Core Features**
 
 ### **New File**
-Create a blank markdown document instantly and begin writing.
+Create a blank Markdown document instantly and begin writing.
 
 ### **Open File**
 Load any `.md` file from your device.
@@ -20,7 +20,7 @@ Load any `.md` file from your device.
 Browse and edit multiple files inside a folder using the sidebar.
 
 ### **Tabs**
-Open several documents at once and switch between them easily. 
+Open several documents at once and switch between them easily.
 
 ### **Recent Files**
 Quickly reopen documents you’ve worked on recently.
@@ -29,10 +29,7 @@ Quickly reopen documents you’ve worked on recently.
 Choose from built‑in themes for comfort and readability.
 
 ### **PDF Export**
-Generate a clean PDF from your rendered markdown.
-
-### **Update Checker**
-Check if a new version of SnapDock is available.
+Generate a clean PDF from your rendered Markdown.
 
 ### **Quick Keys**
 Navigate entirely via keyboard for a seamless experience.
@@ -43,7 +40,7 @@ Navigate entirely via keyboard for a seamless experience.
 
 ### **Creating and Editing Documents**
 - Use **New File** to start writing immediately  
-- Use **Open File** to load existing markdown  
+- Use **Open File** to load existing Markdown  
 - Use **Open Folder** to work inside a project directory  
 
 ### **Saving Your Work**
@@ -127,10 +124,11 @@ If you have suggestions or want to contribute:
 ---
 
 ## **Updates**
-SnapDock 2.x is the long‑term supported version, receiving ongoing stability improvements and refinements.  
-Development of **SnapDock V3** is underway and will be introduced when ready.
+SnapDock 2.x is the **Classic Edition** — a final, stable release preserved for users who prefer the original experience.  
+This version does not receive updates, but it remains fully functional and reliable.
 
-Use the **Update Checker** to stay current.
+For information about the next generation of SnapDock, visit:  
+**https://snapdock.app/snapdock-v3/**
 
 ---
 

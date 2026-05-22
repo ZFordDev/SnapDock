@@ -1,95 +1,57 @@
 <p align="center">
-  <strong>Contributing to SnapDock</strong><br/>
-  SnapDock 2.x — Stable, predictable, and maintained long‑term.
+  <strong>Contributing to SnapDock 2.x (Final LTS)</strong><br/>
+  SnapDock 2.x — Stable, archived, and no longer accepting contributions.
 </p>
 
 ---
 
 # 📦 Project Status
 
-SnapDock 2.x is in **Long‑Term Support (LTS)**.  
-The feature set is intentionally complete. Only the following contributions are accepted:
+SnapDock **2.x is now in Final Long‑Term Support (LTS)**.  
+This version is **feature‑complete**, stable, and frozen.  
+No further updates, patches, or contributions will be accepted for this branch.
 
-- 🐞 **Bug fixes**
-- 🔒 **Security patches**
-- 📝 **Documentation improvements**
-- ⚙️ **Small, low‑risk quality-of-life fixes**
+For ongoing development, new features, UI work, or improvements, please contribute to **SnapDock V3**, which is the active development line.
 
-For new features, UI changes, or larger ideas, please wait for or contribute to **SnapDock 3**, which is the active development line.
+If you wish to extend or modify SnapDock 2.x for your own needs, you are welcome to **fork this branch** and build upon it.
 
 ---
 
-# 🛠️ How to Contribute
+# 🛠️ Contribution Policy for V2
 
-- **Fork the repository** and create a branch for your changes.  
-- Keep commits **focused and minimal** — one logical change per commit.  
-- Use imperative commit messages (e.g., `Fix PDF export layout`).  
-- Open a **pull request** with a short explanation of what changed and why.
+This branch is no longer accepting:
 
-> Note: As SnapDock 2.x is in LTS, PR review times may be slower than usual.
+- Bug fixes  
+- Security patches  
+- Documentation changes  
+- Quality‑of‑life improvements  
+- Feature requests  
+
+All contributions should target the **main** branch (SnapDock V3).
 
 ---
 
 # 🐛 Reporting Issues
 
-Use the **Issues** tab to report:
+Issues related to SnapDock 2.x will be closed with a note directing users to:
 
-- Bugs  
-- Reproducible crashes  
-- Incorrect behavior  
-- Security concerns  
+- SnapDock V3 (active development), or  
+- Forking SnapDock 2.x if they require custom behavior.
 
-Please include:
-
-- Steps to reproduce  
-- Expected vs. actual behavior  
-- Screenshots or logs if helpful  
-- OS + SnapDock version  
-
-If you're unsure whether something is a bug or expected behavior, open an issue anyway — discussion helps.
-
----
-
-# 🧩 Coding Guidelines
-
-- Follow the existing structure and style.  
-- Keep changes **small, intentional, and low‑risk**.  
-- Avoid adding new dependencies unless absolutely required.  
-- Document new functions or modules clearly.  
-- Do not mix unrelated fixes in a single PR.
-
----
-
-# 🧪 Testing
-
-Before submitting a PR:
-
-- Run the app locally.  
-- Confirm your change does not break existing functionality.  
-- Add tests where practical (especially for Rust modules, if touched).  
-
----
-
-# 🌱 Community & Conduct
-
-- Be respectful, constructive, and professional.  
-- Collaboration happens via [Discord](https://discord.gg/4RGzagyt7C).  
-- See the [Code of Conduct](CODE_OF_CONDUCT.md) for community expectations.
-
----
-
-# 🔒 Security
-
-If you discover a vulnerability, please follow the [SECURITY.md](SECURITY.md) policy.  
-Do **not** disclose security issues publicly until reviewed.
+SnapDock 2.x will continue to function as-is, but it is no longer maintained.
 
 ---
 
 # 🧭 Roadmap Alignment
 
-SnapDock 2.x is stable and feature‑complete.  
-For new ideas, enhancements, or UI changes, please refer to **SnapDock 3**, which will be released publicly soon.
+SnapDock 2.x is complete and archived.  
+All future development, design, and engineering effort is focused on **SnapDock V3**.
 
 ---
 
-Thank you for helping keep SnapDock reliable and polished.
+# ❤️ Thank You
+
+SnapDock 2.x had an incredible run.  
+Thank you to everyone who contributed, tested, reported issues, and helped shape the classic SnapDock experience.
+
+The future of SnapDock continues with V3 — and you’re welcome to be part of it.

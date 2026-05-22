@@ -1,13 +1,14 @@
 {
   "name": "snapdock",
-  "version": "2.3.11",
-  "buildStage": "LTS",
-  "releaseDate": "2026-05-08",
-  "description": "SnapDock — lightweight markdown editor with file tree, recent files, and dynamic preview.",
+  "version": "3.0.1",
+  "buildStage": "active",
+  "releaseDate": "2026-05-22",
+  "description": "SnapDock 3 — a modern, redesigned Markdown editor with a clean UI and improved architecture.",
   "homepage": "https://github.com/ZFordDev/SnapDock",
-  "author": "ZetoLabs",
+  "author": "ZFordDev",
   "private": true,
   "main": "main.js",
+
   "scripts": {
     "start": "electron .",
     "bundle": "node build.js",
@@ -15,10 +16,11 @@
     "build": "npm run bundle && electron-builder",
     "lint": "echo \"Add ESLint later\""
   },
+
   "dependencies": {
     "chokidar": "^5.0.0",
     "electron-log": "^5.4.4",
-    "electron-updater": "^6.7.3",
+    "electron-updater": "6.8.3",
     "highlight.js": "^11.11.1",
     "markdown-it": "^14.1.1",
     "markdown-it-anchor": "^9.2.0",
@@ -31,14 +33,16 @@
     "markdown-it-sup": "^2.0.0",
     "markdown-it-task-lists": "^2.1.1"
   },
+
   "devDependencies": {
     "electron": "^42.2.0",
     "electron-builder": "^26.7.0",
     "esbuild": "^0.28.0",
     "rcedit": "^5.0.2"
   },
+
   "build": {
-    "appId": "com.zetolabs.snapdock",
+    "appId": "com.zforddev.snapdock",
     "productName": "SnapDock",
     "files": [
       "dist/**/*",
@@ -48,42 +52,42 @@
       "main.js",
       "src/preloads.js"
     ],
+
     "win": {
       "artifactName": "SnapDock-Setup.exe",
       "icon": "assets/icon.ico",
-      "target": [
-        "nsis"
-      ]
+      "target": ["nsis"]
     },
+
     "nsis": {
       "artifactName": "SnapDock-Setup.exe"
     },
+
     "linux": {
       "icon": "assets/icons",
       "category": "Utility",
-      "maintainer": "ZetoLabs <zetolabs.au@gmail.com>",
-      "target": [
-        "AppImage",
-        "deb"
-      ]
+      "maintainer": "ZFordDev <zforddev@gmail.com>",
+      "target": ["AppImage", "deb"]
     },
+
     "deb": {
       "artifactName": "SnapDock-Setup.deb"
     },
+
     "appImage": {
       "artifactName": "SnapDock-Setup.AppImage"
     },
+
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",
-      "target": [
-        "dmg",
-        "zip"
-      ]
+      "target": ["dmg", "zip"]
     },
+
     "dmg": {
       "artifactName": "SnapDock-Setup.dmg"
     },
+
     "publish": [
       {
         "provider": "github",

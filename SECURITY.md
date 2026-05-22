@@ -7,15 +7,16 @@
 
 # Supported Versions
 
-SnapDock 2.x is in **Long‑Term Support (LTS)**.  
-Only the latest 2.x release receives security updates.
+SnapDock follows a simple, transparent lifecycle model:
 
-| Version | Supported |
-|--------|-----------|
-| 2.x LTS | ✔ Active |
-| 1.x     | ✖ End of life |
+| Version Line | Status | Notes |
+|--------------|--------|-------|
+| **3.x (Active)** | ✔ Supported | Receives security fixes and maintenance updates. |
+| **2.x (Classic)** | ✖ End‑of‑Life | Final, archived release. No further updates. |
+| **1.x (Classic)** | ✖ End‑of‑Life | No longer maintained. |
 
-SnapDock 3.x will adopt the same model once released.
+Only **SnapDock 3.x** receives security updates.  
+SnapDock 2.x and 1.x remain available for download but are **frozen** and do not receive patches unless a critical, high‑severity issue is discovered.
 
 ---
 
@@ -26,9 +27,9 @@ If you believe you’ve found a security issue in SnapDock:
 - **Email:** `zforddev@gmail.com`  
 - **Do not disclose publicly** until the issue has been reviewed.  
 - Expect an initial response within **72 hours**.  
-- If confirmed, a fix will be prepared and released promptly.
+- If confirmed, a fix will be prepared for the **active version line (3.x)**.
 
-SnapDock 2.x is maintained by a single developer, so clear, detailed reports are appreciated.
+Clear, detailed reports are appreciated — SnapDock is maintained by a single developer.
 
 ---
 
@@ -64,7 +65,7 @@ Network‑based vulnerabilities are unlikely because SnapDock does not connect t
 If a vulnerability is confirmed:
 
 - You may be credited in the release notes (optional).  
-- The fix will be included in the next patch release.  
+- A fix will be released for **SnapDock 3.x**.  
 - Critical issues may trigger an immediate hotfix.
 
 Thank you for helping keep SnapDock safe for everyone.

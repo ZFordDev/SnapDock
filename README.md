@@ -10,14 +10,11 @@ SnapDock is a clean, distraction‑free Markdown editor built for people who wan
 
 ---
 
-> **⚠ SnapDock V3 Development Underway**  
-> SnapDock is currently transitioning into the new **V3 active development line**.  
-> During this period, some update metadata for **V2 LTS** may temporarily break or behave inconsistently.  
+> **🚧 SnapDock V3 is in Active Development**  
+> This branch represents the next generation of SnapDock — a redesigned, modernized editor with a cleaner foundation, improved performance, and a refreshed UI.  
 >  
-> **V2 remains supported**, and any updater issues will be corrected shortly.  
->  
-> This is a normal part of the migration to the new dual‑lifecycle model (V2‑LTS + V3).  
-> Thanks for your patience while the next major version of SnapDock is being built.
+> SnapDock 2.x is now the **Classic Edition** (final, archived).  
+> All new development happens here in the V3 line.
 
 ---
 
@@ -25,9 +22,9 @@ SnapDock is a clean, distraction‑free Markdown editor built for people who wan
 
 There’s a clear gap in the Markdown world:
 
-*   **Obsidian** is powerful but overwhelming.
-*   Many editors feel like **code tools**, not writing tools.
-*   Writers just want a **calm, stable space** to think.
+- **Obsidian** is powerful but overwhelming.  
+- Many editors feel like **code tools**, not writing tools.  
+- Writers just want a **calm, stable space** to think.
 
 SnapDock fills that gap with a writing‑first experience that stays minimal, local‑first, and intentionally simple.
 
@@ -37,49 +34,54 @@ SnapDock fills that gap with a writing‑first experience that stays minimal, lo
 
 SnapDock is built on a few core principles:
 
-*   **Local‑first** — your work lives on your machine.
-*   **No feature gating** — core tools stay free and accessible.
-*   **Stability over novelty** — predictable updates, long‑term support.
-*   **Minimalism** — fewer buttons, more writing.
-*   **Modernization** — clean UI, smooth workflow, no clutter.
+- **Local‑first** — your work lives on your machine.  
+- **No feature gating** — core tools stay free and accessible.  
+- **Stability over novelty** — predictable, intentional design.  
+- **Minimalism** — fewer buttons, more writing.  
+- **Modernization** — clean UI, smooth workflow, no clutter.
 
 ---
 
 ## 🛠 Current State
 
 | Version | Status | Focus |
-| :--- | :--- | :--- |
-| **SnapDock 2.x (LTS)** | `Stable` | The classic experience: minimal, reliable, and trusted. |
-| **SnapDock 3.0** | `In Dev` | A total modernization. Cleaner foundation and intentional design. |
-| **SnapDock Online** | `Preview` | Lightweight, browser-based experimental version. |
+|--------|--------|--------|
+| **SnapDock 3.x** | `Active` | Modern rewrite, new UI, improved architecture. |
+| **SnapDock 2.x (Classic)** | `Archived` | The original SnapDock experience — stable and final. |
+| **SnapDock Online** | `Preview` | Lightweight, browser‑based experimental version. |
 
 ---
 
 ## 🌐 Part of a Larger Ecosystem
 
-SnapDock began as a simple writing app, but it’s now a key component in a broader interconnected ecosystem. It serves as the **writing anchor** in that system.
+SnapDock began as a simple writing app, but it’s now a key component in a broader interconnected ecosystem.  
+SnapDock 3.x is the foundation for future tools, integrations, and the next generation of the platform.
 
 ---
 
 ## 🚀 Installation
 
-1.  **Download** and run the installer.
-2.  **Setup**: SnapDock sets itself up automatically.
-3.  **Updates**: No reinstalling required. Updates appear in the bottom‑right corner.
+SnapDock 3.x preview builds are available on the website:
+
+👉 **https://snapdock.app/snapdock-v3/**
+
+SnapDock 2.x Classic Edition can still be downloaded here:
+
+👉 **https://snapdock.app/downloads**
 
 ---
 
 ## 📖 Documentation & Links
 
 **Local Resources:**
-*   `assets/resources/docs/user_guide.md`
-*   `assets/resources/docs/versioning-strategy.md`
-*   `SECURITY.md` (Updating Soon)
-*   `ROADMAP.md` (Updating Soon)
+- `assets/resources/docs/user_guide.md`
+- `assets/resources/docs/versioning-strategy.md`
+- `SECURITY.md`
+- `ROADMAP.md`
 
 **External Links:**
-*   [**Official Website**](https://snapdock.app/)
-*   [**Documentation Hub**](https://docs.snapdock.app/docs/snapdock/)
+- [**Official Website**](https://snapdock.app/)
+- [**Documentation Hub**](https://docs.snapdock.app/docs/snapdock/)
 
 ---
 
@@ -94,5 +96,6 @@ Special thanks to **Masbah** and early contributors for shaping the secure‑wri
 
 If SnapDock helps you stay focused, please consider supporting the work:
 
-*   **Leave a ⭐ star** on this repository to help others find it!
-*   **Support on Ko-fi**: [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/zforddev)
+- **Leave a ⭐ star** on this repository to help others find it  
+- **Support on Ko‑fi**:  
+  [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/zforddev)

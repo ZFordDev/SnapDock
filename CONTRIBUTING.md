@@ -1,43 +1,45 @@
 <p align="center">
   <strong>Contributing to SnapDock</strong><br/>
-  SnapDock 2.x — Stable, predictable, and maintained long‑term.
+  SnapDock 3.x — Active development line.
 </p>
 
 ---
 
 # 📦 Project Status
 
-SnapDock 2.x is in **Long‑Term Support (LTS)**.  
-The feature set is intentionally complete. Only the following contributions are accepted:
+SnapDock uses a simple lifecycle model:
 
-- 🐞 **Bug fixes**
-- 🔒 **Security patches**
-- 📝 **Documentation improvements**
-- ⚙️ **Small, low‑risk quality-of-life fixes**
+- **3.x — Active** (development, features, fixes, contributions welcome)
+- **2.x — Classic** (final, archived, no longer accepting contributions)
+- **1.x — Classic** (archived)
 
-For new features, UI changes, or larger ideas, please wait for or contribute to **SnapDock 3**, which is the active development line.
+All contributions should target **SnapDock 3.x**, which is the modern, actively maintained version of the app.
+
+If you wish to extend or modify SnapDock 2.x, you are welcome to **fork the Classic branch** and build upon it.
 
 ---
 
-# 🛠️ How to Contribute
+# 🛠️ How to Contribute (SnapDock 3.x)
 
-- **Fork the repository** and create a branch for your changes.  
+- **Fork the repository** and create a feature branch.  
 - Keep commits **focused and minimal** — one logical change per commit.  
-- Use imperative commit messages (e.g., `Fix PDF export layout`).  
-- Open a **pull request** with a short explanation of what changed and why.
+- Use imperative commit messages (e.g., `Add theme switcher`, `Fix sidebar layout`).  
+- Open a **pull request** with a clear explanation of what changed and why.
 
-> Note: As SnapDock 2.x is in LTS, PR review times may be slower than usual.
+PRs should be scoped, intentional, and aligned with the direction of SnapDock 3.x.
 
 ---
 
 # 🐛 Reporting Issues
 
-Use the **Issues** tab to report:
+Use the **Issues** tab to report problems related to:
 
 - Bugs  
-- Reproducible crashes  
+- Crashes  
 - Incorrect behavior  
 - Security concerns  
+- UI/UX inconsistencies  
+- Feature regressions  
 
 Please include:
 
@@ -46,16 +48,19 @@ Please include:
 - Screenshots or logs if helpful  
 - OS + SnapDock version  
 
-If you're unsure whether something is a bug or expected behavior, open an issue anyway — discussion helps.
+Issues related to **SnapDock 2.x** will be closed with a note directing users to:
+
+- SnapDock 3.x (active), or  
+- Forking SnapDock 2.x if Classic behavior is required.
 
 ---
 
 # 🧩 Coding Guidelines
 
-- Follow the existing structure and style.  
+- Follow the existing structure and style of the 3.x codebase.  
 - Keep changes **small, intentional, and low‑risk**.  
-- Avoid adding new dependencies unless absolutely required.  
-- Document new functions or modules clearly.  
+- Avoid adding new dependencies unless necessary.  
+- Document new modules or functions clearly.  
 - Do not mix unrelated fixes in a single PR.
 
 ---
@@ -66,7 +71,7 @@ Before submitting a PR:
 
 - Run the app locally.  
 - Confirm your change does not break existing functionality.  
-- Add tests where practical (especially for Rust modules, if touched).  
+- Add tests where practical (especially for core modules).  
 
 ---
 
@@ -87,9 +92,11 @@ Do **not** disclose security issues publicly until reviewed.
 
 # 🧭 Roadmap Alignment
 
-SnapDock 2.x is stable and feature‑complete.  
-For new ideas, enhancements, or UI changes, please refer to **SnapDock 3**, which will be released publicly soon.
+SnapDock 3.x is the future of the project.  
+New ideas, enhancements, and UI changes should target the 3.x branch.
+
+SnapDock 2.x and 1.x are preserved as **Classic Editions** and do not receive updates.
 
 ---
 
-Thank you for helping keep SnapDock reliable and polished.
+Thank you for helping shape the next generation of SnapDock.

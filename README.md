@@ -10,6 +10,17 @@ SnapDock is a clean, distraction‑free Markdown editor built for people who wan
 
 ---
 
+> **⚠ SnapDock V3 Development Underway**  
+> SnapDock is currently transitioning into the new **V3 active development line**.  
+> During this period, some update metadata for **V2 LTS** may temporarily break or behave inconsistently.  
+>  
+> **V2 remains supported**, and any updater issues will be corrected shortly.  
+>  
+> This is a normal part of the migration to the new dual‑lifecycle model (V2‑LTS + V3).  
+> Thanks for your patience while the next major version of SnapDock is being built.
+
+---
+
 ## 💡 Why SnapDock Exists
 
 There’s a clear gap in the Markdown world:

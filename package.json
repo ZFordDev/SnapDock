@@ -1,8 +1,8 @@
 {
   "name": "snapdock",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "buildStage": "active",
-  "releaseDate": "2026-05-22",
+  "releaseDate": "2026-05-24",
   "description": "SnapDock 3 — a modern, redesigned Markdown editor with a clean UI and improved architecture.",
   "homepage": "https://github.com/ZFordDev/SnapDock",
   "author": "ZFordDev",

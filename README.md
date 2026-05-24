@@ -52,6 +52,12 @@ SnapDock is built on a few core principles:
 
 ---
 
+## New features for SnapDock 3
+
+- Drag and drop tabs
+- Preview mode drop down
+- more to come!
+
 ## 🌐 Part of a Larger Ecosystem
 
 SnapDock began as a simple writing app, but it’s now a key component in a broader interconnected ecosystem.  
@@ -89,6 +95,8 @@ SnapDock 2.x Classic Edition can still be downloaded here:
 
 Created and maintained by **ZFordDev**.  
 Special thanks to **Masbah** and early contributors for shaping the secure‑writing phase.
+
+Thanks to #18850196928-max for helping kick start V3
 
 ---
 

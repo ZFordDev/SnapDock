@@ -13,7 +13,7 @@ import {
   closeTab
 } from "../file/tabs.js";
 
-import { renderRecentFiles } from "../file/recent.js";
+import { renderRecentFiles, clearRecentFiles } from "../file/recent.js";
 import { initHelp} from "../ui/help.js";
 import { initShortcuts } from "../ui/qkeys.js";
 import { loadWorkspace, initWorkspaceControls } from "../file/workspace.js";
@@ -47,6 +47,14 @@ export function initApp() {
 
   // 2️⃣ Recent files
   renderRecentFiles(recentList);
+
+  const clearRecentBtn = byId("clearRecentBtn");
+  if (clearRecentBtn) {
+    clearRecentBtn.addEventListener("click", () => {
+      clearRecentFiles();
+      renderRecentFiles(recentList);
+    });
+  }
 
   // 3️⃣ Workspace controls
   initWorkspaceControls();

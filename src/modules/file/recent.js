@@ -22,6 +22,11 @@ export function saveToRecentFiles(path) {
   localStorage.setItem(key, JSON.stringify(updated.slice(0, 20)));
 }
 
+export function clearRecentFiles() {
+  const key = getRecentKey();
+  localStorage.removeItem(key);
+}
+
 // ------------------------------------------------------------------
 // Render recent files list
 export function renderRecentFiles(container) {

@@ -118,3 +118,139 @@
   opacity: 1;
 }
 
+/* --- Drag & Drop --- */
+.tab.dragging {
+  opacity: 0.4;
+  transform: scale(0.95);
+}
+
+.tab-drop-indicator {
+  flex: 0 0 auto;
+  width: 3px;
+  height: 28px;
+  background: var(--tab-accent, #4a9eff);
+  border-radius: 2px;
+  margin: 0 2px;
+  align-self: flex-end;
+  animation: dropPulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes dropPulse {
+  from { opacity: 0.6; }
+  to   { opacity: 1; }
+}
+
+/* --- Preview Mode Dropdown --- */
+.preview-mode-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.preview-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background: var(--btn-bg, #2a2a2a);
+  color: var(--btn-text, #ccc);
+  border: 1px solid var(--tab-border);
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.preview-mode-btn:hover {
+  background: var(--btn-hover-bg, #3a3a3a);
+}
+
+.preview-mode-btn .dropdown-arrow {
+  font-size: 0.6rem;
+  margin-left: 2px;
+}
+
+.preview-mode-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 170px;
+  background: var(--dropdown-bg, #1e1e1e);
+  border: 1px solid var(--tab-border);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 100;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.preview-mode-menu.open {
+  display: block;
+}
+
+.preview-mode-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--btn-text, #ccc);
+  text-align: left;
+  transition: background 0.1s ease;
+}
+
+.preview-mode-option:hover:not(.disabled) {
+  background: var(--btn-hover-bg, #3a3a3a);
+}
+
+.preview-mode-option.active {
+  color: var(--tab-accent, #4a9eff);
+  font-weight: 600;
+}
+
+.preview-mode-option.disabled {
+  color: #555;
+  cursor: not-allowed;
+}
+
+.preview-mode-option .option-check {
+  width: 16px;
+  margin-right: 8px;
+  font-size: 0.7rem;
+  visibility: hidden;
+}
+
+.preview-mode-option.active .option-check {
+  visibility: visible;
+}
+
+.preview-mode-option .option-label {
+  flex-grow: 1;
+}
+
+.preview-mode-option .option-badge {
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(125,125,125,0.15);
+  color: #666;
+}
+
+/* --- Split View (future) --- */
+.workspace.split-view .editor-wrapper,
+.workspace.split-view .preview-wrapper {
+  width: 50%;
+  display: block !important;
+}
+
+.workspace.split-view .preview-wrapper.hidden {
+  display: none !important;
+}
+
+.workspace.split-view .workspace {
+  flex-direction: row;
+}
+

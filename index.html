@@ -24,7 +24,28 @@
         </div>
 
         <div class="header-right">
-          <button id="previewToggleBtn">Preview</button>
+          <div class="preview-mode-dropdown" id="previewModeDropdown">
+            <button class="preview-mode-btn" id="previewToggleBtn">
+              <span id="previewModeLabel">Show Preview</span>
+              <span class="dropdown-arrow">▾</span>
+            </button>
+            <div class="preview-mode-menu" id="previewModeMenu">
+              <button class="preview-mode-option active" data-mode="preview">
+                <span class="option-check">✓</span>
+                <span class="option-label">Show Preview</span>
+              </button>
+              <button class="preview-mode-option disabled" data-mode="split">
+                <span class="option-check">✓</span>
+                <span class="option-label">Split View</span>
+                <span class="option-badge">soon</span>
+              </button>
+              <button class="preview-mode-option disabled" data-mode="live">
+                <span class="option-check">✓</span>
+                <span class="option-label">Live View</span>
+                <span class="option-badge">soon</span>
+              </button>
+            </div>
+          </div>
         </div>
       </header>
 

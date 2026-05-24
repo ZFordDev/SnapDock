@@ -107,6 +107,59 @@ export async function closeTab(tabId) {
 }
 
 /**
+ * Move a tab from one index to another (drag & drop)
+ */
+export function moveTab(fromIndex, toIndex) {
+  if (fromIndex === toIndex) return;
+  if (fromIndex < 0 || fromIndex >= tabs.length) return;
+  if (toIndex < 0 || toIndex >= tabs.length) return;
+
+  const [moved] = tabs.splice(fromIndex, 1);
+  tabs.splice(toIndex, 0, moved);
+  renderTabs();
+}
+
+// --- Drag & Drop state ---
+let dragState = {
+  dragging: null,     // index of tab being dragged
+  dropTarget: null,   // index of drop position
+  startX: 0,
+  placeholder: null,
+};
+
+/**
+ * Create a visual placeholder element for drop position
+ */
+function createDropPlaceholder() {
+  const el = document.createElement("div");
+  el.className = "tab-drop-indicator";
+  return el;
+}
+
+/**
+ * Get tab index from a mouse event by finding the nearest tab element
+ */
+function getTabIndexFromEvent(e, tabBar) {
+  const tabEls = Array.from(tabBar.querySelectorAll(".tab"));
+  if (tabEls.length === 0) return -1;
+
+  const mouseX = e.clientX;
+  let targetIndex = 0;
+
+  for (let i = 0; i < tabEls.length; i++) {
+    const rect = tabEls[i].getBoundingClientRect();
+    const midX = rect.left + rect.width / 2;
+    if (mouseX < midX) {
+      targetIndex = i;
+      break;
+    }
+    targetIndex = i + 1;
+  }
+
+  return targetIndex;
+}
+
+/**
  * Render tab bar
  */
 export function renderTabs() {
@@ -115,12 +168,13 @@ export function renderTabs() {
 
   tabBar.innerHTML = "";
 
-  tabs.forEach(tab => {
+  tabs.forEach((tab, index) => {
     const isActive = tab.id === activeTabId;
 
     const el = document.createElement("div");
     el.className = `tab ${isActive ? "active" : ""} ${tab.isDirty ? "dirty" : ""}`;
     el.dataset.tabId = tab.id;
+    el.draggable = true;
 
     // Status LED
     const led = document.createElement("div");
@@ -140,6 +194,81 @@ export function renderTabs() {
     close.addEventListener("click", e => {
       e.stopPropagation();
       closeTab(tab.id);
+    });
+
+    // --- Drag & Drop event handlers ---
+    el.addEventListener("dragstart", (e) => {
+      dragState.dragging = index;
+      el.classList.add("dragging");
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", tab.id);
+      // Hide default drag image
+      const ghost = document.createElement("div");
+      ghost.style.position = "absolute";
+      ghost.style.top = "-9999px";
+      document.body.appendChild(ghost);
+      e.dataTransfer.setDragImage(ghost, 0, 0);
+      setTimeout(() => ghost.remove(), 0);
+    });
+
+    el.addEventListener("dragend", () => {
+      el.classList.remove("dragging");
+      // Remove all indicators
+      tabBar.querySelectorAll(".tab-drop-indicator").forEach(el => el.remove());
+      dragState.dragging = null;
+      dragState.dropTarget = null;
+    });
+
+    el.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      if (dragState.dragging === null || dragState.dragging === index) return;
+
+      e.dataTransfer.dropEffect = "move";
+
+      // Remove old indicators
+      tabBar.querySelectorAll(".tab-drop-indicator").forEach(el => el.remove());
+
+      // Determine drop side based on cursor position relative to tab center
+      const rect = el.getBoundingClientRect();
+      const midX = rect.left + rect.width / 2;
+      const dropAfter = e.clientX > midX;
+
+      const indicator = createDropPlaceholder();
+      if (dropAfter) {
+        el.insertAdjacentElement("afterend", indicator);
+      } else {
+        el.insertAdjacentElement("beforebegin", indicator);
+      }
+    });
+
+    el.addEventListener("dragleave", () => {
+      // Keep indicator visible — let dragover on other tabs handle cleanup
+    });
+
+    el.addEventListener("drop", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (dragState.dragging === null) return;
+
+      const fromIndex = dragState.dragging;
+
+      // Determine target index
+      const rect = el.getBoundingClientRect();
+      const midX = rect.left + rect.width / 2;
+      const dropAfter = e.clientX > midX;
+      let toIndex = index;
+      if (dropAfter) toIndex++;
+
+      // Adjust for removing from array
+      if (fromIndex < toIndex) toIndex--;
+
+      moveTab(fromIndex, toIndex);
+
+      // Cleanup
+      tabBar.querySelectorAll(".tab-drop-indicator").forEach(el => el.remove());
+      dragState.dragging = null;
+      dragState.dropTarget = null;
     });
 
     el.append(led, title, close);

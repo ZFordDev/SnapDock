@@ -6,104 +6,187 @@
   <img src="https://img.shields.io/github/stars/zforddev/snapdock?style=for-the-badge&color=FFD700" alt="Stars">
 </p>
 
-SnapDock is a clean, distraction‑free Markdown editor built for people who want to write — not configure, not manage plugins, not learn a system. It sits in the middle ground between “too complex” tools like Obsidian and “too developer‑focused” IDE‑style editors. SnapDock gives you a writing space that feels natural, predictable, and modern.
+SnapDock is a modern, distraction-free Markdown editor built for people who want to write without fighting their tools.
+
+It focuses on clarity, stability, and local-first writing — offering a calm editing experience without plugin overload, IDE complexity, or unnecessary workflow friction.
+
+SnapDock sits between minimalist note apps and heavily extensible writing platforms, providing a predictable and focused desktop writing experience that stays fast and approachable.
 
 ---
 
-> **🚧 SnapDock V3 is in Active Development**  
-> This branch represents the next generation of SnapDock — a redesigned, modernized editor with a cleaner foundation, improved performance, and a refreshed UI.  
->  
-> SnapDock 2.x is now the **Classic Edition** (final, archived).  
-> All new development happens here in the V3 line.
+> [!NOTE]
+> **SnapDock V3 is currently in active development.**
+>
+> This branch represents the next generation of SnapDock:
+> - redesigned architecture
+> - refreshed interface
+> - improved performance
+> - cleaner editor workflows
+>
+> SnapDock 2.x is now considered the **Classic Edition** — stable, archived, and feature complete.
 
 ---
 
 ## 💡 Why SnapDock Exists
 
-There’s a clear gap in the Markdown world:
+Modern Markdown tools often drift toward one of two extremes:
 
-- **Obsidian** is powerful but overwhelming.  
-- Many editors feel like **code tools**, not writing tools.  
-- Writers just want a **calm, stable space** to think.
+- heavily plugin-driven productivity systems
+- developer-focused editors built around code workflows
 
-SnapDock fills that gap with a writing‑first experience that stays minimal, local‑first, and intentionally simple.
+SnapDock exists for people who simply want a clean space to think and write.
+
+The goal is not to become an all-in-one productivity platform.
+
+The goal is to create a writing environment that feels:
+- calm
+- lightweight
+- stable
+- local-first
+- predictable
+
+---
+
+## ✨ Current Features
+
+- Multi-tab Markdown editing
+- Drag-and-drop tab reordering
+- Preview mode selection
+- Workspace-based file management
+- Recent file tracking
+- Local-first document workflow
+- Lightweight modern UI
+- Multiple editor themes
+- Cross-platform desktop support
 
 ---
 
 ## ✨ Philosophy
 
-SnapDock is built on a few core principles:
+SnapDock is built around a few core principles:
 
-- **Local‑first** — your work lives on your machine.  
-- **No feature gating** — core tools stay free and accessible.  
-- **Stability over novelty** — predictable, intentional design.  
-- **Minimalism** — fewer buttons, more writing.  
-- **Modernization** — clean UI, smooth workflow, no clutter.
+- **Local-first** — your writing stays on your machine
+- **Minimalism** — fewer distractions, more focus
+- **Stability over novelty** — predictable workflows matter
+- **No feature gating** — core writing tools stay accessible
+- **Clean desktop UX** — modern without unnecessary complexity
+
+The editor is intentionally designed to feel calm, responsive, and easy to understand.
 
 ---
 
 ## 🛠 Current State
 
 | Version | Status | Focus |
-|--------|--------|--------|
-| **SnapDock 3.x** | `Active` | Modern rewrite, new UI, improved architecture. |
-| **SnapDock 2.x (Classic)** | `Archived` | The original SnapDock experience — stable and final. |
-| **SnapDock Online** | `Preview` | Lightweight, browser‑based experimental version. |
+|---|---|---|
+| **SnapDock 3.x** | Active Development | Modern rewrite, new UI, improved architecture |
+| **SnapDock 2.x (Classic)** | Archived | Original SnapDock experience |
+| **SnapDock Online** | Experimental | Lightweight browser-based preview |
 
 ---
 
-## New features for SnapDock 3
+## 🌐 Ecosystem
 
-- Drag and drop tabs
-- Preview mode drop down
-- more to come!
+SnapDock also acts as the foundation for related desktop tools and experiments within the broader SnapDock ecosystem.
 
-## 🌐 Part of a Larger Ecosystem
+These projects focus on:
+- local-first workflows
+- lightweight desktop utilities
+- writing and organization tools
+- minimal friction and clean UI design
 
-SnapDock began as a simple writing app, but it’s now a key component in a broader interconnected ecosystem.  
-SnapDock 3.x is the foundation for future tools, integrations, and the next generation of the platform.
+Related projects include:
+- SnapBoard
+- future workspace tools
+- experimental desktop integrations
 
 ---
 
 ## 🚀 Installation
 
-SnapDock 3.x preview builds are available on the website:
+### SnapDock V3 Preview Builds
+https://snapdock.app/snapdock-v3/
 
-👉 **https://snapdock.app/snapdock-v3/**
-
-SnapDock 2.x Classic Edition can still be downloaded here:
-
-👉 **https://snapdock.app/downloads**
+### SnapDock Classic Downloads
+https://snapdock.app/downloads
 
 ---
 
-## 📖 Documentation & Links
+## 📖 Documentation & Resources
 
-**Local Resources:**
+### Local Documentation
 - `assets/resources/docs/user_guide.md`
 - `assets/resources/docs/versioning-strategy.md`
 - `SECURITY.md`
 - `ROADMAP.md`
 
-**External Links:**
-- [**Official Website**](https://snapdock.app/)
-- [**Documentation Hub**](https://docs.snapdock.app/docs/snapdock/)
+### External Links
+- Official Website: https://snapdock.app/
+- Documentation Hub: https://docs.snapdock.app/docs/snapdock/
 
 ---
 
-## 👥 Credits
+## 👥 Contributing
 
-Created and maintained by **ZFordDev**.  
-Special thanks to **Masbah** and early contributors for shaping the secure‑writing phase.
+SnapDock welcomes community contributions of all sizes.
 
-Thanks to #18850196928-max for helping kick start V3
+Good areas to contribute:
+- UI/UX polish
+- editor workflow improvements
+- theme refinement
+- markdown rendering
+- accessibility
+- Linux packaging/testing
+- performance improvements
+
+Issues tagged:
+- `good first issue`
+- `UI/UX`
+- `help wanted`
+
+…are especially beginner-friendly.
+
+---
+
+## ❤️ Contributors
+
+SnapDock continues to evolve thanks to community contributions and feedback.
+
+### Special Thanks
+
+**@18850196928-max**
+- added drag-and-drop tab reordering
+- added preview mode dropdown improvements
+- helped kickstart major V3 workflow improvements
+
+**@wali-WallE**
+- added recent-file clear controls with persistence improvements
+
+**@misbahmansoori**
+- improved workspace refresh behavior
+- improved Lite Mode code block rendering
+- added empty-state file tree improvements
+- contributed theme and UI refinements
+
+**@Karel-cz**
+- added close button improvements for the help popup
+
+**@Abmarne**
+- improved Solarized theme readability and contrast
+
+Thank you to everyone helping shape SnapDock.
 
 ---
 
 ## ❤️ Support the Project
 
-If SnapDock helps you stay focused, please consider supporting the work:
+If SnapDock helps you stay focused, consider supporting the project:
 
-- **Leave a ⭐ star** on this repository to help others find it  
-- **Support on Ko‑fi**:  
-  [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/zforddev)
+- ⭐ Star the repository
+- ☕ Support on Ko-fi: https://ko-fi.com/zforddev
+
+---
+
+## 📄 License
+
+See `LICENSE` for details.

@@ -76,4 +76,10 @@ contextBridge.exposeInMainWorld("workspaceAPI", {
 
   sendDirtyState: (isDirty) =>
     ipcRenderer.send("workspace:isDirty:response", isDirty),
+    
+  onSaveAllForCloseRequest: (callback) =>
+    ipcRenderer.on("workspace:save-all-for-close:request", () => callback()),
+
+  sendSaveAllForCloseResult: (result) =>
+    ipcRenderer.send("workspace:save-all-for-close:result", result),
 });

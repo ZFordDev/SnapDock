@@ -150,29 +150,37 @@ Issues tagged:
 
 ## ❤️ Contributors
 
-SnapDock continues to evolve thanks to community contributions and feedback.
+SnapDock continues to evolve thanks to the time, care, and ideas shared by the community.
 
 ### Special Thanks
 
-**@18850196928-max**
-- added drag-and-drop tab reordering
-- added preview mode dropdown improvements
-- helped kickstart major V3 workflow improvements
+**@TechSwimmer**  
+- added Save All support for multi‑tab workflows  
+- improved close‑flow behavior with Save All confirmation handling  
 
-**@wali-WallE**
-- added recent-file clear controls with persistence improvements
+**@Sanketmandwal**  
+- implemented Split View with a fully functional two‑pane editor/preview layout  
+- added resizable divider with clean UX and constraints  
 
-**@misbahmansoori**
-- improved workspace refresh behavior
-- improved Lite Mode code block rendering
-- added empty-state file tree improvements
-- contributed theme and UI refinements
+**@18850196928-max**  
+- added drag‑and‑drop tab reordering  
+- added preview‑mode dropdown improvements  
+- helped kickstart several core V3 workflow improvements  
 
-**@Karel-cz**
-- added close button improvements for the help popup
+**@wali-WallE**  
+- added recent‑file clear controls with persistence improvements  
 
-**@Abmarne**
-- improved Solarized theme readability and contrast
+**@misbahmansoori**  
+- improved workspace refresh behavior  
+- improved Lite Mode code block rendering  
+- added empty‑state file‑tree improvements  
+- contributed theme and UI refinements  
+
+**@Karel-cz**  
+- added close‑button improvements for the Help popup  
+
+**@Abmarne**  
+- improved Solarized theme readability and contrast  
 
 Thank you to everyone helping shape SnapDock.
 

@@ -5,7 +5,8 @@ import {
   getActiveTab,
   switchToTab,
   markDirty,
-  renderTabs
+  renderTabs,
+  save_all_tabs
 } from "../file/tabs.js";
 
 import { saveCurrentFile } from "../file/operations.js";
@@ -36,5 +37,15 @@ export function initEditorSync() {
     if (!tab) return;
 
     await saveCurrentFile(tab);
+  });
+
+  // save all dirty tabs
+  document.getElementById('saveAllBtnTop')?.addEventListener('click', async() => {
+    const tab = getActiveTab();
+    if(tab && editor){
+      // capture latest in-editor text before batch save
+      tab.content = editor.value;
+    }
+    await save_all_tabs();
   });
 }

@@ -1,4 +1,5 @@
 // src/modules/file/tabs.js
+import { saveCurrentFile } from "./operations.js";
 
 let tabs = [];
 let activeTabId = null;
@@ -300,4 +301,29 @@ export function markDirty() {
   renderTabs();
 }
 
+export async function save_all_tabs(){
+  const dirtyTabs = tabs.filter(tab => tab.isDirty);
+  if(!dirtyTabs.length){
+    return {savedCount:0,failedCount:0,failedTabs:[]};
+  }
+
+
+  let savedCount = 0;
+  const failedTabs = [];
+
+  for(const tab of dirtyTabs){
+    const ok = await saveCurrentFile(tab);
+    if(ok) {
+      savedCount++;
+    } else {
+      failedTabs.push(tab.title);
+    }
+  }
+
+  return {
+    savedCount,
+    failedCount: failedTabs.length,
+    failedTabs
+  };
+}
 export { tabs };

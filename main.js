@@ -17,6 +17,7 @@ let workspaceWatcher = null;
 let currentWorkspacePath = null;
 let mainWindow;
 let lastKnownDirtyState = false;
+let forceClose = false;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -47,6 +48,8 @@ function createWindow() {
 
   // Unsaved changes / workspace dirty failsafe
   mainWindow.on("close", (event) => {
+
+    if (forceClose) return;
     // Ask renderer for dirty state
     mainWindow.webContents.send("workspace:isDirty:request");
 
@@ -58,7 +61,7 @@ function createWindow() {
       if (lastKnownDirtyState) {
         const choice = dialog.showMessageBoxSync(mainWindow, {
           type: "warning",
-          buttons: ["Cancel", "Discard Changes"],
+          buttons: ["Cancel", "Save All", "Discard Changes"],
           defaultId: 0,
           cancelId: 0,
           title: "Unsaved Changes",
@@ -66,12 +69,38 @@ function createWindow() {
         });
 
         if (choice === 1) {
-          // User chose "Discard Changes"
-          mainWindow.destroy();
+          // User chose "Save All"
+          const onResult = (_event, result) => {
+            if (result?.ok) {
+              forceClose = true;
+              mainWindow.close();
+            } else {
+              dialog.showMessageBox(mainWindow, {
+                type: "error",
+                buttons: ["OK"],
+                defaultId: 0,
+                title: "Save All Failed",
+                message: "Some tabs could not be saved. SnapDock will remain open.",
+              });
+            }
+          };
+
+          ipcMain.once("workspace:save-all-for-close:result", onResult);
+          mainWindow.webContents.send("workspace:save-all-for-close:request");
+          return;
         }
+
+        if (choice === 2) {
+          // User chose "Discard Changes"
+          forceClose = true;
+          mainWindow.close();
+        }
+
+        // choice === 0 (Cancel): do nothing, keep app open
       } else {
-        // Clean workspace → safe to close
-        mainWindow.destroy();
+        // Clean workspace -> safe to close
+        forceClose = true;
+        mainWindow.close();
       }
     }, 50);
   });
@@ -79,191 +108,190 @@ function createWindow() {
   mainWindow.loadFile("index.html");
   setupUpdater(mainWindow);
 }
-
 app.whenReady().then(createWindow);
 
-// -----------------------------
-// FILE OPERATIONS
-// -----------------------------
+  // -----------------------------
+  // FILE OPERATIONS
+  // -----------------------------
 
-ipcMain.handle("open-file", async () => {
-  const { canceled, filePaths } = await dialog.showOpenDialog({
-    properties: ["openFile"],
-    filters: [{ name: "Markdown", extensions: ["md"] }],
-  });
-
-  if (canceled || filePaths.length === 0) return null;
-
-  const filePath = filePaths[0];
-  const content = fs.readFileSync(filePath, "utf-8");
-
-  return { content, filePath };
-});
-
-ipcMain.handle("open-folder", async () => {
-  const { canceled, filePaths } = await dialog.showOpenDialog({
-    properties: ["openDirectory"],
-  });
-
-  if (canceled || filePaths.length === 0) return null;
-  const workspacePath = filePaths[0];
-
-  // Close previous watcher if exists
-  if (workspaceWatcher) {
-    workspaceWatcher.close();
-  }
-  
-  currentWorkspacePath = workspacePath;
-  
-  workspaceWatcher = chokidar.watch(workspacePath, {
-    ignored: /(^|[\/\\])\../, // ignore dotfiles
-    persistent: true,
-  });
-  
-  let ready = false;
-  let refreshTimeout = null;
-  
-  workspaceWatcher
-    .on("ready", () => {
-      ready = true;
-    })
-    .on("all", () => {
-      if (!ready) return; // ignore initial scan events
-    
-      clearTimeout(refreshTimeout);
-      refreshTimeout = setTimeout(() => {
-        if (mainWindow) {
-          mainWindow.webContents.send("workspace-updated");
-        }
-      }, 100); // debounce to avoid double-refresh on Windows
+  ipcMain.handle("open-file", async () => {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+      properties: ["openFile"],
+      filters: [{ name: "Markdown", extensions: ["md"] }],
     });
-  
-  return workspacePath;
-});
 
-ipcMain.handle("save-file", async (event, filePath, content, suggestedName) => {
-  try {
-    if (!filePath) {
-      const { canceled, filePath: newFilePath } = await dialog.showSaveDialog({
-        title: "Save File",
-        defaultPath: suggestedName || "untitled",
-      });
+    if (canceled || filePaths.length === 0) return null;
 
-      if (canceled || !newFilePath) return false;
+    const filePath = filePaths[0];
+    const content = fs.readFileSync(filePath, "utf-8");
 
-      let finalPath = newFilePath;
+    return { content, filePath };
+  });
 
-      // If user didn't provide any extension, add .md
-      if (!path.extname(finalPath)) {
-        finalPath += ".md";
-      }
+  ipcMain.handle("open-folder", async () => {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+      properties: ["openDirectory"],
+    });
 
-      fs.writeFileSync(finalPath, content, "utf-8");
-      return { newFilePath: finalPath };
+    if (canceled || filePaths.length === 0) return null;
+    const workspacePath = filePaths[0];
+
+    // Close previous watcher if exists
+    if (workspaceWatcher) {
+      workspaceWatcher.close();
     }
 
-    fs.writeFileSync(filePath, content, "utf-8");
-    return true;
-  } catch (err) {
-    console.error("Failed to save file:", err);
-    return false;
-  }
-});
+    currentWorkspacePath = workspacePath;
 
-ipcMain.handle("open-recent-file", async (event, filePath) => {
-  try {
-    return fs.readFileSync(filePath, "utf-8");
-  } catch (err) {
-    console.error("Failed to open recent file:", err);
-    return null;
-  }
-});
+    workspaceWatcher = chokidar.watch(workspacePath, {
+      ignored: /(^|[\/\\])\../, // ignore dotfiles
+      persistent: true,
+    });
 
-ipcMain.handle("list-files", async (event, dirPath) => {
-  if (!dirPath || typeof dirPath !== "string") {
-    console.error("list-files called without valid path");
-    return [];
-  }
+    let ready = false;
+    let refreshTimeout = null;
 
-  try {
-    const files = fs.readdirSync(dirPath, { withFileTypes: true });
+    workspaceWatcher
+      .on("ready", () => {
+        ready = true;
+      })
+      .on("all", () => {
+        if (!ready) return; // ignore initial scan events
 
-    return files.map((f) => ({
-      name: f.name,
-      type: f.isDirectory() ? "folder" : "file",
-      fullPath: path.join(dirPath, f.name),
-    }));
-  } catch (err) {
-    console.error("Failed to list files:", err);
-    return [];
-  }
-});
+        clearTimeout(refreshTimeout);
+        refreshTimeout = setTimeout(() => {
+          if (mainWindow) {
+            mainWindow.webContents.send("workspace-updated");
+          }
+        }, 100); // debounce to avoid double-refresh on Windows
+      });
 
-ipcMain.handle("open-file-by-path", async (_, pathArg) => {
-  try {
-    return await fs.promises.readFile(pathArg, "utf8");
-  } catch {
-    return null;
-  }
-});
-
-ipcMain.handle("confirm-tab-close", async (event, title) => {
-  const choice = await dialog.showMessageBox({
-    type: "warning",
-    buttons: ["Cancel", "Discard Changes"],
-    defaultId: 0,
-    cancelId: 0,
-    title: "Unsaved Changes",
-    message: `"${title}" has unsaved changes. Close anyway?`,
+    return workspacePath;
   });
 
-  return choice.response === 1;
-});
+  ipcMain.handle("save-file", async (event, filePath, content, suggestedName) => {
+    try {
+      if (!filePath) {
+        const { canceled, filePath: newFilePath } = await dialog.showSaveDialog({
+          title: "Save File",
+          defaultPath: suggestedName || "untitled",
+        });
 
-// -----------------------------
-// HELP DOCUMENT
-// -----------------------------
+        if (canceled || !newFilePath) return false;
 
-ipcMain.handle("dialog:openHelp", async () => {
-  try {
-    const helpPath = path.join(
-      __dirname,
-      "assets",
-      "resources",
-      "docs",
-      "user_guide.md",
-    );
-    return fs.readFileSync(helpPath, "utf-8");
-  } catch (err) {
-    console.error("Failed to load help doc:", err);
-    return "# Help file not found";
-  }
-});
+        let finalPath = newFilePath;
 
-// -----------------------------
-// VERSION INFO
-// -----------------------------
+        // If user didn't provide any extension, add .md
+        if (!path.extname(finalPath)) {
+          finalPath += ".md";
+        }
 
-ipcMain.handle("get-version", async () => {
-  return {
-    version: pkg.version,
-    stage: pkg.buildStage,
-    date: pkg.releaseDate,
-  };
-});
+        fs.writeFileSync(finalPath, content, "utf-8");
+        return { newFilePath: finalPath };
+      }
 
-// -----------------------------
-// PDF EXPORT
-// -----------------------------
+      fs.writeFileSync(filePath, content, "utf-8");
+      return true;
+    } catch (err) {
+      console.error("Failed to save file:", err);
+      return false;
+    }
+  });
 
-ipcMain.handle("export-pdf", (event, htmlContent) => {
-  pdfModule.exportCurrentMarkdown(htmlContent);
-});
+  ipcMain.handle("open-recent-file", async (event, filePath) => {
+    try {
+      return fs.readFileSync(filePath, "utf-8");
+    } catch (err) {
+      console.error("Failed to open recent file:", err);
+      return null;
+    }
+  });
 
-// -----------------------------
-// WORKSPACE DIRTY STATE IPC
-// -----------------------------
+  ipcMain.handle("list-files", async (event, dirPath) => {
+    if (!dirPath || typeof dirPath !== "string") {
+      console.error("list-files called without valid path");
+      return [];
+    }
 
-ipcMain.on("workspace:isDirty:response", (event, isDirty) => {
-  lastKnownDirtyState = isDirty;
-});
+    try {
+      const files = fs.readdirSync(dirPath, { withFileTypes: true });
+
+      return files.map((f) => ({
+        name: f.name,
+        type: f.isDirectory() ? "folder" : "file",
+        fullPath: path.join(dirPath, f.name),
+      }));
+    } catch (err) {
+      console.error("Failed to list files:", err);
+      return [];
+    }
+  });
+
+  ipcMain.handle("open-file-by-path", async (_, pathArg) => {
+    try {
+      return await fs.promises.readFile(pathArg, "utf8");
+    } catch {
+      return null;
+    }
+  });
+
+  ipcMain.handle("confirm-tab-close", async (event, title) => {
+    const choice = await dialog.showMessageBox({
+      type: "warning",
+      buttons: ["Cancel", "Discard Changes"],
+      defaultId: 0,
+      cancelId: 0,
+      title: "Unsaved Changes",
+      message: `"${title}" has unsaved changes. Close anyway?`,
+    });
+
+    return choice.response === 1;
+  });
+
+  // -----------------------------
+  // HELP DOCUMENT
+  // -----------------------------
+
+  ipcMain.handle("dialog:openHelp", async () => {
+    try {
+      const helpPath = path.join(
+        __dirname,
+        "assets",
+        "resources",
+        "docs",
+        "user_guide.md",
+      );
+      return fs.readFileSync(helpPath, "utf-8");
+    } catch (err) {
+      console.error("Failed to load help doc:", err);
+      return "# Help file not found";
+    }
+  });
+
+  // -----------------------------
+  // VERSION INFO
+  // -----------------------------
+
+  ipcMain.handle("get-version", async () => {
+    return {
+      version: pkg.version,
+      stage: pkg.buildStage,
+      date: pkg.releaseDate,
+    };
+  });
+
+  // -----------------------------
+  // PDF EXPORT
+  // -----------------------------
+
+  ipcMain.handle("export-pdf", (event, htmlContent) => {
+    pdfModule.exportCurrentMarkdown(htmlContent);
+  });
+
+  // -----------------------------
+  // WORKSPACE DIRTY STATE IPC
+  // -----------------------------
+
+  ipcMain.on("workspace:isDirty:response", (event, isDirty) => {
+    lastKnownDirtyState = isDirty;
+  });

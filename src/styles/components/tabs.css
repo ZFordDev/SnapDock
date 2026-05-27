@@ -165,8 +165,14 @@
 }
 
 .preview-mode-btn .dropdown-arrow {
-  font-size: 0.6rem;
-  margin-left: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  min-width: 28px;
+  margin: -5px -10px -5px 2px;
+  border-left: 1px solid var(--tab-border);
+  font-size: 0.7rem;
 }
 
 .preview-mode-menu {
@@ -239,18 +245,58 @@
   color: #666;
 }
 
-/* --- Split View (future) --- */
+/* --- Split View --- */
+.workspace.split-view .editor-bubble {
+  width: 100%;
+  max-width: none;
+  display: flex;
+  flex-direction: row;
+}
+
 .workspace.split-view .editor-wrapper,
 .workspace.split-view .preview-wrapper {
-  width: 50%;
+  position: relative;
+  inset: auto;
+  min-width: 0;
+  height: 100%;
   display: block !important;
 }
 
-.workspace.split-view .preview-wrapper.hidden {
-  display: none !important;
+.workspace.split-view .editor-wrapper {
+  flex: 0 0 50%;
 }
 
-.workspace.split-view .workspace {
-  flex-direction: row;
+.workspace.split-view .preview-wrapper {
+  flex: 1 1 50%;
+  border-left: 1px solid var(--tab-border);
+}
+
+.split-resizer {
+  display: none;
+}
+
+.workspace.split-view .split-resizer {
+  display: block;
+  flex: 0 0 6px;
+  cursor: col-resize;
+  background: var(--workspace-bg, #f0f2f5);
+  border-left: 1px solid var(--tab-border);
+  border-right: 1px solid var(--tab-border);
+}
+
+.workspace.split-view .split-resizer:hover,
+.workspace.split-view .split-resizer:focus,
+body.is-resizing-split .workspace.split-view .split-resizer {
+  background: var(--tab-accent, #4a9eff);
+  outline: none;
+}
+
+body.is-resizing-split {
+  cursor: col-resize;
+  user-select: none;
+}
+
+body.is-resizing-split * {
+  cursor: col-resize !important;
 }
 

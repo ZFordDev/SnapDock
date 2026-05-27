@@ -7,7 +7,7 @@ const STORAGE_KEY = "snapdock:previewMode";
  *
  * Supports three modes:
  *   - "preview": full editor / full preview toggle (current behavior, active)
- *   - "split":   side-by-side editor + preview (disabled, future)
+ *   - "split":   side-by-side editor + preview
  *   - "live":    live preview auto-refresh (disabled, future)
  *
  * The selected mode is persisted to localStorage.
@@ -18,15 +18,31 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
   const editorWrapper = document.querySelector(".editor-wrapper");
   const previewWrapper = document.querySelector(".preview-wrapper");
   const workspace = document.querySelector(".workspace");
+  const editorBubble = document.querySelector(".editor-bubble");
   const menu = document.getElementById("previewModeMenu");
   const label = document.getElementById("previewModeLabel");
   const container = document.getElementById("previewModeDropdown");
+  const dropdownArrow = document.querySelector(".dropdown-arrow");
+  const splitResizeState = {
+    active: false,
+    startX: 0,
+    startEditorWidth: 0,
+    bubbleWidth: 0,
+  };
 
-  // --- Mode persistence ---
-  let currentMode = localStorage.getItem(STORAGE_KEY) || "preview";
-  if (!["preview", "split", "live"].includes(currentMode)) {
-    currentMode = "preview";
+  let splitResizer = document.querySelector(".split-resizer");
+  if (!splitResizer && editorBubble) {
+    splitResizer = document.createElement("div");
+    splitResizer.className = "split-resizer";
+    splitResizer.setAttribute("role", "separator");
+    splitResizer.setAttribute("aria-orientation", "vertical");
+    splitResizer.setAttribute("aria-label", "Resize split view");
+    splitResizer.tabIndex = 0;
+    editorBubble.insertBefore(splitResizer, previewWrapper);
   }
+
+  // Start in the normal preview toggle mode each time the app opens.
+  let currentMode = "preview";
 
   // --- Update menu active state ---
   function updateMenuActive() {
@@ -66,6 +82,8 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
 
     const showingPreview = !previewWrapper.classList.contains("hidden");
 
+    resetSplitLayout();
+
     if (showingPreview) {
       // Switch to editor
       previewWrapper.classList.add("hidden");
@@ -77,18 +95,23 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
       editorWrapper.classList.add("hidden");
     }
 
-    // Remove split-view class from workspace
-    if (workspace) workspace.classList.remove("split-view");
     updateLabel();
   }
 
-  // --- Mode: Split View (disabled for now) ---
+  // --- Mode: Split View ---
   function applySplitMode() {
-    // Split View is not yet implemented — silently fall back to preview mode
-    currentMode = "preview";
-    localStorage.setItem(STORAGE_KEY, currentMode);
-    updateMenuActive();
-    applyPreviewMode();
+    if (!previewWrapper || !editorWrapper || !workspace) return;
+
+    applyPreviewContent();
+    workspace.classList.add("split-view");
+    editorWrapper.classList.remove("hidden");
+    previewWrapper.classList.remove("hidden");
+
+    if (!editorWrapper.style.flexBasis && !previewWrapper.style.flexBasis) {
+      editorWrapper.style.flexBasis = "50%";
+      previewWrapper.style.flexBasis = "50%";
+    }
+    updateLabel();
   }
 
   // --- Mode: Live View (disabled for now) ---
@@ -98,6 +121,52 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
     localStorage.setItem(STORAGE_KEY, currentMode);
     updateMenuActive();
     applyPreviewMode();
+  }
+
+  // --- Reset any split view styles when switching modes ---
+  function resetSplitLayout() {
+    if (workspace) workspace.classList.remove("split-view");
+    if (editorWrapper) editorWrapper.style.flexBasis = "";
+    if (previewWrapper) previewWrapper.style.flexBasis = "";
+  }
+
+
+  // --- Split view resizing ---
+  function startSplitResize(e) {
+    if (!workspace || !workspace.classList.contains("split-view") || !editorBubble) return;
+    e.preventDefault();
+
+    splitResizeState.active = true;
+    splitResizeState.startX = e.clientX;
+    splitResizeState.startEditorWidth = editorWrapper.getBoundingClientRect().width;
+    splitResizeState.bubbleWidth = editorBubble.getBoundingClientRect().width;
+
+    document.body.classList.add("is-resizing-split");
+    document.addEventListener("mousemove", resizeSplit);
+    document.addEventListener("mouseup", stopSplitResize);
+  }
+
+
+  // Calculate new widths based on mouse movement, with limits to prevent collapsing either pane too much (min 25%, max 75% for editor).
+  function resizeSplit(e) {
+    if (!splitResizeState.active || !splitResizeState.bubbleWidth) return;
+
+    const delta = e.clientX - splitResizeState.startX;
+    const nextEditorWidth = splitResizeState.startEditorWidth + delta;
+    const editorPercent = (nextEditorWidth / splitResizeState.bubbleWidth) * 100;
+    const clampedEditorPercent = Math.min(75, Math.max(25, editorPercent));
+
+    editorWrapper.style.flexBasis = `${clampedEditorPercent}%`;
+    previewWrapper.style.flexBasis = `${100 - clampedEditorPercent}%`;
+  }
+
+
+  // Stop resizing and clean up event listeners and classes.
+  function stopSplitResize() {
+    splitResizeState.active = false;
+    document.body.classList.remove("is-resizing-split");
+    document.removeEventListener("mousemove", resizeSplit);
+    document.removeEventListener("mouseup", stopSplitResize);
   }
 
   // --- Dropdown menu toggle ---
@@ -139,8 +208,8 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
   // --- Main button: toggle preview OR open dropdown ---
   toggleBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    // If Shift+Click, open the dropdown menu
-    if (e.shiftKey) {
+    // If Shift+Click or the arrow is clicked, open the dropdown menu
+    if (e.shiftKey || e.target.closest(".dropdown-arrow")) {
       toggleMenu();
       return;
     }
@@ -162,12 +231,23 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
     });
   }
 
+  if (dropdownArrow) {
+    dropdownArrow.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+  }
+
   // --- Close dropdown when clicking outside ---
   document.addEventListener("click", (e) => {
     if (container && !container.contains(e.target)) {
       closeMenu();
     }
   });
+
+  if (splitResizer) {
+    splitResizer.addEventListener("mousedown", startSplitResize);
+  }
 
   // --- Update preview when switching tabs ---
   document.addEventListener("snapdock:updatePreview", () => {
@@ -185,10 +265,12 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
 
   // --- Initialize ---
   preview.classList.remove("hidden");
+  localStorage.setItem(STORAGE_KEY, currentMode);
   previewWrapper.classList.add("hidden");
   editorWrapper.classList.remove("hidden");
-  updateMenuActive();
+  resetSplitLayout();
   updateLabel();
+  updateMenuActive();
 
   // Expose for external use
   return { getMode: () => currentMode };

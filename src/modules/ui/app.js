@@ -31,8 +31,6 @@ export function initApp() {
   const preview = byId("previewMain");
   const previewToggleBtn = byId("previewToggleBtn");
   const recentList = byId("recentFilesList");
-  const themeMenu = byId("themeMenu");
-  const themeToggleBtn = byId("themeBtn");
   const versionTag = byId("versionTag");
 
   // 1️⃣ Editor + UI state

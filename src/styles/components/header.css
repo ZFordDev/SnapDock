@@ -1,7 +1,7 @@
-/* Header Layout Overhaul */
+/* Header Layout */
 .top-header {
   flex-shrink: 0;
-  height: 44px; /* Even tighter, professional height */
+  height: 44px;
   display: flex;
   align-items: center;
   background: var(--sidebar-bg);
@@ -12,12 +12,12 @@
 .header-left {
   display: flex;
   align-items: center;
-  gap: 2px; /* Tight grouping for buttons */
-  flex: 1; /* Pushes the center to the actual middle */
+  gap: 2px;
+  flex: 1;
 }
 
 .header-center {
-  flex: 0 1 auto; /* Doesn't grow, just stays centered */
+  flex: 0 1 auto;
   display: flex;
   justify-content: center;
 }
@@ -25,12 +25,12 @@
 .header-right {
   display: flex;
   justify-content: flex-end;
-  flex: 1; /* Matches the left side to keep center centered */
+  flex: 1;
 }
 
-/* Tool Buttons Style */
-.header-left button, 
-.header-right button {
+/* ─── Standalone header buttons (New) ─── */
+.header-left > button,
+.header-right > button {
   background: transparent;
   border: 1px solid transparent;
   color: var(--tab-text);
@@ -41,27 +41,127 @@
   transition: all 0.15s ease;
 }
 
-.header-left button:hover,
-.header-right button:hover {
+.header-left > button:hover,
+.header-right > button:hover {
   background: var(--tab-idle-bg);
   color: var(--editor-text);
 }
 
-/* The Vertical Divider */
-.divider {
-  width: 1px;
-  height: 18px;
-  background: var(--tab-border);
-  margin: 0 8px;
+/* ─── Dropdown container ─── */
+.dropdown-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-/* Highlight the Save/Export differently */
+/* ─── Toggle button (Open ▾, Save ▾, Tools ▾) ─── */
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--tab-text);
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.dropdown-toggle:hover,
+.dropdown-menu.open .dropdown-toggle {
+  background: var(--tab-idle-bg);
+  color: var(--editor-text);
+}
+
+/* ─── Caret arrow ─── */
+.dropdown-caret {
+  display: inline-flex;
+  font-size: 0.65rem;
+  transition: transform 0.2s ease;
+  opacity: 0.6;
+}
+
+.dropdown-menu.open .dropdown-caret {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* ─── Dropdown panel (the popup list) ─── */
+.dropdown-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--tab-border);
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  min-width: 150px;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  padding: 4px 0;
+}
+
+.dropdown-menu.open .dropdown-panel {
+  display: flex;
+}
+
+/* ─── Dropdown items ─── */
+.dropdown-panel button {
+  background: transparent;
+  border: none;
+  color: var(--tab-text);
+  padding: 7px 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.dropdown-panel button:hover {
+  background: var(--tab-idle-bg);
+  color: var(--editor-text);
+}
+
+.dropdown-panel button:first-child {
+  border-radius: 4px 4px 0 0;
+}
+
+.dropdown-panel button:last-child {
+  border-radius: 0 0 4px 4px;
+}
+
+/* Save highlight */
 #saveFileBtnTop {
   color: var(--tab-accent);
   font-weight: 600;
 }
 
-/* The Preview Toggle Button */
+/* ─── Stub / disabled items ─── */
+.dropdown-item-stub {
+  opacity: 0.45;
+  cursor: not-allowed !important;
+  font-style: italic;
+}
+
+.dropdown-item-stub:hover {
+  background: transparent !important;
+  color: var(--tab-text) !important;
+}
+
+/* ─── Separator line ─── */
+.dropdown-separator {
+  height: 1px;
+  background: var(--tab-border);
+  margin: 4px 8px;
+}
+
+/* ─── Preview mode toggle (right side) ─── */
 #previewToggleBtn {
   background: var(--tab-idle-bg);
   border: 1px solid var(--tab-border);
@@ -73,6 +173,7 @@
   border-color: var(--tab-accent);
 }
 
+/* ─── Workspace name ─── */
 #filenameWrapper {
   pointer-events: auto;
   display: flex;
@@ -82,7 +183,7 @@
 }
 
 #filenameDisplay {
-  font-size: 0.9rem; /* Smaller, modern size */
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--editor-text);
   padding: 4px 12px;
@@ -105,4 +206,10 @@
   background: var(--editor-bg);
   color: var(--editor-text);
   text-align: center;
+}
+
+/* ─── Update button states ─── */
+#updateBtn.update-available {
+  color: var(--tab-accent);
+  font-weight: 600;
 }

@@ -10,12 +10,51 @@
       <header class="top-header">
         <div class="header-left">
           <button id="newFileBtn">New</button>
-          <button id="openFileBtnTop">Open File</button>
-          <button id="openFolderBtnTop">Open Folder</button>
-          <div class="divider"></div>
-          <button id="saveFileBtnTop">Save</button>
-          <button id="saveAllBtnTop">Save All</button>
-          <button id="exportPdfBtn">Export</button>
+          <!-- Open Dropdown -->
+          <div class="dropdown-menu" id="openDropdown">
+            <button class="dropdown-toggle" id="openToggleBtn">
+              <span>Open</span>
+              <span class="dropdown-caret">▾</span>
+            </button>
+            <div class="dropdown-panel" id="openMenu">
+              <button id="openFileBtnTop">Open File</button>
+              <button id="openFolderBtnTop">Open Folder</button>
+            </div>
+          </div>
+
+          <!-- Save Dropdown -->
+          <div class="dropdown-menu" id="saveDropdown">
+            <button class="dropdown-toggle" id="saveToggleBtn">
+              <span>Save</span>
+              <span class="dropdown-caret">▾</span>
+            </button>
+            <div class="dropdown-panel" id="saveMenu">
+              <button id="saveFileBtnTop">Save</button>
+              <button id="saveAllBtnTop">Save All</button>
+              <button id="exportPdfBtn">Export</button>
+              <div class="dropdown-separator"></div>
+              <button id="closeProjectBtn" class="dropdown-item-stub" title="Coming soon">Close Project</button>
+            </div>
+          </div>
+
+          <!-- Tools Dropdown -->
+          <div class="dropdown-menu" id="toolsDropdown">
+            <button class="dropdown-toggle" id="toolsToggleBtn">
+              <span>Tools</span>
+              <span class="dropdown-caret">▾</span>
+            </button>
+            <div class="dropdown-panel" id="toolsMenu">
+              <button id="updateBtn">Update</button>
+              <div class="dropdown-separator"></div>
+              <button class="theme-option" data-theme="light">Light Theme</button>
+              <button class="theme-option" data-theme="dark">Dark Theme</button>
+              <button class="theme-option" data-theme="solarized">Solarized</button>
+              <button class="theme-option" data-theme="arctic">Arctic Dark</button>
+              <button class="theme-option" data-theme="forest">Forest</button>
+              <div class="dropdown-separator"></div>
+              <button id="helpBtn">Help</button>
+            </div>
+          </div>
         </div>
 
         <div class="header-center">
@@ -49,7 +88,7 @@
         </div>
       </header>
 
-      <!-- TAB BAR (moved here) -->
+      <!-- TAB BAR -->
       <div id="tabBar" class="tab-bar"></div>
 
       <!-- MAIN APP CONTAINER -->
@@ -94,27 +133,12 @@
       </div>
 
       <footer class="footer">
-        <div class="footer-left">
-          <button id="helpBtn">Help</button>
-
-          <div class="theme-selector">
-            <button id="themeBtn">Theme</button>
-            <div class="theme-menu" id="themeMenu">
-              <button data-theme="light">Light</button>
-              <button data-theme="dark">Dark</button>
-              <button data-theme="solarized">Solarized</button>
-              <button data-theme="arctic">Arctic Dark</button>
-              <button data-theme="forest">Forest</button>
-            </div>
-          </div>
-        </div>
-
+        <div class="footer-left"></div>
         <div class="footer-center">
           <span id="versionTag" class="version"></span>
         </div>
-
         <div class="footer-right">
-          <button id="update">Update</button>
+          <span id="updateStatus" class="update-status"></span>
         </div>
       </footer>
     </div>
@@ -122,3 +146,4 @@
     <script src="dist/bundle.js"></script>
   </body>
 </html>
+

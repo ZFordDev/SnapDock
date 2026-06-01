@@ -1,11 +1,42 @@
-# SnapDock — A Minimal, Modern Markdown Editor
+<!-- ========================================================= -->
 
-<p align="center">
-  <img src="https://img.shields.io/github/v/release/zforddev/snapdock?style=for-the-badge&color=78C2AD" alt="Version">
-  <img src="https://img.shields.io/github/license/zforddev/snapdock?style=for-the-badge&color=blue" alt="License">
-  <img src="https://img.shields.io/github/stars/zforddev/snapdock?style=for-the-badge&color=FFD700" alt="Stars">
-</p>
+<!-- Required Badges -->
 
+<!-- ========================================================= -->
+
+[![Docs](https://img.shields.io/badge/DocsHub-docs.zford.dev-4F46E5?style=flat-square)](https://docs.zford.dev/docs/snapdockstudio/snapdock/)
+![Status](https://img.shields.io/badge/Status-ACTIVE-4CAF50?style=flat-square)
+![Platforms](https://img.shields.io/badge/Platforms-Windows%20%7C%20Linux-blue?style=flat-square)
+
+<!-- ========================================================= -->
+
+<!-- Optional Badges (Uncomment if applicable) -->
+
+<!-- ========================================================= -->
+
+[![itch.io](https://img.shields.io/badge/itch.io-SnapDock-FA5C5C?style=flat-square)](https://zforddev.itch.io/snapdock)
+![Downloads](https://img.shields.io/github/downloads/ZFordDev/SnapDock/total?style=flat-square)
+![JavaScript](https://img.shields.io/badge/Built_with-JavaScript-yellow?style=flat-square)
+
+# SnapDock 
+
+> *A Minimal, Modern Markdown Editor*
+>
+> **Status:**
+> Stable (V2 Classic) • Actively Maintained • V3 in development • Accepting Contributions
+
+---
+
+## Why This Exists
+
+Most Markdown editors fall into two extremes: they’re either too minimal to be useful or overloaded with plugins, settings, and IDE‑level complexity. There was no middle ground — nothing stable, calm, and modern that simply let people write.
+
+SnapDock was created to fill that gap.  
+It provides a predictable, distraction‑free Markdown workspace for writers, developers, and creators who want clarity, speed, and a local‑first environment that stays out of the way.
+
+
+
+## Overview
 SnapDock is a modern, distraction-free Markdown editor built for people who want to write without fighting their tools.
 
 It focuses on clarity, stability, and local-first writing — offering a calm editing experience without plugin overload, IDE complexity, or unnecessary workflow friction.
@@ -14,66 +45,43 @@ SnapDock sits between minimalist note apps and heavily extensible writing platfo
 
 ---
 
-> [!NOTE]
-> **SnapDock V3 is currently in active development.**
->
-> This branch represents the next generation of SnapDock:
-> - redesigned architecture
-> - refreshed interface
-> - improved performance
-> - cleaner editor workflows
->
-> SnapDock 2.x is now considered the **Classic Edition** — stable, archived, and feature complete.
+## Features
+
+- Multi‑tab Markdown editing  
+- Drag‑and‑drop tab reordering  
+- Selectable preview modes  
+- Workspace‑based file management  
+- Recent file tracking  
+- Local‑first document workflow  
+- Lightweight, modern UI  
+- Multiple built‑in themes  
+- Cross‑platform desktop support  
 
 ---
 
-## 💡 Why SnapDock Exists
+## Requirements
 
-Modern Markdown tools often drift toward one of two extremes:
+SnapDock runs on any modern system that supports Electron‑based desktop apps. No additional runtimes or dependencies need to be installed.
 
-- heavily plugin-driven productivity systems
-- developer-focused editors built around code workflows
+**Operating System**
+- Windows 10 or later  
+- Linux (Ubuntu, Debian, Fedora, Arch, Mint, Pop!\_OS, etc.)  
+- WSL is supported (in‑app updater disabled)  
+- macOS support is not currently available  
 
-SnapDock exists for people who simply want a clean space to think and write.
+**Hardware**
+- CPU: 1 core minimum (2 cores recommended)  
+- Memory: 512 MB minimum (1 GB recommended)  
+- Disk Space: ~750 MB  
 
-The goal is not to become an all-in-one productivity platform.
-
-The goal is to create a writing environment that feels:
-- calm
-- lightweight
-- stable
-- local-first
-- predictable
-
----
-
-## ✨ Current Features
-
-- Multi-tab Markdown editing
-- Drag-and-drop tab reordering
-- Preview mode selection
-- Workspace-based file management
-- Recent file tracking
-- Local-first document workflow
-- Lightweight modern UI
-- Multiple editor themes
-- Cross-platform desktop support
+**Performance**
+SnapDock typically uses around **180 MB RAM** and **under 1% CPU** during normal editing, making it suitable for low‑power laptops, VMs, and older hardware.
 
 ---
-
-## ✨ Philosophy
-
-SnapDock is built around a few core principles:
-
-- **Local-first** — your writing stays on your machine
-- **Minimalism** — fewer distractions, more focus
-- **Stability over novelty** — predictable workflows matter
-- **No feature gating** — core writing tools stay accessible
-- **Clean desktop UX** — modern without unnecessary complexity
-
-The editor is intentionally designed to feel calm, responsive, and easy to understand.
-
+# break #
+Old section cont
 ---
+
 
 ## 🛠 Current State
 

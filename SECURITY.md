@@ -1,71 +1,102 @@
-<p align="center">
-  <strong>SnapDock Security Policy</strong><br/>
-  A clean, focused Markdown editor built with user safety in mind.
-</p>
+<!-- ========================================================= -->
+<!-- Standards Approval Badge -->
+<!-- ========================================================= -->
+<table align="right">
+  <tr>
+    <td>
+      <img src="https://raw.githubusercontent.com/ZFordDev/ZFordDev/main/assets/standards-approved.svg" width="80" alt="ZFordDev Standards Approved Badge">
+    </td>
+  </tr>
+</table>
+
+# Security Policy
+
+The ZFordDev ecosystem values stability, safety, and long‑term maintainability.  
+We take security seriously and appreciate responsible disclosure of any vulnerabilities.
+
+This document explains how to report security issues and what to expect during the process.
 
 ---
 
-# Supported Versions
+## Supported Versions
 
-SnapDock follows a simple, transparent lifecycle model:
+Security updates are provided for:
 
-| Version Line | Status | Notes |
-|--------------|--------|-------|
-| **3.x (Active)** | ✔ Supported | Receives security fixes and maintenance updates. |
-| **2.x (Classic)** | ✖ End‑of‑Life | Final, archived release. No further updates. |
-| **1.x (Classic)** | ✖ End‑of‑Life | No longer maintained. |
+- **Current stable releases**  
+- **Active development branches**  
+- **Classic versions**, where applicable  
 
-Only **SnapDock 3.x** receives security updates.  
-SnapDock 2.x and 1.x remain available for download but are **frozen** and do not receive patches unless a critical, high‑severity issue is discovered.
+Older or archived versions may not receive fixes.
 
 ---
 
-# Reporting a Vulnerability
+## Reporting a Vulnerability
 
-If you believe you’ve found a security issue in SnapDock:
+If you discover a security issue, please report it responsibly.
 
-- **Email:** `zforddev@gmail.com`  
-- **Do not disclose publicly** until the issue has been reviewed.  
-- Expect an initial response within **72 hours**.  
-- If confirmed, a fix will be prepared for the **active version line (3.x)**.
+### **How to report**
+- Open a **private GitHub security advisory** (preferred)  
+- Or contact the project maintainer directly through GitHub  
 
-Clear, detailed reports are appreciated — SnapDock is maintained by a single developer.
+Please **do not** open a public issue for security vulnerabilities.
 
----
-
-# What to Include in a Report
-
-To help reproduce and resolve the issue, please include:
-
+### **Include the following information**
+- Description of the issue  
 - Steps to reproduce  
-- SnapDock version  
-- Operating system  
-- Whether you used a packaged build or built from source  
-- Logs or screenshots if available  
+- Impact or potential risk  
+- Affected versions  
+- Any relevant logs or screenshots  
+
+Clear reports help us respond quickly.
 
 ---
 
-# Security Scope
+## Response Process
 
-SnapDock is a **local‑first Markdown editor** with no network features.  
-Security concerns typically relate to:
+When a report is received:
 
-- file handling  
-- workspace safety  
-- data loss prevention  
-- dependency vulnerabilities  
-- sandboxing (planned for SnapDock 3.x)
+1. The maintainer will acknowledge the report  
+2. The issue will be investigated  
+3. A fix or mitigation will be prepared  
+4. A patched release will be published  
+5. A security advisory will be issued (if applicable)  
 
-Network‑based vulnerabilities are unlikely because SnapDock does not connect to external services.
+We aim to handle all reports respectfully and promptly.
 
 ---
 
-# Responsible Disclosure
+## Scope
 
-If a vulnerability is confirmed:
+This policy applies to:
 
-- You may be credited in the release notes (optional).  
-- A fix will be released for **SnapDock 3.x**.  
-- Critical issues may trigger an immediate hotfix.
+- All ZFordDev repositories  
+- All official releases  
+- All ecosystem tools and modules  
 
-Thank you for helping keep SnapDock safe for everyone.
+It does **not** apply to:
+
+- Third‑party dependencies  
+- Forks or modified builds  
+- Unofficial distributions  
+
+---
+
+## SnapDock‑Specific Notes
+
+SnapDock is a desktop application built on Electron.  
+When reporting security issues, please consider:
+
+- Electron/Chromium vulnerabilities should be reported upstream when appropriate  
+- SnapDock does not execute remote code or load remote content  
+- All Markdown rendering is local and sandboxed  
+- The in‑app updater is disabled in some versions (store builds, certain Linux packages, and some pre‑releases)
+- SnapDock does not collect telemetry or send user data anywhere  
+
+If a vulnerability involves file handling, workspace logic, or the update system, please include reproduction steps for both Windows and Linux if possible.
+
+---
+
+## Thank You
+
+Responsible disclosure helps keep the entire ZFordDev ecosystem safe.  
+We appreciate your effort and your commitment to improving the project.

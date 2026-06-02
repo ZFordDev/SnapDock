@@ -1,4 +1,15 @@
 <!-- ========================================================= -->
+<!-- Standards Approval Badge -->
+<!-- ========================================================= -->
+<table align="right">
+  <tr>
+    <td>
+      <img src="https://raw.githubusercontent.com/ZFordDev/ZFordDev/main/assets/standards-approved.svg" width="80" alt="ZFordDev Standards Approved Badge">
+    </td>
+  </tr>
+</table>
+
+<!-- ========================================================= -->
 
 <!-- Required Badges -->
 
@@ -76,6 +87,129 @@ SnapDock runs on any modern system that supports Electron‑based desktop apps. 
 
 **Performance**
 SnapDock typically uses around **180 MB RAM** and **under 1% CPU** during normal editing, making it suitable for low‑power laptops, VMs, and older hardware.
+
+---
+
+## Quick Start
+
+Get SnapDock running from source:
+
+```bash
+git clone https://github.com/ZFordDev/SnapDock.git
+cd SnapDock
+
+# Install dependencies
+npm install
+
+# Build the app
+npm run build
+```
+
+> **Windows:** `npm install | npm run build`  
+> **Linux:** `npm install && npm run build`  
+> **Dev mode:** Coming soon
+
+---
+
+## Installation
+
+Most users should install SnapDock using the prebuilt packages available on the Releases page:
+
+👉 https://github.com/ZFordDev/SnapDock/releases
+
+**Windows**
+- Download the `.exe` installer  
+- Run it  
+- SnapDock is ready to use
+
+**Linux**
+- Download the `.AppImage` or `.deb` package  
+- Make the AppImage executable (`chmod +x SnapDock.AppImage`)  
+- Or install the `.deb` package with your package manager
+
+No additional runtimes or dependencies are required.
+
+---
+
+## Project Structure
+*SnapDock uses a clean, modular layout. Only the high‑level structure is shown*
+```
+SnapDock/
+├── assets/                 # App icons, images, and user guide resources
+│
+├── src/
+│   ├── modules/            # Core application logic
+│   │   ├── file/           # File operations, autosave, workspace, tabs
+│   │   ├── markdown.js     # Markdown rendering pipeline
+│   │   ├── pdf/            # PDF export templates and logic
+│   │   ├── system/         # Dirty state + update system
+│   │   ├── ui/             # UI logic (menus, themes, editor state)
+│   │   └── updater/        # In-app update system
+│   │
+│   ├── styles/             # CSS structure (base, components, themes)
+│   ├── preload.js          # Electron preload bridge
+│   ├── scripts.js          # Renderer scripts
+│   └── styles.css          # Entry stylesheet
+│
+├── index.html              # Main application window
+├── main.js                 # Electron main process
+├── build.js                # Build pipeline
+│
+├── README.md
+├── LICENSE
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+└── temp_notes.md           # Internal notes (not part of the app)
+```
+
+---
+
+## Roadmap
+
+Planned improvements and upcoming development goals for SnapDock.  
+This list reflects active GitHub issues and near‑term release targets.
+
+### **In Progress / High Priority**
+- [ ] **Ecosystem Standards Migration**  
+  _Documentation improvements and alignment with ZFordDev ecosystem standards_  
+  (#109)
+
+- [ ] **Integrate New Updater Logic**  
+  _Modernized update pipeline for V3 and future releases_  
+  (#104)
+
+### **UI / UX Improvements**
+- [ ] **Replace Electron Frame With Custom SnapDock Frame**  
+  _Cleaner, native-feeling window chrome_  
+  (#95)
+
+- [ ] **Add Tab Overflow Scrolling / Horizontal Scroll**  
+  _Improves usability for large workspaces_  
+  (#87)
+
+### **Platform Releases**
+- [ ] **Windows Store Release**  
+  _Submission + certification for Microsoft Store_
+
+- [ ] **Snap Store Release**  
+  _Snapcraft packaging + publishing_
+
+### **Upcoming (V3 Cycle)**
+- [ ] New developer mode (`npm run dev`)
+- [ ] Theme engine improvements + custom theme support
+- [ ] Enhanced PDF export pipeline
+- [ ] V3 UI/UX redesign
+- [ ] Import custom `.sdwp` files as virtual workspaces
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="assets/screenshots/snapdock-light.png" width="45%" />
+  <img src="assets/screenshots/snapdock-dark.png" width="45%" />
+</p>
 
 ---
 # break #

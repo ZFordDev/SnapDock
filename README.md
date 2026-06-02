@@ -40,7 +40,7 @@
 
 ## Why This Exists
 
-Most Markdown editors fall into two extremes: they’re either too minimal to be useful or overloaded with plugins, settings, and IDE‑level complexity. There was no middle ground — nothing stable, calm, and modern that simply let people write.
+Most Markdown editors fall into two extremes: they’re either too minimal to be useful or overloaded with plugins, settings, and IDE‑level complexity. There was no middle ground — nothing stable, calm, and modern that simply lets people write.
 
 SnapDock was created to fill that gap.  
 It provides a predictable, distraction‑free Markdown workspace for writers, developers, and creators who want clarity, speed, and a local‑first environment that stays out of the way.
@@ -151,6 +151,7 @@ No additional runtimes or dependencies are required.
 
 ## Project Structure
 *SnapDock uses a clean, modular layout. Only the high‑level structure is shown*
+
 ```
 SnapDock/
 ├── assets/                 # App icons, images, and user guide resources
@@ -225,136 +226,71 @@ This list reflects active GitHub issues and near‑term release targets.
 ## Screenshots
 
 <p align="center">
-  <img src="assets/screenshots/snapdock-light.png" width="45%" />
-  <img src="assets/screenshots/snapdock-dark.png" width="45%" />
+  <img src="assets/screenshots/snapdock-light.png" width="45%" alt="SnapDock on Ubuntu 26 (Light Theme)" />
+  <img src="assets/screenshots/snapdock-dark.png" width="45%" alt="SnapDock on Windows 11 (Dark Theme)" />
 </p>
 
 ---
-# break #
-Old section cont
----
 
+## Known Issues
 
-## 🛠 Current State
+SnapDock is stable on all supported platforms, but one upstream limitation is worth noting:
 
-| Version | Status | Focus |
-|---|---|---|
-| **SnapDock 3.x** | Active Development | Modern rewrite, new UI, improved architecture |
-| **SnapDock 2.x (Classic)** | Archived | Original SnapDock experience |
-| **SnapDock Online** | Experimental | Lightweight browser-based preview |
+### Electron on Linux (Wayland/X11 Variability)
+Some Linux distributions may experience minor rendering or window‑manager issues due to upstream Electron/Chromium behaviour. These issues vary between distros and desktop environments and are outside SnapDock’s direct control.
+
+We continue to update Electron regularly and are evaluating alternative runtimes to maximise long‑term stability on Linux.
 
 ---
 
-## 🌐 Ecosystem
+## Related Projects
 
-SnapDock also acts as the foundation for related desktop tools and experiments within the broader SnapDock ecosystem.
+SnapDock is part of a growing ecosystem of focused, long‑term tools.
 
-These projects focus on:
-- local-first workflows
-- lightweight desktop utilities
-- writing and organization tools
-- minimal friction and clean UI design
-
-Related projects include:
-- SnapBoard
-- future workspace tools
-- experimental desktop integrations
+- **SnapBoard** — Local‑first planning and card system  
+  https://github.com/ZFordDev/SnapBoard
 
 ---
 
-## 🚀 Installation
+## Support
 
-### SnapDock V3 Preview Builds
-https://snapdock.app/snapdock-v3/
+You can support SnapDock by:
 
-### SnapDock Classic Downloads
-https://snapdock.app/downloads
-
----
-
-## 📖 Documentation & Resources
-
-### Local Documentation
-- `assets/resources/docs/user_guide.md`
-- `assets/resources/docs/versioning-strategy.md`
-- `SECURITY.md`
-- `ROADMAP.md`
-
-### External Links
-- Official Website: https://snapdock.app/
-- Documentation Hub: https://docs.snapdock.app/docs/snapdock/
+- Leaving a ⭐ on GitHub  
+- Reporting bugs  
+- Suggesting features  
+- Improving documentation  
+- Contributing code
 
 ---
 
-## 👥 Contributing
+## Contributing
 
-SnapDock welcomes community contributions of all sizes.
+Contributions, bug reports, feature requests, and feedback are welcome.
 
-Good areas to contribute:
-- UI/UX polish
-- editor workflow improvements
-- theme refinement
-- markdown rendering
-- accessibility
-- Linux packaging/testing
-- performance improvements
-
-Issues tagged:
-- `good first issue`
-- `UI/UX`
-- `help wanted`
-
-…are especially beginner-friendly.
+See `CONTRIBUTING.md` for project‑specific guidelines.  
+For ecosystem‑wide expectations, see [STANDARDS.md](https://github.com/ZFordDev/ZFordDev/blob/main/STANDARDS.md).
 
 ---
 
-## ❤️ Contributors
+## Security
 
-SnapDock continues to evolve thanks to the time, care, and ideas shared by the community.
-
-### Special Thanks
-
-**@TechSwimmer**  
-- added Save All support for multi‑tab workflows  
-- improved close‑flow behavior with Save All confirmation handling  
-
-**@Sanketmandwal**  
-- implemented Split View with a fully functional two‑pane editor/preview layout  
-- added resizable divider with clean UX and constraints  
-
-**@18850196928-max**  
-- added drag‑and‑drop tab reordering  
-- added preview‑mode dropdown improvements  
-- helped kickstart several core V3 workflow improvements  
-
-**@wali-WallE**  
-- added recent‑file clear controls with persistence improvements  
-
-**@misbahmansoori**  
-- improved workspace refresh behavior  
-- improved Lite Mode code block rendering  
-- added empty‑state file‑tree improvements  
-- contributed theme and UI refinements  
-
-**@Karel-cz**  
-- added close‑button improvements for the Help popup  
-
-**@Abmarne**  
-- improved Solarized theme readability and contrast  
-
-Thank you to everyone helping shape SnapDock.
+See `SECURITY.md` for vulnerability reporting guidelines.  
+If no security policy is present, please report issues responsibly via GitHub Issues.
 
 ---
 
-## ❤️ Support the Project
+## License
 
-If SnapDock helps you stay focused, consider supporting the project:
-
-- ⭐ Star the repository
-- ☕ Support on Ko-fi: https://ko-fi.com/zforddev
-
----
-
-## 📄 License
-
+Released under the MIT License.  
 See `LICENSE` for details.
+
+---
+
+## About ZFordDev
+
+This project is part of the ZFordDev ecosystem — a collection of lightweight, practical tools built with clarity, simplicity, and long‑term maintainability in mind.
+
+For ecosystem‑wide standards, see [STANDARDS.md](https://github.com/ZFordDev/ZFordDev/blob/main/STANDARDS.md).
+
+---

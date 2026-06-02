@@ -1,0 +1,48 @@
+name: Bug Report
+description: Report a reproducible issue in SnapDock
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve SnapDock!  
+        Please provide as much detail as possible.
+
+  - type: input
+    id: version
+    attributes:
+      label: SnapDock Version
+      placeholder: e.g., 2.3.1
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      placeholder: e.g., Windows 11, Ubuntu 26, Fedora 40
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: List each step clearly.
+      placeholder: |
+        1. Open SnapDock
+        2. Load a Markdown file
+        3. Switch preview mode
+        4. Crash occurs
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Screenshots (optional)
+      description: Attach anything helpful.

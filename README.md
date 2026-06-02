@@ -107,6 +107,7 @@ npm run build
 
 > **Windows:** `npm install | npm run build`  
 > **Linux:** `npm install && npm run build`  
+> **Note:** Some Linux distros may require installing npm first: `sudo apt install npm`  
 > **Dev mode:** Coming soon
 
 ---
@@ -124,8 +125,19 @@ Most users should install SnapDock using the prebuilt packages available on the 
 
 **Linux**
 - Download the `.AppImage` or `.deb` package  
-- Make the AppImage executable (`chmod +x SnapDock.AppImage`)  
-- Or install the `.deb` package with your package manager
+- For AppImage users:  
+  ```bash
+  chmod +x SnapDock-Setup.AppImage
+  ./SnapDock-Setup.AppImage
+  ```
+  > If your distro blocks AppImages, install FUSE or use the `.deb` package instead.
+
+- For `.deb` users:  
+  - Double‑click the file to install via your Software Center  
+  **or**  
+  ```bash
+  sudo apt install ./SnapDock-Setup.deb
+  ```
 
 No additional runtimes or dependencies are required.
 

@@ -1,0 +1,32 @@
+name: Feature Request
+description: Suggest an improvement or new feature for SnapDock
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your idea!  
+        SnapDock aims to stay minimal, stable, and distraction‑free.  
+        Please describe the problem your feature solves.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Use Case
+      placeholder: What problem does this solve?
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      placeholder: Describe the feature or workflow.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered (optional)
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes (optional)

@@ -1,102 +1,146 @@
-<p align="center">
-  <strong>Contributing to SnapDock</strong><br/>
-  SnapDock 3.x — Active development line.
-</p>
+<!-- ========================================================= -->
+<!-- Standards Approval Badge -->
+<!-- ========================================================= -->
+<table align="right">
+  <tr>
+    <td>
+      <img src="https://raw.githubusercontent.com/ZFordDev/ZFordDev/main/assets/standards-approved.svg" width="80" alt="ZFordDev Standards Approved Badge">
+    </td>
+  </tr>
+</table>
+
+# Contributing to ZFordDev Projects
+
+Thank you for your interest in contributing!  
+All ZFordDev projects follow a shared set of standards designed to keep the ecosystem consistent, maintainable, and welcoming.
+
+This document explains how to contribute code, documentation, bug reports, and feature requests across the ecosystem.
+
+For ecosystem‑wide expectations, please read:
+
+👉 [**STANDARDS.md**](https://github.com/ZFordDev/ZFordDev/blob/main/STANDARDS.md)  
+(Clarity • Simplicity • Maintainability • Long‑term stability)
 
 ---
 
-# 📦 Project Status
+## Ways to Contribute
 
-SnapDock uses a simple lifecycle model:
+You can contribute in many ways:
 
-- **3.x — Active** (development, features, fixes, contributions welcome)
-- **2.x — Classic** (final, archived, no longer accepting contributions)
-- **1.x — Classic** (archived)
+- Reporting bugs  
+- Suggesting new features  
+- Improving documentation  
+- Submitting pull requests  
+- Reviewing existing issues  
+- Helping refine UX or workflows  
+- Testing on different platforms  
 
-All contributions should target **SnapDock 3.x**, which is the modern, actively maintained version of the app.
-
-If you wish to extend or modify SnapDock 2.x, you are welcome to **fork the Classic branch** and build upon it.
-
----
-
-# 🛠️ How to Contribute (SnapDock 3.x)
-
-- **Fork the repository** and create a feature branch.  
-- Keep commits **focused and minimal** — one logical change per commit.  
-- Use imperative commit messages (e.g., `Add theme switcher`, `Fix sidebar layout`).  
-- Open a **pull request** with a clear explanation of what changed and why.
-
-PRs should be scoped, intentional, and aligned with the direction of SnapDock 3.x.
+All contributions are appreciated — even small ones.
 
 ---
 
-# 🐛 Reporting Issues
+## Code of Conduct
 
-Use the **Issues** tab to report problems related to:
+By participating in this project, you agree to follow:
 
-- Bugs  
-- Crashes  
-- Incorrect behavior  
-- Security concerns  
-- UI/UX inconsistencies  
-- Feature regressions  
+👉 [**CODE_OF_CONDUCT.md**](CODE_OF_CONDUCT.md)
 
-Please include:
+Respect, clarity, and constructive collaboration are core values of the ecosystem.
 
+---
+
+## Before You Start
+
+Please check:
+
+- The **Issues** tab for existing reports  
+- The **Roadmap** (if present)  
+- The **Discussions** tab for ongoing ideas  
+- The **STANDARDS.md** file for ecosystem rules  
+- The **project‑specific section** below for details unique to this repository
+
+If you’re unsure whether an idea fits, open a Discussion first — it saves everyone time.
+
+---
+
+## Pull Request Guidelines
+
+To keep contributions consistent:
+
+1. **Fork the repository**  
+2. **Create a feature branch**  
+   - `feature/your-feature-name`  
+   - `fix/your-bug-name`
+3. **Keep PRs focused**  
+   - One feature or fix per PR  
+   - Avoid unrelated formatting changes
+4. **Follow the coding style of the project**  
+   - Naming conventions  
+   - File structure  
+   - Module layout  
+5. **Test your changes**  
+   - Ensure the app builds  
+   - Ensure no regressions  
+6. **Write clear commit messages**  
+   - Present tense  
+   - Short and descriptive  
+7. **Describe your PR clearly**  
+   - What changed  
+   - Why it changed  
+   - Any side effects or considerations
+
+Small, focused PRs are easier to review and merge.
+
+---
+
+## Reporting Bugs
+
+When reporting a bug, please include:
+
+- OS and version  
+- App version  
 - Steps to reproduce  
-- Expected vs. actual behavior  
-- Screenshots or logs if helpful  
-- OS + SnapDock version  
+- Expected behavior  
+- Actual behavior  
+- Screenshots or logs (if helpful)
 
-Issues related to **SnapDock 2.x** will be closed with a note directing users to:
-
-- SnapDock 3.x (active), or  
-- Forking SnapDock 2.x if Classic behavior is required.
+Clear reports help us fix issues faster.
 
 ---
 
-# 🧩 Coding Guidelines
+## Suggesting Features
 
-- Follow the existing structure and style of the 3.x codebase.  
-- Keep changes **small, intentional, and low‑risk**.  
-- Avoid adding new dependencies unless necessary.  
-- Document new modules or functions clearly.  
-- Do not mix unrelated fixes in a single PR.
+Feature requests should:
 
----
+- Explain the problem, not just the solution  
+- Describe the use case  
+- Fit the project’s philosophy (see STANDARDS.md)  
+- Avoid scope creep or IDE‑level complexity  
 
-# 🧪 Testing
-
-Before submitting a PR:
-
-- Run the app locally.  
-- Confirm your change does not break existing functionality.  
-- Add tests where practical (especially for core modules).  
+If unsure, open a Discussion first.
 
 ---
 
-# 🌱 Community & Conduct
+## Project‑Specific Guidelines
 
-- Be respectful, constructive, and professional.  
-- Collaboration happens via [Discord](https://discord.gg/4RGzagyt7C).  
-- See the [Code of Conduct](CODE_OF_CONDUCT.md) for community expectations.
+Each project may have additional rules, workflows, or architectural notes.
 
----
+### SnapDock‑Specific Notes
 
-# 🔒 Security
-
-If you discover a vulnerability, please follow the [SECURITY.md](SECURITY.md) policy.  
-Do **not** disclose security issues publicly until reviewed.
-
----
-
-# 🧭 Roadmap Alignment
-
-SnapDock 3.x is the future of the project.  
-New ideas, enhancements, and UI changes should target the 3.x branch.
-
-SnapDock 2.x and 1.x are preserved as **Classic Editions** and do not receive updates.
+- UI changes should follow the existing theme structure  
+- Markdown rendering changes must not break CoffeeMD compatibility (once integrated)  
+- Electron updates should be tested on both Windows and Linux when possible  
+- Avoid adding heavy dependencies — keep the app lightweight  
+- Follow the existing module layout in `src/modules/`  
+- Keep the editor experience simple, predictable, and distraction‑free  
+- Avoid introducing IDE‑style complexity or plugin systems  
+- Ensure new features align with the “minimal, modern, stable” philosophy of SnapDock  
 
 ---
 
-Thank you for helping shape the next generation of SnapDock.
+## Thank You
+
+Your contributions help strengthen the entire ZFordDev ecosystem.  
+Whether you’re fixing a typo or building a major feature — you’re part of the project’s future.
+
+

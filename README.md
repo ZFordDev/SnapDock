@@ -1,11 +1,53 @@
-# SnapDock — A Minimal, Modern Markdown Editor
+<!-- ========================================================= -->
+<!-- Standards Approval Badge -->
+<!-- ========================================================= -->
+<table align="right">
+  <tr>
+    <td>
+      <img src="https://raw.githubusercontent.com/ZFordDev/ZFordDev/main/assets/standards-approved.svg" width="80" alt="ZFordDev Standards Approved Badge">
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="https://img.shields.io/github/v/release/zforddev/snapdock?style=for-the-badge&color=78C2AD" alt="Version">
-  <img src="https://img.shields.io/github/license/zforddev/snapdock?style=for-the-badge&color=blue" alt="License">
-  <img src="https://img.shields.io/github/stars/zforddev/snapdock?style=for-the-badge&color=FFD700" alt="Stars">
-</p>
+<!-- ========================================================= -->
 
+<!-- Required Badges -->
+
+<!-- ========================================================= -->
+
+[![Docs](https://img.shields.io/badge/DocsHub-docs.zford.dev-4F46E5?style=flat-square)](https://docs.zford.dev/docs/snapdockstudio/snapdock/)
+![Status](https://img.shields.io/badge/Status-ACTIVE-4CAF50?style=flat-square)
+![Platforms](https://img.shields.io/badge/Platforms-Windows%20%7C%20Linux-blue?style=flat-square)
+
+<!-- ========================================================= -->
+
+<!-- Optional Badges (Uncomment if applicable) -->
+
+<!-- ========================================================= -->
+
+[![itch.io](https://img.shields.io/badge/itch.io-SnapDock-FA5C5C?style=flat-square)](https://zforddev.itch.io/snapdock)
+![Downloads](https://img.shields.io/github/downloads/ZFordDev/SnapDock/total?style=flat-square)
+![JavaScript](https://img.shields.io/badge/Built_with-JavaScript-yellow?style=flat-square)
+
+# SnapDock 
+
+> *A Minimal, Modern Markdown Editor*
+>
+> **Status:**
+> Stable (V2 Classic) • Actively Maintained • V3 in development • Accepting Contributions
+
+---
+
+## Why This Exists
+
+Most Markdown editors fall into two extremes: they’re either too minimal to be useful or overloaded with plugins, settings, and IDE‑level complexity. There was no middle ground — nothing stable, calm, and modern that simply lets people write.
+
+SnapDock was created to fill that gap.  
+It provides a predictable, distraction‑free Markdown workspace for writers, developers, and creators who want clarity, speed, and a local‑first environment that stays out of the way.
+
+
+
+## Overview
 SnapDock is a modern, distraction-free Markdown editor built for people who want to write without fighting their tools.
 
 It focuses on clarity, stability, and local-first writing — offering a calm editing experience without plugin overload, IDE complexity, or unnecessary workflow friction.
@@ -14,187 +56,241 @@ SnapDock sits between minimalist note apps and heavily extensible writing platfo
 
 ---
 
-> [!NOTE]
-> **SnapDock V3 is currently in active development.**
->
-> This branch represents the next generation of SnapDock:
-> - redesigned architecture
-> - refreshed interface
-> - improved performance
-> - cleaner editor workflows
->
-> SnapDock 2.x is now considered the **Classic Edition** — stable, archived, and feature complete.
+## Features
+
+- Multi‑tab Markdown editing  
+- Drag‑and‑drop tab reordering  
+- Selectable preview modes  
+- Workspace‑based file management  
+- Recent file tracking  
+- Local‑first document workflow  
+- Lightweight, modern UI  
+- Multiple built‑in themes  
+- Cross‑platform desktop support  
 
 ---
 
-## 💡 Why SnapDock Exists
+## Requirements
 
-Modern Markdown tools often drift toward one of two extremes:
+SnapDock runs on any modern system that supports Electron‑based desktop apps. No additional runtimes or dependencies need to be installed.
 
-- heavily plugin-driven productivity systems
-- developer-focused editors built around code workflows
+**Operating System**
+- Windows 10 or later  
+- Linux (Ubuntu, Debian, Fedora, Arch, Mint, Pop!\_OS, etc.)  
+- WSL is supported (in‑app updater disabled)  
+- macOS support is not currently available  
 
-SnapDock exists for people who simply want a clean space to think and write.
+**Hardware**
+- CPU: 1 core minimum (2 cores recommended)  
+- Memory: 512 MB minimum (1 GB recommended)  
+- Disk Space: ~750 MB  
 
-The goal is not to become an all-in-one productivity platform.
-
-The goal is to create a writing environment that feels:
-- calm
-- lightweight
-- stable
-- local-first
-- predictable
-
----
-
-## ✨ Current Features
-
-- Multi-tab Markdown editing
-- Drag-and-drop tab reordering
-- Preview mode selection
-- Workspace-based file management
-- Recent file tracking
-- Local-first document workflow
-- Lightweight modern UI
-- Multiple editor themes
-- Cross-platform desktop support
+**Performance**
+SnapDock typically uses around **180 MB RAM** and **under 1% CPU** during normal editing, making it suitable for low‑power laptops, VMs, and older hardware.
 
 ---
 
-## ✨ Philosophy
+## Quick Start
 
-SnapDock is built around a few core principles:
+Get SnapDock running from source:
 
-- **Local-first** — your writing stays on your machine
-- **Minimalism** — fewer distractions, more focus
-- **Stability over novelty** — predictable workflows matter
-- **No feature gating** — core writing tools stay accessible
-- **Clean desktop UX** — modern without unnecessary complexity
+```bash
+git clone https://github.com/ZFordDev/SnapDock.git
+cd SnapDock
 
-The editor is intentionally designed to feel calm, responsive, and easy to understand.
+# Install dependencies
+npm install
 
----
+# Build the app
+npm run build
+```
 
-## 🛠 Current State
+**Windows**
+- `npm install | npm run build`  
+- If npm is missing, install Node.js from [https://nodejs.org](https://nodejs.org)
 
-| Version | Status | Focus |
-|---|---|---|
-| **SnapDock 3.x** | Active Development | Modern rewrite, new UI, improved architecture |
-| **SnapDock 2.x (Classic)** | Archived | Original SnapDock experience |
-| **SnapDock Online** | Experimental | Lightweight browser-based preview |
+**Linux**
+- `npm install && npm run build`  
+- If npm is missing: `sudo apt install npm`
 
----
-
-## 🌐 Ecosystem
-
-SnapDock also acts as the foundation for related desktop tools and experiments within the broader SnapDock ecosystem.
-
-These projects focus on:
-- local-first workflows
-- lightweight desktop utilities
-- writing and organization tools
-- minimal friction and clean UI design
-
-Related projects include:
-- SnapBoard
-- future workspace tools
-- experimental desktop integrations
+**Dev mode:** Coming soon
 
 ---
 
-## 🚀 Installation
+## Installation
 
-### SnapDock V3 Preview Builds
-https://snapdock.app/snapdock-v3/
+Most users should install SnapDock using the prebuilt packages available on the Releases page:
 
-### SnapDock Classic Downloads
-https://snapdock.app/downloads
+👉 [https://github.com/ZFordDev/SnapDock/releases](https://github.com/ZFordDev/SnapDock/releases)
 
----
+**Windows**
+- Download the `.exe` installer  
+- Run it  
+- SnapDock is ready to use
 
-## 📖 Documentation & Resources
+**Linux**
+- Download the `.AppImage` or `.deb` package  
 
-### Local Documentation
-- `assets/resources/docs/user_guide.md`
-- `assets/resources/docs/versioning-strategy.md`
-- `SECURITY.md`
-- `ROADMAP.md`
+**AppImage**
+```bash
+chmod +x SnapDock-Setup.AppImage
+./SnapDock-Setup.AppImage
+```
+> If your distro blocks AppImages, install FUSE or use the `.deb` package instead.
 
-### External Links
-- Official Website: https://snapdock.app/
-- Documentation Hub: https://docs.snapdock.app/docs/snapdock/
+**.deb Package**
+- Double‑click to install via your Software Center  
+  **or**
+```bash
+sudo apt install ./SnapDock-Setup.deb
+```
 
----
-
-## 👥 Contributing
-
-SnapDock welcomes community contributions of all sizes.
-
-Good areas to contribute:
-- UI/UX polish
-- editor workflow improvements
-- theme refinement
-- markdown rendering
-- accessibility
-- Linux packaging/testing
-- performance improvements
-
-Issues tagged:
-- `good first issue`
-- `UI/UX`
-- `help wanted`
-
-…are especially beginner-friendly.
+No additional runtimes or dependencies are required.
 
 ---
 
-## ❤️ Contributors
+## Project Structure
+*SnapDock uses a clean, modular layout. Only the high‑level structure is shown*
 
-SnapDock continues to evolve thanks to the time, care, and ideas shared by the community.
-
-### Special Thanks
-
-**@TechSwimmer**  
-- added Save All support for multi‑tab workflows  
-- improved close‑flow behavior with Save All confirmation handling  
-
-**@Sanketmandwal**  
-- implemented Split View with a fully functional two‑pane editor/preview layout  
-- added resizable divider with clean UX and constraints  
-
-**@18850196928-max**  
-- added drag‑and‑drop tab reordering  
-- added preview‑mode dropdown improvements  
-- helped kickstart several core V3 workflow improvements  
-
-**@wali-WallE**  
-- added recent‑file clear controls with persistence improvements  
-
-**@misbahmansoori**  
-- improved workspace refresh behavior  
-- improved Lite Mode code block rendering  
-- added empty‑state file‑tree improvements  
-- contributed theme and UI refinements  
-
-**@Karel-cz**  
-- added close‑button improvements for the Help popup  
-
-**@Abmarne**  
-- improved Solarized theme readability and contrast  
-
-Thank you to everyone helping shape SnapDock.
+```
+SnapDock/
+├── assets/                 # App icons, images, and user guide resources
+│
+├── src/
+│   ├── modules/            # Core application logic
+│   │   ├── file/           # File operations, autosave, workspace, tabs
+│   │   ├── markdown.js     # Markdown rendering pipeline
+│   │   ├── pdf/            # PDF export templates and logic
+│   │   ├── system/         # Dirty state + update system
+│   │   ├── ui/             # UI logic (menus, themes, editor state)
+│   │   └── updater/        # In-app update system
+│   │
+│   ├── styles/             # CSS structure (base, components, themes)
+│   ├── preload.js          # Electron preload bridge
+│   ├── scripts.js          # Renderer scripts
+│   └── styles.css          # Entry stylesheet
+│
+├── index.html              # Main application window
+├── main.js                 # Electron main process
+├── build.js                # Build pipeline
+│
+├── README.md
+├── LICENSE
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+└── temp_notes.md           # Internal notes (not part of the app)
+```
 
 ---
 
-## ❤️ Support the Project
+## Roadmap
 
-If SnapDock helps you stay focused, consider supporting the project:
+Planned improvements and upcoming development goals for SnapDock.  
+This list reflects active GitHub issues and near‑term release targets.
 
-- ⭐ Star the repository
-- ☕ Support on Ko-fi: https://ko-fi.com/zforddev
+### **In Progress / High Priority**
+- [ ] **Ecosystem Standards Migration**  
+  _Documentation improvements and alignment with ZFordDev ecosystem standards_  
+  (#109)
+
+- [ ] **Integrate New Updater Logic**  
+  _Modernized update pipeline for V3 and future releases_  
+  (#104)
+
+### **UI / UX Improvements**
+- [ ] **Replace Electron Frame With Custom SnapDock Frame**  
+  _Cleaner, native-feeling window chrome_  
+  (#95)
+
+- [ ] **Add Tab Overflow Scrolling / Horizontal Scroll**  
+  _Improves usability for large workspaces_  
+  (#87)
+
+### **Platform Releases**
+- [ ] **Windows Store Release**  
+  _Submission + certification for Microsoft Store_
+
+- [ ] **Snap Store Release**  
+  _Snapcraft packaging + publishing_
+
+### **Upcoming (V3 Cycle)**
+- [ ] New developer mode (`npm run dev`)
+- [ ] Theme engine improvements + custom theme support
+- [ ] Enhanced PDF export pipeline
+- [ ] V3 UI/UX redesign
+- [ ] Import custom `.sdwp` files as virtual workspaces
 
 ---
 
-## 📄 License
+## Screenshots
 
+<p align="center">
+  <img src="assets/screenshots/snapdock-light.png" width="45%" alt="SnapDock on Ubuntu 26 (Light Theme)" />
+  <img src="assets/screenshots/snapdock-dark.png" width="45%" alt="SnapDock on Windows 11 (Dark Theme)" />
+</p>
+
+---
+
+## Known Issues
+
+SnapDock is stable on all supported platforms, but one upstream limitation is worth noting:
+
+### Electron on Linux (Wayland/X11 Variability)
+Some Linux distributions may experience minor rendering or window‑manager issues due to upstream Electron/Chromium behaviour. These issues vary between distros and desktop environments and are outside SnapDock’s direct control.
+
+We continue to update Electron regularly and are evaluating alternative runtimes to maximise long‑term stability on Linux.
+
+---
+
+## Related Projects
+
+SnapDock is part of a growing ecosystem of focused, long‑term tools.
+
+- **SnapBoard** — Local‑first planning and card system  
+  https://github.com/ZFordDev/SnapBoard
+
+---
+
+## Support
+
+You can support SnapDock by:
+
+- Leaving a ⭐ on GitHub  
+- Reporting bugs  
+- Suggesting features  
+- Improving documentation  
+- Contributing code
+
+---
+
+## Contributing
+
+Contributions, bug reports, feature requests, and feedback are welcome.
+
+See `CONTRIBUTING.md` for project‑specific guidelines.  
+For ecosystem‑wide expectations, see [STANDARDS.md](https://github.com/ZFordDev/ZFordDev/blob/main/STANDARDS.md).
+
+---
+
+## Security
+
+See `SECURITY.md` for vulnerability reporting guidelines.  
+If no security policy is present, please report issues responsibly via GitHub Issues.
+
+---
+
+## License
+
+Released under the MIT License.  
 See `LICENSE` for details.
+
+---
+
+## About ZFordDev
+
+This project is part of the ZFordDev ecosystem — a collection of lightweight, practical tools built with clarity, simplicity, and long‑term maintainability in mind.
+
+For ecosystem‑wide standards, see [STANDARDS.md](https://github.com/ZFordDev/ZFordDev/blob/main/STANDARDS.md).
+
+---

@@ -105,10 +105,15 @@ npm install
 npm run build
 ```
 
-> **Windows:** `npm install | npm run build`  
-> **Linux:** `npm install && npm run build`  
-> **Note:** Some Linux distros may require installing npm first: `sudo apt install npm`  
-> **Dev mode:** Coming soon
+**Windows**
+- `npm install | npm run build`  
+- If npm is missing, install Node.js from [https://nodejs.org](https://nodejs.org)
+
+**Linux**
+- `npm install && npm run build`  
+- If npm is missing: `sudo apt install npm`
+
+**Dev mode:** Coming soon
 
 ---
 
@@ -116,7 +121,7 @@ npm run build
 
 Most users should install SnapDock using the prebuilt packages available on the Releases page:
 
-👉 https://github.com/ZFordDev/SnapDock/releases
+👉 [https://github.com/ZFordDev/SnapDock/releases](https://github.com/ZFordDev/SnapDock/releases)
 
 **Windows**
 - Download the `.exe` installer  
@@ -125,19 +130,20 @@ Most users should install SnapDock using the prebuilt packages available on the 
 
 **Linux**
 - Download the `.AppImage` or `.deb` package  
-- For AppImage users:  
-  ```bash
-  chmod +x SnapDock-Setup.AppImage
-  ./SnapDock-Setup.AppImage
-  ```
-  > If your distro blocks AppImages, install FUSE or use the `.deb` package instead.
 
-- For `.deb` users:  
-  - Double‑click the file to install via your Software Center  
-  **or**  
-  ```bash
-  sudo apt install ./SnapDock-Setup.deb
-  ```
+**AppImage**
+```bash
+chmod +x SnapDock-Setup.AppImage
+./SnapDock-Setup.AppImage
+```
+> If your distro blocks AppImages, install FUSE or use the `.deb` package instead.
+
+**.deb Package**
+- Double‑click to install via your Software Center  
+  **or**
+```bash
+sudo apt install ./SnapDock-Setup.deb
+```
 
 No additional runtimes or dependencies are required.
 

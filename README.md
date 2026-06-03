@@ -88,6 +88,11 @@ SnapDock runs on any modern system that supports Electron‑based desktop apps. 
 **Performance**
 SnapDock typically uses around **180 MB RAM** and **under 1% CPU** during normal editing, making it suitable for low‑power laptops, VMs, and older hardware.
 
+> **Note for Linux users:**  
+> SnapDock AppImage builds require `FUSE` to run.  
+> Some modern Linux distributions no longer ship FUSE by default.  
+> Install it using your package manager (e.g. `sudo apt install libfuse2` on Ubuntu/Debian).
+
 ---
 
 ## Quick Start

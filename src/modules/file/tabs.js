@@ -5,6 +5,47 @@ let tabs = [];
 let activeTabId = null;
 
 const getEditor = () => document.getElementById("markdownInputMain");
+let tabBarScrollSetup = false;
+
+function isTabBarScrollable(tabBar) {
+  return tabBar.scrollWidth > tabBar.clientWidth + 1;
+}
+
+function updateTabBarOverflowClasses(tabBar) {
+  const canScroll = isTabBarScrollable(tabBar);
+  tabBar.classList.toggle("has-overflow", canScroll);
+  tabBar.classList.toggle("has-left-overflow", canScroll && tabBar.scrollLeft > 1);
+  tabBar.classList.toggle("has-right-overflow", canScroll && tabBar.scrollLeft + tabBar.clientWidth < tabBar.scrollWidth - 1);
+}
+
+function ensureTabBarScrollBehavior() {
+  const tabBar = document.getElementById("tabBar");
+  if (!tabBar || tabBarScrollSetup) return;
+  tabBarScrollSetup = true;
+
+  tabBar.addEventListener("wheel", (event) => {
+    if (Math.abs(event.deltaX) < Math.abs(event.deltaY)) {
+      tabBar.scrollBy({ left: event.deltaY, behavior: "smooth" });
+      event.preventDefault();
+    }
+  }, { passive: false });
+
+  tabBar.addEventListener("scroll", () => updateTabBarOverflowClasses(tabBar));
+  window.addEventListener("resize", () => updateTabBarOverflowClasses(tabBar));
+  updateTabBarOverflowClasses(tabBar);
+}
+
+function scrollActiveTabIntoView(tabBar) {
+  const activeTab = tabBar.querySelector(".tab.active");
+  if (!activeTab) return;
+
+  const tabRect = activeTab.getBoundingClientRect();
+  const barRect = tabBar.getBoundingClientRect();
+
+  if (tabRect.left < barRect.left || tabRect.right > barRect.right) {
+    activeTab.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }
+}
 
 /**
  * Switch to a tab by file path if it already exists
@@ -276,6 +317,10 @@ export function renderTabs() {
     el.addEventListener("click", () => switchToTab(tab.id));
     tabBar.appendChild(el);
   });
+
+  ensureTabBarScrollBehavior();
+  updateTabBarOverflowClasses(tabBar);
+  scrollActiveTabIntoView(tabBar);
 }
 
 /**

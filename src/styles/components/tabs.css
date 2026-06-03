@@ -1,6 +1,7 @@
 
 
 .tab-bar {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2px;
@@ -9,14 +10,40 @@
   background: var(--tab-bar-bg);
   border-bottom: 1px solid var(--tab-border);
   
-  /* Scrolling Logic */
   overflow-x: auto;
   overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   white-space: nowrap;
+}
 
-  /* Fade mask for sleek "sliding" look */
-  -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
-  mask-image: linear-gradient(to right, black 92%, transparent 100%);
+.tab-bar::before,
+.tab-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+}
+
+.tab-bar::before {
+  left: 0;
+  background: linear-gradient(to right, var(--tab-bar-bg), transparent);
+}
+
+.tab-bar::after {
+  right: 0;
+  background: linear-gradient(to left, var(--tab-bar-bg), transparent);
+}
+
+.tab-bar.has-left-overflow::before,
+.tab-bar.has-right-overflow::after {
+  opacity: 1;
 }
 
 /* Restored Thin Scrollbar */

@@ -29,6 +29,10 @@ function createWindow() {
       nodeIntegration: false,
       sandbox: false,
     },
+    // Use a frameless window so we can render a custom SnapDock titlebar
+    frame: false,
+    // On macOS we can hint to hide the native title bar inset
+    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : undefined,
   });
 
   // Remove all menus
@@ -107,6 +111,15 @@ function createWindow() {
 
   mainWindow.loadFile("index.html");
   setupUpdater(mainWindow);
+  
+  // Forward maximize/unmaximize events to renderer so UI can update
+  mainWindow.on("maximize", () => {
+    mainWindow.webContents.send("window:is-maximized", true);
+  });
+
+  mainWindow.on("unmaximize", () => {
+    mainWindow.webContents.send("window:is-maximized", false);
+  });
 }
 app.whenReady().then(createWindow);
 
@@ -278,6 +291,30 @@ app.whenReady().then(createWindow);
       stage: pkg.buildStage,
       date: pkg.releaseDate,
     };
+  });
+
+  // -----------------------------
+  // WINDOW CONTROLS (frameless)
+  // -----------------------------
+
+  ipcMain.on("window:minimize", () => {
+    if (mainWindow) mainWindow.minimize();
+  });
+
+  ipcMain.on("window:toggle-maximize", () => {
+    if (!mainWindow) return;
+    if (mainWindow.isMaximized()) mainWindow.unmaximize();
+    else mainWindow.maximize();
+    // send current state
+    mainWindow.webContents.send("window:is-maximized", mainWindow.isMaximized());
+  });
+
+  ipcMain.on("window:close", () => {
+    if (mainWindow) mainWindow.close();
+  });
+
+  ipcMain.handle("window:isMaximized", () => {
+    return mainWindow ? mainWindow.isMaximized() : false;
   });
 
   // -----------------------------

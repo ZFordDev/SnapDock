@@ -1,12 +1,25 @@
 /* Header Layout */
 .top-header {
   flex-shrink: 0;
-  height: 44px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   background: var(--sidebar-bg);
   border-bottom: 1px solid var(--tab-border);
+}
+
+.title-row {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 0 10px;
+  -webkit-app-region: drag; /* make title row draggable for frameless window */
+  border-bottom: 1px solid rgba(0,0,0,0.06); /* faint separator */
+}
+
+/* Better contrast on dark theme */
+body.dark-theme .title-row {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 
 .header-left {
@@ -39,6 +52,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.15s ease;
+  -webkit-app-region: no-drag; /* buttons must be clickable */
 }
 
 .header-left > button:hover,
@@ -68,6 +82,7 @@
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
+  -webkit-app-region: no-drag; /* interactive elements must not be drag regions */
 }
 
 .dropdown-toggle:hover,
@@ -104,6 +119,7 @@
   display: none;
   flex-direction: column;
   padding: 4px 0;
+  -webkit-app-region: no-drag;
 }
 
 .dropdown-menu.open .dropdown-panel {
@@ -121,6 +137,7 @@
   text-align: left;
   transition: all 0.15s ease;
   white-space: nowrap;
+  -webkit-app-region: no-drag;
 }
 
 .dropdown-panel button:hover {
@@ -180,6 +197,47 @@
   align-items: center;
   justify-content: center;
   max-width: 400px;
+}
+
+/* App title shown next to filename - keep draggable */
+.app-title {
+  margin-left: 12px;
+  font-weight: 700;
+  color: var(--tab-text);
+  opacity: 0.9;
+  -webkit-app-region: drag;
+}
+
+/* Window controls */
+.window-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 8px;
+}
+
+.window-btn {
+  -webkit-app-region: no-drag;
+  background: transparent;
+  border: none;
+  color: var(--tab-text);
+  width: 36px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.window-btn:hover {
+  background: var(--tab-idle-bg);
+}
+
+.window-btn.close:hover {
+  background: #ff5f56; /* red close hover similar to mac */
+  color: white;
 }
 
 #filenameDisplay {

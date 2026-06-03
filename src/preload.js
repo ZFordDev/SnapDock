@@ -68,6 +68,17 @@ contextBridge.exposeInMainWorld("electronAPI", {
 });
 
 // -----------------------------
+// Window controls (frameless)
+// -----------------------------
+contextBridge.exposeInMainWorld("windowControls", {
+  minimize: () => ipcRenderer.send("window:minimize"),
+  toggleMaximize: () => ipcRenderer.send("window:toggle-maximize"),
+  close: () => ipcRenderer.send("window:close"),
+  isMaximized: () => ipcRenderer.invoke("window:isMaximized"),
+  onMaximizeChange: (cb) => ipcRenderer.on("window:is-maximized", (_, val) => cb(val)),
+});
+
+// -----------------------------
 // Workspace dirty-state API
 // -----------------------------
 contextBridge.exposeInMainWorld("workspaceAPI", {

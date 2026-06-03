@@ -92,6 +92,42 @@ export function initApp() {
 
   // 7️⃣ Version tag
   setVersionTag(versionTag);
+
+  // 8️⃣ Window controls (frameless window)
+  try {
+    const minimizeBtn = document.getElementById("minimizeBtn");
+    const maximizeBtn = document.getElementById("maximizeBtn");
+    const closeBtn = document.getElementById("closeBtn");
+
+    const updateMaxIcon = (isMax) => {
+      if (!maximizeBtn) return;
+      maximizeBtn.textContent = isMax ? '❐' : '▢';
+    };
+
+    if (minimizeBtn) {
+      minimizeBtn.addEventListener("click", () => {
+        window.windowControls.minimize();
+      });
+    }
+
+    if (maximizeBtn) {
+      maximizeBtn.addEventListener("click", () => {
+        window.windowControls.toggleMaximize();
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => {
+        window.windowControls.close();
+      });
+    }
+
+    // initialize state
+    window.windowControls.isMaximized().then((isMax) => updateMaxIcon(isMax));
+    window.windowControls.onMaximizeChange((isMax) => updateMaxIcon(isMax));
+  } catch (err) {
+    // noop if windowControls not available (e.g., non-Electron environment)
+  }
 }
 
 // --- VERSION TAG ---

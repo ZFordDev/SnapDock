@@ -8,6 +8,20 @@
   <body class="light-theme">
     <div class="app-wrapper">
       <header class="top-header">
+        <div class="title-row">
+          <div id="appTitle" class="app-title">SnapDock</div>
+          <div class="header-center">
+            <div id="filenameWrapper">
+              <span id="workspaceName">Workspace</span>
+            </div>
+        </div>
+          <div class="window-controls" id="windowControls">
+            <button id="minimizeBtn" class="window-btn" title="Minimize">▁</button>
+            <button id="maximizeBtn" class="window-btn" title="Maximize">▢</button>
+            <button id="closeBtn" class="window-btn close" title="Close">✕</button>
+          </div>
+        </div>
+
         <div class="header-left">
           <button id="newFileBtn">New</button>
           <!-- Open Dropdown -->
@@ -57,11 +71,7 @@
           </div>
         </div>
 
-        <div class="header-center">
-          <div id="filenameWrapper">
-            <span id="workspaceName">Workspace</span>
-          </div>
-        </div>
+
 
         <div class="header-right">
           <div class="preview-mode-dropdown" id="previewModeDropdown">

@@ -6,14 +6,20 @@
   "author": "ZFordDev",
   "private": true,
   "main": "main.js",
-
   "scripts": {
     "start": "electron .",
+
+    "dev": "npm run bundle && electron .",
+
     "bundle": "node build.js",
-    "pack": "electron-packager . SnapDock --platform=win32 --arch=x64 --out=dist --icon=assets/icon.ico",
+
     "build": "npm run bundle && electron-builder",
+
     "build:linux": "npm run bundle && electron-builder --linux",
-    "lint": "echo \"Add ESLint later\""
+
+    "pack": "npm run bundle && electron-builder --dir",
+
+    "lint": "echo \"(ESLint placeholder)\""
   },
 
   "dependencies": {

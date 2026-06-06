@@ -1,8 +1,6 @@
 {
   "name": "snapdock",
   "version": "3.1.1",
-  "buildStage": "active",
-  "releaseDate": "2026-05-27",
   "description": "a modern, Markdown editor with a clean UI and improved architecture.",
   "homepage": "https://github.com/ZFordDev/SnapDock",
   "author": "ZFordDev",
@@ -14,6 +12,7 @@
     "bundle": "node build.js",
     "pack": "electron-packager . SnapDock --platform=win32 --arch=x64 --out=dist --icon=assets/icon.ico",
     "build": "npm run bundle && electron-builder",
+    "build:linux": "npm run bundle && electron-builder --linux",
     "lint": "echo \"Add ESLint later\""
   },
 
@@ -52,40 +51,21 @@
       "main.js",
       "src/preloads.js"
     ],
-
+    "artifactName": "SnapDock-${version}-${channel}-${os}-${arch}.${ext}",
     "win": {
-      "artifactName": "SnapDock-Setup.exe",
       "icon": "assets/icon.ico",
       "target": ["nsis"]
     },
-
-    "nsis": {
-      "artifactName": "SnapDock-Setup.exe"
-    },
-
     "linux": {
       "icon": "assets/icons",
       "category": "Utility",
       "maintainer": "ZFordDev <zforddev@gmail.com>",
       "target": ["AppImage", "deb"]
     },
-
-    "deb": {
-      "artifactName": "SnapDock-Setup.deb"
-    },
-
-    "appImage": {
-      "artifactName": "SnapDock-Setup.AppImage"
-    },
-
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",
       "target": ["dmg", "zip"]
-    },
-
-    "dmg": {
-      "artifactName": "SnapDock-Setup.dmg"
     },
 
     "publish": [
@@ -95,5 +75,10 @@
         "repo": "SnapDock"
       }
     ]
+  },
+  "extraMetadata": {
+    "buildStage": "active",
+    "releaseDate": "2026-05-27"
   }
 }
+

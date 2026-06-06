@@ -288,8 +288,8 @@ app.whenReady().then(createWindow);
   ipcMain.handle("get-version", async () => {
     return {
       version: pkg.version,
-      stage: pkg.buildStage,
-      date: pkg.releaseDate,
+      stage: pkg.extraMetadata.buildStage,
+      date: pkg.extraMetadata.releaseDate,
     };
   });
 

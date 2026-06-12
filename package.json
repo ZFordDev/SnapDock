@@ -1,8 +1,6 @@
 {
   "name": "snapdock",
   "version": "3.1.1",
-  "buildStage": "active",
-  "releaseDate": "2026-05-27",
   "description": "a modern, Markdown editor with a clean UI and improved architecture.",
   "homepage": "https://github.com/ZFordDev/SnapDock",
   "author": "ZFordDev",
@@ -12,6 +10,7 @@
   "scripts": {
 
     "build:dev": "node scripts/build-dev.js",
+    "build:test": "node scripts/build-test.js",
 
     "start": "electron .",
     "bundle": "node build.js",
@@ -53,7 +52,8 @@
       "src/**/*",
       "assets/**/*",
       "main.js",
-      "src/preloads.js"
+      "src/preloads.js",
+      "build/metadata.json"
     ],
 
     "win": {

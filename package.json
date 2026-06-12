@@ -6,7 +6,6 @@
   "author": "ZFordDev",
   "private": true,
   "main": "main.js",
-
   "scripts": {
     "start": "electron .",
 
@@ -52,40 +51,21 @@
       "src/preloads.js",
       "build/metadata.json"
     ],
-
+    "artifactName": "SnapDock-${version}-${channel}-${os}-${arch}.${ext}",
     "win": {
-      "artifactName": "SnapDock-Setup.exe",
       "icon": "assets/icon.ico",
       "target": ["nsis"]
     },
-
-    "nsis": {
-      "artifactName": "SnapDock-Setup.exe"
-    },
-
     "linux": {
       "icon": "assets/icons",
       "category": "Utility",
       "maintainer": "ZFordDev <zforddev@gmail.com>",
       "target": ["AppImage", "deb"]
     },
-
-    "deb": {
-      "artifactName": "SnapDock-Setup.deb"
-    },
-
-    "appImage": {
-      "artifactName": "SnapDock-Setup.AppImage"
-    },
-
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",
       "target": ["dmg", "zip"]
-    },
-
-    "dmg": {
-      "artifactName": "SnapDock-Setup.dmg"
     },
 
     "publish": [
@@ -95,5 +75,10 @@
         "repo": "SnapDock"
       }
     ]
+  },
+  "extraMetadata": {
+    "buildStage": "active",
+    "releaseDate": "2026-05-27"
   }
 }
+

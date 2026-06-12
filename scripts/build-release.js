@@ -2,8 +2,13 @@
 
 const { execSync } = require("child_process");
 const path = require("path");
+const platform = require("./helpers/platform");
 
 console.log("\n=== SnapDock Release Build (build-release.js) ===\n");
+
+if (platform.isCI()) {
+  console.log("Running in CI mode...");
+}
 
 try {
   // 1. Inject metadata (stable channel)

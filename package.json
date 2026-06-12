@@ -9,17 +9,10 @@
   "scripts": {
     "start": "electron .",
 
-    "dev": "npm run bundle && electron .",
-
-    "bundle": "node build.js",
-
-    "build": "npm run bundle && electron-builder",
-
-    "build:linux": "npm run bundle && electron-builder --linux",
-
-    "pack": "npm run bundle && electron-builder --dir",
-
-    "lint": "echo \"(ESLint placeholder)\""
+    "build:dev": "node scripts/build-dev.js",
+    "build:test": "node scripts/build-test.js",
+    "build:release": "node scripts/build-release.js",
+    "build:linux": "node scripts/build-linux.js"
   },
 
   "dependencies": {
@@ -40,7 +33,7 @@
   },
 
   "devDependencies": {
-    "electron": "^42.3.3",
+    "electron": "42.3.3",
     "electron-builder": "^26.7.0",
     "esbuild": "^0.28.0",
     "rcedit": "^5.0.2"
@@ -55,7 +48,8 @@
       "src/**/*",
       "assets/**/*",
       "main.js",
-      "src/preloads.js"
+      "src/preloads.js",
+      "build/metadata.json"
     ],
     "artifactName": "SnapDock-${version}-${channel}-${os}-${arch}.${ext}",
     "win": {

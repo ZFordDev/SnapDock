@@ -5,6 +5,23 @@ const path = require("path");
 const pkg = require("./package.json");
 const pdfModule = require("./src/modules/pdf/pdf.js");
 
+/* Metadata loading with fallback:
+- During development, we read directly from package.json for simplicity.
+- For production builds, we attempt to load build/metadata.json which includes additional build info.
+- If metadata.json is missing or fails to load, we fallback to package.json to ensure version info is always available.
+*/
+function loadMetadata() {
+  const metaPath = path.join(__dirname, "build", "metadata.json");
+
+  try {
+    if (fs.existsSync(metaPath)) {
+      return require(metaPath);
+    }
+  } catch (_) {}
+
+  // fallback for safety
+  return require("./package.json");
+}
 // Updater
 const setupUpdater = require("./src/modules/update");
 
@@ -285,13 +302,15 @@ app.whenReady().then(createWindow);
   // VERSION INFO
   // -----------------------------
 
-  ipcMain.handle("get-version", async () => {
-    return {
-      version: pkg.version,
-      stage: pkg.extraMetadata.buildStage,
-      date: pkg.extraMetadata.releaseDate,
-    };
-  });
+ipcMain.handle("get-version", async () => {
+  const info = loadMetadata();
+
+  return {
+    version: info.version,
+    stage: info.buildStage,
+    date: info.releaseDate,
+  };
+});
 
   // -----------------------------
   // WINDOW CONTROLS (frameless)

@@ -135,6 +135,12 @@ async function setVersionTag(versionTag) {
   if (!versionTag) return;
 
   const info = await window.electronAPI.getVersion();
+
+  // Format date to YYYY-MM-DD (NEW)
+  const formattedDate = info.date
+    ? new Date(info.date).toISOString().slice(0, 10)
+    : "unknown";
+
   versionTag.textContent =
-    `SnapDock ${info.version} (${info.stage}) — ${info.date}`;
+    `SnapDock ${info.version} (${info.stage}) — ${formattedDate}`;
 }

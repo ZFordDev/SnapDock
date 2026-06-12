@@ -2,9 +2,12 @@
 
 const { execSync } = require("child_process");
 const path = require("path");
+const platform = require("./helpers/platform");
 
 console.log("\n=== SnapDock Linux Build (build-linux.js) ===\n");
-
+if (platform.isWSL()) {
+  console.warn("⚠ WSL detected — AppImage builds may fail on NTFS mounts.");
+}
 try {
   // 1. Inject metadata (Linux release channel)
   const injector = path.join(__dirname, "inject-metadata.js");

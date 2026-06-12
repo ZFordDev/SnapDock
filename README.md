@@ -106,19 +106,19 @@ cd SnapDock
 # Install dependencies
 npm install
 
-# Build the app
-npm run build
+# Build a development build
+npm run build:dev
 ```
 
-**Windows**
-- `npm install | npm run build`  
+### Windows
+- `npm install | npm run build:dev`  
 - If npm is missing, install Node.js from [https://nodejs.org](https://nodejs.org)
 
-**Linux**
-- `npm install && npm run build`  
+### Linux
+- `npm install && npm run build:dev`  
 - If npm is missing: `sudo apt install npm`
 
-**Dev mode:** Coming soon
+> **Note:** AppImage builds require FUSE on some distros (`sudo apt install libfuse2`).
 
 ---
 
@@ -195,7 +195,7 @@ Planned improvements and upcoming development goals for SnapDock.
 This list reflects active GitHub issues and near‑term release targets.
 
 ### **In Progress / High Priority**
-- [ ] **Ecosystem Standards Migration**  
+- [X] **Ecosystem Standards Migration**  
   _Documentation improvements and alignment with ZFordDev ecosystem standards_  
   (#109)
 
@@ -208,7 +208,7 @@ This list reflects active GitHub issues and near‑term release targets.
   _Cleaner, native-feeling window chrome_  
   (#95)
 
-- [ ] **Add Tab Overflow Scrolling / Horizontal Scroll**  
+- [X] **Add Tab Overflow Scrolling / Horizontal Scroll**  
   _Improves usability for large workspaces_  
   (#87)
 

@@ -12,6 +12,7 @@
     "build:dev": "node scripts/build-dev.js",
     "build:test": "node scripts/build-test.js",
     "build:release": "node scripts/build-release.js",
+    "build:linux": "node scripts/build-linux.js",
 
     "start": "electron .",
     "bundle": "node build.js",

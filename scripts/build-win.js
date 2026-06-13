@@ -1,18 +1,18 @@
-// scripts/build-linux.js
+// scripts/build-win.js
 
 const { execSync } = require("child_process");
 const path = require("path");
 const platform = require("./helpers/platform");
 
-console.log("\n=== SnapDock Linux Build (build-linux.js) ===\n");
+console.log("\n=== SnapDock Windows Build (build-win.js) ===\n");
 
-if (platform.isWSL()) {
-  console.warn("⚠ WSL detected — AppImage builds may fail on NTFS mounts.");
+if (platform.isCI()) {
+  console.log("Running in CI mode...");
 }
 
 // Detect store build flag
 const isStore = process.argv.includes("--release");
-const installSource = isStore ? "snap-store" : "direct";
+const installSource = isStore ? "windows-store" : "direct";
 
 try {
   // 1. Inject metadata
@@ -31,17 +31,13 @@ try {
   console.log("\n→ Bundling renderer (esbuild)...");
   execSync(`node "${bundler}"`, { stdio: "inherit" });
 
-  // 3. Build Linux artifacts
-  console.log("\n→ Running electron-builder (Linux targets)...");
+  // 3. Build Windows NSIS installer
+  console.log("\n→ Running electron-builder (Windows NSIS)...");
+  execSync(`npx electron-builder --win nsis`, { stdio: "inherit" });
 
-  // AppImage + deb are the safest defaults
-  execSync(`npx electron-builder --linux AppImage deb`, {
-    stdio: "inherit"
-  });
-
-  console.log("\n✔ Linux build complete.\n");
+  console.log("\n✔ Windows build complete.\n");
 } catch (err) {
-  console.error("\n✖ Linux build failed.\n");
+  console.error("\n✖ Windows build failed.\n");
   console.error(err.message);
   process.exit(1);
 }

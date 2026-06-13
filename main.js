@@ -22,8 +22,16 @@ function loadMetadata() {
   // fallback for safety
   return require("./package.json");
 }
+
+// Load metadata once at startup
+const metadata = loadMetadata();
+
+// Prime install source for updater (critical)
+const { getInstallSource } = require("./src/modules/updater/detectSource");
+getInstallSource(metadata.installSource);
+
 // Updater
-const setupUpdater = require("./src/modules/update");
+const setupUpdater = require("./src/modules/updater/index.js");
 
 // Disable sandbox only for AppImage builds
 if (process.env.APPIMAGE) {
@@ -125,9 +133,9 @@ function createWindow() {
       }
     }, 50);
   });
-
-  mainWindow.loadFile("index.html");
   setupUpdater(mainWindow);
+  mainWindow.loadFile("index.html");
+
   
   // Forward maximize/unmaximize events to renderer so UI can update
   mainWindow.on("maximize", () => {
@@ -309,8 +317,12 @@ ipcMain.handle("get-version", async () => {
     version: info.version,
     stage: info.buildStage,
     date: info.releaseDate,
+    installSource: info.installSource,   // the new meta that allows updater to know stores vs direct not needed here but might as well provide it for future use
+    channel: info.channel,               // for future use
+    platform: info.platform              // not yet needed in renderer but might as well provide it for future use
   };
 });
+
 
   // -----------------------------
   // WINDOW CONTROLS (frameless)

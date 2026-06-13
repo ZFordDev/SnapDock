@@ -3,6 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
+const platform = require("./helpers/platform");
 
 // --- Parse CLI args ---------------------------------------------------------
 const args = process.argv.slice(2);
@@ -16,6 +17,10 @@ const getArg = (name, fallback = null) => {
 const buildStage = getArg("stage", "dev");      // dev | test | release
 const channel = getArg("channel", "dev");       // dev | beta | stable
 
+// NEW: installSource metadata
+// direct | windows-store | snap-store
+const installSource = getArg("installSource", "direct");
+
 // --- Load package.json ------------------------------------------------------
 const pkg = require("../package.json");
 
@@ -24,9 +29,25 @@ const metadata = {
   version: pkg.version,
   buildStage,
   channel,
+  installSource, // ← NEW FIELD
   releaseDate: new Date().toISOString(),
-  platform: process.platform,
-  arch: process.arch,
+
+  // Normalised platform values
+  platform: platform.isWindows()
+    ? "windows"
+    : platform.isLinux()
+    ? "linux"
+    : platform.isMac()
+    ? "mac"
+    : "unknown",
+
+  // Architecture from helper
+  arch: platform.arch(),
+
+  // Environment flags
+  isSnap: platform.isSnap(),
+  isCI: platform.isCI(),
+
   commit: execSync("git rev-parse --short HEAD").toString().trim(),
   buildNumber: Date.now() // fallback until CI injects real numbers
 };

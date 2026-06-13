@@ -11,8 +11,11 @@
 
     "build:dev": "node scripts/build-dev.js",
     "build:test": "node scripts/build-test.js",
+    "build:win": "node scripts/build-win.js",
+    "build:linux": "node scripts/build-linux.js",
+    "build:mac": "echo 'Mac not supported yet'",
     "build:release": "node scripts/build-release.js",
-    "build:linux": "node scripts/build-linux.js"
+    "build:release:store": "node scripts/build-release.js -- --release"
   },
 
   "dependencies": {

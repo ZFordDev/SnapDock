@@ -25,7 +25,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   openFileByPath: (path) =>
     ipcRenderer.invoke("open-file-by-path", path),
 
-  // ✅ Workspace watcher event (NEW)
+  // Workspace watcher
   onWorkspaceUpdated: (callback) =>
     ipcRenderer.on("workspace-updated", () => callback()),
 
@@ -41,11 +41,18 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getVersion: () =>
     ipcRenderer.invoke("get-version"),
 
+  // -----------------------------
   // Update system
+  // -----------------------------
+  getInstallSource: () =>
+    ipcRenderer.invoke("update:source"),   // NEW
+
   checkForUpdates: () =>
     ipcRenderer.invoke("update:check"),
+
   downloadUpdate: () =>
     ipcRenderer.invoke("update:download"),
+
   installUpdate: () =>
     ipcRenderer.invoke("update:install"),
 
@@ -66,6 +73,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   onUpdateError: (callback) =>
     ipcRenderer.on("update:error", (_, err) => callback(err)),
 });
+
 
 // -----------------------------
 // Window controls (frameless)

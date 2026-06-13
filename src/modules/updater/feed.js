@@ -22,7 +22,7 @@ const FEEDS = {
 // Determine which feed to use
 // -----------------------------
 function getFeedURL() {
-  const source = getInstallSource();
+  const source = getInstallSource(meta.installSource);
   const settings = getSettings();
 
   // Store installs must NOT use custom feeds
@@ -40,7 +40,7 @@ function getFeedURL() {
 // Determine if updates are allowed
 // -----------------------------
 function updatesAllowed() {
-  const source = getInstallSource();
+  const source = getInstallSource(meta.installSource);
   return source === "direct"; // only direct installs can update
 }
 
@@ -48,7 +48,7 @@ function updatesAllowed() {
 // Determine if prerelease is allowed
 // -----------------------------
 function prereleaseAllowed() {
-  const source = getInstallSource();
+  const source = getInstallSource(meta.installSource);
   return source === "direct"; // store installs cannot opt-in
 }
 

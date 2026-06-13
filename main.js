@@ -31,7 +31,7 @@ const { getInstallSource } = require("./src/modules/updater/detectSource");
 getInstallSource(metadata.installSource);
 
 // Updater
-const setupUpdater = require("./src/modules/update");
+const setupUpdater = require("./src/modules/updater/index.js");
 
 // Disable sandbox only for AppImage builds
 if (process.env.APPIMAGE) {
@@ -133,9 +133,9 @@ function createWindow() {
       }
     }, 50);
   });
-
-  mainWindow.loadFile("index.html");
   setupUpdater(mainWindow);
+  mainWindow.loadFile("index.html");
+
   
   // Forward maximize/unmaximize events to renderer so UI can update
   mainWindow.on("maximize", () => {

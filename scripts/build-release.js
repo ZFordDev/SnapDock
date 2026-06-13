@@ -4,34 +4,28 @@ const { execSync } = require("child_process");
 const path = require("path");
 const platform = require("./helpers/platform");
 
-console.log("\n=== SnapDock Release Build (build-release.js) ===\n");
+console.log("\n=== SnapDock Release Wrapper (build-release.js) ===\n");
 
 if (platform.isCI()) {
   console.log("Running in CI mode...");
 }
 
+// Forward all args after this script
+const extraArgs = process.argv.slice(2).join(" ");
+
 try {
-  // 1. Inject metadata (stable channel)
-  const injector = path.join(__dirname, "inject-metadata.js");
-  console.log("→ Injecting metadata (stage=release, channel=stable)...");
-  execSync(`node "${injector}" --stage=release --channel=stable`, {
-    stdio: "inherit"
-  });
+  if (platform.isWindows()) {
+    console.log("→ Detected Windows. Delegating to build-win.js...");
+    execSync(`npm run build:win -- ${extraArgs}`, { stdio: "inherit" });
+  } else if (platform.isLinux()) {
+    console.log("→ Detected Linux. Delegating to build-linux.js...");
+    execSync(`npm run build:linux -- ${extraArgs}`, { stdio: "inherit" });
+  } else {
+    console.error("✖ Unsupported platform for release builds.");
+    process.exit(1);
+  }
 
-  // 2. Bundle renderer
-  const bundler = path.join(__dirname, "bundle.js");
-  console.log("\n→ Bundling renderer (esbuild)...");
-  execSync(`node "${bundler}"`, {
-    stdio: "inherit"
-  });
-
-  // 3. Run electron-builder with publish enabled
-  console.log("\n→ Running electron-builder (release build + publish)...");
-  execSync(`npx electron-builder --win nsis --publish always`, {
-    stdio: "inherit"
-  });
-
-  console.log("\n✔ Release build complete and published.\n");
+  console.log("\n✔ Release build complete.\n");
 } catch (err) {
   console.error("\n✖ Release build failed.\n");
   console.error(err.message);

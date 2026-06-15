@@ -195,7 +195,7 @@ Planned improvements and upcoming development goals for SnapDock.
 This list reflects active GitHub issues and near‑term release targets.
 
 ### **In Progress / High Priority**
-- [ ] **Ecosystem Standards Migration**  
+- [X] **Ecosystem Standards Migration**  
   _Documentation improvements and alignment with ZFordDev ecosystem standards_  
   (#109)
 
@@ -204,11 +204,11 @@ This list reflects active GitHub issues and near‑term release targets.
   (#104)
 
 ### **UI / UX Improvements**
-- [ ] **Replace Electron Frame With Custom SnapDock Frame**  
+- [X] **Replace Electron Frame With Custom SnapDock Frame**  
   _Cleaner, native-feeling window chrome_  
   (#95)
 
-- [ ] **Add Tab Overflow Scrolling / Horizontal Scroll**  
+- [X] **Add Tab Overflow Scrolling / Horizontal Scroll**  
   _Improves usability for large workspaces_  
   (#87)
 

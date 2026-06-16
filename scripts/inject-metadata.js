@@ -62,5 +62,35 @@ if (!fs.existsSync(outDir)) {
 const outFile = path.join(outDir, "metadata.json");
 fs.writeFileSync(outFile, JSON.stringify(metadata, null, 2));
 
-console.log("Metadata generated:");
-console.log(metadata);
+if (platform.isLinux()) {
+  const linuxDir = path.join(outDir, "linux");
+  if (!fs.existsSync(linuxDir)) {
+    fs.mkdirSync(linuxDir);
+  }
+
+  // --- Desktop entry --------------------------------------------------------
+  const desktopEntry = `
+[Desktop Entry]
+Type=Application
+Name=SnapDock
+Comment=A modern Markdown editor with a clean UI.
+Exec=/usr/bin/snapdock
+Icon=snapdock.png
+Terminal=false
+MimeType=text/markdown;text/plain;
+Categories=Utility;
+X-SnapDock-Version=${metadata.version}
+X-SnapDock-Channel=${metadata.channel}
+X-SnapDock-BuildStage=${metadata.buildStage}
+X-SnapDock-InstallSource=${metadata.installSource}
+X-SnapDock-Commit=${metadata.commit}
+X-SnapDock-BuildNumber=${metadata.buildNumber}
+`;
+
+  const desktopFile = path.join(linuxDir, "snapdock.desktop");
+  fs.writeFileSync(desktopFile, desktopEntry.trim() + "\n");
+
+  console.log("Linux desktop entry generated:");
+  console.log(desktopEntry);
+
+}

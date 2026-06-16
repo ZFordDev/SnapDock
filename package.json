@@ -1,14 +1,19 @@
 {
   "name": "snapdock",
   "version": "3.1.1",
-  "description": "a modern, Markdown editor with a clean UI and improved architecture.",
-  "homepage": "https://github.com/ZFordDev/SnapDock",
+  "description": "A Minimal, Modern Markdown Editor",
+  "synopsis": "Fast, clean Markdown editor",
+  "homepage": "https://snapdock.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZFordDev/SnapDock"
+  },
   "author": "ZFordDev",
+  "license": "MIT",
   "private": true,
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-
     "build:dev": "node scripts/build-dev.js",
     "build:test": "node scripts/build-test.js",
     "build:win": "node scripts/build-win.js",
@@ -17,7 +22,6 @@
     "build:release": "node scripts/build-release.js",
     "build:release:store": "node scripts/build-release.js -- --release"
   },
-
   "dependencies": {
     "chokidar": "^5.0.0",
     "electron-log": "^5.4.4",
@@ -34,17 +38,19 @@
     "markdown-it-sup": "^2.0.0",
     "markdown-it-task-lists": "^2.1.1"
   },
-
   "devDependencies": {
     "electron": "42.3.3",
     "electron-builder": "^26.7.0",
     "esbuild": "^0.28.0",
     "rcedit": "^5.0.2"
   },
-
   "build": {
     "appId": "com.zforddev.snapdock",
     "productName": "SnapDock",
+    "artifactName": "SnapDock-${version}-${channel}-${os}-${arch}.${ext}",
+    "asar": true,
+    "executableName": "snapdock",
+    "compression": "maximum",
     "files": [
       "dist/**/*",
       "index.html",
@@ -54,17 +60,19 @@
       "src/preloads.js",
       "build/metadata.json"
     ],
-    "artifactName": "SnapDock-${version}-${channel}-${os}-${arch}.${ext}",
+
     "win": {
       "icon": "assets/icon.ico",
       "target": ["nsis"]
     },
+
     "linux": {
-      "icon": "assets/icons",
-      "category": "Utility",
+      "icon": "assets/icon.icns",
+      "category": "Office",
       "maintainer": "ZFordDev <zforddev@gmail.com>",
       "target": ["AppImage", "deb"]
     },
+
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",
@@ -78,10 +86,5 @@
         "repo": "SnapDock"
       }
     ]
-  },
-  "extraMetadata": {
-    "buildStage": "active",
-    "releaseDate": "2026-05-27"
   }
 }
-

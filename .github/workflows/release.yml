@@ -95,52 +95,7 @@ jobs:
   # ---------------------------------------------------------
   # 3. Windows Store Build
   # ---------------------------------------------------------
-  windows-store:
-    name: Windows Store Build
-    runs-on: windows-latest
-    needs: desktop
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-
-      - name: Install Dependencies
-        run: npm ci
-
-      # Install MSIX Packaging
-      - name: Install MSIX Packaging Tool
-        shell: powershell
-        run: |
-          Invoke-WebRequest -Uri "https://download.microsoft.com/download/1/0/7/107A3A1D-7A0A-4A4D-8C1A-7F2C0B7C8E8F/MSIXPackagingTool.zip" -OutFile msix.zip
-          Expand-Archive msix.zip -DestinationPath "C:\msix"
-          Add-Content $env:GITHUB_PATH "C:\msix"
-
-      - name: Build Store-Safe Version
-        run: npm run build:release:store
-
-      - name: Wrap into MSIX
-        shell: pwsh
-        run: |
-          mkdir msix
-          MakeAppx pack /d dist/win-unpacked /p msix/SnapDock.msix
-
-      - name: Sign MSIX
-        shell: pwsh
-        run: |
-          echo "${{ secrets.WINDOWS_CERT_BASE64 }}" | Out-File -FilePath cert.b64 -Encoding ascii
-          certutil -decode cert.b64 cert.pfx
-          signtool sign /a /f cert.pfx /p "${{ secrets.WINDOWS_CERT_PASSWORD }}" msix/SnapDock.msix
-
-      - name: Upload MSIX Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-store-msix
-          path: msix/SnapDock.msix
-
+  # cut for futher 
 
   # ---------------------------------------------------------
   # 4. GitHub Release
@@ -148,7 +103,7 @@ jobs:
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-    needs: [desktop, snap, windows-store]
+    needs: [desktop, snap]
     steps:
       - name: Download All Artifacts
         uses: actions/download-artifact@v4

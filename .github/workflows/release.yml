@@ -86,7 +86,7 @@ jobs:
           name: snap-package
           path: "*.snap"
 
-      # Optional auto-publish
+      # auto-publish
       - name: Publish to Snap Store
         if: startsWith(github.ref, 'refs/tags/')
         run: snapcraft upload *.snap --release=stable
@@ -119,6 +119,7 @@ jobs:
           MakeAppx pack /d dist/win-unpacked /p msix/SnapDock.msix
 
       - name: Sign MSIX
+        shell: bash
         run: |
           echo "${{ secrets.WINDOWS_CERT_BASE64 }}" | base64 -d > cert.pfx
           signtool sign /a /f cert.pfx /p "${{ secrets.WINDOWS_CERT_PASSWORD }}" msix/SnapDock.msix
@@ -129,13 +130,13 @@ jobs:
           name: windows-store-msix
           path: msix/SnapDock.msix
 
-      # Optional auto-publish
-      - name: Publish to Windows Store
-        if: startsWith(github.ref, 'refs/tags/')
-        run: node scripts/publish-windows-store.js
+      # auto-publish
+      # - name: Publish to Windows Store
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   run: node scripts/publish-windows-store.js
 
   # ---------------------------------------------------------
-  # 4. GitHub Release (optional)
+  # 4. GitHub Release
   # ---------------------------------------------------------
   release:
     name: Create GitHub Release

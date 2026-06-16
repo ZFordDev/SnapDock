@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-      - 121-release-pipeline-improvements
+    #  - 121-release-pipeline-improvements // test branch here
 
 permissions:
   contents: write
@@ -48,9 +48,9 @@ jobs:
             dist/*.dmg
           if-no-files-found: ignore
 
-  # ---------------------------------------------------------
-  # 2. Snap Store Build
-  # ---------------------------------------------------------
+# ---------------------------------------------------------
+# 2. Snap Store Build
+# ---------------------------------------------------------
   snap:
     name: Snap Store Build
     runs-on: ubuntu-latest
@@ -70,8 +70,7 @@ jobs:
       - name: Build Store-Safe Version
         run: npm run build:release:store
 
-      - name: Generate snapcraft.yaml
-        run: node scripts/generate-snapcraft.js
+      # No script generation — snapcraft.yaml already exists
 
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v2
@@ -87,7 +86,6 @@ jobs:
           name: snap-package
           path: "*.snap"
 
-      # auto-publish
       - name: Publish to Snap Store
         if: startsWith(github.ref, 'refs/tags/')
         run: snapcraft upload *.snap --release=stable

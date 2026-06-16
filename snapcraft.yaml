@@ -1,12 +1,20 @@
-name: snapdock
+name: markdown-workspace
 base: core22
 version: '3.1.1'
+
+title: SnapDock - Markdown Workspace
 summary: Fast, clean Markdown editor
 description: |
   SnapDock is a modern, distraction-free Markdown editor designed for people who want clarity, stability, and a writing environment that stays out of the way. It provides a clean, predictable workspace that avoids the plugin overload and IDE-level complexity found in many editors.
 
 grade: stable
 confinement: strict
+
+contact: zforddev@gmail.com
+website: https://snapdock.app
+source-code: https://github.com/SnapDockStudio/SnapDock
+issues: https://github.com/SnapDockStudio/SnapDock/issues
+license: MIT
 
 apps:
   snapdock:

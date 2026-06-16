@@ -35,7 +35,7 @@ try {
   console.log("\n→ Running electron-builder (Linux targets)...");
 
   // AppImage + deb are the safest defaults
-  execSync(`npx electron-builder --linux AppImage deb`, {
+  execSync(`npx electron-builder --linux AppImage deb --publish never`, {
     stdio: "inherit"
   });
 

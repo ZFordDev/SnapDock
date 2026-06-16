@@ -111,18 +111,28 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      # Install MSIX Packaging
+      - name: Install MSIX Packaging Tool
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri https://aka.ms/msixpackagingtool -OutFile msix.zip
+          Expand-Archive msix.zip -DestinationPath "C:\msix"
+          echo "C:\msix" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
       - name: Build Store-Safe Version
         run: npm run build:release:store
 
       - name: Wrap into MSIX
+        shell: pwsh
         run: |
           mkdir msix
           MakeAppx pack /d dist/win-unpacked /p msix/SnapDock.msix
 
       - name: Sign MSIX
-        shell: bash
+        shell: pwsh
         run: |
-          echo "${{ secrets.WINDOWS_CERT_BASE64 }}" | base64 -d > cert.pfx
+          echo "${{ secrets.WINDOWS_CERT_BASE64 }}" | Out-File -FilePath cert.b64 -Encoding ascii
+          certutil -decode cert.b64 cert.pfx
           signtool sign /a /f cert.pfx /p "${{ secrets.WINDOWS_CERT_PASSWORD }}" msix/SnapDock.msix
 
       - name: Upload MSIX Artifact
@@ -131,10 +141,6 @@ jobs:
           name: windows-store-msix
           path: msix/SnapDock.msix
 
-      # auto-publish
-      # - name: Publish to Windows Store
-      #   if: startsWith(github.ref, 'refs/tags/')
-      #   run: node scripts/publish-windows-store.js
 
   # ---------------------------------------------------------
   # 4. GitHub Release

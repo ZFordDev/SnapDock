@@ -115,7 +115,7 @@ jobs:
       - name: Install MSIX Packaging Tool
         shell: powershell
         run: |
-          Invoke-WebRequest -Uri https://aka.ms/msixpackagingtool -OutFile msix.zip
+          Invoke-WebRequest -Uri "https://download.microsoft.com/download/1/0/7/107A3A1D-7A0A-4A4D-8C1A-7F2C0B7C8E8F/MSIXPackagingTool.zip" -OutFile msix.zip
           Expand-Archive msix.zip -DestinationPath "C:\msix"
           Add-Content $env:GITHUB_PATH "C:\msix"
 

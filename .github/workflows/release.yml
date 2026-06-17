@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Build Desktop Release
-        run: npm run build:release
+        run: npm run build:release -- --publish never
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4

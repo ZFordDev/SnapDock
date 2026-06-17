@@ -50,6 +50,7 @@
     "artifactName": "SnapDock-${version}-${channel}-${os}-${arch}.${ext}",
     "asar": true,
     "executableName": "snapdock",
+    "publish": "never",
     "compression": "maximum",
     "files": [
       "dist/**/*",

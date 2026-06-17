@@ -50,7 +50,6 @@
     "artifactName": "SnapDock-${version}-${channel}-${os}-${arch}.${ext}",
     "asar": true,
     "executableName": "snapdock",
-    "publish": "never",
     "compression": "maximum",
     "files": [
       "dist/**/*",
@@ -78,14 +77,6 @@
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",
       "target": ["dmg", "zip"]
-    },
-
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "ZFordDev",
-        "repo": "SnapDock"
-      }
-    ]
+    }
   }
 }

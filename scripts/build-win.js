@@ -33,7 +33,7 @@ try {
 
   // 3. Build Windows NSIS installer
   console.log("\n→ Running electron-builder (Windows NSIS)...");
-  execSync(`npx electron-builder --win nsis`, { stdio: "inherit" });
+  execSync(`npx electron-builder --win nsis --publish never`, { stdio: "inherit" });
 
   console.log("\n✔ Windows build complete.\n");
 } catch (err) {

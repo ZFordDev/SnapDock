@@ -16,6 +16,7 @@ release/
 *.asar.unpacked
 .env
 build/
+*.snap
 
 # Electron Builder
 electron-builder-cache/

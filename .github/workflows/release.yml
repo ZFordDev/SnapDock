@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - 121-release-pipeline-improvements
 
 permissions:
   contents: write

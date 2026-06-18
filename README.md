@@ -129,7 +129,9 @@ SnapDock is available through official stores for the easiest and most reliable 
 ### Windows (Recommended)
 Install SnapDock directly from the Microsoft Store:
 
-👉 **https://apps.microsoft.com/detail/{Placeholder}**
+~~👉 **https://apps.microsoft.com/detail/{Placeholder}**~~
+
+> Windows Store pending review
 
 This provides:
 - Automatic updates  

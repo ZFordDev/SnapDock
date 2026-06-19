@@ -5,8 +5,33 @@ const path = require("path");
 const pkg = require("./package.json");
 const pdfModule = require("./src/modules/pdf/pdf.js");
 
+/* Metadata loading with fallback:
+- During development, we read directly from package.json for simplicity.
+- For production builds, we attempt to load build/metadata.json which includes additional build info.
+- If metadata.json is missing or fails to load, we fallback to package.json to ensure version info is always available.
+*/
+function loadMetadata() {
+  const metaPath = path.join(__dirname, "build", "metadata.json");
+
+  try {
+    if (fs.existsSync(metaPath)) {
+      return require(metaPath);
+    }
+  } catch (_) {}
+
+  // fallback for safety
+  return require("./package.json");
+}
+
+// Load metadata once at startup
+const metadata = loadMetadata();
+
+// Prime install source for updater (critical)
+const { getInstallSource } = require("./src/modules/updater/detectSource");
+getInstallSource(metadata.installSource);
+
 // Updater
-const setupUpdater = require("./src/modules/update");
+const setupUpdater = require("./src/modules/updater/index.js");
 
 // Disable sandbox only for AppImage builds
 if (process.env.APPIMAGE) {
@@ -108,9 +133,9 @@ function createWindow() {
       }
     }, 50);
   });
-
-  mainWindow.loadFile("index.html");
   setupUpdater(mainWindow);
+  mainWindow.loadFile("index.html");
+
   
   // Forward maximize/unmaximize events to renderer so UI can update
   mainWindow.on("maximize", () => {
@@ -285,13 +310,19 @@ app.whenReady().then(createWindow);
   // VERSION INFO
   // -----------------------------
 
-  ipcMain.handle("get-version", async () => {
-    return {
-      version: pkg.version,
-      stage: pkg.buildStage,
-      date: pkg.releaseDate,
-    };
-  });
+ipcMain.handle("get-version", async () => {
+  const info = loadMetadata();
+
+  return {
+    version: info.version,
+    stage: info.buildStage,
+    date: info.releaseDate,
+    installSource: info.installSource,   // the new meta that allows updater to know stores vs direct not needed here but might as well provide it for future use
+    channel: info.channel,               // for future use
+    platform: info.platform              // not yet needed in renderer but might as well provide it for future use
+  };
+});
+
 
   // -----------------------------
   // WINDOW CONTROLS (frameless)

@@ -1,80 +1,72 @@
 // src/modules/updater/index.js
-// Orchestrates updater modules, IPC, and event forwarding
-
 const { ipcMain } = require("electron");
+const { getInstallSource } = require("./detectSource");
+const updater = require("./download");
 
-const {
-  checkForUpdates,
-  downloadUpdate,
-  installUpdate
-} = require("./download");
+module.exports = function setupUpdater(mainWindow) {
 
-const { setupUpdateEvents } = require("./events");
-const { rollbackAllowed, runRollback } = require("./rollback");
-const { prereleaseAllowed } = require("./feed");
-const { getSettings, setUpdateChannel } = require("./settings");
+  const source = getInstallSource();
+  const updatesAllowed = source === "direct";
 
-// -----------------------------
-// Initialize updater system
-// -----------------------------
-function setupUpdater(mainWindow) {
-
-  // Forward autoUpdater events to renderer
-  setupUpdateEvents(mainWindow);
-
-  // -----------------------------
-  // IPC: Check for updates
-  // -----------------------------
-  ipcMain.handle("update:check", async () => {
-    return await checkForUpdates();
+  // ---------------------------------
+  // Always expose install source to UI
+  // ---------------------------------
+  ipcMain.handle("update:source", () => {
+    return source;
   });
 
   // -----------------------------
-  // IPC: Download update
+  // Store builds → disable updater
   // -----------------------------
-  ipcMain.handle("update:download", async () => {
-    return await downloadUpdate();
+  if (!updatesAllowed) {
+    console.log(`[updater] Disabled for install source: ${source}`);
+
+    ipcMain.handle("update:check", () => ({
+      updateAvailable: false,
+      latestVersion: null,
+      currentVersion: null,
+      disabled: true,
+      reason: source
+    }));
+
+    ipcMain.handle("update:download", () => ({
+      error: "Updates disabled for this install source."
+    }));
+
+    ipcMain.handle("update:install", () => ({
+      error: "Updates disabled for this install source."
+    }));
+
+    return; // Do NOT wire autoUpdater events
+  }
+
+  // -----------------------------
+  // IPC handlers for direct installs
+  // -----------------------------
+  ipcMain.handle("update:check", () => updater.checkForUpdates());
+  ipcMain.handle("update:download", () => updater.downloadUpdate());
+  ipcMain.handle("update:install", () => updater.installUpdate());
+
+  // -----------------------------
+  // Forward updater events to renderer
+  // -----------------------------
+  updater.onUpdateAvailable(info => {
+    mainWindow.webContents.send("update:available", info);
   });
 
-  // -----------------------------
-  // IPC: Install update
-  // -----------------------------
-  ipcMain.handle("update:install", () => {
-    installUpdate();
+  updater.onUpdateNone(() => {
+    mainWindow.webContents.send("update:none");
   });
 
-  // -----------------------------
-  // IPC: Rollback
-  // -----------------------------
-  ipcMain.handle("update:rollback", async () => {
-    if (!rollbackAllowed()) {
-      return { error: "Rollback not allowed for this install source." };
-    }
-    return await runRollback();
+  updater.onProgress(progress => {
+    mainWindow.webContents.send("update:progress", progress);
   });
 
-  // -----------------------------
-  // IPC: Get updater settings
-  // -----------------------------
-  ipcMain.handle("update:getSettings", () => {
-    return {
-      ...getSettings(),
-      prereleaseAllowed: prereleaseAllowed(),
-      rollbackAllowed: rollbackAllowed()
-    };
+  updater.onReady(info => {
+    mainWindow.webContents.send("update:ready", info);
   });
 
-  // -----------------------------
-  // IPC: Set update channel
-  // -----------------------------
-  ipcMain.handle("update:setChannel", (event, channel) => {
-    if (!prereleaseAllowed() && channel === "prerelease") {
-      return { error: "Prerelease channel not allowed for this install source." };
-    }
-
-    setUpdateChannel(channel);
-    return { status: "ok" };
+  updater.onError(err => {
+    mainWindow.webContents.send("update:error", err.message);
   });
-}
-
-module.exports = { setupUpdater };
+};

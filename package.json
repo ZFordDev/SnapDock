@@ -1,22 +1,27 @@
 {
   "name": "snapdock",
-  "version": "3.1.1",
-  "buildStage": "active",
-  "releaseDate": "2026-05-27",
-  "description": "a modern, Markdown editor with a clean UI and improved architecture.",
-  "homepage": "https://github.com/ZFordDev/SnapDock",
+  "version": "3.1.2",
+  "description": "A Minimal, Modern Markdown Editor",
+  "synopsis": "Fast, clean Markdown editor",
+  "homepage": "https://snapdock.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZFordDev/SnapDock"
+  },
   "author": "ZFordDev",
+  "license": "MIT",
   "private": true,
   "main": "main.js",
-
   "scripts": {
     "start": "electron .",
-    "bundle": "node build.js",
-    "pack": "electron-packager . SnapDock --platform=win32 --arch=x64 --out=dist --icon=assets/icon.ico",
-    "build": "npm run bundle && electron-builder",
-    "lint": "echo \"Add ESLint later\""
+    "build:dev": "node scripts/build-dev.js",
+    "build:test": "node scripts/build-test.js",
+    "build:win": "node scripts/build-win.js",
+    "build:linux": "node scripts/build-linux.js",
+    "build:mac": "echo 'Mac not supported yet'",
+    "build:release": "node scripts/build-release.js",
+    "build:release:store": "node scripts/build-release.js -- --release"
   },
-
   "dependencies": {
     "chokidar": "^5.0.0",
     "electron-log": "^5.4.4",
@@ -33,67 +38,45 @@
     "markdown-it-sup": "^2.0.0",
     "markdown-it-task-lists": "^2.1.1"
   },
-
   "devDependencies": {
-    "electron": "^42.3.3",
+    "electron": "42.3.3",
     "electron-builder": "^26.7.0",
     "esbuild": "^0.28.0",
     "rcedit": "^5.0.2"
   },
-
   "build": {
     "appId": "com.zforddev.snapdock",
     "productName": "SnapDock",
+    "artifactName": "SnapDock-${version}-${channel}-${os}-${arch}.${ext}",
+    "asar": true,
+    "executableName": "snapdock",
+    "compression": "maximum",
     "files": [
       "dist/**/*",
       "index.html",
       "src/**/*",
       "assets/**/*",
       "main.js",
-      "src/preloads.js"
+      "src/preloads.js",
+      "build/metadata.json"
     ],
 
     "win": {
-      "artifactName": "SnapDock-Setup.exe",
       "icon": "assets/icon.ico",
       "target": ["nsis"]
     },
 
-    "nsis": {
-      "artifactName": "SnapDock-Setup.exe"
-    },
-
     "linux": {
-      "icon": "assets/icons",
-      "category": "Utility",
+      "icon": "assets/icon.icns",
+      "category": "Office",
       "maintainer": "ZFordDev <zforddev@gmail.com>",
       "target": ["AppImage", "deb"]
-    },
-
-    "deb": {
-      "artifactName": "SnapDock-Setup.deb"
-    },
-
-    "appImage": {
-      "artifactName": "SnapDock-Setup.AppImage"
     },
 
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",
       "target": ["dmg", "zip"]
-    },
-
-    "dmg": {
-      "artifactName": "SnapDock-Setup.dmg"
-    },
-
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "ZFordDev",
-        "repo": "SnapDock"
-      }
-    ]
+    }
   }
 }

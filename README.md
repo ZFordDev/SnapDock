@@ -124,17 +124,40 @@ npm run build:dev
 
 ## Installation
 
-Most users should install SnapDock using the prebuilt packages available on the Releases page:
+SnapDock is available through official stores for the easiest and most reliable installation experience.
 
-👉 [https://github.com/ZFordDev/SnapDock/releases](https://github.com/ZFordDev/SnapDock/releases)
+### Windows (Recommended)
+Install SnapDock directly from the Microsoft Store:
 
-**Windows**
-- Download the `.exe` installer  
-- Run it  
-- SnapDock is ready to use
+~~👉 **https://apps.microsoft.com/detail/{Placeholder}**~~
 
-**Linux**
-- Download the `.AppImage` or `.deb` package  
+> Windows Store pending review
+
+This provides:
+- Automatic updates  
+- Clean installation & removal  
+- Verified publisher security  
+
+A standalone `.exe` installer is also available on GitHub Releases if preferred.
+
+### Linux (Recommended)
+SnapDock is available on the Snap Store:
+
+👉 **https://snapcraft.io/markdown-workspace**
+
+Install via terminal:
+
+```bash
+sudo snap install markdown-workspace
+```
+
+This provides:
+- Automatic updates  
+- Sandboxed, secure environment  
+- Works across all major distros  
+
+### Manual Linux Packages
+If you prefer manual installation:
 
 **AppImage**
 ```bash
@@ -149,6 +172,11 @@ chmod +x SnapDock-Setup.AppImage
 ```bash
 sudo apt install ./SnapDock-Setup.deb
 ```
+
+### Other Downloads
+All installers and portable builds are available on GitHub Releases:
+
+👉 https://github.com/ZFordDev/SnapDock/releases
 
 No additional runtimes or dependencies are required.
 
@@ -187,44 +215,61 @@ SnapDock/
 └── temp_notes.md           # Internal notes (not part of the app)
 ```
 
----
-
 ## Roadmap
 
-Planned improvements and upcoming development goals for SnapDock.  
-This list reflects active GitHub issues and near‑term release targets.
+SnapDock’s roadmap reflects active GitHub issues and near‑term development priorities.  
+For the most up‑to‑date list, visit:  
+https://github.com/ZFordDev/SnapDock/issues
 
-### **In Progress / High Priority**
-- [X] **Ecosystem Standards Migration**  
-  _Documentation improvements and alignment with ZFordDev ecosystem standards_  
-  (#109)
+### Core Improvements
+- **[Diff Viewer](ca://s?q=Open_Diff_Viewer_issue)**  
+  _Side‑by‑side diffing for Markdown documents_  
+  (#154)
 
-- [ ] **Integrate New Updater Logic**  
-  _Modernized update pipeline for V3 and future releases_  
-  (#104)
+- **[Markdown Page Break Syntax for PDF Export](ca://s?q=Open_Page_Break_issue)**  
+  _Support for `---` or `\page` to control PDF pagination_  
+  (#153)
 
-### **UI / UX Improvements**
-- [ ] **Replace Electron Frame With Custom SnapDock Frame**  
-  _Cleaner, native-feeling window chrome_  
-  (#95)
+- **[Find Box (Ctrl+F Search)](ca://s?q=Open_Find_Box_issue)**  
+  _Inline search within the editor_  
+  (#152)
 
-- [X] **Add Tab Overflow Scrolling / Horizontal Scroll**  
-  _Improves usability for large workspaces_  
-  (#87)
+- **[Word Count for Selected Text](ca://s?q=Open_Selected_Word_Count_issue)**  
+  _Granular writing metrics_  
+  (#151)
 
-### **Platform Releases**
-- [ ] **Windows Store Release**  
-  _Submission + certification for Microsoft Store_
+### UI / UX Enhancements
+- **[Unlock Native Right‑Click Context Menu](ca://s?q=Open_Context_Menu_issue)**  
+  _Restore OS‑native context menus for better usability_  
+  (#150)
 
-- [ ] **Snap Store Release**  
-  _Snapcraft packaging + publishing_
+- **[Editor Status Bar Metrics](ca://s?q=Open_Status_Bar_issue)**  
+  _Live stats: words, characters, cursor position_  
+  (#149)
 
-### **Upcoming (V3 Cycle)**
-- [ ] New developer mode (`npm run dev`)
-- [ ] Theme engine improvements + custom theme support
-- [ ] Enhanced PDF export pipeline
-- [ ] V3 UI/UX redesign
-- [ ] Import custom `.sdwp` files as virtual workspaces
+- **[Document Outline Panel](ca://s?q=Open_Outline_Panel_issue)**  
+  _Heading‑based navigation sidebar_  
+  (#148)
+
+### Markdown Engine & Plugin Pipeline
+- **[Fix markdown‑it‑link‑attributes Wiring](ca://s?q=Open_Link_Attributes_issue)**  
+  (#135)
+
+- **[Fix markdown‑it‑emoji Wiring](ca://s?q=Open_Emoji_issue)**  
+  (#134)
+
+- **[Fix markdown‑it‑container Wiring](ca://s?q=Open_Container_issue)**  
+  (#133)
+
+- **[Markdown‑it Plugin Wiring Fix (Renderer Pipeline)](ca://s?q=Open_Renderer_Pipeline_issue)**  
+  (#132)
+
+### Build, Release & Automation
+- **[Improve Versioning Discipline & Release Automation](ca://s?q=Open_Release_Automation_issue)**  
+  (#139)
+
+- **[Improve Build Scripts & Build‑Type Workflow](ca://s?q=Open_Build_Scripts_issue)**  
+  (#138)
 
 ---
 

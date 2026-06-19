@@ -77,7 +77,7 @@ jobs:
         run: |
           sudo snap install lxd
           sudo lxd waitready
-          sudo usermod -aG lxd $user
+          sudo usermod -aG lxd $USER
           sudo chmod a+rw /var/snap/lxd/common/lxd/unix.socket
 
       - name: Pack Snap

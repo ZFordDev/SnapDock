@@ -73,16 +73,16 @@ jobs:
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v2
 
-#      - name: Install LXD
-#        run: |
-#          sudo snap install lxd
-#          sudo lxd waitready
-#          sudo lxd init --auto
-#          sudo usermod -aG lxd $USER
-#          sudo chmod a+rw /var/snap/lxd/common/lxd/unix.socket
+      - name: Install LXD
+        run: |
+          sudo snap install lxd
+          sudo lxd waitready
+          sudo lxd init --auto
+          sudo usermod -aG lxd $USER
+          newgrp lxd
 
       - name: Pack Snap
-        run: snapcraft pack --destructive-mode
+        run: snapcraft pack
 
       - name: Snapcraft Login
         if: startsWith(github.ref, 'refs/tags/')

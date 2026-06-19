@@ -69,13 +69,17 @@ jobs:
 
       - name: Build Store-Safe Version
         run: npm run build:release:store
-
-      # No script generation — snapcraft.yaml already exists
-
+          
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v2
         with:
           snapcraft_token: ${{ secrets.SNAPCRAFT_LOGIN }}
+
+      - name: Install LXD
+        run: |
+          sudo snap install lxd
+          sudo lxd waitready
+          sudo lxd init --auto
 
       - name: Pack Snap
         run: snapcraft pack

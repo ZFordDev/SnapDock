@@ -124,17 +124,38 @@ npm run build:dev
 
 ## Installation
 
-Most users should install SnapDock using the prebuilt packages available on the Releases page:
+SnapDock is available through official stores for the easiest and most reliable installation experience.
 
-👉 [https://github.com/ZFordDev/SnapDock/releases](https://github.com/ZFordDev/SnapDock/releases)
+### Windows (Recommended)
+Install SnapDock directly from the Microsoft Store:
 
-**Windows**
-- Download the `.exe` installer  
-- Run it  
-- SnapDock is ready to use
+👉 **https://apps.microsoft.com/detail/{Placeholder}**
 
-**Linux**
-- Download the `.AppImage` or `.deb` package  
+This provides:
+- Automatic updates  
+- Clean installation & removal  
+- Verified publisher security  
+
+A standalone `.exe` installer is also available on GitHub Releases if preferred.
+
+### Linux (Recommended)
+SnapDock is available on the Snap Store:
+
+👉 **https://snapcraft.io/markdown-workspace**
+
+Install via terminal:
+
+```bash
+sudo snap install markdown-workspace
+```
+
+This provides:
+- Automatic updates  
+- Sandboxed, secure environment  
+- Works across all major distros  
+
+### Manual Linux Packages
+If you prefer manual installation:
 
 **AppImage**
 ```bash
@@ -149,6 +170,11 @@ chmod +x SnapDock-Setup.AppImage
 ```bash
 sudo apt install ./SnapDock-Setup.deb
 ```
+
+### Other Downloads
+All installers and portable builds are available on GitHub Releases:
+
+👉 **`[https://github.com/ZFordDev/SnapDock/releases`**]
 
 No additional runtimes or dependencies are required.
 

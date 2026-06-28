@@ -8,6 +8,7 @@ import sub from "markdown-it-sub";
 import sup from "markdown-it-sup";
 import container from "markdown-it-container";
 import hljs from "highlight.js";
+import { full as emoji } from "markdown-it-emoji";
 
 // MarkdownIt Instance
 
@@ -32,6 +33,7 @@ md.use(taskLists, { enabled: true });
 md.use(mark);
 md.use(sub);
 md.use(sup);
+md.use(emoji);
 
 md.use(anchor, {
   level: [1, 2, 3, 4]

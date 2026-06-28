@@ -44,7 +44,6 @@ md.use(mila, {
   }
 });
 
-// Custom containers (:::note, :::warning, :::tip)
 ["note", "warning", "tip"].forEach(type => {
   md.use(container, type, {
     render(tokens, idx) {
@@ -56,6 +55,21 @@ md.use(mila, {
       }
     }
   });
+});
+
+// Special handling for "info"
+md.use(container, "info", {
+  validate: function(params) {
+    return params.trim().match(/^info$/);
+  },
+  render: function(tokens, idx) {
+    const token = tokens[idx];
+    if (token.nesting === 1) {
+      return `<div class="md-info">`;
+    } else {
+      return `</div>`;
+    }
+  }
 });
 
 // Exported Renderer

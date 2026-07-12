@@ -55,16 +55,29 @@ function createWindow() {
       sandbox: false,
     },
     // Use a frameless window so we can render a custom SnapDock titlebar
-    frame: false,
+    frame: false, // need to set to if dev == true else false
     // On macOS we can hint to hide the native title bar inset
     titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : undefined,
   });
+
+    // --- DPI SCALING FIX ---
+  const { screen } = require("electron");
+  const scaleFactor = screen.getPrimaryDisplay().scaleFactor;
+
+  let zoom = 1.0;
+  if (scaleFactor >= 1.25 && scaleFactor < 1.5) zoom = 1.10;
+  else if (scaleFactor >= 1.5 && scaleFactor < 2.0) zoom = 1.25;
+  else if (scaleFactor >= 2.0) zoom = 1.40;
+
+  mainWindow.webContents.setZoomFactor(zoom);
+  // ------------------------
 
   // Remove all menus
   mainWindow.setMenu(null);
   mainWindow.setMenuBarVisibility(false);
   mainWindow.setAutoHideMenuBar(true);
 
+  // need  to unblock for dev builds or test builds
   // Block DevTools shortcuts
   mainWindow.webContents.on("before-input-event", (event, input) => {
     if (

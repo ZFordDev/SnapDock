@@ -8,6 +8,7 @@ import { openFileDialog } from "./modules/file/open.js";
 import { respondToDirtyStateRequest } from "./modules/system/dirtyState.js";
 import { save_all_tabs } from "./modules/file/tabs.js";
 import { initDropdownToggles, initToolsDropdown } from "./modules/ui/dropdownMenus.js";
+import { initMetrics } from "./modules/ui/metrics.js";
 
 // Helper
 function byId(id) {
@@ -56,5 +57,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // File Open Button (inside the Open dropdown — same ID)
   byId("openFileBtnTop")?.addEventListener("click", openFileDialog);
+
+  // metrics for footer
+  const editor = document.getElementById("markdownInputMain");
+  initMetrics(editor);
 
 });

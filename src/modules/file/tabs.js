@@ -1,5 +1,6 @@
 // src/modules/file/tabs.js
 import { saveCurrentFile } from "./operations.js";
+import { updateMetrics } from "../ui/metrics.js";
 
 let tabs = [];
 let activeTabId = null;
@@ -104,6 +105,8 @@ export function switchToTab(tabId) {
   if (!next || !editor) return;
 
   editor.value = next.content;
+  // update metrics call
+  updateMetrics();
 
   const filenameEl = document.getElementById("filenameDisplay");
   if (filenameEl) filenameEl.textContent = next.title;

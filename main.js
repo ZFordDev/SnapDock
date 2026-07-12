@@ -53,6 +53,7 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: false,
+      spellcheck: true, // enables right click window
     },
     // Use a frameless window so we can render a custom SnapDock titlebar
     frame: false, // need to set to if dev == true else false
@@ -86,6 +87,26 @@ function createWindow() {
     ) {
       event.preventDefault();
     }
+  });
+  // NEW: right click window
+  const { Menu } = require("electron");
+
+  mainWindow.webContents.on("context-menu", (_event, params) => {
+    // Only show menu for editable elements (textarea, input)
+    if (!params.isEditable) return;
+
+    const menu = Menu.buildFromTemplate([
+      { role: "undo" },
+      { role: "redo" },
+      { type: "separator" },
+      { role: "cut" },
+      { role: "copy" },
+      { role: "paste" },
+      { type: "separator" },
+      { role: "selectAll" },
+    ]);
+
+    menu.popup({ window: mainWindow });
   });
 
   // Unsaved changes / workspace dirty failsafe

@@ -8,6 +8,7 @@ import sub from "markdown-it-sub";
 import sup from "markdown-it-sup";
 import container from "markdown-it-container";
 import hljs from "highlight.js";
+import { full as emoji } from "markdown-it-emoji";
 
 // MarkdownIt Instance
 
@@ -32,6 +33,7 @@ md.use(taskLists, { enabled: true });
 md.use(mark);
 md.use(sub);
 md.use(sup);
+md.use(emoji);
 
 md.use(anchor, {
   level: [1, 2, 3, 4]
@@ -44,7 +46,6 @@ md.use(mila, {
   }
 });
 
-// Custom containers (:::note, :::warning, :::tip)
 ["note", "warning", "tip"].forEach(type => {
   md.use(container, type, {
     render(tokens, idx) {
@@ -56,6 +57,21 @@ md.use(mila, {
       }
     }
   });
+});
+
+// Special handling for "info"
+md.use(container, "info", {
+  validate: function(params) {
+    return params.trim().match(/^info$/);
+  },
+  render: function(tokens, idx) {
+    const token = tokens[idx];
+    if (token.nesting === 1) {
+      return `<div class="md-info">`;
+    } else {
+      return `</div>`;
+    }
+  }
 });
 
 // Exported Renderer

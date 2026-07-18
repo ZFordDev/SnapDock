@@ -1,4 +1,5 @@
 import { renderMarkdown } from "../markdown.js";
+import { getActiveTab } from "../file/tabs.js";
 
 const STORAGE_KEY = "snapdock:previewMode";
 
@@ -71,7 +72,9 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
 
   // --- Update preview content ---
   const applyPreviewContent = () => {
-    const html = renderMarkdown(editor.value);
+    const html = renderMarkdown(editor.value, {
+      documentPath: getActiveTab()?.filePath,
+    });
     const parsed = new DOMParser().parseFromString(html, "text/html");
     preview.replaceChildren(...parsed.body.childNodes);
   };

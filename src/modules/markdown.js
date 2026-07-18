@@ -46,6 +46,23 @@ md.use(mila, {
   }
 });
 
+const defaultImageRenderer = md.renderer.rules.image;
+
+md.renderer.rules.image = (tokens, index, options, env, self) => {
+  const token = tokens[index];
+  const source = token.attrGet("src");
+  const documentPath = env?.documentPath;
+
+  if (source && documentPath && window.electronAPI?.resolveLocalAttachment) {
+    token.attrSet(
+      "src",
+      window.electronAPI.resolveLocalAttachment(documentPath, source)
+    );
+  }
+
+  return defaultImageRenderer(tokens, index, options, env, self);
+};
+
 ["note", "warning", "tip"].forEach(type => {
   md.use(container, type, {
     render(tokens, idx) {
@@ -76,6 +93,6 @@ md.use(container, "info", {
 
 // Exported Renderer
 
-export function renderMarkdown(text) {
-  return md.render(text || "");
+export function renderMarkdown(text, env = {}) {
+  return md.render(text || "", env);
 }

@@ -1,129 +1,105 @@
-# SnapDock User Guide
+# Welcome to SnapDock
 
-## Overview
-SnapDock is a fast, minimal Markdown workspace designed for clean writing, simple file management, and distraction‑free focus. It supports tabs, workspaces, themes, and PDF export — all in a lightweight, local‑first interface.
+SnapDock is a **fast, local-first Markdown workspace** for writing, organizing, previewing, and exporting documents without leaving your flow.
 
-For full documentation, visit:  
-**https://docs.snapdock.app/snapdock/**
+> **New here?** Start with a file, write in Markdown, then use **Show Preview** to see the finished result.
 
 ---
 
-## Core Features
+## Quick Start
 
-### New File
-Create a blank Markdown document instantly and begin writing.
+1. Select **New** to begin a fresh document, or choose **Open → Open File** to continue one.
+2. Write your Markdown, then select **Save → Save** to keep your changes.
+3. Select **Save → Export** to create a PDF from the rendered document.
 
-### Open File
-Load any `.md` file from your device.
-
-### Open Folder (Workspace Mode)
-Browse and edit multiple files inside a folder using the sidebar.
-
-### Tabs
-Open several documents at once and switch between them easily.
-
-### Recent Files
-Quickly reopen documents you’ve worked on recently.
-
-### Theme Switching
-Choose from built‑in themes for comfort and readability.
-
-### PDF Export
-Generate a clean PDF from your rendered Markdown.
-
-### Quick Keys
-Navigate entirely via keyboard for a seamless writing experience.
+> **Tip:** Open a folder with **Open → Open Folder** to work across a whole project from the sidebar.
 
 ---
 
-## Using SnapDock
+## Keyboard Shortcuts
 
-### Creating and Editing Documents
-- Use **New File** to start writing immediately  
-- Use **Open File** to load existing Markdown  
-- Use **Open Folder** to work inside a project directory  
-
-### Saving Your Work
-SnapDock uses manual saving for clarity and control.  
-Click **Save** in the toolbar to write changes to disk.
-
-### Previewing Markdown
-Switch between **Editor** and **Preview** to see your formatted document.
-
-### Exporting to PDF
-Select **Export** to generate a PDF version of your document.  
-Review the PDF before printing to ensure layout accuracy.
-
----
-
-# Keyboard Shortcuts (Quick Keys)
-
-SnapDock includes simple, intuitive keyboard shortcuts designed to keep your writing flow uninterrupted.  
-Shortcuts work across Windows, macOS, and Linux.
-
-## Core Shortcuts
+Use `Ctrl` on Windows/Linux or `Cmd` on macOS.
 
 | Action | Shortcut |
-|--------|----------|
-| Save File | **Ctrl/Cmd + S** |
-| New Tab | **Ctrl/Cmd + N** |
-| Close Tab | **Ctrl/Cmd + W** |
-| Open File | **Ctrl/Cmd + O** |
-| Open Folder | **Ctrl/Cmd + Shift + O** |
+| --- | --- |
+| New tab | `Ctrl/Cmd + N` |
+| Open file | `Ctrl/Cmd + O` |
+| Open folder | `Ctrl/Cmd + Shift + O` |
+| Save active file | `Ctrl/Cmd + S` |
+| Close active tab | `Ctrl/Cmd + W` |
+| Next tab | `Ctrl/Cmd + Shift + Right Arrow` |
+| Previous tab | `Ctrl/Cmd + Shift + Left Arrow` |
+| Toggle preview | `Ctrl/Cmd + Shift + P` |
+| Open this guide | `Ctrl/Cmd + /` |
 
 ---
 
-## Navigation
+## Write, Organize, and Preview
 
-| Action | Shortcut |
-|--------|----------|
-| Next Tab | **Ctrl/Cmd + Shift + →** |
-| Previous Tab | **Ctrl/Cmd + Shift + ←** |
-| Toggle Preview | **Ctrl/Cmd + Shift + P** |
+### Markdown Editing
 
----
+Write in the distraction-free editor using familiar Markdown:
 
-## Help & Support
+- `# Heading` for document structure
+- `**bold**` and `*italic*` for emphasis
+- Lists, tables, links, task lists, footnotes, and code blocks for richer notes
+- `![Alt text](image.png)` for local image attachments beside your document
 
-| Action | Shortcut |
-|--------|----------|
-| Open Help | **Ctrl/Cmd + /** |
+### Tabs and Recent Files
 
----
+Keep several documents open at once. Each tab tracks whether it has unsaved changes, and **Recent Files** makes it easy to return to work you opened before.
 
-## Workspaces
+### Workspaces
 
-### Opening a Workspace
-Choose **Open Folder** to load a directory.  
-Files appear in the sidebar for quick navigation.
+Open a folder to turn it into a workspace. The **Project Files** sidebar lets you browse Markdown files while keeping your current tabs open.
 
-### Tabs in Workspace Mode
-Each file opens in its own tab.  
-You can switch, close, or save tabs independently.
+### Preview Modes
+
+Use **Show Preview** for a focused rendered view, or choose **Split View** from its menu to edit and preview side by side.
+
+> **Coming soon:** Live View is visible in the preview menu but is not yet available.
 
 ---
 
-## Settings & Themes
+## Themes and Appearance
 
-### Theme Selection
-Use the **Theme** button in the footer to switch between available themes.
+Open **Tools** to choose a theme that fits your environment:
 
-### Preferences
-SnapDock keeps settings minimal and focused on writing.  
-Additional customization options are available in the online documentation.
+- Light Theme
+- Dark Theme
+- Solarized
+- Arctic Dark
+- Forest
 
----
-
-## Feedback & Support
-SnapDock is an open‑source project.  
-If you have suggestions, issues, or want to contribute:
-
-- GitHub Issues: https://github.com/ZFordDev/SnapDock/issues  
-- Website: https://snapdock.app  
-- Documentation: https://docs.snapdock.app/snapdock/  
+Theme changes apply immediately, so you can settle into a comfortable writing space without interrupting your work.
 
 ---
 
-## Thank You
-Thank you for using SnapDock.  
-SnapDock is built to deliver a clean, fast, reliable writing experience.
+## Export to PDF
+
+When your document is ready to share:
+
+1. Open the **Save** menu.
+2. Select **Export**.
+3. SnapDock creates a PDF from your rendered Markdown and opens it for you.
+
+> **Before exporting:** save the document first so your latest changes are included.
+
+---
+
+## Community and Support
+
+SnapDock is open source and built with its community. Find updates, report a problem, or contribute at these links:
+
+- [SnapDock documentation](https://docs.snapdock.app/snapdock/)
+- [SnapDock website](https://snapdock.app/)
+- [GitHub issues](https://github.com/ZFordDev/SnapDock/issues)
+- [Contributing guide](https://github.com/ZFordDev/SnapDock/blob/main/CONTRIBUTING.md)
+
+> **Enjoying the app?** If SnapDock saves you time, consider leaving a ⭐ [Star on GitHub](https://github.com/ZFordDev/SnapDock) to help other developers and writers discover it!
+
+---
+
+## Thanks for Using SnapDock
+
+Build something useful, keep it local, and make it yours.

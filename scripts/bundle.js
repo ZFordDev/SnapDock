@@ -1,8 +1,9 @@
 const esbuild = require("esbuild");
+const path = require("path");
 
 esbuild.build({
-  entryPoints: ["src/scripts.js"],
+  entryPoints: [path.join(__dirname, "..", "src", "scripts.js")],
   bundle: true,
-  outfile: "dist/bundle.js",
+  outfile: path.join(__dirname, "..", "dist", "bundle.js"),
   platform: "browser",
 }).catch(() => process.exit(1));

@@ -14,7 +14,9 @@
   position: relative;
   width: 80%;
   max-width: 900px;
-  height: calc(100vh - 120px);
+  /* Size against the flex-managed app container so the footer and header are
+     always accounted for, regardless of window size or toolbar height. */
+  height: 100%;
   background: var(--editor-bg);
   color: var(--editor-text);
   display: flex;

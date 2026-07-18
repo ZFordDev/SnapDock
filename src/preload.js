@@ -1,6 +1,22 @@
 const { contextBridge, ipcRenderer } = require("electron");
+const path = require("path");
+const { pathToFileURL } = require("url");
 const MarkdownIt = require("markdown-it");
 const md = new MarkdownIt();
+
+function resolveLocalAttachment(documentPath, attachmentPath) {
+  if (!documentPath || !attachmentPath) return attachmentPath;
+
+  const isRelativePath =
+    !path.isAbsolute(attachmentPath) &&
+    !/^(?:[a-z][a-z\d+.-]*:|\/\/|[\\/])/i.test(attachmentPath);
+
+  if (!isRelativePath) return attachmentPath;
+
+  return pathToFileURL(
+    path.resolve(path.dirname(documentPath), attachmentPath)
+  ).href;
+}
 
 // -----------------------------
 // Markdown renderer
@@ -24,6 +40,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("confirm-tab-close", title),
   openFileByPath: (path) =>
     ipcRenderer.invoke("open-file-by-path", path),
+  resolveLocalAttachment,
 
   // Workspace watcher
   onWorkspaceUpdated: (callback) =>

@@ -42,7 +42,10 @@ parts:
     source: .
     organize:
       snapdock.desktop: meta/gui/snapdock.desktop
-      assets/icon.svg: meta/gui/snapdock.svg
+      assets/snapdock.png: meta/gui/snapdock.png
+    prime:
+      - meta/gui/snapdock.desktop
+      - meta/gui/snapdock.png
 
 plugs:
   shared-memory:

@@ -3,6 +3,6 @@ Name=SnapDock
 Exec=snapdock %U
 Terminal=false
 Type=Application
-Icon=snapdock
+Icon=${SNAP}/meta/gui/snapdock.png
 Description=A Minimal, Modern Markdown Editor
 Categories=Office;Utility;TextEditor;

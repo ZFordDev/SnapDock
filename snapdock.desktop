@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=SnapDock
+Exec=snapdock %U
+Terminal=false
+Type=Application
+Icon=snapdock
+Description=A Minimal, Modern Markdown Editor
+Categories=Office;Utility;TextEditor;

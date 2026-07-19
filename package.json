@@ -70,7 +70,7 @@
       "icon": "assets/icon.icns",
       "category": "Office",
       "maintainer": "ZFordDev <zforddev@gmail.com>",
-      "target": ["AppImage", "deb"]
+      "target": ["AppImage", "deb", "snap"]
     },
 
     "mac": {

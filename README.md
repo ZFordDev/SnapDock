@@ -87,7 +87,7 @@ A standalone `.exe` installer is also available on GitHub Releases if preferred.
 ### Linux
 SnapDock is available on the Snap Store:
 
-👉 **[Snap Store](https://snapcraft.io/markdown-workspace)**
+[![Get it from the Snap Store](https://snapcraft.io/en/dark/install.svg)](https://snapcraft.io/markdown-workspace)
 
 Install via terminal:
 

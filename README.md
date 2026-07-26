@@ -95,9 +95,6 @@ Install via terminal:
 sudo snap install markdown-workspace
 ```
 
-> [!WARNING]
-> SnapStore is broken due to malformed .desktop, im activly working on a fix
-
 ### Other Downloads
 All installers and portable builds are available on GitHub Releases:
 

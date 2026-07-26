@@ -1,6 +1,7 @@
 [![Docs](https://img.shields.io/badge/DocsHub-docs.zford.dev-4F46E5?style=flat-square)](https://docs.zford.dev/docs/snapdockstudio/snapdock/)
 ![Status](https://img.shields.io/badge/Status-ACTIVE-4CAF50?style=flat-square)
-![Platforms](https://img.shields.io/badge/Platforms-Windows%20%7C%20Linux-blue?style=flat-square)   
+![Platforms](https://img.shields.io/badge/Platforms-Windows%20%7C%20Linux-blue?style=flat-square)
+[![markdown-workspace](https://snapcraft.io/markdown-workspace/badge.svg)](https://snapcraft.io/markdown-workspace)  
 
 [![itch.io](https://img.shields.io/badge/itch.io-SnapDock-FA5C5C?style=flat-square)](https://zforddev.itch.io/snapdock)
 ![Downloads](https://img.shields.io/github/downloads/ZFordDev/SnapDock/total?style=flat-square)
@@ -83,7 +84,7 @@ This provides:
 
 A standalone `.exe` installer is also available on GitHub Releases if preferred.
 
-### Linux (Broken)
+### Linux
 SnapDock is available on the Snap Store:
 
 👉 **[Snap Store](https://snapcraft.io/markdown-workspace)**

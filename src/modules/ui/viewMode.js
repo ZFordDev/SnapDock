@@ -1,5 +1,6 @@
 import { renderMarkdown } from "../markdown.js";
 import { getActiveTab } from "../file/tabs.js";
+import { handleFileOpen } from "../file/open.js";
 
 const STORAGE_KEY = "snapdock:previewMode";
 
@@ -77,6 +78,31 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
     });
     const parsed = new DOMParser().parseFromString(html, "text/html");
     preview.replaceChildren(...parsed.body.childNodes);
+  };
+
+  const handlePreviewLinkClick = async (event) => {
+    const anchor = event.target.closest("a");
+    if (!anchor) return;
+
+    const href = anchor.getAttribute("href");
+    if (!href) return;
+
+    if (window.electronAPI?.isExternalLink?.(href)) {
+      event.preventDefault();
+      event.stopPropagation();
+      await window.electronAPI.openExternalLink(href);
+      return;
+    }
+
+    const documentPath = getActiveTab()?.filePath;
+    const resolvedPath = window.electronAPI?.resolveLocalPath?.(documentPath, href);
+    if (!resolvedPath) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const fileName = resolvedPath.split(/[\\/]/).pop();
+    await handleFileOpen(resolvedPath, fileName);
   };
 
   // --- Mode: Preview (full toggle) ---
@@ -258,6 +284,8 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
       applyPreviewContent();
     }
   });
+
+  preview.addEventListener("click", handlePreviewLinkClick);
 
   // --- Live preview while typing ---
   editor.addEventListener("input", () => {

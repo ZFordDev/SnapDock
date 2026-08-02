@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer } = require("electron");
 const path = require("path");
 const { pathToFileURL } = require("url");
 const MarkdownIt = require("markdown-it");
+const { isExternalLink, resolveLocalPath } = require("./modules/linkNavigation.js");
 const md = new MarkdownIt();
 
 function resolveLocalAttachment(documentPath, attachmentPath) {
@@ -40,6 +41,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("confirm-tab-close", title),
   openFileByPath: (path) =>
     ipcRenderer.invoke("open-file-by-path", path),
+  openExternalLink: (target) =>
+    ipcRenderer.invoke("open-external-link", target),
+  isExternalLink,
+  resolveLocalPath,
   resolveLocalAttachment,
 
   // Workspace watcher

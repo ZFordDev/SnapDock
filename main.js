@@ -1,9 +1,10 @@
-const { app, BrowserWindow, dialog, ipcMain } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, shell } = require("electron");
 const chokidar = require("chokidar");
 const fs = require("fs");
 const path = require("path");
 const pkg = require("./package.json");
 const pdfModule = require("./src/modules/pdf/pdf.js");
+const { isExternalLink } = require("./src/modules/linkNavigation.js");
 
 /* Metadata loading with fallback:
 - During development, we read directly from package.json for simplicity.
@@ -72,6 +73,25 @@ function createWindow() {
 
   mainWindow.webContents.setZoomFactor(zoom);
   // ------------------------
+
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (isExternalLink(url)) {
+      shell.openExternal(url);
+      return { action: "deny" };
+    }
+
+    return { action: "deny" };
+  });
+
+  mainWindow.webContents.on("will-navigate", (event, url) => {
+    if (isExternalLink(url)) {
+      event.preventDefault();
+      shell.openExternal(url);
+      return;
+    }
+
+    event.preventDefault();
+  });
 
   // Remove all menus
   mainWindow.setMenu(null);
@@ -305,6 +325,12 @@ app.whenReady().then(createWindow);
     } catch {
       return null;
     }
+  });
+
+  ipcMain.handle("open-external-link", async (_, target) => {
+    if (!target || !isExternalLink(target)) return false;
+    shell.openExternal(target);
+    return true;
   });
 
   ipcMain.handle("confirm-tab-close", async (event, title) => {

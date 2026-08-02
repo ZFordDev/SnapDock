@@ -22,11 +22,18 @@ body.dark-theme .title-row {
   border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+}
+
 .header-left {
   display: flex;
   align-items: center;
   gap: 2px;
-  flex: 1;
+  flex: 0 1 auto;
 }
 
 .header-center {
@@ -38,7 +45,14 @@ body.dark-theme .title-row {
 .header-right {
   display: flex;
   justify-content: flex-end;
+  flex: 0 1 auto;
+}
+
+.find-bar-host {
   flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 220px;
 }
 
 /* ─── Standalone header buttons (New) ─── */

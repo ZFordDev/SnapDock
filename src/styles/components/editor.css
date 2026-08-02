@@ -24,6 +24,61 @@
   overflow-x: hidden;
 }
 
+.find-bar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--tab-border);
+  background: var(--sidebar-bg);
+  color: var(--editor-text);
+}
+
+.find-bar.is-visible {
+  display: flex;
+}
+
+.find-bar__icon {
+  opacity: 0.7;
+}
+
+.find-bar__input {
+  flex: 1;
+  border: 1px solid var(--tab-border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: var(--editor-bg);
+  color: var(--editor-text);
+}
+
+.find-bar__summary {
+  min-width: 80px;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.find-bar__button {
+  border: 1px solid var(--tab-border);
+  background: transparent;
+  color: var(--editor-text);
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.find-bar__button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.find-bar__close {
+  color: var(--tab-text);
+}
+
+.find-bar.has-results .find-bar__summary {
+  color: var(--tab-accent);
+}
+
 .markdown-preview {
   overflow: visible;
   padding: 0;

@@ -2,7 +2,7 @@ export function initInitialState({ editor }) {
   if (!editor) return;
 
   if (!editor.value.trim()) {
-    editor.value = "# SnapDock Start typing...";
+    editor.value = "";
   }
 
   editor.focus();

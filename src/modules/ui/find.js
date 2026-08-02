@@ -67,6 +67,15 @@ export function getMatchSummary(state) {
   return `${state.matches.length} match${state.matches.length === 1 ? "" : "es"}`;
 }
 
+export function getScrollTarget(text = "", index = 0, options = {}) {
+  const lineHeight = options.lineHeight || 20;
+  const viewportHeight = options.viewportHeight || 240;
+  const lineIndex = (text.slice(0, index).match(/\n/g) || []).length;
+  const targetTop = lineIndex * lineHeight - viewportHeight / 3;
+
+  return Math.max(0, targetTop);
+}
+
 export function initFindBox({ editor, host }) {
   if (!editor) {
     return {
@@ -131,7 +140,12 @@ export function initFindBox({ editor, host }) {
 
     editor.focus();
     editor.setSelectionRange(match.start, match.end);
-    editor.scrollTop = Math.max(0, editor.scrollTop);
+    const lineHeight = parseFloat(getComputedStyle(editor).lineHeight) || 20;
+    const viewportHeight = editor.clientHeight || 240;
+    editor.scrollTop = getScrollTarget(editor.value, match.start, {
+      lineHeight,
+      viewportHeight
+    });
     activeIndex = safeIndex;
     currentState = { ...currentState, activeIndex: safeIndex };
     summary.textContent = `${safeIndex + 1}/${currentState.matches.length}`;

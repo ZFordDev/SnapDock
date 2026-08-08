@@ -15,8 +15,9 @@
   border: none;
   outline: none;
   resize: none;
-  font-family: monospace;
+  font-family: Consolas, 'Courier New', monospace;
   font-size: 1em;
+  line-height: 1.55;
   background: inherit;
   color: inherit;
   box-sizing: border-box;

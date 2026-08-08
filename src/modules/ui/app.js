@@ -18,6 +18,7 @@ import { initHelp} from "../ui/help.js";
 import { initShortcuts } from "../ui/qkeys.js";
 import { loadWorkspace, initWorkspaceControls } from "../file/workspace.js";
 import { saveCurrentFile } from "../file/operations.js";
+import { initFindBox } from "../ui/find.js";
 
 // --- HELPERS ---
 function byId(id) {
@@ -45,6 +46,9 @@ export function initApp() {
 
   // 2️⃣ Recent files
   renderRecentFiles(recentList);
+
+  const findController = initFindBox({ editor, host: byId("findBarHost") });
+  window.snapdockFind = findController;
 
   const clearRecentBtn = byId("clearRecentBtn");
   if (clearRecentBtn) {

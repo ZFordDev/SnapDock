@@ -54,6 +54,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
   openHelp: () =>
     ipcRenderer.invoke("dialog:openHelp"),
 
+  // Spellcheck
+  getSpellcheckState: () => ipcRenderer.invoke("spellcheck:get-state"),
+  setSpellcheckState: (enabled) => ipcRenderer.invoke("spellcheck:set-state", enabled),
+
   // Version info
   getVersion: () =>
     ipcRenderer.invoke("get-version"),

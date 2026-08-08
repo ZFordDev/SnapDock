@@ -14,6 +14,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "md:test": "node test/markdown-render.js",
     "build:dev": "node scripts/build-dev.js",
     "build:test": "node scripts/build-test.js",
     "build:win": "node scripts/build-win.js",
@@ -60,23 +61,29 @@
       "src/preloads.js",
       "build/metadata.json"
     ],
-
     "win": {
       "icon": "assets/icon.ico",
-      "target": ["nsis"]
+      "target": [
+        "nsis"
+      ]
     },
-
     "linux": {
       "icon": "assets/icon.icns",
       "category": "Office",
       "maintainer": "ZFordDev <zforddev@gmail.com>",
-      "target": ["AppImage", "deb", "snap"]
+      "target": [
+        "AppImage",
+        "deb",
+        "snap"
+      ]
     },
-
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",
-      "target": ["dmg", "zip"]
+      "target": [
+        "dmg",
+        "zip"
+      ]
     }
   }
 }

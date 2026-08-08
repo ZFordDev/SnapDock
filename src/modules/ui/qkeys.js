@@ -2,6 +2,8 @@
  * SnapDock Quick Keys Module
  * Handles global keyboard shortcuts
  */
+import { toggleFindBox } from "../ui/find.js";
+
 export function initShortcuts({
   createTab,
   switchToTab,
@@ -64,6 +66,12 @@ export function initShortcuts({
     if (modifier && key === "/") {
       e.preventDefault();
       document.getElementById("helpBtn")?.click();
+      return;
+    }
+
+    if (modifier && key === "f") {
+      e.preventDefault();
+      toggleFindBox();
       return;
     }
 

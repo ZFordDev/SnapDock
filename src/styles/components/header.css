@@ -225,9 +225,7 @@ body.dark-theme .title-row {
 /* Window controls */
 .window-controls {
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-right: 8px;
+  align-items: right;
 }
 
 .window-btn {

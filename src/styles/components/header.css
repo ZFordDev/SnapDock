@@ -33,7 +33,7 @@ body.dark-theme .title-row {
   display: flex;
   align-items: center;
   gap: 2px;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
 }
 
 .header-center {
@@ -45,7 +45,7 @@ body.dark-theme .title-row {
 .header-right {
   display: flex;
   justify-content: flex-end;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
 }
 
 .find-bar-host {

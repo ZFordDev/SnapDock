@@ -53,6 +53,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   // Help modal
   openHelp: () =>
     ipcRenderer.invoke("dialog:openHelp"),
+  openExternal: (url) =>
+    ipcRenderer.invoke("shell:openExternal", url),
 
   // Spellcheck
   getSpellcheckState: () => ipcRenderer.invoke("spellcheck:get-state"),

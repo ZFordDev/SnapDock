@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, shell } = require("electron");
 const chokidar = require("chokidar");
 const fs = require("fs");
 const path = require("path");
@@ -403,6 +403,22 @@ app.whenReady().then(createWindow);
     } catch (err) {
       console.error("Failed to load help doc:", err);
       return "# Help file not found";
+    }
+  });
+
+  ipcMain.handle("shell:openExternal", async (_event, url) => {
+    if (typeof url !== "string") return false;
+
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol !== "https:" && parsed.protocol !== "mailto:") {
+        return false;
+      }
+
+      await shell.openExternal(url);
+      return true;
+    } catch {
+      return false;
     }
   });
 

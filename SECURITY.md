@@ -1,102 +1,54 @@
-<!-- ========================================================= -->
-<!-- Standards Approval Badge -->
-<!-- ========================================================= -->
-<table align="right">
-  <tr>
-    <td>
-      <img src="https://raw.githubusercontent.com/ZFordDev/ZFordDev/main/assets/standards-approved.svg" width="80" alt="ZFordDev Standards Approved Badge">
-    </td>
-  </tr>
-</table>
-
 # Security Policy
 
-The ZFordDev ecosystem values stability, safety, and long‑term maintainability.  
-We take security seriously and appreciate responsible disclosure of any vulnerabilities.
+SnapDock welcomes responsible reports that help keep its users and their documents safe.
 
-This document explains how to report security issues and what to expect during the process.
+## Supported versions
 
----
+Security fixes are targeted at the latest stable release and the current development branch. Older releases, forks, modified builds, and unofficial distributions may not receive fixes. Users should update to the latest stable release when a security update is published.
 
-## Supported Versions
+## Report a vulnerability privately
 
-Security updates are provided for:
+Use [GitHub's private vulnerability reporting](https://github.com/ZFordDev/SnapDock/security/advisories/new) whenever possible.
 
-- **Current stable releases**  
-- **Active development branches**  
-- **Classic versions**, where applicable  
+If that form is unavailable, email the maintainer at [zforddev@gmail.com](mailto:zforddev@gmail.com) with `SnapDock security report` in the subject line.
 
-Older or archived versions may not receive fixes.
+Do not open a public issue, discussion, or pull request for an unpatched vulnerability. Please also avoid sharing sensitive exploit details publicly until a fix and coordinated disclosure are complete.
 
----
+Include as much of the following as possible:
 
-## Reporting a Vulnerability
+- A description of the vulnerability and its potential impact
+- Affected SnapDock versions and installation source
+- Operating system and architecture
+- Reproduction steps or a minimal proof of concept
+- Relevant logs or screenshots with personal information removed
+- Any known mitigations or suggested fixes
+- Whether the issue has been disclosed elsewhere
 
-If you discover a security issue, please report it responsibly.
+Reports made in good faith should avoid accessing data that is not yours, disrupting services, or causing harm to other users.
 
-### **How to report**
-- Open a **private GitHub security advisory** (preferred)  
-- Or contact the project maintainer directly through GitHub  
+## What happens next
 
-Please **do not** open a public issue for security vulnerabilities.
+The maintainer will review the report, attempt to reproduce it, and assess its impact. You may be asked for more information during the investigation. If the issue is confirmed, a fix or mitigation will be prepared and released as appropriate, followed by an advisory when public disclosure is safe.
 
-### **Include the following information**
-- Description of the issue  
-- Steps to reproduce  
-- Impact or potential risk  
-- Affected versions  
-- Any relevant logs or screenshots  
-
-Clear reports help us respond quickly.
-
----
-
-## Response Process
-
-When a report is received:
-
-1. The maintainer will acknowledge the report  
-2. The issue will be investigated  
-3. A fix or mitigation will be prepared  
-4. A patched release will be published  
-5. A security advisory will be issued (if applicable)  
-
-We aim to handle all reports respectfully and promptly.
-
----
+Response and release times depend on the issue's complexity and upstream dependencies. Please follow up through the original private channel if you believe a report was missed.
 
 ## Scope
 
-This policy applies to:
+This policy covers vulnerabilities in SnapDock's source code, official builds, update mechanism, Markdown rendering, file and workspace handling, and interactions with bundled dependencies.
 
-- All ZFordDev repositories  
-- All official releases  
-- All ecosystem tools and modules  
+Security problems in Electron, Chromium, or another dependency may ultimately need an upstream fix, but please report them privately to SnapDock when they affect SnapDock users or require an application-level mitigation.
 
-It does **not** apply to:
+The following are generally outside scope unless they create a vulnerability in an official SnapDock release:
 
-- Third‑party dependencies  
-- Forks or modified builds  
-- Unofficial distributions  
+- Social engineering or physical access attacks
+- Vulnerabilities that require an already-compromised operating system
+- Unsupported versions, forks, and modified or unofficial builds
+- Reports that identify an outdated dependency without demonstrating a relevant impact
 
----
+## Security characteristics
 
-## SnapDock‑Specific Notes
+SnapDock is a local-first desktop application. It uses Electron context isolation and disables Node.js integration in the renderer, but its renderer sandbox is not currently enabled. Store packages and some Linux installation types may handle updates outside the application.
 
-SnapDock is a desktop application built on Electron.  
-When reporting security issues, please consider:
+These characteristics provide context, not a guarantee that the application is vulnerability-free. Reports involving untrusted Markdown, local file access, workspace boundaries, external links, PDF export, or updates are especially useful.
 
-- Electron/Chromium vulnerabilities should be reported upstream when appropriate  
-- SnapDock does not execute remote code or load remote content  
-- All Markdown rendering is local and sandboxed  
-- The in‑app updater is disabled in some versions (store builds, certain Linux packages, and some pre‑releases)
-- SnapDock does not collect telemetry or send user data anywhere  
-
-If a vulnerability involves file handling, workspace logic, or the update system, please include reproduction steps for both Windows and Linux if possible.
-
----
-
-## Thank You
-
-Responsible disclosure helps keep the entire ZFordDev ecosystem safe.  
-We appreciate your effort and your commitment to improving the project.
+Thank you for reporting vulnerabilities responsibly.

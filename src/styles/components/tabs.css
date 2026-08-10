@@ -180,15 +180,17 @@
   padding: 5px 10px;
   font-size: 0.8rem;
   cursor: pointer;
-  background: var(--btn-bg, #2a2a2a);
-  color: var(--btn-text, #ccc);
+  /* Mapped to existing tab/border tokens */
+  background: var(--tab-idle-bg);
+  color: var(--tab-text);
   border: 1px solid var(--tab-border);
   border-radius: 4px;
   transition: all 0.15s ease;
 }
 
 .preview-mode-btn:hover {
-  background: var(--btn-hover-bg, #3a3a3a);
+  /* Mapped to toolbar background on hover */
+  background: var(--toolbar-bg);
 }
 
 .preview-mode-btn .dropdown-arrow {
@@ -208,10 +210,11 @@
   top: 100%;
   right: 0;
   min-width: 170px;
-  background: var(--dropdown-bg, #1e1e1e);
+  /* Mapped to editor background for menu popovers */
+  background: var(--editor-bg);
   border: 1px solid var(--tab-border);
   border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 100;
   margin-top: 4px;
   overflow: hidden;
@@ -230,22 +233,25 @@
   cursor: pointer;
   border: none;
   background: transparent;
-  color: var(--btn-text, #ccc);
+  /* Mapped to standard text color */
+  color: var(--editor-text-secondary);
   text-align: left;
   transition: background 0.1s ease;
 }
 
 .preview-mode-option:hover:not(.disabled) {
-  background: var(--btn-hover-bg, #3a3a3a);
+  /* Mapped to idle tab / light hover background */
+  background: var(--tab-idle-bg);
 }
 
 .preview-mode-option.active {
-  color: var(--tab-accent, #4a9eff);
+  color: var(--tab-accent);
   font-weight: 600;
 }
 
 .preview-mode-option.disabled {
-  color: #555;
+  /* Mapped to border/muted gray */
+  color: var(--border-color);
   cursor: not-allowed;
 }
 
@@ -268,8 +274,8 @@
   font-size: 0.65rem;
   padding: 1px 6px;
   border-radius: 3px;
-  background: rgba(125,125,125,0.15);
-  color: #666;
+  background: var(--inline-code-bg);
+  color: var(--editor-text-secondary);
 }
 
 /* --- Split View --- */

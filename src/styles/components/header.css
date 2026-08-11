@@ -195,6 +195,48 @@ body.dark-theme .title-row {
   margin: 4px 8px;
 }
 
+.dropdown-section-label {
+  padding: 6px 14px 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--editor-text-secondary);
+}
+
+.dropdown-subgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 12px 8px;
+}
+
+.dropdown-subgroup-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--editor-text-secondary);
+}
+
+.dropdown-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dropdown-chip-row button {
+  border: 1px solid var(--tab-border);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 0.74rem;
+  background: transparent;
+}
+
+.dropdown-chip-row button.active {
+  background: var(--tab-active-bg);
+  border-color: var(--tab-accent);
+  color: var(--editor-text);
+}
+
 /* ─── Preview mode toggle (right side) ─── */
 #previewToggleBtn {
   background: var(--tab-idle-bg);

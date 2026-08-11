@@ -5,6 +5,7 @@
 
 import { applyTheme } from "./theme.js";
 import { openHelpModal } from "./help.js";
+import { setEditorFont } from "./editorFont.mjs";
 
 // ─── Public API ────────────────────────────────────────────────
 
@@ -73,11 +74,49 @@ export function initToolsDropdown() {
     });
   });
 
+  // ── Editor Font ──
+  attachEditorFontActions();
+
   // ── Help ──
   const helpBtn = document.getElementById("helpBtn");
   if (helpBtn) {
     helpBtn.addEventListener("click", () => openHelpModal());
   }
+}
+
+function attachEditorFontActions() {
+  const editor = document.getElementById("markdownInputMain");
+  const familyButtons = document.querySelectorAll(".editor-font-family");
+  const sizeButtons = document.querySelectorAll(".editor-font-size");
+
+  familyButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const family = btn.dataset.family;
+      if (!family) return;
+      setEditorFont(editor, { family });
+      familyButtons.forEach((item) => item.classList.toggle("active", item === btn));
+    });
+  });
+
+  sizeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const size = btn.dataset.size;
+      if (!size) return;
+      setEditorFont(editor, { size });
+      sizeButtons.forEach((item) => item.classList.toggle("active", item === btn));
+    });
+  });
+
+  const currentFont = editor?.dataset?.editorFontFamily || "mono";
+  const currentSize = editor?.dataset?.editorFontSize || "100%";
+
+  familyButtons.forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.family === currentFont);
+  });
+
+  sizeButtons.forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.size === currentSize);
+  });
 }
 
 // ─── Update system (moved from system/update.js) ───────────────

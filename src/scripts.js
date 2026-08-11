@@ -9,6 +9,7 @@ import { respondToDirtyStateRequest } from "./modules/system/dirtyState.js";
 import { save_all_tabs } from "./modules/file/tabs.js";
 import { initDropdownToggles, initToolsDropdown } from "./modules/ui/dropdownMenus.js";
 import { initMetrics } from "./modules/ui/metrics.js";
+import { initEditorFont } from "./modules/ui/editorFont.mjs";
 import { clearWorkspace } from "./modules/file/workspace.js";
 
 // Helper
@@ -56,6 +57,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // UI Modules
   initEditorSync();
   initResizer();
+  initEditorFont();
 
   // File Tree
   const fileTreeList = byId("fileTreeList");

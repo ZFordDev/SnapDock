@@ -1,101 +1,56 @@
-<!-- ========================================================= -->
-<!-- Standards Approval Badge -->
-<!-- ========================================================= -->
-<table align="right">
-  <tr>
-    <td>
-      <img src="https://raw.githubusercontent.com/ZFordDev/ZFordDev/main/assets/standards-approved.svg" width="80" alt="ZFordDev Standards Approved Badge">
-    </td>
-  </tr>
-</table>
-
 # Code of Conduct
 
-The ZFordDev ecosystem is built on clarity, simplicity, and long‑term maintainability.  
-To keep our community healthy and welcoming, all contributors are expected to follow the guidelines below.
+SnapDock is committed to providing a welcoming, safe, and productive community for everyone who participates.
 
-This Code of Conduct applies to all project spaces, including GitHub Issues, Discussions, pull requests, and any community interactions related to ZFordDev projects.
+## Our standards
 
----
+Examples of positive behaviour include:
 
-## Our Principles
+- Treating others with empathy, patience, and respect
+- Welcoming different viewpoints, experiences, and levels of expertise
+- Giving specific, constructive feedback about the work rather than the person
+- Accepting feedback and correcting mistakes gracefully
+- Respecting boundaries and prioritising the health of the community
+- Keeping technical discussions focused and accessible
 
-We strive to create an environment where contributors can collaborate respectfully and productively.  
-We expect all participants to:
+Examples of unacceptable behaviour include:
 
-- Be kind, patient, and constructive  
-- Respect differing viewpoints and experiences  
-- Give and receive feedback gracefully  
-- Focus on improving the project, not winning arguments  
-- Assume good intentions  
-- Keep discussions technical, not personal  
+- Harassment, threats, intimidation, or personal attacks
+- Discriminatory or derogatory comments, including those related to age, body size, caste, disability, ethnicity, gender identity or expression, nationality, race, religion, sex, sexual orientation, or socioeconomic status
+- Unwelcome sexual attention, imagery, or advances
+- Trolling, deliberate disruption, or sustained bad-faith argument
+- Publishing or threatening to publish another person's private information without permission
+- Repeatedly contacting someone after being asked to stop
+- Retaliating against someone who reports a concern
+- Other conduct that would reasonably be considered inappropriate in a professional community
 
----
+Disagreement is normal. Critique ideas and implementations without insulting, dismissing, or speculating about the people behind them.
 
-## Unacceptable Behavior
+## Scope
 
-The following behaviors are not allowed in any ZFordDev project:
+This Code applies in repository issues, pull requests, discussions, reviews, and other official SnapDock community spaces. It also applies when someone represents the project in public, such as by using an official project account or speaking on behalf of SnapDock.
 
-- Harassment, insults, or personal attacks  
-- Discriminatory language or exclusionary behavior  
-- Trolling, baiting, or intentionally derailing discussions  
-- Publishing private information without permission  
-- Aggressive or hostile communication  
-- Repeatedly ignoring project standards or maintainers’ guidance  
+## Reporting a concern
 
----
+Report conduct concerns privately by emailing [zforddev@gmail.com](mailto:zforddev@gmail.com) with `SnapDock conduct report` in the subject line. Do not open a public issue about a sensitive conduct matter.
 
-## Responsibilities of Maintainers
+Include relevant links, context, dates, and screenshots where possible. Reports will be handled as confidentially as circumstances allow. Information may be shared only when needed to investigate, protect participants, or comply with legal obligations.
 
-Project maintainers are responsible for:
+If there is an immediate risk of harm, contact the appropriate local emergency service or platform safety team; project maintainers cannot provide emergency assistance.
 
-- Clarifying standards and expectations  
-- Reviewing contributions fairly  
-- Providing constructive feedback  
-- Taking action when behavior violates this Code  
-- Keeping the community safe and welcoming  
+## Maintainer responsibilities
 
-Maintainers may remove comments, close issues, or reject contributions that violate these guidelines.
+Maintainers are responsible for interpreting and enforcing this Code fairly. They may edit or remove content, close or lock conversations, reject contributions, issue warnings, or temporarily or permanently restrict participation when behaviour is inappropriate, threatening, harmful, or disruptive.
 
----
+Enforcement decisions will consider the context, severity, history, and impact of the behaviour. Possible responses include:
 
-## Reporting Issues
+1. **Correction:** A private explanation and request to change the behaviour.
+2. **Warning:** A formal warning with clear expectations and consequences.
+3. **Temporary restriction:** A time-limited restriction from project interaction.
+4. **Permanent restriction:** Removal from project spaces for sustained or severe violations.
 
-If you experience or witness behavior that violates this Code of Conduct:
+Maintainers who have a conflict of interest should step back from handling a report where practical. Retaliation against reporters or participants in an investigation is itself a violation of this Code.
 
-- Open a private issue if appropriate  
-- Or contact the project maintainer directly through GitHub  
+## Attribution
 
-All reports will be reviewed promptly and handled respectfully.
-
----
-
-## Enforcement
-
-Consequences for violating this Code may include:
-
-- A private warning  
-- Temporary or permanent removal from project spaces  
-- Rejection of contributions  
-- Escalation to GitHub moderation if necessary  
-
-Enforcement decisions are made by project maintainers and are final.
-
----
-
-## SnapDock‑Specific Notes
-
-SnapDock is a calm, focused writing tool.  
-Contributions should reflect that philosophy:
-
-- Keep discussions respectful and solution‑oriented  
-- Avoid proposing features that introduce IDE‑level complexity  
-- Maintain the lightweight, distraction‑free nature of the app  
-- Follow the existing UI/UX tone and theme structure  
-
----
-
-## Acknowledgment
-
-This Code of Conduct is inspired by the Contributor Covenant but rewritten to better fit the ZFordDev ecosystem’s tone and values.
-
+This Code draws on the principles and enforcement approach of the [Contributor Covenant, version 2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct.html).

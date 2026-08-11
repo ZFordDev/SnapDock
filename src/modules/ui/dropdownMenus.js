@@ -5,6 +5,7 @@
 
 import { applyTheme } from "./theme.js";
 import { openHelpModal } from "./help.js";
+import { setEditorFont } from "./editorFont.mjs";
 
 // ─── Public API ────────────────────────────────────────────────
 
@@ -59,6 +60,12 @@ export function initToolsDropdown() {
     initUpdateButton(updateBtn);
   }
 
+  // ── Spellcheck ──
+  const spellcheckBtn = document.getElementById("spellcheckBtn");
+  if (spellcheckBtn) {
+    initSpellcheckButton(spellcheckBtn);
+  }
+
   // ── Themes ──
   document.querySelectorAll(".theme-option").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -67,6 +74,9 @@ export function initToolsDropdown() {
     });
   });
 
+  // ── Editor Font ──
+  attachEditorFontActions();
+
   // ── Help ──
   const helpBtn = document.getElementById("helpBtn");
   if (helpBtn) {
@@ -74,7 +84,66 @@ export function initToolsDropdown() {
   }
 }
 
+function attachEditorFontActions() {
+  const editor = document.getElementById("markdownInputMain");
+  const familyButtons = document.querySelectorAll(".editor-font-family");
+  const sizeButtons = document.querySelectorAll(".editor-font-size");
+
+  familyButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const family = btn.dataset.family;
+      if (!family) return;
+      setEditorFont(editor, { family });
+      familyButtons.forEach((item) => item.classList.toggle("active", item === btn));
+    });
+  });
+
+  sizeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const size = btn.dataset.size;
+      if (!size) return;
+      setEditorFont(editor, { size });
+      sizeButtons.forEach((item) => item.classList.toggle("active", item === btn));
+    });
+  });
+
+  const currentFont = editor?.dataset?.editorFontFamily || "mono";
+  const currentSize = editor?.dataset?.editorFontSize || "100%";
+
+  familyButtons.forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.family === currentFont);
+  });
+
+  sizeButtons.forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.size === currentSize);
+  });
+}
+
 // ─── Update system (moved from system/update.js) ───────────────
+
+function initSpellcheckButton(btn) {
+  const editor = document.getElementById("markdownInputMain");
+
+  const applyState = (enabled) => {
+    btn.dataset.enabled = String(enabled);
+    btn.textContent = enabled ? "Spellcheck: On" : "Spellcheck: Off";
+    btn.classList.toggle("active", enabled);
+    btn.setAttribute("aria-pressed", String(enabled));
+
+    if (editor) {
+      editor.spellcheck = enabled;
+      editor.setAttribute("spellcheck", String(enabled));
+    }
+  };
+
+  window.electronAPI.getSpellcheckState().then(applyState).catch(() => applyState(true));
+
+  btn.addEventListener("click", async () => {
+    const nextState = btn.dataset.enabled !== "true";
+    const enabled = await window.electronAPI.setSpellcheckState(nextState);
+    applyState(enabled);
+  });
+}
 
 function initUpdateButton(btn) {
   // Check on launch

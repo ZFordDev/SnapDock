@@ -17,6 +17,7 @@ export async function openHelpModal() {
       </div>
       <div class="modal-help-body">
         ${md}
+        <button type="button" id="starSnapDock">⭐ Star SnapDock on GitHub</button>
         <button type="button" id="closeHelp">Close</button>
       </div>
     </div>
@@ -27,6 +28,17 @@ export async function openHelpModal() {
   const closeModal = () => modal.remove();
   document.getElementById("closeHelpFloat").addEventListener("click", closeModal);
   document.getElementById("closeHelp").addEventListener("click", closeModal);
+  document.getElementById("starSnapDock").addEventListener("click", () => {
+    window.electronAPI.openExternal("https://github.com/ZFordDev/SnapDock");
+  });
+
+  modal.querySelector(".modal-help-body").addEventListener("click", (event) => {
+    const link = event.target.closest("a[href]");
+    if (!link) return;
+
+    event.preventDefault();
+    window.electronAPI.openExternal(link.href);
+  });
 }
 
 /**

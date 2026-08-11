@@ -15,8 +15,14 @@ module.exports = {
         });
 
         const templatePath = path.join(__dirname, "template.html");
+        const pdfStylesPath = path.join(__dirname, "pdf.css");
+        const markdownStylesPath = path.join(__dirname, "../../styles/markdown/markdown.css");
         let template = fs.readFileSync(templatePath, "utf8");
+        const styles = [pdfStylesPath, markdownStylesPath]
+            .map(stylePath => fs.readFileSync(stylePath, "utf8"))
+            .join("\n");
 
+        template = template.replace("{{{styles}}}", styles);
         template = template.replace("{{{content}}}", htmlContent);
 
         await win.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(template));

@@ -28,6 +28,18 @@ const md = new MarkdownIt({
   }
 });
 
+// Convert a standalone Markdown page-break comment into an element that the
+// PDF stylesheet can target. Other HTML comments remain untouched.
+md.core.ruler.after("block", "page_break", state => {
+  const pageBreakPattern = /^\s*<!--\s*pagebreak\s*-->\s*$/i;
+
+  state.tokens.forEach(token => {
+    if (token.type === "html_block" && pageBreakPattern.test(token.content)) {
+      token.content = '<div class="page-break" aria-hidden="true"></div>\n';
+    }
+  });
+});
+
 // 2. Core & Inline Plugins
 md.use(footnote);
 md.use(taskLists, { enabled: true });

@@ -115,6 +115,9 @@ SnapDock does not currently provide version history or automatic backups. Keep i
 
 ## Exporting a PDF
 
+> **Tip: Page Breaks**
+> To force a hard page break in your exported PDF, insert `<!-- pagebreak -->` on its own line where you want the split to occur. This remain invisible in the standard editor preview.
+
 1. Open the document you want to export.
 2. Check its appearance in Preview or Split View.
 3. Select **Save → Export**.

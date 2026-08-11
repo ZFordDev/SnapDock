@@ -36,6 +36,10 @@ External Link: https://staxdash.com
 Internal Link: [Jump](#title-test)
 
 ![Image test](attachment.png)
+
+<!-- pagebreak -->
+
+Content on the next page.
 `;
 
 try {
@@ -51,7 +55,8 @@ try {
     { label: "Emoji", pass: html.includes("🚀") },
     { label: "Link Attributes External (MILA)", pass: html.includes('href="https://staxdash.com"') && html.includes('target="_blank"') },
     { label: "Link Attributes Internal (MILA bypass)", pass: html.includes('href="#title-test"') && !html.includes('href="#title-test" target="_blank"') },
-    { label: "Electron Attachment Hook", pass: html.includes('src="app://local-assets/attachment.png"') }
+    { label: "Electron Attachment Hook", pass: html.includes('src="app://local-assets/attachment.png"') },
+    { label: "PDF Page Break", pass: html.includes('<div class="page-break" aria-hidden="true"></div>') }
   ];
 
   console.log("--- Feature Render Verification ---");

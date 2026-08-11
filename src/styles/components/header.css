@@ -22,11 +22,20 @@ body.dark-theme .title-row {
   border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 40px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+}
+
 .header-left {
   display: flex;
   align-items: center;
   gap: 2px;
-  flex: 1;
+  flex: 0 0 auto;
 }
 
 .header-center {
@@ -38,7 +47,15 @@ body.dark-theme .title-row {
 .header-right {
   display: flex;
   justify-content: flex-end;
+  flex: 0 0 auto;
+}
+
+.find-bar-host {
   flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 100%;
 }
 
 /* ─── Standalone header buttons (New) ─── */
@@ -253,9 +270,7 @@ body.dark-theme .title-row {
 /* Window controls */
 .window-controls {
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-right: 8px;
+  align-items: right;
 }
 
 .window-btn {

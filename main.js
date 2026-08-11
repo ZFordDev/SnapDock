@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, shell } = require("electron");
 const chokidar = require("chokidar");
 const fs = require("fs");
 const path = require("path");
@@ -43,6 +43,63 @@ let currentWorkspacePath = null;
 let mainWindow;
 let lastKnownDirtyState = false;
 let forceClose = false;
+let relaunchAfterClose = false;
+let spellcheckEnabled = true;
+const spellcheckConfigPath = path.join(app.getPath("userData"), "spellcheck-config.json");
+
+function loadSpellcheckState() {
+  try {
+    if (fs.existsSync(spellcheckConfigPath)) {
+      const raw = fs.readFileSync(spellcheckConfigPath, "utf8");
+      const parsed = JSON.parse(raw);
+      if (typeof parsed?.enabled === "boolean") {
+        return parsed.enabled;
+      }
+    }
+  } catch (err) {
+    console.warn("Failed to load spellcheck state:", err);
+  }
+
+  return true;
+}
+
+function saveSpellcheckState(enabled) {
+  try {
+    fs.writeFileSync(spellcheckConfigPath, JSON.stringify({ enabled }), "utf8");
+  } catch (err) {
+    console.warn("Failed to save spellcheck state:", err);
+  }
+}
+
+function applySpellcheckState(enabled, targetWindow = mainWindow) {
+  if (!targetWindow || targetWindow.isDestroyed()) return;
+
+  spellcheckEnabled = enabled;
+  saveSpellcheckState(enabled);
+
+  const availableLanguages = targetWindow.webContents.session.availableSpellCheckerLanguages || [];
+  const preferredLanguage = availableLanguages.includes("en-US")
+    ? "en-US"
+    : availableLanguages[0];
+
+  targetWindow.webContents.session.setSpellCheckerLanguages(
+    enabled && preferredLanguage ? [preferredLanguage] : []
+  );
+}
+
+function finishWindowClose() {
+  if (relaunchAfterClose) {
+    ipcMain.once("workspace:clear-for-close:result", () => {
+      app.relaunch();
+      app.exit(0);
+    });
+    mainWindow.webContents.send("workspace:clear-for-close:request");
+    return;
+  }
+
+  forceClose = true;
+  mainWindow.close();
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -73,6 +130,9 @@ function createWindow() {
   mainWindow.webContents.setZoomFactor(zoom);
   // ------------------------
 
+  spellcheckEnabled = loadSpellcheckState();
+  applySpellcheckState(spellcheckEnabled, mainWindow);
+
   // Remove all menus
   mainWindow.setMenu(null);
   mainWindow.setMenuBarVisibility(false);
@@ -95,7 +155,20 @@ function createWindow() {
     // Only show menu for editable elements (textarea, input)
     if (!params.isEditable) return;
 
-    const menu = Menu.buildFromTemplate([
+    const suggestions = params.dictionarySuggestions || [];
+    const template = [];
+
+    if (params.misspelledWord && suggestions.length > 0) {
+      suggestions.slice(0, 6).forEach((suggestion) => {
+        template.push({
+          label: `Replace with “${suggestion}”`,
+          click: () => mainWindow.webContents.replaceMisspelling(suggestion),
+        });
+      });
+      template.push({ type: "separator" });
+    }
+
+    template.push(
       { role: "undo" },
       { role: "redo" },
       { type: "separator" },
@@ -103,9 +176,10 @@ function createWindow() {
       { role: "copy" },
       { role: "paste" },
       { type: "separator" },
-      { role: "selectAll" },
-    ]);
+      { role: "selectAll" }
+    );
 
+    const menu = Menu.buildFromTemplate(template);
     menu.popup({ window: mainWindow });
   });
 
@@ -135,9 +209,9 @@ function createWindow() {
           // User chose "Save All"
           const onResult = (_event, result) => {
             if (result?.ok) {
-              forceClose = true;
-              mainWindow.close();
+              finishWindowClose();
             } else {
+              relaunchAfterClose = false;
               dialog.showMessageBox(mainWindow, {
                 type: "error",
                 buttons: ["OK"],
@@ -155,15 +229,15 @@ function createWindow() {
 
         if (choice === 2) {
           // User chose "Discard Changes"
-          forceClose = true;
-          mainWindow.close();
+          finishWindowClose();
         }
 
-        // choice === 0 (Cancel): do nothing, keep app open
+        if (choice === 0) {
+          relaunchAfterClose = false;
+        }
       } else {
         // Clean workspace -> safe to close
-        forceClose = true;
-        mainWindow.close();
+        finishWindowClose();
       }
     }, 50);
   });
@@ -180,6 +254,13 @@ function createWindow() {
     mainWindow.webContents.send("window:is-maximized", false);
   });
 }
+ipcMain.handle("spellcheck:get-state", () => spellcheckEnabled);
+
+ipcMain.handle("spellcheck:set-state", (_event, enabled) => {
+  applySpellcheckState(Boolean(enabled), mainWindow);
+  return spellcheckEnabled;
+});
+
 app.whenReady().then(createWindow);
 
   // -----------------------------
@@ -340,6 +421,22 @@ app.whenReady().then(createWindow);
     }
   });
 
+  ipcMain.handle("shell:openExternal", async (_event, url) => {
+    if (typeof url !== "string") return false;
+
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol !== "https:" && parsed.protocol !== "mailto:") {
+        return false;
+      }
+
+      await shell.openExternal(url);
+      return true;
+    } catch {
+      return false;
+    }
+  });
+
   // -----------------------------
   // VERSION INFO
   // -----------------------------
@@ -376,6 +473,12 @@ ipcMain.handle("get-version", async () => {
 
   ipcMain.on("window:close", () => {
     if (mainWindow) mainWindow.close();
+  });
+
+  ipcMain.on("workspace:close-project", () => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    relaunchAfterClose = true;
+    mainWindow.close();
   });
 
   ipcMain.handle("window:isMaximized", () => {

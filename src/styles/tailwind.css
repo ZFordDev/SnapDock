@@ -1,0 +1,10 @@
+@layer theme, base, components, utilities;
+
+/* Keep Tailwind's reset disabled until the remaining legacy components have
+   migrated; enabling Preflight now would create unrelated visual changes. */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source("../..");
+
+/* Temporary compatibility layer. Delete imports here as components move to
+   utilities; generated Markdown and syntax highlighting will remain CSS. */
+@import "./index.css";

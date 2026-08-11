@@ -214,7 +214,11 @@ function setFooterStatus(text, state) {
   const el = document.getElementById("updateStatus");
   if (!el) return;
   el.textContent = text;
-  el.className = "update-status" + (state ? ` update-status--${state}` : "");
+  const baseClasses = "update-status text-[.72rem] transition-opacity duration-300 empty:hidden";
+  const stateClasses = state === "ready"
+    ? "update-status--ready font-semibold text-[var(--tab-accent)] opacity-100"
+    : "text-[var(--tab-text)] opacity-70";
+  el.className = `${baseClasses} ${stateClasses}`;
 }
 
 // ─── Helpers ───────────────────────────────────────────────────

@@ -1,6 +1,13 @@
 import { loadWorkspace } from "./workspace.js";
 import { openFromRecent } from "./open.js";
 
+const RECENT_FILE_CLASSES = [
+  "flex", "w-fit", "min-w-full", "cursor-pointer", "items-center", "gap-2",
+  "whitespace-nowrap", "rounded", "bg-transparent", "px-2.5", "py-[5px]",
+  "my-px", "text-[.85rem]", "text-[var(--tab-text)]", "transition-colors",
+  "duration-150", "hover:bg-[var(--tab-idle-bg)]", "hover:text-[var(--editor-text)]"
+].join(" ");
+
 function getRecentKey() {
   const workspace = loadWorkspace();
   return workspace
@@ -39,6 +46,7 @@ export function renderRecentFiles(container) {
 
   for (const path of list) {
     const li = document.createElement("li");
+    li.className = RECENT_FILE_CLASSES;
     li.textContent = path.split(/[\\/]/).pop();
     li.dataset.path = path;
     container.appendChild(li);

@@ -119,18 +119,6 @@ function createWindow() {
     titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : undefined,
   });
 
-    // --- DPI SCALING FIX ---
-  const { screen } = require("electron");
-  const scaleFactor = screen.getPrimaryDisplay().scaleFactor;
-
-  let zoom = 1.0;
-  if (scaleFactor >= 1.25 && scaleFactor < 1.5) zoom = 1.10;
-  else if (scaleFactor >= 1.5 && scaleFactor < 2.0) zoom = 1.25;
-  else if (scaleFactor >= 2.0) zoom = 1.40;
-
-  mainWindow.webContents.setZoomFactor(zoom);
-  // ------------------------
-
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     if (isExternalLink(url)) {
       shell.openExternal(url);

@@ -27,9 +27,8 @@ try {
   );
 
   // 2. Bundle renderer
-  const bundler = path.join(__dirname, "bundle.js");
-  console.log("\n→ Bundling renderer (esbuild)...");
-  execSync(`node "${bundler}"`, { stdio: "inherit" });
+  console.log("\n→ Bundling renderer and styles...");
+  execSync("npm run bundle", { stdio: "inherit" });
 
   // 3. Build Linux artifacts
   console.log("\n→ Running electron-builder (Linux targets)...");

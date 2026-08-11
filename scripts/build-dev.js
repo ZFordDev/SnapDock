@@ -14,9 +14,8 @@ try {
   });
 
   // 2. Bundle renderer code
-  const bundler = path.join(__dirname, "bundle.js");
-  console.log("\n→ Bundling renderer (esbuild)...");
-  execSync(`node "${bundler}"`, {
+  console.log("\n→ Bundling renderer and styles...");
+  execSync("npm run bundle", {
     stdio: "inherit"
   });
 

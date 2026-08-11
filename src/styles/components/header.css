@@ -1,330 +1,46 @@
-/* Header Layout */
-.top-header {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  background: var(--sidebar-bg);
-  border-bottom: 1px solid var(--tab-border);
+/* Electron window regions and runtime-only dropdown states. Static header
+   presentation lives in Tailwind utilities in index.html. */
+.title-row,
+.app-title {
+  -webkit-app-region: drag;
 }
 
-.title-row {
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px;
-  -webkit-app-region: drag; /* make title row draggable for frameless window */
-  border-bottom: 1px solid rgba(0,0,0,0.06); /* faint separator */
-}
-
-/* Better contrast on dark theme */
-body.dark-theme .title-row {
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 40px;
-  padding: 6px 10px;
-  box-sizing: border-box;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  flex: 0 0 auto;
-}
-
-.header-center {
-  flex: 0 1 auto;
-  display: flex;
-  justify-content: center;
-}
-
-.header-right {
-  display: flex;
-  justify-content: flex-end;
-  flex: 0 0 auto;
-}
-
-.find-bar-host {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  height: 100%;
-}
-
-/* ─── Standalone header buttons (New) ─── */
-.header-left > button,
-.header-right > button {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--tab-text);
-  padding: 4px 10px;
-  font-size: 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  -webkit-app-region: no-drag; /* buttons must be clickable */
-}
-
-.header-left > button:hover,
-.header-right > button:hover {
-  background: var(--tab-idle-bg);
-  color: var(--editor-text);
-}
-
-/* ─── Dropdown container ─── */
-.dropdown-menu {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-/* ─── Toggle button (Open ▾, Save ▾, Tools ▾) ─── */
-.dropdown-toggle {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--tab-text);
-  padding: 4px 10px;
-  font-size: 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  -webkit-app-region: no-drag; /* interactive elements must not be drag regions */
-}
-
-.dropdown-toggle:hover,
-.dropdown-menu.open .dropdown-toggle {
-  background: var(--tab-idle-bg);
-  color: var(--editor-text);
-}
-
-/* ─── Caret arrow ─── */
-.dropdown-caret {
-  display: inline-flex;
-  font-size: 0.65rem;
-  transition: transform 0.2s ease;
-  opacity: 0.6;
-}
-
-.dropdown-menu.open .dropdown-caret {
-  transform: rotate(180deg);
-  opacity: 1;
-}
-
-/* ─── Dropdown panel (the popup list) ─── */
-.dropdown-panel {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 4px;
-  background: var(--sidebar-bg);
-  border: 1px solid var(--tab-border);
-  border-radius: 6px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-  min-width: 150px;
-  z-index: 1000;
-  display: none;
-  flex-direction: column;
-  padding: 4px 0;
+.window-btn,
+.dropdown-toggle,
+.dropdown-panel,
+.dropdown-panel button {
   -webkit-app-region: no-drag;
+}
+
+body.dark-theme .title-row {
+  border-bottom-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+.dropdown-panel {
+  display: none;
 }
 
 .dropdown-menu.open .dropdown-panel {
   display: flex;
 }
 
-/* ─── Dropdown items ─── */
-.dropdown-panel button {
-  background: transparent;
-  border: none;
-  color: var(--tab-text);
-  padding: 7px 14px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  -webkit-app-region: no-drag;
+.dropdown-menu.open .dropdown-toggle {
+  background: var(--tab-idle-bg) !important;
+  color: var(--editor-text) !important;
 }
 
-.dropdown-panel button:hover {
-  background: var(--tab-idle-bg);
-  color: var(--editor-text);
-}
-
-.dropdown-panel button:first-child {
-  border-radius: 4px 4px 0 0;
-}
-
-.dropdown-panel button:last-child {
-  border-radius: 0 0 4px 4px;
-}
-
-/* Save highlight */
-#saveFileBtnTop {
-  color: var(--tab-accent);
-  font-weight: 600;
-}
-
-/* ─── Stub / disabled items ─── */
-.dropdown-item-stub {
-  opacity: 0.45;
-  cursor: not-allowed !important;
-  font-style: italic;
-}
-
-.dropdown-item-stub:hover {
-  background: transparent !important;
-  color: var(--tab-text) !important;
-}
-
-/* ─── Separator line ─── */
-.dropdown-separator {
-  height: 1px;
-  background: var(--tab-border);
-  margin: 4px 8px;
-}
-
-.dropdown-section-label {
-  padding: 6px 14px 2px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--editor-text-secondary);
-}
-
-.dropdown-subgroup {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 4px 12px 8px;
-}
-
-.dropdown-subgroup-title {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--editor-text-secondary);
-}
-
-.dropdown-chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.dropdown-chip-row button {
-  border: 1px solid var(--tab-border);
-  border-radius: 999px;
-  padding: 4px 8px;
-  font-size: 0.74rem;
-  background: transparent;
+.dropdown-menu.open .dropdown-caret {
+  opacity: 1 !important;
+  transform: rotate(180deg);
 }
 
 .dropdown-chip-row button.active {
-  background: var(--tab-active-bg);
-  border-color: var(--tab-accent);
-  color: var(--editor-text);
+  background: var(--tab-active-bg) !important;
+  border-color: var(--tab-accent) !important;
+  color: var(--editor-text) !important;
 }
 
-/* ─── Preview mode toggle (right side) ─── */
-#previewToggleBtn {
-  background: var(--tab-idle-bg);
-  border: 1px solid var(--tab-border);
-  font-weight: 600;
-}
-
-#previewToggleBtn:hover {
-  background: var(--tab-active-bg);
-  border-color: var(--tab-accent);
-}
-
-/* ─── Workspace name ─── */
-#filenameWrapper {
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 400px;
-}
-
-/* App title shown next to filename - keep draggable */
-.app-title {
-  margin-left: 12px;
-  font-weight: 700;
-  color: var(--tab-text);
-  opacity: 0.9;
-  -webkit-app-region: drag;
-}
-
-/* Window controls */
-.window-controls {
-  display: inline-flex;
-  align-items: right;
-}
-
-.window-btn {
-  -webkit-app-region: no-drag;
-  background: transparent;
-  border: none;
-  color: var(--tab-text);
-  width: 36px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-
-.window-btn:hover {
-  background: var(--tab-idle-bg);
-}
-
-.window-btn.close:hover {
-  background: #ff5f56; /* red close hover similar to mac */
-  color: white;
-}
-
-#filenameDisplay {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--editor-text);
-  padding: 4px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-#filenameDisplay:hover {
-  background: var(--tab-idle-bg);
-}
-
-#filenameInput {
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 4px 12px;
-  border: 1px solid var(--tab-accent);
-  border-radius: 4px;
-  outline: none;
-  background: var(--editor-bg);
-  color: var(--editor-text);
-  text-align: center;
-}
-
-/* ─── Update button states ─── */
 #updateBtn.update-available {
-  color: var(--tab-accent);
+  color: var(--tab-accent) !important;
   font-weight: 600;
 }

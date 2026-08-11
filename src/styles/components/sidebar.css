@@ -1,151 +1,20 @@
-/* Sidebar and file navigation styles */
-
-.sidebar-left {
-  display: flex;
-  flex-direction: column;
-  background: var(--sidebar-bg);
-  border-right: 1px solid var(--tab-border); /* Sync with tab border */
-  min-width: 180px;
-  max-width: 400px;
-  width: 250px;
-  position: relative;
-  user-select: none; /* Prevents text selection while resizing */
-  border-right: 1px solid var(--tab-border);
-}
-
-/* Sidebar Container */
-.recent-files {
-  max-height: 150px; /* or any value you like */
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 10px 8px;
-  border-bottom: 1px solid var(--tab-border);
-  box-sizing: border-box;
-}
-
-.file-tree {
-  flex: 1;
-  overflow: auto; 
-  padding: 10px 4px 60px 4px; /* Added 60px to the BOTTOM padding */
-  display: block;
-}
-
-/* Optional: Add a subtle fade-out at the bottom so files don't just "clip" */
+/* Runtime tree decoration that is not representable on generated nodes with
+   static utilities. Sidebar layout and typography live in Tailwind classes. */
 .sidebar-left::after {
-  content: '';
+  content: "";
   position: absolute;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  height: 20px;
-  background: linear-gradient(to top, var(--sidebar-bg), transparent);
-  pointer-events: none; /* Let clicks pass through to the footer/files */
   z-index: 5;
+  height: 20px;
+  pointer-events: none;
+  background: linear-gradient(to top, var(--sidebar-bg), transparent);
 }
 
-/* Section Headers: Sleek and Muted */
-.recent-files-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 12px 10px;
-}
-
-.recent-files h3,
-.file-tree h3 {
-  margin: 0;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--tab-text);
-  opacity: 0.6;
-}
-
-.clear-recent-btn {
-  margin-left: auto;
-  background: transparent;
-  border: none;
-  color: var(--tab-text);
-  opacity: 0.55;
-  font-size: 0.95rem;
-  line-height: 1;
-  cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 4px;
-  transition: opacity 0.2s ease, background 0.2s ease;
-}
-
-.clear-recent-btn:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.recent-files {
-  padding: 10px 8px;
-  border-bottom: 1px solid var(--tab-border);
-}
-
-.recent-files ul,
-.file-tree ul {
-  list-style: none;
-  margin: 0 0 0 10px;
-  padding: 0;
-  border-left: 1px solid var(--tab-border);
-  /* Ensure the ul doesn't constrain the horizontal growth */
-  width: fit-content;
-  min-width: calc(100% - 10px);
-}
-
-/* List Items: Adjusted for Horizontal Scrolling */
-.recent-files li,
-.file-tree li {
-  padding: 5px 10px;
-  margin: 1px 0;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  color: var(--tab-text);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  
-  /* CRITICAL: Allow width to expand for horizontal scroll */
-  white-space: nowrap; 
-  width: fit-content; 
-  min-width: 100%; /* Ensures background highlight spans full sidebar width */
-  
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.recent-files li:hover,
-.file-tree li:hover {
-  background: var(--tab-idle-bg); /* Use the idle tab bg for consistency */
-  color: var(--editor-text);
-}
-
-/* Custom indicator for the selected/active file in the tree */
-.file-tree li.active {
-  background: var(--tab-active-bg);
-  color: var(--editor-text);
-  font-weight: 500;
-}
-
-/* Sidebar Container */
-.file-tree {
-  flex: 1;
-  /* Now allows both vertical and horizontal scrolling */
-  overflow: auto; 
-  padding: 10px 4px 60px 4px;
-  padding-right: 8px;
-  /* Ensure a very long file name doesn't just vanish */
-  display: block;
-}
-
-/* Scrollbar Styling - Matching Tab Bar */
 .file-tree::-webkit-scrollbar {
-  width: 3px;  /* Vertical width */
-  height: 3px; /* Horizontal height */
+  width: 3px;
+  height: 3px;
 }
 
 .file-tree::-webkit-scrollbar-track {
@@ -153,62 +22,33 @@
 }
 
 .file-tree::-webkit-scrollbar-thumb {
+  visibility: hidden;
   background: var(--tab-border);
   border-radius: 10px;
-  visibility: hidden;
 }
 
 .file-tree:hover::-webkit-scrollbar-thumb {
   visibility: visible;
 }
 
-/* Base List Item */
-.file-tree li {
-  display: block;
-  width: 100%;
-  position: relative;
-  padding: 4px 8px 4px 20px; /* Space for the line/arrow */
-  margin: 0;
-  border-radius: 0; /* VS Code style is edge-to-edge */
-  font-size: 0.85rem;
-  transition: background 0.1s ease;
-}
-
-/* Hover: Only highlight the row, not the whole branch */
-.file-tree li:hover {
-  background: var(--tab-idle-bg);
-  color: var(--editor-text);
-}
-
-/* Vertical Guide Lines */
-.file-tree ul {
-  list-style: none;
-  margin: 0 0 0 10px; /* Alignment for the wire */
-  padding: 0;
-  border-left: 1px solid var(--tab-border); /* The vertical wire */
-}
-
-/* Horizontal Wire "Joint" (Optional but looks pro) */
 .file-tree li::before {
-  content: '';
+  content: "";
   position: absolute;
+  top: 14px;
   left: 0;
-  top: 14px; /* Align with middle of text */
   width: 10px;
-  border-top: 1px solid var(--tab-border); /* The horizontal connector */
+  border-top: 1px solid var(--tab-border);
 }
 
-/* Folders specific */
-.file-tree li.folder {
-  padding-left: 24px;
+.file-tree li.folder::before {
+  display: none;
 }
 
-/* Move Arrow over the vertical line */
 .file-tree li.folder::after {
-  content: '›';
+  content: "›";
   position: absolute;
-  left: 5px;
   top: 2px;
+  left: 5px;
   font-size: 1.1rem;
   opacity: 0.6;
   transition: transform 0.2s ease;
@@ -219,124 +59,38 @@
   transform: rotate(90deg) translateX(2px);
 }
 
-/* Remove folder emoji since we have wires/arrows now */
-.file-tree li.folder::before { display: none; }
-
-/* The Resizer Rail (Non-blocking) */
-.resizer {
-  width: 6px; /* Slightly wider hit area */
-  height: 100%;
-  cursor: col-resize;
-  position: absolute;
-  right: -3px; /* Center over the border */
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center; /* Center the handle vertically */
-  justify-content: center;
-}
-
-/* The Tactile Grab Handle */
 .resizer::after {
-  content: '';
+  content: "";
   width: 4px;
-  height: 40px; /* Short, distinct handle in the middle */
+  height: 40px;
   background: var(--tab-border);
   border-radius: 10px;
-  transition: all 0.2s ease;
   opacity: 0.5;
+  transition: all 0.2s ease;
 }
 
-/* Hover State: Make it look "Active" */
 .resizer:hover::after {
-  height: 60px; /* Grow slightly when hovered */
+  height: 60px;
   background: var(--tab-accent);
   opacity: 1;
-  box-shadow: 0 0 8px var(--tab-accent); /* Subtle glow */
+  box-shadow: 0 0 8px var(--tab-accent);
 }
 
-/* 1. Reset: Ensure the folder itself doesn't highlight its entire nested area */
-.file-tree li {
-  background: transparent;
-  transition: background 0.1s ease;
-}
-
-/* 2. Targeted Hover: Only highlight the row the mouse is actually over */
-.file-tree li:hover {
-  background: var(--tab-idle-bg);
-  color: var(--editor-text);
-}
-
-/* 3. The Fix: Prevent the parent folder from staying highlighted when hovering a child */
-.file-tree li:focus-within,
-.file-tree li:hover > ul {
-  background: transparent; 
-}
-
-/* 4. Ensure the background only covers the 'hit area' of the text/icon row */
-.file-tree li {
-  display: block;
-  width: 100%;
-}
-
-/* Highlight the file that is currently active in the editor */
-.file-tree li.active-file {
+#fileTreeList li.active-file {
+  z-index: 1;
+  color: var(--editor-text) !important;
   background: var(--tab-active-bg) !important;
-  color: var(--editor-text);
-  border-left: 2px solid var(--tab-accent); /* Subtle indicator strip */
+  box-shadow: inset 3px 0 0 var(--tab-accent);
 }
 
-/* Ensure the active highlight only applies to the current level, not children */
-.file-tree li.active-file > ul {
-  background: var(--sidebar-bg); /* Force the nested list back to sidebar color */
-  border-left: none;             /* Don't continue the accent strip into the sub-list */
-  margin-left: 10px;             /* Keep the wireframe alignment */
-}
-
-/* If a folder is the "active" item, make sure it doesn't highlight its whole branch */
-.file-tree li.active-file {
-  height: auto;
-}
-
-/* Specifically target the text portion if possible (optional but helps) */
-.file-tree li.active-file {
-  background: var(--tab-active-bg) !important;
-  box-shadow: inset 2px 0 0 0 var(--tab-accent); /* A cleaner version of border-left */
-  border-left: none; 
-}
-/* Make sure Active wins over Hover */
-.file-tree li.active-file:hover {
-  background: var(--tab-active-bg) !important;
+#fileTreeList li.active-file:hover {
   opacity: 0.9;
 }
 
-/* Ensure the UL doesn't have a background that hides the LI highlight */
-#fileTreeList {
-    background: transparent;
-    margin-left: 10px;
-}
-
-/* The Active File Highlight */
-#fileTreeList li.active-file {
-    background-color: var(--tab-active-bg) !important;
-    color: var(--editor-text) !important;
-    /* Use a box shadow for the 'border' so it doesn't mess with the wireframe lines */
-    box-shadow: inset 3px 0 0 0 var(--tab-accent);
-    position: relative;
-    z-index: 1; /* Bring it above the wireframe lines */
-}
-
-/* Stop the highlight from bleeding into the children's area */
 #fileTreeList li.active-file > ul {
-    background-color: var(--sidebar-bg);
-    box-shadow: none;
-    margin-top: 4px;
-}
-
-.file-tree-empty {
-  font-size: 0.85rem;
-  color: #888;
-  padding: 12px;
-  text-align: center;
-  opacity: 0.8;
+  margin-top: 4px;
+  margin-left: 10px;
+  background: var(--sidebar-bg);
+  border-left: 0;
+  box-shadow: none;
 }

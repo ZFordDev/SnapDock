@@ -1,21 +1,7 @@
-
-
+/* Scroll affordances and runtime states. Static tab and preview-menu styles
+   live in index.html and src/modules/file/tabs.js as Tailwind utilities. */
 .tab-bar {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  height: 38px;
-  padding: 0 10px;
-  background: var(--tab-bar-bg);
-  border-bottom: 1px solid var(--tab-border);
-  
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
-  white-space: nowrap;
 }
 
 .tab-bar::before,
@@ -24,11 +10,11 @@
   position: absolute;
   top: 0;
   bottom: 0;
+  z-index: 1;
   width: 24px;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.2s ease;
-  z-index: 1;
 }
 
 .tab-bar::before {
@@ -46,9 +32,8 @@
   opacity: 1;
 }
 
-/* Restored Thin Scrollbar */
 .tab-bar::-webkit-scrollbar {
-  height: 3px; /* Thin enough to sit in the gap */
+  height: 3px;
 }
 
 .tab-bar::-webkit-scrollbar-track {
@@ -56,209 +41,54 @@
 }
 
 .tab-bar::-webkit-scrollbar-thumb {
+  visibility: hidden;
   background: var(--tab-border);
   border-radius: 10px;
-  visibility: hidden; /* Hide by default */
 }
 
 .tab-bar:hover::-webkit-scrollbar-thumb {
-  visibility: visible; /* Show on hover */
+  visibility: visible;
 }
 
-.tab {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  height: 30px;
-  min-width: 140px;
-  padding: 0 10px;
-  gap: 8px;
-  cursor: pointer;
-  background: var(--tab-idle-bg);
-  border: 1px solid var(--tab-border);
-  border-bottom: none;
-  border-radius: 4px 4px 0 0;
-  color: var(--tab-text);
-  transition: all 0.2s ease;
-  position: relative;
-  /* Align tabs to the bottom of the bar so the gap is at the top */
-  align-self: flex-end; 
-}
-
-.tab:hover {
-  filter: brightness(1.1);
-}
-
-.tab.active {
-  background: var(--tab-active-bg);
-  color: var(--editor-text);
-  z-index: 2;
-  height: 31px; /* Overlap the bottom border */
-}
-
-/* The Color Accent Line */
 .tab.active::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
-  left: 0;
   right: 0;
+  left: 0;
   height: 2px;
   background: var(--tab-accent);
   border-radius: 4px 4px 0 0;
 }
 
-.tab-led {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: var(--tab-border);
-}
-
-.tab.active .tab-led { background: var(--tab-accent); }
-.tab.dirty .tab-led { background: var(--warning-accent); }
-
-.tab-title {
-  flex-grow: 1;
-  font-size: 0.8rem;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.tab-close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
-  font-size: 14px;
-  opacity: 0.5;
-  transition: all 0.2s ease;
-}
-
-.tab-close:hover {
-  background: rgba(125, 125, 125, 0.2);
-  opacity: 1;
-}
-
-/* --- Drag & Drop --- */
 .tab.dragging {
   opacity: 0.4;
   transform: scale(0.95);
 }
 
 .tab-drop-indicator {
-  flex: 0 0 auto;
-  width: 3px;
-  height: 28px;
-  background: var(--tab-accent, #4a9eff);
-  border-radius: 2px;
-  margin: 0 2px;
-  align-self: flex-end;
   animation: dropPulse 0.8s ease-in-out infinite alternate;
 }
 
 @keyframes dropPulse {
   from { opacity: 0.6; }
-  to   { opacity: 1; }
-}
-
-/* --- Preview Mode Dropdown --- */
-.preview-mode-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.preview-mode-btn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 10px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  /* Mapped to existing tab/border tokens */
-  background: var(--tab-idle-bg);
-  color: var(--tab-text);
-  border: 1px solid var(--tab-border);
-  border-radius: 4px;
-  transition: all 0.15s ease;
-}
-
-.preview-mode-btn:hover {
-  /* Mapped to toolbar background on hover */
-  background: var(--toolbar-bg);
-}
-
-.preview-mode-btn .dropdown-arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  min-width: 28px;
-  margin: -5px -10px -5px 2px;
-  border-left: 1px solid var(--tab-border);
-  font-size: 0.7rem;
+  to { opacity: 1; }
 }
 
 .preview-mode-menu {
   display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  min-width: 170px;
-  /* Mapped to editor background for menu popovers */
-  background: var(--editor-bg);
-  border: 1px solid var(--tab-border);
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 100;
-  margin-top: 4px;
-  overflow: hidden;
 }
 
 .preview-mode-menu.open {
   display: block;
 }
 
-.preview-mode-option {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 8px 12px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  /* Mapped to standard text color */
-  color: var(--editor-text-secondary);
-  text-align: left;
-  transition: background 0.1s ease;
-}
-
-.preview-mode-option:hover:not(.disabled) {
-  /* Mapped to idle tab / light hover background */
-  background: var(--tab-idle-bg);
-}
-
 .preview-mode-option.active {
-  color: var(--tab-accent);
+  color: var(--tab-accent) !important;
   font-weight: 600;
 }
 
-.preview-mode-option.disabled {
-  /* Mapped to border/muted gray */
-  color: var(--border-color);
-  cursor: not-allowed;
-}
-
 .preview-mode-option .option-check {
-  width: 16px;
-  margin-right: 8px;
-  font-size: 0.7rem;
   visibility: hidden;
 }
 
@@ -266,33 +96,22 @@
   visibility: visible;
 }
 
-.preview-mode-option .option-label {
-  flex-grow: 1;
-}
-
-.preview-mode-option .option-badge {
-  font-size: 0.65rem;
-  padding: 1px 6px;
-  border-radius: 3px;
-  background: var(--inline-code-bg);
-  color: var(--editor-text-secondary);
-}
-
-/* --- Split View --- */
+/* Split view remains selector-driven because JavaScript switches the parent
+   state and continuously updates pane widths while dragging. */
 .workspace.split-view .editor-bubble {
-  width: 100%;
-  max-width: none;
   display: flex;
-  flex-direction: row;
+  flex-direction: row !important;
+  width: 100% !important;
+  max-width: none !important;
 }
 
 .workspace.split-view .editor-wrapper,
 .workspace.split-view .preview-wrapper {
-  position: relative;
-  inset: auto;
-  min-width: 0;
-  height: 100%;
+  position: relative !important;
+  inset: auto !important;
   display: block !important;
+  min-width: 0 !important;
+  height: 100% !important;
 }
 
 .workspace.split-view .editor-wrapper {
@@ -313,8 +132,8 @@
   flex: 0 0 6px;
   cursor: col-resize;
   background: var(--workspace-bg, #f0f2f5);
-  border-left: 1px solid var(--tab-border);
   border-right: 1px solid var(--tab-border);
+  border-left: 1px solid var(--tab-border);
 }
 
 .workspace.split-view .split-resizer:hover,
@@ -332,4 +151,3 @@ body.is-resizing-split {
 body.is-resizing-split * {
   cursor: col-resize !important;
 }
-

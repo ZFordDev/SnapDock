@@ -97,14 +97,14 @@ export function initFindBox({ editor, host }) {
   }
 
   const bar = document.createElement("div");
-  bar.className = "find-bar";
+  bar.className = "find-bar box-border h-full w-full min-w-0 items-center gap-2 bg-[var(--sidebar-bg)] px-2.5 text-[var(--editor-text)]";
   bar.innerHTML = `
-    <span class="find-bar__icon">⌕</span>
-    <input type="text" class="find-bar__input" placeholder="Find in document" aria-label="Find" />
-    <span class="find-bar__summary">Find in document</span>
-    <button class="find-bar__button" data-action="prev" type="button">↑</button>
-    <button class="find-bar__button" data-action="next" type="button">↓</button>
-    <button class="find-bar__button find-bar__close" data-action="close" type="button">✕</button>
+    <span class="find-bar__icon opacity-70">⌕</span>
+    <input type="text" class="find-bar__input min-w-0 flex-1 rounded border border-[var(--tab-border)] bg-[var(--editor-bg)] px-2 py-1 text-[var(--editor-text)]" placeholder="Find in document" aria-label="Find" />
+    <span class="find-bar__summary min-w-20 text-[.85rem] opacity-80">Find in document</span>
+    <button class="find-bar__button cursor-pointer rounded border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[var(--editor-text)] disabled:cursor-not-allowed disabled:opacity-40" data-action="prev" type="button">↑</button>
+    <button class="find-bar__button cursor-pointer rounded border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[var(--editor-text)] disabled:cursor-not-allowed disabled:opacity-40" data-action="next" type="button">↓</button>
+    <button class="find-bar__button find-bar__close cursor-pointer rounded border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[var(--tab-text)]" data-action="close" type="button">✕</button>
   `;
 
   const input = bar.querySelector(".find-bar__input");
@@ -161,10 +161,12 @@ export function initFindBox({ editor, host }) {
       nextBtn.disabled = true;
       clearSelection();
       bar.classList.remove("has-results");
+      summary.classList.remove("text-[var(--tab-accent)]");
       return;
     }
 
     bar.classList.add("has-results");
+    summary.classList.add("text-[var(--tab-accent)]");
     applySelection(0);
   }
 

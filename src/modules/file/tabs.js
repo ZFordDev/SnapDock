@@ -5,6 +5,20 @@ import { updateMetrics } from "../ui/metrics.js";
 let tabs = [];
 let activeTabId = null;
 
+const TAB_CLASSES = [
+  "tab", "relative", "flex", "min-w-[140px]", "shrink-0",
+  "cursor-pointer", "items-center", "self-end", "gap-2", "rounded-t",
+  "border", "border-b-0", "border-[var(--tab-border)]",
+  "px-2.5", "transition-all", "duration-200", "hover:brightness-110"
+].join(" ");
+
+const INACTIVE_TAB_CLASSES = "h-[30px] bg-[var(--tab-idle-bg)] text-[var(--tab-text)]";
+const ACTIVE_TAB_CLASSES = "active z-[2] h-[31px] bg-[var(--tab-active-bg)] text-[var(--editor-text)]";
+const TAB_LED_CLASSES = "tab-led h-[7px] w-[7px] shrink-0 rounded-full";
+const TAB_TITLE_CLASSES = "tab-title flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-[.8rem] font-medium";
+const TAB_CLOSE_CLASSES = "tab-close flex h-[18px] w-[18px] items-center justify-center rounded-[3px] p-0 text-sm opacity-50 transition-all duration-200 hover:bg-[rgba(125,125,125,.2)] hover:opacity-100";
+const DROP_INDICATOR_CLASSES = "tab-drop-indicator mx-0.5 h-7 w-[3px] shrink-0 self-end rounded-sm bg-[var(--tab-accent,#4a9eff)]";
+
 const getEditor = () => document.getElementById("markdownInputMain");
 let tabBarScrollSetup = false;
 
@@ -177,7 +191,7 @@ let dragState = {
  */
 function createDropPlaceholder() {
   const el = document.createElement("div");
-  el.className = "tab-drop-indicator";
+  el.className = DROP_INDICATOR_CLASSES;
   return el;
 }
 
@@ -217,24 +231,24 @@ export function renderTabs() {
     const isActive = tab.id === activeTabId;
 
     const el = document.createElement("div");
-    el.className = `tab ${isActive ? "active" : ""} ${tab.isDirty ? "dirty" : ""}`;
+    el.className = `${TAB_CLASSES} ${isActive ? ACTIVE_TAB_CLASSES : INACTIVE_TAB_CLASSES} ${tab.isDirty ? "dirty" : ""}`;
     el.dataset.tabId = tab.id;
     el.draggable = true;
 
     // Status LED
     const led = document.createElement("div");
-    led.className = "tab-led";
+    led.className = TAB_LED_CLASSES;
     led.style.background =
       !tab.hasEverBeenSaved ? "#ff4444" :
       tab.isDirty ? "#ffbb00" :
       "#4caf50";
 
     const title = document.createElement("span");
-    title.className = "tab-title";
+    title.className = TAB_TITLE_CLASSES;
     title.textContent = tab.title;
 
     const close = document.createElement("button");
-    close.className = "tab-close";
+    close.className = TAB_CLOSE_CLASSES;
     close.innerHTML = "×";
     close.addEventListener("click", e => {
       e.stopPropagation();

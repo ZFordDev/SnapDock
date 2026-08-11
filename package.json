@@ -13,7 +13,10 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "npm run bundle && electron .",
+    "bundle": "node scripts/bundle.js && npm run css:build",
+    "css:build": "tailwindcss -i ./src/styles/tailwind.css -o ./dist/styles.css --minify",
+    "css:watch": "tailwindcss -i ./src/styles/tailwind.css -o ./dist/styles.css --watch",
     "md:test": "node test/markdown-render.js",
     "build:dev": "node scripts/build-dev.js",
     "build:test": "node scripts/build-test.js",
@@ -40,10 +43,12 @@
     "markdown-it-task-lists": "^2.1.1"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
     "electron": "43.2.0",
     "electron-builder": "26.15.3",
     "esbuild": "0.28.1",
-    "rcedit": "^5.0.2"
+    "rcedit": "^5.0.2",
+    "tailwindcss": "^4.3.3"
   },
   "build": {
     "appId": "com.zforddev.snapdock",

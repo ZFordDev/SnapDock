@@ -43,6 +43,7 @@ let currentWorkspacePath = null;
 let mainWindow;
 let lastKnownDirtyState = false;
 let forceClose = false;
+let relaunchAfterClose = false;
 let spellcheckEnabled = true;
 const spellcheckConfigPath = path.join(app.getPath("userData"), "spellcheck-config.json");
 
@@ -84,6 +85,20 @@ function applySpellcheckState(enabled, targetWindow = mainWindow) {
   targetWindow.webContents.session.setSpellCheckerLanguages(
     enabled && preferredLanguage ? [preferredLanguage] : []
   );
+}
+
+function finishWindowClose() {
+  if (relaunchAfterClose) {
+    ipcMain.once("workspace:clear-for-close:result", () => {
+      app.relaunch();
+      app.exit(0);
+    });
+    mainWindow.webContents.send("workspace:clear-for-close:request");
+    return;
+  }
+
+  forceClose = true;
+  mainWindow.close();
 }
 
 function createWindow() {
@@ -194,9 +209,9 @@ function createWindow() {
           // User chose "Save All"
           const onResult = (_event, result) => {
             if (result?.ok) {
-              forceClose = true;
-              mainWindow.close();
+              finishWindowClose();
             } else {
+              relaunchAfterClose = false;
               dialog.showMessageBox(mainWindow, {
                 type: "error",
                 buttons: ["OK"],
@@ -214,15 +229,15 @@ function createWindow() {
 
         if (choice === 2) {
           // User chose "Discard Changes"
-          forceClose = true;
-          mainWindow.close();
+          finishWindowClose();
         }
 
-        // choice === 0 (Cancel): do nothing, keep app open
+        if (choice === 0) {
+          relaunchAfterClose = false;
+        }
       } else {
         // Clean workspace -> safe to close
-        forceClose = true;
-        mainWindow.close();
+        finishWindowClose();
       }
     }, 50);
   });
@@ -458,6 +473,12 @@ ipcMain.handle("get-version", async () => {
 
   ipcMain.on("window:close", () => {
     if (mainWindow) mainWindow.close();
+  });
+
+  ipcMain.on("workspace:close-project", () => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    relaunchAfterClose = true;
+    mainWindow.close();
   });
 
   ipcMain.handle("window:isMaximized", () => {

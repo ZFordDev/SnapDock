@@ -42,6 +42,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("open-file-by-path", path),
   resolveLocalAttachment,
 
+  // Close the current workspace by restarting after the dirty-state guard.
+  closeProject: () => ipcRenderer.send("workspace:close-project"),
+
   // Workspace watcher
   onWorkspaceUpdated: (callback) =>
     ipcRenderer.on("workspace-updated", () => callback()),
@@ -124,4 +127,10 @@ contextBridge.exposeInMainWorld("workspaceAPI", {
 
   sendSaveAllForCloseResult: (result) =>
     ipcRenderer.send("workspace:save-all-for-close:result", result),
+
+  onClearForCloseRequest: (callback) =>
+    ipcRenderer.on("workspace:clear-for-close:request", () => callback()),
+
+  sendClearForCloseResult: () =>
+    ipcRenderer.send("workspace:clear-for-close:result"),
 });

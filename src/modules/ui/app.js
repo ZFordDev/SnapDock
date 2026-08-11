@@ -93,6 +93,13 @@ export function initApp() {
     });
   }
 
+  const closeProjectBtn = document.getElementById("closeProjectBtn");
+  if (closeProjectBtn) {
+    closeProjectBtn.addEventListener("click", () => {
+      window.electronAPI.closeProject();
+    });
+  }
+
 
   // 7️⃣ Version tag
   setVersionTag(versionTag);

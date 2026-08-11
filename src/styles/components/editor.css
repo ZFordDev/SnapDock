@@ -28,8 +28,11 @@
   display: none;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
-  border-bottom: 1px solid var(--tab-border);
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
   background: var(--sidebar-bg);
   color: var(--editor-text);
 }
@@ -44,9 +47,10 @@
 
 .find-bar__input {
   flex: 1;
+  min-width: 0;
   border: 1px solid var(--tab-border);
   border-radius: 4px;
-  padding: 6px 8px;
+  padding: 4px 8px;
   background: var(--editor-bg);
   color: var(--editor-text);
 }

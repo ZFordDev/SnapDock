@@ -26,7 +26,9 @@ body.dark-theme .title-row {
   display: flex;
   align-items: center;
   gap: 12px;
+  height: 40px;
   padding: 6px 10px;
+  box-sizing: border-box;
 }
 
 .header-left {
@@ -52,7 +54,8 @@ body.dark-theme .title-row {
   flex: 1;
   display: flex;
   align-items: center;
-  min-width: 220px;
+  min-width: 0;
+  height: 100%;
 }
 
 /* ─── Standalone header buttons (New) ─── */

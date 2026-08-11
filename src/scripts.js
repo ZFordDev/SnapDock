@@ -9,6 +9,7 @@ import { respondToDirtyStateRequest } from "./modules/system/dirtyState.js";
 import { save_all_tabs } from "./modules/file/tabs.js";
 import { initDropdownToggles, initToolsDropdown } from "./modules/ui/dropdownMenus.js";
 import { initMetrics } from "./modules/ui/metrics.js";
+import { clearWorkspace } from "./modules/file/workspace.js";
 
 // Helper
 function byId(id) {
@@ -36,6 +37,11 @@ window.workspaceAPI.onSaveAllForCloseRequest(async() => {
     });
   }
 })
+
+window.workspaceAPI.onClearForCloseRequest(() => {
+  clearWorkspace();
+  window.workspaceAPI.sendClearForCloseResult();
+});
 
 // --- MAIN BOOTSTRAP ---
 window.addEventListener("DOMContentLoaded", () => {

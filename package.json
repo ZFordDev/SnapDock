@@ -11,84 +11,40 @@
   "author": "ZFordDev",
   "license": "MIT",
   "private": true,
-  "main": "main.js",
   "scripts": {
-    "start": "npm run bundle && electron .",
+    "start": "npm run tauri:dev",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
     "bundle": "node scripts/bundle.js && npm run css:build",
     "css:build": "tailwindcss -i ./src/styles/tailwind.css -o ./dist/styles.css --minify",
     "css:watch": "tailwindcss -i ./src/styles/tailwind.css -o ./dist/styles.css --watch",
-    "md:test": "node test/markdown-render.js",
-    "build:dev": "node scripts/build-dev.js",
-    "build:test": "node scripts/build-test.js",
-    "build:win": "node scripts/build-win.js",
-    "build:linux": "node scripts/build-linux.js",
-    "build:mac": "echo 'Mac not supported yet'",
-    "build:release": "node scripts/build-release.js",
-    "build:release:store": "node scripts/build-release.js -- --release"
+    "typecheck": "tsc -p tsconfig.renderer.json && tsc -p tsconfig.node.json && tsc -p tsconfig.test.json",
+    "test": "tsx --test test/markdown-render.test.ts src/modules/ui/editorFont.test.ts tests/find.test.ts tests/link-navigation.test.ts && node tests/layout-regressions.test.js",
+    "md:test": "tsx --test test/markdown-render.test.ts",
+    "verify": "npm run typecheck && npm test && npm run bundle",
+    "build:test": "npm run verify && tauri build --debug",
+    "build:release": "npm run verify && tauri build"
   },
   "dependencies": {
-    "chokidar": "^5.0.0",
-    "electron-log": "^5.4.4",
-    "electron-updater": "6.8.9",
+    "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/plugin-opener": "^2.5.4",
+    "@tauri-apps/plugin-process": "^2.3.1",
+    "@tauri-apps/plugin-updater": "^2.10.1",
     "highlight.js": "^11.11.1",
-    "markdown-it": "^15.0.0",
-    "markdown-it-anchor": "^9.2.1",
-    "markdown-it-container": "^4.0.0",
-    "markdown-it-emoji": "^3.1.0",
-    "markdown-it-footnote": "^4.0.0",
-    "markdown-it-link-attributes": "^4.0.1",
-    "markdown-it-mark": "^4.0.0",
-    "markdown-it-sub": "^2.0.0",
-    "markdown-it-sup": "^2.0.0",
-    "markdown-it-task-lists": "^2.1.1"
+    "marked": "^18.0.9",
+    "marked-footnote": "^1.4.0",
+    "marked-gfm-heading-id": "^4.1.4",
+    "marked-highlight": "^2.2.4",
+    "node-emoji": "^2.2.0"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
-    "electron": "43.2.0",
-    "electron-builder": "26.15.3",
+    "@tauri-apps/cli": "^2.11.4",
+    "@types/node": "^26.2.0",
     "esbuild": "0.28.1",
-    "rcedit": "^5.0.2",
-    "tailwindcss": "^4.3.3"
-  },
-  "build": {
-    "appId": "com.zforddev.snapdock",
-    "productName": "SnapDock",
-    "artifactName": "SnapDock-${version}-${channel}-${os}-${arch}.${ext}",
-    "asar": true,
-    "executableName": "snapdock",
-    "compression": "maximum",
-    "files": [
-      "dist/**/*",
-      "index.html",
-      "src/**/*",
-      "assets/**/*",
-      "main.js",
-      "src/preloads.js",
-      "build/metadata.json"
-    ],
-    "win": {
-      "icon": "assets/icon.ico",
-      "target": [
-        "nsis"
-      ]
-    },
-    "linux": {
-      "icon": "assets/icon.icns",
-      "category": "Office",
-      "maintainer": "ZFordDev <zforddev@gmail.com>",
-      "target": [
-        "AppImage",
-        "deb",
-        "snap"
-      ]
-    },
-    "mac": {
-      "category": "public.app-category.productivity",
-      "icon": "assets/icon.icns",
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    }
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
   }
 }

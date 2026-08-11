@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "SnapDock",
+  "version": "3.3.1",
+  "identifier": "com.zforddev.snapdock",
+  "build": {
+    "beforeDevCommand": "npm run bundle && node scripts/prepare-tauri.js",
+    "beforeBuildCommand": "npm run bundle && node scripts/prepare-tauri.js",
+    "frontendDist": "../app-dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "SnapDock",
+        "width": 1100,
+        "height": 800,
+        "minWidth": 720,
+        "minHeight": 520,
+        "decorations": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' asset: http://asset.localhost data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'",
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["**"]
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "../assets/icons/icon_32x32.png",
+      "../assets/icons/icon_128x128.png",
+      "../assets/icons/icon_128x128@2x.png",
+      "../assets/icon.icns",
+      "../assets/icon.ico"
+    ],
+    "category": "Productivity",
+    "shortDescription": "A modern Markdown editor",
+    "longDescription": "A minimal, modern Markdown editor for focused writing."
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": ["https://github.com/ZFordDev/SnapDock/releases/latest/download/latest.json"],
+      "pubkey": "TAURI_UPDATER_PUBLIC_KEY_REQUIRED"
+    }
+  }
+}

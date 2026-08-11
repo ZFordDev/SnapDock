@@ -36,7 +36,7 @@ Response and release times depend on the issue's complexity and upstream depende
 
 This policy covers vulnerabilities in SnapDock's source code, official builds, update mechanism, Markdown rendering, file and workspace handling, and interactions with bundled dependencies.
 
-Security problems in Electron, Chromium, or another dependency may ultimately need an upstream fix, but please report them privately to SnapDock when they affect SnapDock users or require an application-level mitigation.
+Security problems in Tauri, the operating system webview, or another dependency may ultimately need an upstream fix, but please report them privately to SnapDock when they affect SnapDock users or require an application-level mitigation.
 
 The following are generally outside scope unless they create a vulnerability in an official SnapDock release:
 
@@ -47,7 +47,7 @@ The following are generally outside scope unless they create a vulnerability in 
 
 ## Security characteristics
 
-SnapDock is a local-first desktop application. It uses Electron context isolation and disables Node.js integration in the renderer, but its renderer sandbox is not currently enabled. Store packages and some Linux installation types may handle updates outside the application.
+SnapDock is a local-first Tauri desktop application. Renderer access to native capabilities is limited to the commands and permissions declared by SnapDock. Store packages and some Linux installation types may handle updates outside the application.
 
 These characteristics provide context, not a guarantee that the application is vulnerability-free. Reports involving untrusted Markdown, local file access, workspace boundaries, external links, PDF export, or updates are especially useful.
 

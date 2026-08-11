@@ -10,6 +10,9 @@ pnpm-debug.log*
 #  Build / Distribution
 # ────────────────────────────────────────────────
 dist/
+app-dist/
+src-tauri/target/
+src-tauri/gen/
 out/
 release/
 *.asar
@@ -17,11 +20,6 @@ release/
 .env
 build/
 *.snap
-
-# Electron Builder
-electron-builder-cache/
-builder-debug.yml
-builder-effective-config.yaml
 
 # ────────────────────────────────────────────────
 #  Cache & Temp

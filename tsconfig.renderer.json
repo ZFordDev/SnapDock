@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": []
+  },
+  "include": [
+    "src/scripts.ts",
+    "src/modules/file/**/*",
+    "src/modules/system/**/*",
+    "src/modules/ui/**/*",
+    "src/modules/markdown.ts",
+    "src/types/**/*.d.ts"
+  ],
+  "exclude": ["src/modules/**/*.test.*"]
+}

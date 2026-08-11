@@ -1,0 +1,43 @@
+[package]
+name = "snapdock"
+version = "3.3.1"
+description = "A minimal, modern Markdown editor"
+authors = ["ZFordDev"]
+license = "MIT"
+repository = "https://github.com/ZFordDev/SnapDock"
+edition = "2021"
+
+[lib]
+name = "snapdock_lib"
+crate-type = ["rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+notify = "8"
+rfd = "0.15"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tauri = { version = "2", features = ["protocol-asset"] }
+tauri-plugin-opener = "2"
+tauri-plugin-process = "2"
+tauri-plugin-updater = "2"
+url = "2"
+
+# Keep local and CI release builds within modest laptop memory budgets. Tauri's
+# default optimized build can otherwise run several large codegen/link jobs at
+# once; installer size is still handled by the platform bundlers.
+[profile.release]
+opt-level = 0
+lto = false
+codegen-units = 256
+incremental = true
+debug = 0
+strip = "symbols"
+
+[profile.dev]
+opt-level = 0
+debug = 0
+codegen-units = 256
+incremental = true

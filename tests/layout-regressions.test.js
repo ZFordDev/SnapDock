@@ -2,7 +2,10 @@ import { strict as assert } from "node:assert";
 import fs from "node:fs";
 
 const tabsCss = fs.readFileSync("src/styles/components/tabs.css", "utf8");
-const mainProcess = fs.readFileSync("main.js", "utf8");
+const runtimeSources = [
+  fs.readFileSync("src/modules/tauriBridge.ts", "utf8"),
+  fs.readFileSync("src-tauri/src/lib.rs", "utf8"),
+].join("\n");
 const tailwindInput = fs.readFileSync("src/styles/tailwind.css", "utf8");
 
 for (const declaration of [
@@ -25,9 +28,9 @@ assert.equal(
 );
 
 assert.equal(
-  mainProcess.includes("setZoomFactor"),
+  /setZoomFactor|set_zoom/.test(runtimeSources),
   false,
-  "Electron's native DPI scaling must not be compounded by a manual zoom factor",
+  "The native webview DPI scaling must not be compounded by a manual zoom factor",
 );
 
 console.log("layout regression tests passed");

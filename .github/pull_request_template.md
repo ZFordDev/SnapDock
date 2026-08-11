@@ -18,6 +18,7 @@ Describe what this PR changes and why.
 - [ ] UI/UX improvement  
 - [ ] Documentation update  
 - [ ] Refactor / cleanup  
+- [ ] Build / packaging
 
 ---
 
@@ -32,6 +33,8 @@ Explain the implementation, any decisions made, and any side effects.
 Describe how you tested your changes:
 
 - [ ] Builds successfully  
+- [ ] `npm run verify` passes
+- [ ] Rust changes pass `cargo fmt --check`
 - [ ] Tested on Windows  
 - [ ] Tested on Linux  
 - [ ] No regressions found  

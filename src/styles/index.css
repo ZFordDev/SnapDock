@@ -5,7 +5,7 @@
 
 /* Markdown */
 @import "./markdown/markdown.css";
-@import "./markdown/highlight.css"; /* FIXED */
+@import "./markdown/highlight.css";
 
 /* Theme */
 @import "./themes/light.css";

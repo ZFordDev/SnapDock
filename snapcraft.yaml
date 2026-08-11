@@ -1,52 +1,64 @@
 name: markdown-workspace
-base: core22
-version: '3.3.1.1'
+base: core24
+version: '3.3.1'
 
 title: SnapDock - Markdown Workspace
 summary: Fast, clean Markdown editor
 description: |
-  SnapDock is a modern, distraction-free Markdown editor designed for people who want clarity, stability, and a writing environment that stays out of the way.
+  SnapDock is a modern, distraction-free Markdown editor designed for people
+  who want clarity, stability, and a writing environment that stays out of the
+  way.
 
 grade: stable
 confinement: strict
 
+platforms:
+  amd64:
+  arm64:
+
 apps:
   snapdock:
-    command: snapdock --no-sandbox
+    command: usr/bin/snapdock
     extensions: [gnome]
-    desktop: meta/gui/snapdock.desktop
+    desktop: usr/share/applications/markdown-workspace.desktop
+    common-id: markdown-workspace.desktop
     plugs:
       - home
       - network
-      - desktop
-      - desktop-legacy
-      - x11
-      - wayland
-      - opengl
-      - browser-support
+      - removable-media
 
 parts:
   snapdock:
-    plugin: dump
-    source: ./dist/linux-unpacked
-    stage-packages:
-      - libasound2
-      - libnss3
-      - libnspr4
-      - libxss1
-      - libxtst6
-      - libsecret-1-0
-
-  desktop-integration:
-    plugin: dump
+    plugin: rust
     source: .
-    organize:
-      snapdock.desktop: meta/gui/snapdock.desktop
-      assets/snapdock.png: meta/gui/snapdock.png
-    prime:
-      - meta/gui/snapdock.desktop
-      - meta/gui/snapdock.png
+    build-snaps:
+      - node/22/stable
+    build-packages:
+      - build-essential
+      - curl
+      - file
+      - libwebkit2gtk-4.1-dev
+      - libayatana-appindicator3-dev
+      - librsvg2-dev
+      - libssl-dev
+      - libxdo-dev
+      - patchelf
+      - wget
+    override-build: |
+      set -eux
+      npm ci
+      npm run tauri -- build --bundles deb
+      dpkg -x src-tauri/target/release/bundle/deb/*.deb "$CRAFT_PART_INSTALL"
 
-plugs:
-  shared-memory:
-    private: true
+      install -Dm644 snapdock.desktop \
+        "$CRAFT_PART_INSTALL/usr/share/applications/markdown-workspace.desktop"
+      install -Dm644 assets/icons/icon_128x128.png \
+        "$CRAFT_PART_INSTALL/meta/gui/snapdock.png"
+      install -Dm644 assets/icons/icon_128x128.png \
+        "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/128x128/apps/markdown-workspace.png"
+
+    prime:
+      - usr/bin/snapdock
+      - usr/share/applications/markdown-workspace.desktop
+      - usr/share/icons/hicolor/128x128/apps/markdown-workspace.png
+      - meta/gui/snapdock.png

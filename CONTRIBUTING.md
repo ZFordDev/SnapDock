@@ -32,11 +32,9 @@ git switch -c feature/short-description
 Useful development commands include:
 
 ```bash
-node scripts/bundle.js # Bundle the renderer into dist/bundle.js
-npm start             # Launch Electron after bundling
-npm run build:dev     # Create an unpacked development build
-npm run build:win     # Build the Windows installer (Windows only)
-npm run build:linux   # Build AppImage and Debian packages (Linux only)
+npm run bundle       # Bundle the renderer into dist/bundle.js
+npm start            # Launch the Tauri development application
+npm run tauri:build  # Create native installers for the current platform
 ```
 
 macOS builds are not currently supported.

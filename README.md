@@ -66,13 +66,16 @@ _macOS is not currently supported._
 
 ## Build from source
 
-You will need a current [Node.js](https://nodejs.org/) release and npm.
+You will need current Node.js and Rust toolchains, plus the platform prerequisites listed by Tauri.
 
 ```bash
 git clone https://github.com/ZFordDev/SnapDock.git
 cd SnapDock
 npm install
-npm run build:dev
+npm start
+
+# Create native installers
+npm run tauri:build
 ```
 
 ## Project status and roadmap
@@ -86,7 +89,7 @@ SnapDock is stable, actively maintained, and open to contributions. Development 
 ## Known limitations
 
 - Live preview is not yet available; standard and split previews update while you work.
-- Electron and Chromium can behave differently across Linux display servers and desktop environments. Please [report reproducible issues](https://github.com/ZFordDev/SnapDock/issues/new/choose) with your distribution, desktop environment, and display server.
+- Tauri's system webview can behave differently across Linux display servers and desktop environments. Please [report reproducible issues](https://github.com/ZFordDev/SnapDock/issues/new/choose) with your distribution, desktop environment, and display server.
 
 ## Support and contributing
 

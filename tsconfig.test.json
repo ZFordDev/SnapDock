@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"]
+  },
+  "include": [
+    "test/**/*.test.ts",
+    "src/modules/**/*.test.ts",
+    "tests/**/*.test.ts",
+    "src/modules/ui/editorFont.ts",
+    "src/modules/ui/findState.ts",
+    "src/modules/linkNavigation.ts",
+    "src/types/**/*.ts",
+    "src/types/**/*.d.ts"
+  ]
+}

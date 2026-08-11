@@ -1,71 +1,95 @@
-name: SnapDock Release Pipeline
+name: Build and release SnapDock
 
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-    #  - 121-release-pipeline-improvements // test branch here
+    tags:
+      - "v*"
 
 permissions:
-  contents: write
-  id-token: write
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  # ---------------------------------------------------------
-  # 1. Desktop Installers (Windows + Linux)
-  # ---------------------------------------------------------
   desktop:
-    name: Desktop Installers
+    name: Build (${{ matrix.name }})
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        include:
+          - name: Windows
+            os: windows-latest
+          - name: Linux
+            os: ubuntu-24.04
+
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v7
 
-      - name: Setup Node
+      - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
           node-version: 24
+          cache: npm
 
-      - name: Install Dependencies
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes \
+            build-essential \
+            curl \
+            file \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libssl-dev \
+            libxdo-dev \
+            wget \
+            patchelf
+
+      - name: Install JavaScript dependencies
         run: npm ci
 
-      - name: Build Desktop Release
+      - name: Build release bundles
         run: npm run build:release
 
-      - name: Upload Artifacts
+      - name: Upload bundles
         uses: actions/upload-artifact@v7
         with:
-          name: desktop-${{ matrix.os }}
+          name: snapdock-${{ runner.os }}-${{ runner.arch }}
           path: |
-            dist/*.exe
-            dist/*.deb
-            dist/*.AppImage
-            dist/*.zip
-            dist/*.dmg
-          if-no-files-found: ignore
+            src-tauri/target/release/bundle/**/*.AppImage
+            src-tauri/target/release/bundle/**/*.deb
+            src-tauri/target/release/bundle/**/*.exe
+            src-tauri/target/release/bundle/**/*.msi
+            src-tauri/target/release/bundle/**/*.sig
+          if-no-files-found: error
 
-# attempted to make store releases automated via github and keep hitting issues
-# i managed to automate on my server and its a good enough fix for now but will need to look at this again in the future
-
-  # ---------------------------------------------------------
-  # 4. GitHub Release
-  # ---------------------------------------------------------
   release:
-    name: Create GitHub Release
+    name: Publish GitHub release
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
-    needs: [desktop]
+    needs: desktop
+    permissions:
+      contents: write
+
     steps:
-      - name: Download All Artifacts
+      - name: Download bundles
         uses: actions/download-artifact@v8
         with:
           path: release-assets
 
-      - name: Create Release
+      - name: Publish release
         uses: softprops/action-gh-release@v3
         with:
-          files: release-assets/**
+          files: release-assets/**/*
+          fail_on_unmatched_files: true
           generate_release_notes: true

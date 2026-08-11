@@ -1,4 +1,4 @@
-/* Electron window regions and runtime-only dropdown states. Static header
+/* Tauri window regions and runtime-only dropdown states. Static header
    presentation lives in Tailwind utilities in index.html. */
 .title-row,
 .app-title {

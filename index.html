@@ -8,17 +8,17 @@
   <body class="light-theme m-0 h-screen p-0 font-sans">
     <div class="app-wrapper box-border flex h-screen flex-col">
       <header class="top-header flex shrink-0 flex-col border-b border-[var(--tab-border)] bg-[var(--sidebar-bg)]">
-        <div class="title-row flex h-9 items-center justify-between border-b border-black/5 px-2.5">
-          <div id="appTitle" class="app-title ml-3 font-bold text-[var(--tab-text)] opacity-90">SnapDock</div>
-          <div class="header-center flex flex-initial justify-center">
+        <div class="title-row grid h-9 grid-cols-[1fr_auto_1fr] items-center border-b border-black/5 px-2.5" data-tauri-drag-region>
+          <div id="appTitle" class="app-title ml-3 font-bold text-[var(--tab-text)] opacity-90" data-tauri-drag-region>SnapDock</div>
+          <div class="header-center flex flex-initial justify-center" data-tauri-drag-region>
             <div id="filenameWrapper" class="pointer-events-auto flex max-w-[400px] items-center justify-center">
               <span id="workspaceName">Workspace</span>
             </div>
           </div>
-          <div class="window-controls inline-flex" id="windowControls">
-            <button id="minimizeBtn" class="window-btn inline-flex h-7 w-9 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 text-[.95rem] text-[var(--tab-text)] hover:bg-[var(--tab-idle-bg)]" title="Minimize">▁</button>
-            <button id="maximizeBtn" class="window-btn inline-flex h-7 w-9 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 text-[.95rem] text-[var(--tab-text)] hover:bg-[var(--tab-idle-bg)]" title="Maximize">▢</button>
-            <button id="closeBtn" class="window-btn close inline-flex h-7 w-9 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 text-[.95rem] text-[var(--tab-text)] hover:bg-[#ff5f56] hover:text-white" title="Close">✕</button>
+          <div class="window-controls ml-auto inline-flex" id="windowControls">
+            <button type="button" id="minimizeBtn" class="window-btn inline-flex h-7 w-9 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 text-[.95rem] text-[var(--tab-text)] hover:bg-[var(--tab-idle-bg)]" title="Minimize" aria-label="Minimize window">▁</button>
+            <button type="button" id="maximizeBtn" class="window-btn inline-flex h-7 w-9 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 text-[.95rem] text-[var(--tab-text)] hover:bg-[var(--tab-idle-bg)]" title="Maximize" aria-label="Maximize window">▢</button>
+            <button type="button" id="closeBtn" class="window-btn close inline-flex h-7 w-9 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 text-[.95rem] text-[var(--tab-text)] hover:bg-[#ff5f56] hover:text-white" title="Close" aria-label="Close window">✕</button>
           </div>
         </div>
 

@@ -362,6 +362,17 @@ app.whenReady().then(createWindow);
         return { newFilePath: finalPath };
       }
 
+      // FIX C3: prevent path traversal — when a workspace is open, only allow
+      // writing to files within it. Without this a compromised renderer could
+      // overwrite any writable file on disk.
+      if (currentWorkspacePath) {
+        const resolved = path.resolve(filePath);
+        if (!resolved.startsWith(currentWorkspacePath + path.sep) && resolved !== currentWorkspacePath) {
+          console.error("save-file rejected: path outside workspace", resolved);
+          return false;
+        }
+      }
+
       fs.writeFileSync(filePath, content, "utf-8");
       return true;
     } catch (err) {

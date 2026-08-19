@@ -400,6 +400,17 @@ app.whenReady().then(createWindow);
   });
 
   ipcMain.handle("open-file-by-path", async (_, pathArg) => {
+    // FIX C2: prevent path traversal — when a workspace is open, only allow
+    // reading files within it. Without this a compromised renderer could read
+    // any file on disk (e.g. /etc/passwd, ~/.ssh/id_rsa).
+    if (currentWorkspacePath && pathArg) {
+      const resolved = path.resolve(pathArg);
+      if (!resolved.startsWith(currentWorkspacePath + path.sep) && resolved !== currentWorkspacePath) {
+        console.error("open-file-by-path rejected: path outside workspace", resolved);
+        return null;
+      }
+    }
+
     try {
       return await fs.promises.readFile(pathArg, "utf8");
     } catch {

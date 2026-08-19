@@ -385,13 +385,26 @@ app.whenReady().then(createWindow);
       return [];
     }
 
+    // FIX C1: prevent path traversal — resolve to absolute and verify it
+    // stays within the current workspace. Without this, a compromised
+    // renderer could read any directory on the filesystem.
+    if (!currentWorkspacePath) {
+      console.error("list-files called but no workspace is open");
+      return [];
+    }
+    const resolvedDir = path.resolve(dirPath);
+    if (!resolvedDir.startsWith(currentWorkspacePath + path.sep) && resolvedDir !== currentWorkspacePath) {
+      console.error("list-files rejected: path outside workspace", resolvedDir);
+      return [];
+    }
+
     try {
-      const files = fs.readdirSync(dirPath, { withFileTypes: true });
+      const files = fs.readdirSync(resolvedDir, { withFileTypes: true });
 
       return files.map((f) => ({
         name: f.name,
         type: f.isDirectory() ? "folder" : "file",
-        fullPath: path.join(dirPath, f.name),
+        fullPath: path.join(resolvedDir, f.name),
       }));
     } catch (err) {
       console.error("Failed to list files:", err);

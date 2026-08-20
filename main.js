@@ -500,6 +500,10 @@ ipcMain.handle("get-version", async () => {
     if (mainWindow) mainWindow.close();
   });
 
+  // NOTE M4: close-project uses app.relaunch() because there is no clean way
+  // to reset all in-memory state (tabs, watchers, editor) without a restart.
+  // This is a known limitation — the full app restarts to clear the workspace.
+  // A future improvement would be an in-memory workspace reset instead.
   ipcMain.on("workspace:close-project", () => {
     if (!mainWindow || mainWindow.isDestroyed()) return;
     relaunchAfterClose = true;

@@ -43,8 +43,11 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
     editorBubble.insertBefore(splitResizer, previewWrapper);
   }
 
-  // Start in the normal preview toggle mode each time the app opens.
-  let currentMode = "preview";
+  // FIX H3: restore view mode from localStorage instead of always starting
+  // in preview mode. Without this, user's mode preference is never restored.
+  const savedMode = localStorage.getItem(STORAGE_KEY);
+  const validModes = ["preview", "split"];
+  let currentMode = validModes.includes(savedMode) ? savedMode : "preview";
 
   // --- Update menu active state ---
   function updateMenuActive() {
@@ -294,12 +297,16 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
     }
   });
 
-  // --- Initialize ---
-  preview.classList.remove("hidden");
+  // --- Initialize --- apply saved mode or default to preview
+  if (currentMode === "split") {
+    applySplitMode();
+  } else {
+    preview.classList.remove("hidden");
+    previewWrapper.classList.add("hidden");
+    editorWrapper.classList.remove("hidden");
+    resetSplitLayout();
+  }
   localStorage.setItem(STORAGE_KEY, currentMode);
-  previewWrapper.classList.add("hidden");
-  editorWrapper.classList.remove("hidden");
-  resetSplitLayout();
   updateLabel();
   updateMenuActive();
 

@@ -84,20 +84,26 @@ async fn open_folder(
     // requests. Use a pending flag to coalesce events within a short window.
     let pending_clone = state.watcher_event_pending.clone();
     let mut watcher = notify::recommended_watcher(move |result: notify::Result<notify::Event>| {
-        if result.is_ok() {
-            if let Ok(mut pending) = pending_clone.lock() {
-                if !*pending {
-                    *pending = true;
-                    let app_clone = event_app.clone();
-                    let pending_for_spawn = pending_clone.clone();
-                    std::thread::spawn(move || {
-                        std::thread::sleep(Duration::from_millis(100));
-                        let _ = app_clone.emit("workspace-updated", ());
-                        if let Ok(mut p) = pending_for_spawn.lock() {
-                            *p = false;
-                        }
-                    });
+        match result {
+            Ok(_event) => {
+                if let Ok(mut pending) = pending_clone.lock() {
+                    if !*pending {
+                        *pending = true;
+                        let app_clone = event_app.clone();
+                        let pending_for_spawn = pending_clone.clone();
+                        std::thread::spawn(move || {
+                            std::thread::sleep(Duration::from_millis(100));
+                            let _ = app_clone.emit("workspace-updated", ());
+                            if let Ok(mut p) = pending_for_spawn.lock() {
+                                *p = false;
+                            }
+                        });
+                    }
                 }
+            }
+            // FIX Phoenix #20: log watcher errors instead of silently discarding
+            Err(error) => {
+                eprintln!("[SnapDock] File watcher error: {error}");
             }
         }
     })

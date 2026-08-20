@@ -3,6 +3,17 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 
+// FIX C5: sanitize HTML before injecting into PDF template — strips script
+// tags, event handler attributes, and javascript: URLs to prevent code
+// execution when exporting untrusted markdown files to PDF.
+function sanitizeHtml(html) {
+    return html
+        .replace(/<script[\s\S]*?<\/script>/gi, "")
+        .replace(/\bon\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, "")
+        .replace(/href\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*')/gi, "")
+        .replace(/src\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*')/gi, "");
+}
+
 module.exports = {
     async exportCurrentMarkdown(htmlContent) {
         console.log("PDF export started");
@@ -23,7 +34,7 @@ module.exports = {
             .join("\n");
 
         template = template.replace("{{{styles}}}", styles);
-        template = template.replace("{{{content}}}", htmlContent);
+        template = template.replace("{{{content}}}", sanitizeHtml(htmlContent));
 
         await win.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(template));
 

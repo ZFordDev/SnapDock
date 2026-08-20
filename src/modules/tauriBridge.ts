@@ -21,6 +21,7 @@ let closeRequested = false;
 let closeProjectRequested = false;
 let downloadedBytes = 0;
 let downloadTotal = 0;
+let dirtyStateResponseTimeout: ReturnType<typeof setTimeout> | null = null;
 
 function isExternalLink(target: string): boolean {
   return /^(?:https?:|mailto:)/i.test(target.trim());
@@ -88,12 +89,32 @@ async function finishClose(): Promise<void> {
   else await appWindow.close();
 }
 
+/**
+ * FIX Phoenix #18: respond to dirty state with timeout safety net.
+ * If renderer is unresponsive, assume dirty to prevent data loss.
+ */
 async function respondToDirtyState(isDirty: boolean): Promise<void> {
+  if (dirtyStateResponseTimeout) {
+    clearTimeout(dirtyStateResponseTimeout);
+    dirtyStateResponseTimeout = null;
+  }
   if (!isDirty) return finishClose();
   const choice = await invoke<string>("prompt_app_close");
   if (choice === "discard") await finishClose();
   else if (choice === "save") saveAllCallbacks.forEach((callback) => callback());
   else closeProjectRequested = false;
+}
+
+/**
+ * FIX Phoenix #18: timeout safety net for dirty state check.
+ * If renderer doesn't respond within 2s, assume dirty to prevent data loss.
+ */
+function requestDirtyStateWithTimeout(): void {
+  dirtyStateResponseTimeout = setTimeout(() => {
+    dirtyStateResponseTimeout = null;
+    void respondToDirtyState(true);
+  }, 2000);
+  dirtyStateCallbacks.forEach((callback) => callback());
 }
 
 function handleDownloadEvent(event: DownloadEvent): void {
@@ -206,5 +227,6 @@ window.workspaceAPI = {
 void appWindow.onCloseRequested((event) => {
   if (closeRequested) return;
   event.preventDefault();
-  dirtyStateCallbacks.forEach((callback) => callback());
+  // FIX Phoenix #18: use timeout safety net for dirty state check
+  requestDirtyStateWithTimeout();
 });

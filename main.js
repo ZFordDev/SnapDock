@@ -37,9 +37,40 @@ const setupUpdater = require("./src/modules/updater/index.js");
 let workspaceWatcher = null;
 let currentWorkspacePath = null;
 let mainWindow;
-let lastKnownDirtyState = false;
 let forceClose = false;
 let relaunchAfterClose = false;
+
+/**
+ * FIX 241: Request dirty state from renderer with a timeout.
+ * Returns true (dirty) if the renderer doesn't respond within timeoutMs.
+ * This prevents data loss when the renderer is slow (large file, slow machine).
+ */
+function requestDirtyState(timeoutMs = 2000) {
+  return new Promise((resolve) => {
+    let responded = false;
+
+    const onResponse = (_event, isDirty) => {
+      if (!responded) {
+        responded = true;
+        ipcMain.removeListener("workspace:isDirty:response", onTimeout);
+        resolve(isDirty);
+      }
+    };
+
+    // Safety timeout: assume dirty if renderer doesn't respond in time
+    const onTimeout = () => {
+      if (!responded) {
+        responded = true;
+        ipcMain.removeAllListeners("workspace:isDirty:response");
+        resolve(true); // assume dirty to prevent data loss
+      }
+    };
+
+    ipcMain.once("workspace:isDirty:response", onResponse);
+    setTimeout(onTimeout, timeoutMs);
+    mainWindow.webContents.send("workspace:isDirty:request");
+  });
+}
 let spellcheckEnabled = true;
 const spellcheckConfigPath = path.join(app.getPath("userData"), "spellcheck-config.json");
 
@@ -198,68 +229,61 @@ function createWindow() {
   });
 
   // Unsaved changes / workspace dirty failsafe
-  mainWindow.on("close", (event) => {
+  mainWindow.on("close", async (event) => {
 
     if (forceClose) return;
-
-    // FIX H1: reset dirty state before requesting fresh value from renderer.
-    // Without this, a stale true from a previous close attempt could prevent
-    // closing even after the user saved all changes.
-    lastKnownDirtyState = false;
-
-    // Ask renderer for dirty state
-    mainWindow.webContents.send("workspace:isDirty:request");
 
     // Prevent the window from closing until we decide
     event.preventDefault();
 
-    // Give the renderer a moment to respond
-    setTimeout(() => {
-      if (lastKnownDirtyState) {
-        const choice = dialog.showMessageBoxSync(mainWindow, {
-          type: "warning",
-          buttons: ["Cancel", "Save All", "Discard Changes"],
-          defaultId: 0,
-          cancelId: 0,
-          title: "Unsaved Changes",
-          message: "You have unsaved changes. Close SnapDock anyway?",
-        });
+    // FIX 241: Use async dirty state check with 2s timeout.
+    // If renderer doesn't respond, assume dirty to prevent data loss.
+    const isDirty = await requestDirtyState(2000);
 
-        if (choice === 1) {
-          // User chose "Save All"
-          const onResult = (_event, result) => {
-            if (result?.ok) {
-              finishWindowClose();
-            } else {
-              relaunchAfterClose = false;
-              dialog.showMessageBox(mainWindow, {
-                type: "error",
-                buttons: ["OK"],
-                defaultId: 0,
-                title: "Save All Failed",
-                message: "Some tabs could not be saved. SnapDock will remain open.",
-              });
-            }
-          };
+    if (isDirty) {
+      const choice = dialog.showMessageBoxSync(mainWindow, {
+        type: "warning",
+        buttons: ["Cancel", "Save All", "Discard Changes"],
+        defaultId: 0,
+        cancelId: 0,
+        title: "Unsaved Changes",
+        message: "You have unsaved changes. Close SnapDock anyway?",
+      });
 
-          ipcMain.once("workspace:save-all-for-close:result", onResult);
-          mainWindow.webContents.send("workspace:save-all-for-close:request");
-          return;
-        }
+      if (choice === 1) {
+        // User chose "Save All"
+        const onResult = (_event, result) => {
+          if (result?.ok) {
+            finishWindowClose();
+          } else {
+            relaunchAfterClose = false;
+            dialog.showMessageBox(mainWindow, {
+              type: "error",
+              buttons: ["OK"],
+              defaultId: 0,
+              title: "Save All Failed",
+              message: "Some tabs could not be saved. SnapDock will remain open.",
+            });
+          }
+        };
 
-        if (choice === 2) {
-          // User chose "Discard Changes"
-          finishWindowClose();
-        }
+        ipcMain.once("workspace:save-all-for-close:result", onResult);
+        mainWindow.webContents.send("workspace:save-all-for-close:request");
+        return;
+      }
 
-        if (choice === 0) {
-          relaunchAfterClose = false;
-        }
-      } else {
-        // Clean workspace -> safe to close
+      if (choice === 2) {
+        // User chose "Discard Changes"
         finishWindowClose();
       }
-    }, 50);
+
+      if (choice === 0) {
+        relaunchAfterClose = false;
+      }
+    } else {
+      // Clean workspace -> safe to close
+      finishWindowClose();
+    }
   });
   setupUpdater(mainWindow);
   mainWindow.loadFile("index.html");
@@ -564,7 +588,5 @@ ipcMain.handle("get-version", async () => {
   // -----------------------------
   // WORKSPACE DIRTY STATE IPC
   // -----------------------------
-
-  ipcMain.on("workspace:isDirty:response", (event, isDirty) => {
-    lastKnownDirtyState = isDirty;
-  });
+  // FIX 241: Removed permanent listener — requestDirtyState() now uses
+  // ipcMain.once() for each request, preventing stale state leaks.

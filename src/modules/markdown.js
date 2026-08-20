@@ -87,7 +87,9 @@ const callouts = ["note", "warning", "tip", "info"];
 
 callouts.forEach(type => {
   md.use(container, type, {
-    validate: (params) => params.trim().match(new RegExp(`^${type}$`)),
+    // FIX L4: use startsWith instead of regex to avoid fragility if callout
+    // types are extended with special characters in the future
+    validate: (params) => params.trim().startsWith(type),
     render(tokens, idx) {
       return tokens[idx].nesting === 1 ? `<div class="md-${type}">` : `</div>`;
     }

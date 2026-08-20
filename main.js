@@ -336,7 +336,7 @@ app.whenReady().then(createWindow);
           if (mainWindow) {
             mainWindow.webContents.send("workspace-updated");
           }
-        }, 100); // debounce to avoid double-refresh on Windows
+        }, 300); // FIX M5: increased debounce to reduce re-renders during rapid FS changes
       });
 
     return workspacePath;

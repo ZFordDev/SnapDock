@@ -5,12 +5,16 @@ function byId(id) {
   return document.getElementById(id);
 }
 
-// Elements
-const sidebar = byId("sidebar");
-const resizer = byId("resizer");
+// FIX M7: moved DOM queries inside initResizer() to avoid querying before
+// the DOM is ready. Module-level constants would be null if the module is
+// imported before DOMContentLoaded.
+let sidebar = null;
+let resizer = null;
 
 // --- INITIALIZER ---
 export function initResizer() {
+  sidebar = byId("sidebar");
+  resizer = byId("resizer");
   if (!sidebar || !resizer) return;
 
   resizer.addEventListener("mousedown", startResize);

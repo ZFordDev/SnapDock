@@ -1,11 +1,19 @@
 use notify::{RecommendedWatcher, RecursiveMode, Watcher};
-use serde::Serialize;
-use std::{fs, path::Path, sync::Mutex, time::Duration};
+use serde::{Deserialize, Serialize};
+use std::{fs, path::PathBuf, sync::Mutex, time::Duration};
 use tauri::{AppHandle, Emitter, Manager, State};
+
+const SPELLCHECK_CONFIG_FILE: &str = "spellcheck-config.json";
+
+#[derive(Serialize, Deserialize, Default)]
+struct SpellcheckConfig {
+    enabled: bool,
+}
 
 struct RuntimeState {
     watcher: Mutex<Option<RecommendedWatcher>>,
     spellcheck_enabled: Mutex<bool>,
+    config_path: Mutex<Option<PathBuf>>,
 }
 
 #[derive(Serialize)]
@@ -186,6 +194,15 @@ fn set_spellcheck_state(enabled: bool, state: State<'_, RuntimeState>) -> bool {
     if let Ok(mut value) = state.spellcheck_enabled.lock() {
         *value = enabled;
     }
+    // FIX Phoenix #7: persist spellcheck state to disk
+    if let Ok(config_path) = state.config_path.lock() {
+        if let Some(path) = config_path.as_ref() {
+            let config = SpellcheckConfig { enabled };
+            if let Ok(json) = serde_json::to_string_pretty(&config) {
+                let _ = fs::write(path, json);
+            }
+        }
+    }
     enabled
 }
 
@@ -222,6 +239,7 @@ pub fn run() {
         .manage(RuntimeState {
             watcher: Mutex::new(None),
             spellcheck_enabled: Mutex::new(true),
+            config_path: Mutex::new(None),
         })
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_process::init())
@@ -241,6 +259,28 @@ pub fn run() {
             get_install_source,
         ])
         .setup(|app| {
+            // FIX Phoenix #7: load spellcheck state from disk on startup
+            let config_path = app
+                .path()
+                .app_config_dir()
+                .ok()
+                .map(|dir| dir.join(SPELLCHECK_CONFIG_FILE));
+            if let Some(ref path) = config_path {
+                if let Ok(contents) = fs::read_to_string(path) {
+                    if let Ok(config) = serde_json::from_str::<SpellcheckConfig>(&contents) {
+                        if let Some(state) = app.try_state::<RuntimeState>() {
+                            if let Ok(mut enabled) = state.spellcheck_enabled.lock() {
+                                *enabled = config.enabled;
+                            }
+                        }
+                    }
+                }
+            }
+            if let Some(state) = app.try_state::<RuntimeState>() {
+                if let Ok(mut path_lock) = state.config_path.lock() {
+                    *path_lock = config_path;
+                }
+            }
             if let Some(window) = app.get_webview_window("main") {
                 let window_for_event = window.clone();
                 window.on_window_event(move |event| {

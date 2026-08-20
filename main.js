@@ -206,6 +206,12 @@ function createWindow() {
   mainWindow.on("close", (event) => {
 
     if (forceClose) return;
+
+    // FIX H1: reset dirty state before requesting fresh value from renderer.
+    // Without this, a stale true from a previous close attempt could prevent
+    // closing even after the user saved all changes.
+    lastKnownDirtyState = false;
+
     // Ask renderer for dirty state
     mainWindow.webContents.send("workspace:isDirty:request");
 

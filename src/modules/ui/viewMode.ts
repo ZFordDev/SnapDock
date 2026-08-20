@@ -177,8 +177,14 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
   document.addEventListener("snapdock:updatePreview", () => {
     if (!previewWrapper.classList.contains("hidden")) applyPreviewContent();
   });
+  // --- Live preview while typing (debounced) ---
+  // FIX M1: debounce to avoid full markdown re-render on every keystroke
+  let previewDebounce: ReturnType<typeof setTimeout> | null = null;
   editor.addEventListener("input", () => {
-    if (!previewWrapper.classList.contains("hidden")) applyPreviewContent();
+    if (!previewWrapper.classList.contains("hidden")) {
+      if (previewDebounce) clearTimeout(previewDebounce);
+      previewDebounce = setTimeout(applyPreviewContent, 150);
+    }
   });
 
   // --- Initialize --- apply saved mode or default to preview

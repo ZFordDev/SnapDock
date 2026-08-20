@@ -41,6 +41,20 @@ function resolveLocalPath(documentPath: string | null, target: string): string |
   return prefix + normalized.join(separator);
 }
 
+/**
+ * Phoenix #1: Sanitize HTML before injecting into PDF print iframe.
+ * Strips script tags, iframes, event handlers, and dangerous URLs
+ * (javascript:, data:text/html) to prevent XSS from malicious markdown files.
+ */
+function sanitizeHtml(html: string): string {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<iframe[\s\S]*?<\/iframe>/gi, "")
+    .replace(/\bon\w+\s*=\s*(?:"[^"]*"|'[^']*'|`[^`]*`|[^\s>]+)/gi, "")
+    .replace(/href\s*=\s*(?:"(?:javascript|data):[^"]*"|'(?:javascript|data):[^']*')/gi, "")
+    .replace(/src\s*=\s*(?:"(?:javascript|data):[^"]*"|'(?:javascript|data):[^']*')/gi, "");
+}
+
 function printHtml(html: string): void {
   const frame = document.createElement("iframe");
   frame.style.position = "fixed";
@@ -55,7 +69,8 @@ function printHtml(html: string): void {
     catch { return ""; }
   }).join("\n");
   printDocument.open();
-  printDocument.write(`<!doctype html><html><head><style>${styles}\nbody{margin:40px;color:#000;background:#fff}.page-break{break-after:page;page-break-after:always}</style></head><body class="markdown-preview">${html}</body></html>`);
+  // Phoenix #1: sanitize HTML before injection to prevent XSS
+  printDocument.write(`<!doctype html><html><head><style>${styles}\nbody{margin:40px;color:#000;background:#fff}.page-break{break-after:page;page-break-after:always}</style></head><body class="markdown-preview">${sanitizeHtml(html)}</body></html>`);
   printDocument.close();
   window.setTimeout(() => {
     frame.contentWindow?.focus();

@@ -445,6 +445,18 @@ app.whenReady().then(createWindow);
 
   ipcMain.handle("open-external-link", async (_, target) => {
     if (!target || !isExternalLink(target)) return false;
+
+    // FIX 237: validate protocol — only allow https: and mailto:
+    // Previously any protocol (ftp:, javascript:, etc.) could be opened.
+    try {
+      const parsed = new URL(target);
+      if (parsed.protocol !== "https:" && parsed.protocol !== "mailto:") {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+
     shell.openExternal(target);
     return true;
   });

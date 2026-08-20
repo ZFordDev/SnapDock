@@ -66,10 +66,11 @@
   padding: 8px;
 }
 
-/* Notes, warnings, tips */
+/* Notes, warnings, tips, info */
 .md-note,
 .md-warning,
-.md-tip {
+.md-tip,
+.md-info {
   padding: 1rem;
   border-radius: 6px;
   margin: 1.5rem 0;
@@ -88,4 +89,10 @@
 .md-tip {
   background: var(--tip-bg, #e8f5e9);
   border-left: 4px solid var(--tip-accent, #4caf50);
+}
+
+/* FIX Phoenix #11: add missing .md-info style */
+.md-info {
+  background: var(--info-bg, #f0f0f0);
+  border-left: 4px solid var(--info-accent, #607d8b);
 }

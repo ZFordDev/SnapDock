@@ -149,13 +149,25 @@ async fn save_file(
 
 #[tauri::command]
 fn read_text_file(file_path: String) -> Option<String> {
-    fs::read_to_string(file_path).ok()
+    // FIX Phoenix #21: log errors instead of silently swallowing them
+    match fs::read_to_string(&file_path) {
+        Ok(content) => Some(content),
+        Err(error) => {
+            eprintln!("[SnapDock] Failed to read file {file_path}: {error}");
+            None
+        }
+    }
 }
 
 #[tauri::command]
 fn list_files(dir_path: String) -> Vec<FileTreeEntry> {
-    let Ok(entries) = fs::read_dir(dir_path) else {
-        return Vec::new();
+    // FIX Phoenix #21: log errors instead of silently swallowing them
+    let entries = match fs::read_dir(&dir_path) {
+        Ok(entries) => entries,
+        Err(error) => {
+            eprintln!("[SnapDock] Failed to list directory {dir_path}: {error}");
+            return Vec::new();
+        }
     };
     entries
         .filter_map(Result::ok)

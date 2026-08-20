@@ -93,16 +93,21 @@ contextBridge.exposeInMainWorld("electronAPI", {
   onUpdateNone: (callback) =>
     ipcRenderer.on("update:none", () => callback()),
 
-  onUpdateProgress: (callback) =>
-    ipcRenderer.on("update:progress", (_, progress) =>
-      callback(progress)
-    ),
+  onUpdateProgress: (callback) => {
+    // FIX M6: remove existing listeners before adding new one to prevent leaks
+    ipcRenderer.removeAllListeners("update:progress");
+    return ipcRenderer.on("update:progress", (_, progress) => callback(progress));
+  },
 
-  onUpdateReady: (callback) =>
-    ipcRenderer.on("update:ready", (_, info) => callback(info)),
+  onUpdateReady: (callback) => {
+    ipcRenderer.removeAllListeners("update:ready");
+    return ipcRenderer.on("update:ready", (_, info) => callback(info));
+  },
 
-  onUpdateError: (callback) =>
-    ipcRenderer.on("update:error", (_, err) => callback(err)),
+  onUpdateError: (callback) => {
+    ipcRenderer.removeAllListeners("update:error");
+    return ipcRenderer.on("update:error", (_, err) => callback(err));
+  },
 });
 
 

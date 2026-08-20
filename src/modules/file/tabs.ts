@@ -277,5 +277,3 @@ export async function saveAllTabs(): Promise<SaveAllTabsResult> {
 
   return { savedCount, failedCount: failedTabs.length, failedTabs };
 }
-
-export { saveAllTabs as save_all_tabs };

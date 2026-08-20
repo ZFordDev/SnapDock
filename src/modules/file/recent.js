@@ -14,7 +14,13 @@ export function saveToRecentFiles(path) {
   if (!path) return;
 
   const key = getRecentKey();
-  const list = JSON.parse(localStorage.getItem(key) || "[]");
+  // FIX L1: wrap JSON.parse in try/catch to handle corrupt localStorage data
+  let list = [];
+  try {
+    list = JSON.parse(localStorage.getItem(key) || "[]");
+  } catch (_) {
+    list = [];
+  }
 
   const updated = list.filter(p => p !== path);
   updated.unshift(path);
@@ -33,7 +39,13 @@ export function renderRecentFiles(container) {
   if (!container) return;
 
   const key = getRecentKey();
-  const list = JSON.parse(localStorage.getItem(key) || "[]");
+  // FIX L1: wrap JSON.parse in try/catch to handle corrupt localStorage data
+  let list = [];
+  try {
+    list = JSON.parse(localStorage.getItem(key) || "[]");
+  } catch (_) {
+    list = [];
+  }
 
   container.innerHTML = "";
 
@@ -58,5 +70,10 @@ export function renderRecentFiles(container) {
 // Get raw recent files list (no DOM)
 export function getRecent() {
   const key = getRecentKey();
-  return JSON.parse(localStorage.getItem(key) || "[]");
+  // FIX L1: wrap JSON.parse in try/catch to handle corrupt localStorage data
+  try {
+    return JSON.parse(localStorage.getItem(key) || "[]");
+  } catch (_) {
+    return [];
+  }
 }

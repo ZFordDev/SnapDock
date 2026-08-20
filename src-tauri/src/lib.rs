@@ -214,6 +214,19 @@ fn get_version() -> VersionInfo {
 
 #[tauri::command]
 fn get_install_source() -> &'static str {
+    // FIX Phoenix #9: detect install source instead of hardcoding "direct"
+    // Store-managed installs should disable auto-updates
+    #[cfg(target_os = "linux")]
+    {
+        if std::env::var("SNAP").is_ok() {
+            return "snap";
+        }
+        if std::env::var("APPIMAGE").is_ok() {
+            return "appimage";
+        }
+    }
+    // TODO: detect Windows Store (UWP) installs
+    // if std::env::var("PACKAGE_FAMILY_NAME").is_ok() { return "windows-store"; }
     "direct"
 }
 

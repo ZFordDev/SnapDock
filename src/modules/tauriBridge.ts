@@ -113,7 +113,6 @@ window.snapdockAPI = {
   openFile: () => invoke("open_file"),
   openFolder: () => invoke("open_folder"),
   listFiles: (path) => invoke("list_files", { dirPath: path }),
-  openRecentFile: (path) => invoke("read_text_file", { filePath: path }),
   saveFile: (path, content, suggestedName) => invoke("save_file", { filePath: path, content, suggestedName }),
   confirmTabClose: (title) => invoke("confirm_tab_close", { title }),
   openFileByPath: (path) => invoke("read_text_file", { filePath: path }),

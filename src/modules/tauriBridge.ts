@@ -11,6 +11,8 @@ const appWindow = getCurrentWindow();
 const updateProgressCallbacks = new Set<(progress: UpdateProgress) => void>();
 const updateReadyCallbacks = new Set<(info: UpdateEventInfo) => void>();
 const updateErrorCallbacks = new Set<(message: string) => void>();
+const updateAvailableCallbacks = new Set<(info: { latestVersion: string; currentVersion: string }) => void>();
+const updateNoneCallbacks = new Set<() => void>();
 const dirtyStateCallbacks = new Set<() => void>();
 const saveAllCallbacks = new Set<() => void>();
 const clearCallbacks = new Set<() => void>();
@@ -145,6 +147,13 @@ window.snapdockAPI = {
   checkForUpdates: async () => {
     try {
       pendingUpdate = await check();
+      // FIX Phoenix #6: wire update available/none callbacks
+      if (pendingUpdate) {
+        const info = { latestVersion: pendingUpdate.version, currentVersion: pendingUpdate.currentVersion };
+        updateAvailableCallbacks.forEach((callback) => callback(info));
+      } else {
+        updateNoneCallbacks.forEach((callback) => callback());
+      }
       return {
         updateAvailable: Boolean(pendingUpdate),
         latestVersion: pendingUpdate?.version ?? null,
@@ -169,8 +178,8 @@ window.snapdockAPI = {
     try { await pendingUpdate.install(); await relaunch(); }
     catch (error) { return { error: error instanceof Error ? error.message : String(error) }; }
   },
-  onUpdateAvailable: () => {},
-  onUpdateNone: () => {},
+  onUpdateAvailable: (callback) => { updateAvailableCallbacks.add(callback); },
+  onUpdateNone: (callback) => { updateNoneCallbacks.add(callback); },
   onUpdateProgress: (callback) => { updateProgressCallbacks.add(callback); },
   onUpdateReady: (callback) => { updateReadyCallbacks.add(callback); },
   onUpdateError: (callback) => { updateErrorCallbacks.add(callback); },

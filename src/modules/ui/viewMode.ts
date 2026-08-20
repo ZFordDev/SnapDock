@@ -12,7 +12,7 @@ interface ViewModeOptions {
 }
 
 const isPreviewMode = (value: string | undefined): value is PreviewMode =>
-  value === "preview" || value === "split" || value === "live";
+  value === "preview" || value === "split";
 
 export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptions): ViewModeController | undefined {
   if (!toggleBtn || !editor || !preview) return;
@@ -39,6 +39,7 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
 
   // FIX H3: restore view mode from localStorage instead of always starting
   // in preview mode. Without this, user's mode preference is never restored.
+  // FIX Phoenix #5: exclude "live" until implemented — reset to preview.
   const savedMode = localStorage.getItem(STORAGE_KEY) ?? undefined;
   let currentMode: PreviewMode = isPreviewMode(savedMode) ? savedMode : "preview";
   const resizeState = { active: false, startX: 0, startEditorWidth: 0, bubbleWidth: 0 };
@@ -83,6 +84,9 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
     }
     updateLabel();
   };
+  // FIX Phoenix #5: Live View is not implemented. If "live" is somehow
+  // stored in localStorage (manual edit, future build), explicitly reset
+  // to preview instead of silently applying a broken mode.
   const applyLiveMode = (): void => {
     currentMode = "preview";
     localStorage.setItem(STORAGE_KEY, currentMode);

@@ -31,7 +31,3 @@ export async function openHelpModal(): Promise<void> {
     void window.snapdockAPI.openExternal(link.href);
   });
 }
-
-export function initHelp(): void {
-  // Help is wired through the Tools dropdown.
-}

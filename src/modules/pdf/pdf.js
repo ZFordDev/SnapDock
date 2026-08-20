@@ -40,8 +40,9 @@ module.exports = {
         // Open PDF
         await shell.openPath(tempPath);
 
-        // FIX: Close the hidden window
-        win.close();
+        // FIX M2: destroy the hidden window to guarantee cleanup.
+        // close() only hides it; destroy() ensures the BrowserWindow is freed.
+        win.destroy();
 
         // Auto-delete temp file
         setTimeout(() => {

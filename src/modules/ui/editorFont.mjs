@@ -53,12 +53,15 @@ export function applyEditorFontToElement(editor, state = DEFAULT_EDITOR_FONT_STA
 }
 
 function readStoredState() {
-  if (typeof window === "undefined" || !window.sessionStorage) {
+  // FIX L2: use localStorage instead of sessionStorage for consistency with
+  // other preferences (theme, viewMode). Font choice should persist across
+  // window restarts like theme does.
+  if (typeof window === "undefined" || !window.localStorage) {
     return { ...DEFAULT_EDITOR_FONT_STATE };
   }
 
   try {
-    const raw = window.sessionStorage.getItem(EDITOR_FONT_STORAGE_KEY);
+    const raw = window.localStorage.getItem(EDITOR_FONT_STORAGE_KEY);
     if (!raw) return { ...DEFAULT_EDITOR_FONT_STATE };
     return resolveEditorFontState(JSON.parse(raw));
   } catch {
@@ -67,12 +70,12 @@ function readStoredState() {
 }
 
 function writeStoredState(state) {
-  if (typeof window === "undefined" || !window.sessionStorage) {
+  if (typeof window === "undefined" || !window.localStorage) {
     return;
   }
 
   try {
-    window.sessionStorage.setItem(EDITOR_FONT_STORAGE_KEY, JSON.stringify(state));
+    window.localStorage.setItem(EDITOR_FONT_STORAGE_KEY, JSON.stringify(state));
   } catch {
     // Ignore storage errors in non-persistent environments.
   }

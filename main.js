@@ -34,11 +34,6 @@ getInstallSource(metadata.installSource);
 // Updater
 const setupUpdater = require("./src/modules/updater/index.js");
 
-// Disable sandbox only for AppImage builds
-if (process.env.APPIMAGE) {
-  app.commandLine.appendSwitch("no-sandbox");
-}
-
 let workspaceWatcher = null;
 let currentWorkspacePath = null;
 let mainWindow;

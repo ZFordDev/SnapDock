@@ -37,7 +37,10 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
     editorBubble.insertBefore(splitResizer, previewWrapper);
   }
 
-  let currentMode: PreviewMode = "preview";
+  // FIX H3: restore view mode from localStorage instead of always starting
+  // in preview mode. Without this, user's mode preference is never restored.
+  const savedMode = localStorage.getItem(STORAGE_KEY) ?? undefined;
+  let currentMode: PreviewMode = isPreviewMode(savedMode) ? savedMode : "preview";
   const resizeState = { active: false, startX: 0, startEditorWidth: 0, bubbleWidth: 0 };
   const updateMenuActive = (): void => {
     menu?.querySelectorAll<HTMLElement>(".preview-mode-option").forEach((option) => {
@@ -178,11 +181,16 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
     if (!previewWrapper.classList.contains("hidden")) applyPreviewContent();
   });
 
-  preview.classList.remove("hidden");
+  // --- Initialize --- apply saved mode or default to preview
+  if (currentMode === "split") {
+    applySplitMode();
+  } else {
+    preview.classList.remove("hidden");
+    previewWrapper.classList.add("hidden");
+    editorWrapper.classList.remove("hidden");
+    resetSplitLayout();
+  }
   localStorage.setItem(STORAGE_KEY, currentMode);
-  previewWrapper.classList.add("hidden");
-  editorWrapper.classList.remove("hidden");
-  resetSplitLayout();
   updateLabel();
   updateMenuActive();
   return { getMode: () => currentMode };

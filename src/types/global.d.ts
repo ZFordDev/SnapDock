@@ -20,7 +20,6 @@ declare global {
     openFile(): Promise<OpenedFile | null>;
     openFolder(): Promise<WorkspacePath | null>;
     listFiles(path: WorkspacePath): Promise<FileTreeEntry[]>;
-    openRecentFile(path: FilePath): Promise<string | null>;
     saveFile(path: FilePath | null, content: string, suggestedName?: string): Promise<SaveFileResult>;
     confirmTabClose(title: string): Promise<boolean>;
     openFileByPath(path: FilePath): Promise<string | null>;

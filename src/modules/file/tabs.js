@@ -112,7 +112,9 @@ export function switchToTab(tabId) {
   if (filenameEl) filenameEl.textContent = next.title;
 
   // If preview mode is active, refresh it
-  if (!document.querySelector(".preview-wrapper").classList.contains("hidden")) {
+  // FIX H4: guard against null preview-wrapper to prevent TypeError
+  const previewWrapper = document.querySelector(".preview-wrapper");
+  if (previewWrapper && !previewWrapper.classList.contains("hidden")) {
       const event = new CustomEvent("snapdock:updatePreview");
       document.dispatchEvent(event);
   }

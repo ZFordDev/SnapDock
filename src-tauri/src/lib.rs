@@ -1,6 +1,6 @@
 use notify::{RecommendedWatcher, RecursiveMode, Watcher};
 use serde::{Deserialize, Serialize};
-use std::{fs, path::PathBuf, sync::Mutex, time::Duration};
+use std::{collections::HashSet, fs, path::PathBuf, sync::Mutex, time::Duration};
 use tauri::{AppHandle, Emitter, Manager, State};
 
 const SPELLCHECK_CONFIG_FILE: &str = "spellcheck-config.json";
@@ -14,6 +14,8 @@ struct RuntimeState {
     watcher: Mutex<Option<RecommendedWatcher>>,
     spellcheck_enabled: Mutex<bool>,
     config_path: Mutex<Option<PathBuf>>,
+    // FIX Phoenix #19: debounce file watcher events
+    watcher_event_pending: Mutex<bool>,
 }
 
 #[derive(Serialize)]
@@ -77,9 +79,26 @@ async fn open_folder(
     let path = handle.path().to_path_buf();
     let watched_path = path.clone();
     let event_app = app.clone();
+    // FIX Phoenix #19: debounce watcher events — rapid filesystem changes
+    // (e.g., IDE saves creating temp files) flood the frontend with re-render
+    // requests. Use a pending flag to coalesce events within a short window.
+    let pending_clone = state.watcher_event_pending.clone();
     let mut watcher = notify::recommended_watcher(move |result: notify::Result<notify::Event>| {
         if result.is_ok() {
-            let _ = event_app.emit("workspace-updated", ());
+            if let Ok(mut pending) = pending_clone.lock() {
+                if !*pending {
+                    *pending = true;
+                    let app_clone = event_app.clone();
+                    let pending_for_spawn = pending_clone.clone();
+                    std::thread::spawn(move || {
+                        std::thread::sleep(Duration::from_millis(100));
+                        let _ = app_clone.emit("workspace-updated", ());
+                        if let Ok(mut p) = pending_for_spawn.lock() {
+                            *p = false;
+                        }
+                    });
+                }
+            }
         }
     })
     .map_err(|error| error.to_string())?;
@@ -255,6 +274,7 @@ pub fn run() {
             watcher: Mutex::new(None),
             spellcheck_enabled: Mutex::new(true),
             config_path: Mutex::new(None),
+            watcher_event_pending: Mutex::new(false),
         })
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_process::init())

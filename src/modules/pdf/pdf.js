@@ -3,15 +3,22 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 
-// FIX C5: sanitize HTML before injecting into PDF template — strips script
-// tags, event handler attributes, and javascript: URLs to prevent code
-// execution when exporting untrusted markdown files to PDF.
+// FIX C5 + FIX 240: sanitize HTML before injecting into PDF template — strips
+// script tags, event handlers, dangerous URLs, and iframe srcdoc to prevent
+// code execution when exporting untrusted markdown files to PDF.
 function sanitizeHtml(html) {
     return html
+        // Remove script tags and their content
         .replace(/<script[\s\S]*?<\/script>/gi, "")
-        .replace(/\bon\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, "")
-        .replace(/href\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*')/gi, "")
-        .replace(/src\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*')/gi, "");
+        // Remove iframe tags (prevents srcdoc attacks)
+        .replace(/<iframe[\s\S]*?<\/iframe>/gi, "")
+        // FIX 240: match event handlers with optional whitespace before =
+        // and support backtick-quoted values
+        .replace(/\bon\w+\s*=\s*(?:"[^"]*"|'[^']*'|`[^`]*`|[^\s>]+)/gi, "")
+        // Block javascript: and data:text/html URIs in href
+        .replace(/href\s*=\s*(?:"(?:javascript|data):[^"]*"|'(?:javascript|data):[^']*')/gi, "")
+        // Block javascript: and data:text/html URIs in src
+        .replace(/src\s*=\s*(?:"(?:javascript|data):[^"]*"|'(?:javascript|data):[^']*')/gi, "");
 }
 
 module.exports = {

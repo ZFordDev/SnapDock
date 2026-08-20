@@ -3,7 +3,6 @@ import { initTheme } from "./theme.js";
 import { initViewModeToggle } from "./viewMode.js";
 import { renderTabs, getActiveTab, tabs, switchToTab, createTab, closeTab } from "../file/tabs.js";
 import { renderRecentFiles, clearRecentFiles } from "../file/recent.js";
-import { initHelp } from "./help.js";
 import { initShortcuts } from "./qkeys.js";
 import { loadWorkspace, initWorkspaceControls } from "../file/workspace.js";
 import { saveCurrentFile } from "../file/operations.js";
@@ -17,7 +16,6 @@ export function initApp(): void {
 
   initInitialState({ editor });
   initTheme();
-  initHelp();
   initViewModeToggle({ toggleBtn: previewToggleBtn, editor, preview });
   renderRecentFiles(recentList);
   window.snapdockFind = initFindBox({

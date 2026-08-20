@@ -21,7 +21,12 @@ module.exports = {
         const win = new BrowserWindow({
             show: false,
             webPreferences: {
-                offscreen: true
+                offscreen: true,
+                // FIX 239: add sandbox and contextIsolation to prevent
+                // code execution if sanitization is bypassed
+                sandbox: true,
+                contextIsolation: true,
+                nodeIntegration: false
             }
         });
 

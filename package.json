@@ -58,7 +58,7 @@
       "src/**/*",
       "assets/**/*",
       "main.js",
-      "src/preloads.js",
+      "src/preload.js",
       "build/metadata.json"
     ],
     "win": {

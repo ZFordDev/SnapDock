@@ -98,12 +98,6 @@ export function createTab({
   return tab;
 }
 
-export function clearTabs(): void {
-  tabs.length = 0;
-  activeTabId = null;
-  renderTabs();
-}
-
 export function switchToTab(tabId: string): void {
   const editor = getEditor();
   const current = getActiveTab();

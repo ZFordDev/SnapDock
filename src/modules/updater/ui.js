@@ -1,5 +1,7 @@
 // src/modules/updater/ui.js
 
+// NOTE M8: this module is unused — update button logic lives in
+// dropdownMenus.js. Kept for reference in case direct updater UI is needed.
 export async function initUpdateSystem() {
   const updateBtn = document.getElementById("update");
   if (!updateBtn) return;

@@ -55,10 +55,13 @@ module.exports = {
         // close() only hides it; destroy() ensures the BrowserWindow is freed.
         win.destroy();
 
-        // Auto-delete temp file
+        // Auto-delete temp file after a longer delay to avoid race with PDF viewer
+        // FIX M3: increased from 5s to 10s so the viewer has time to finish reading
         setTimeout(() => {
-            fs.unlink(tempPath, () => {});
-        }, 5000);
+            fs.unlink(tempPath, (err) => {
+                if (err) console.warn("Failed to delete temp PDF:", err);
+            });
+        }, 10000);
 
         console.log("PDF export complete");
     }

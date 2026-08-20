@@ -101,9 +101,6 @@ async fn save_file(
     let mut dialog = rfd::AsyncFileDialog::new()
         .add_filter("Markdown", &["md"])
         .set_file_name(suggested_name.as_deref().unwrap_or("untitled.md"));
-    if let Some(name) = suggested_name.as_deref() {
-        dialog = dialog.set_file_name(name);
-    }
     let Some(handle) = dialog.save_file().await else {
         return Ok(SaveFileResult::Saved(false));
     };

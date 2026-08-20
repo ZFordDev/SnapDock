@@ -204,10 +204,12 @@ struct VersionInfo {
 fn get_version() -> VersionInfo {
     VersionInfo {
         version: env!("CARGO_PKG_VERSION"),
-        stage: "dev",
-        date: None,
+        stage: option_env!("BUILD_STAGE").unwrap_or("dev"),
+        // FIX Phoenix #8: read build date from BUILD_DATE env var
+        // Set via: export BUILD_DATE=$(date +%Y-%m-%d)
+        date: option_env!("BUILD_DATE"),
         install_source: "direct",
-        channel: "dev",
+        channel: option_env!("BUILD_CHANNEL").unwrap_or("dev"),
         platform: std::env::consts::OS,
     }
 }

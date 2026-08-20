@@ -450,13 +450,16 @@ app.whenReady().then(createWindow);
   });
 
   ipcMain.handle("confirm-tab-close", async (event, title) => {
+    // FIX L3: sanitize title to prevent confusing dialog messages from
+    // malicious filenames. Escape quotes and limit length.
+    const safeTitle = String(title || "Untitled").replace(/["\n\r]/g, "").slice(0, 100);
     const choice = await dialog.showMessageBox({
       type: "warning",
       buttons: ["Cancel", "Discard Changes"],
       defaultId: 0,
       cancelId: 0,
       title: "Unsaved Changes",
-      message: `"${title}" has unsaved changes. Close anyway?`,
+      message: `"${safeTitle}" has unsaved changes. Close anyway?`,
     });
 
     return choice.response === 1;

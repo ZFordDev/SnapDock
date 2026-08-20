@@ -290,10 +290,13 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
 
   preview.addEventListener("click", handlePreviewLinkClick);
 
-  // --- Live preview while typing ---
+  // --- Live preview while typing (debounced) ---
+  // FIX M1: debounce to avoid full markdown re-render on every keystroke
+  let previewDebounce = null;
   editor.addEventListener("input", () => {
     if (previewWrapper && !previewWrapper.classList.contains("hidden")) {
-      applyPreviewContent();
+      clearTimeout(previewDebounce);
+      previewDebounce = setTimeout(applyPreviewContent, 150);
     }
   });
 

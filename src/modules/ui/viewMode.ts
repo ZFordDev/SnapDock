@@ -49,7 +49,6 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
     const isPreviewing = currentMode === "preview" && !previewWrapper.classList.contains("hidden");
     previewToggleBtn.classList.toggle("hidden", !isPreviewing);
     previewToggleBtn.classList.toggle("flex", isPreviewing);
-    previewToggleBtn.classList.toggle("pointer-events-auto", isPreviewing);
     previewToggleBtn.classList.toggle("opacity-0", !isPreviewing);
     previewToggleBtn.classList.toggle("opacity-100", isPreviewing);
   };

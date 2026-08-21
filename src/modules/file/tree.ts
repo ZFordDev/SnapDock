@@ -78,7 +78,7 @@ export async function renderFileTree(
 }
 
 window.snapdockAPI.onWorkspaceUpdated(() => {
-  if (!activeWorkspacePath || !activeContainer) return;
-  activeContainer.replaceChildren();
-  void renderFileTree(activeContainer, activeWorkspacePath);
+  // Watcher events only notify the frontend — don't force a full tree re-render
+  // as it causes blinking and loses expanded folder state. The tree is rebuilt
+  // on workspace load and folder expansion. A manual refresh can be added later.
 });

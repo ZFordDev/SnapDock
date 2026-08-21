@@ -254,24 +254,8 @@ struct VersionInfo {
     platform: &'static str,
 }
 
-#[tauri::command]
-fn get_version() -> VersionInfo {
-    VersionInfo {
-        version: env!("CARGO_PKG_VERSION"),
-        stage: option_env!("BUILD_STAGE").unwrap_or("dev"),
-        // FIX Phoenix #8: read build date from BUILD_DATE env var
-        // Set via: export BUILD_DATE=$(date +%Y-%m-%d)
-        date: option_env!("BUILD_DATE"),
-        install_source: "direct",
-        channel: option_env!("BUILD_CHANNEL").unwrap_or("dev"),
-        platform: std::env::consts::OS,
-    }
-}
-
-#[tauri::command]
-fn get_install_source() -> &'static str {
-    // FIX Phoenix #9: detect install source instead of hardcoding "direct"
-    // Store-managed installs should disable auto-updates
+/// Detect install source at runtime. Used by both get_version and get_install_source.
+fn detect_install_source() -> &'static str {
     #[cfg(target_os = "linux")]
     {
         if std::env::var("SNAP").is_ok() {
@@ -284,6 +268,25 @@ fn get_install_source() -> &'static str {
     // TODO: detect Windows Store (UWP) installs
     // if std::env::var("PACKAGE_FAMILY_NAME").is_ok() { return "windows-store"; }
     "direct"
+}
+
+#[tauri::command]
+fn get_version() -> VersionInfo {
+    VersionInfo {
+        version: env!("CARGO_PKG_VERSION"),
+        stage: option_env!("BUILD_STAGE").unwrap_or("dev"),
+        // FIX Phoenix #8: read build date from BUILD_DATE env var
+        date: option_env!("BUILD_DATE"),
+        // FIX Phoenix #26: use detect_install_source() instead of hardcoding
+        install_source: detect_install_source(),
+        channel: option_env!("BUILD_CHANNEL").unwrap_or("dev"),
+        platform: std::env::consts::OS,
+    }
+}
+
+#[tauri::command]
+fn get_install_source() -> &'static str {
+    detect_install_source()
 }
 
 pub fn run() {

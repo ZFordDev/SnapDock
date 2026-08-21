@@ -1,4 +1,3 @@
-export type ThemeName = "light" | "dark" | "solarized" | "arctic" | "forest";
 export type PreviewMode = "preview" | "split" | "live";
 export type EditorFontFamily = "mono" | "sans" | "serif";
 export type EditorFontSize = "90%" | "100%" | "110%" | "125%";

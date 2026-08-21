@@ -32,7 +32,7 @@ window.workspaceAPI.onClearForCloseRequest(() => {
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-  initApp();
+  void initApp();
   initDropdownToggles();
   initToolsDropdown();
   initEditorSync();

@@ -1,5 +1,5 @@
 import { initInitialState } from "./editorState.js";
-import { initTheme } from "./theme.js";
+import { initTheme, loadCustomThemes } from "./themeEngine.js";
 import { initViewModeToggle } from "./viewMode.js";
 import { renderTabs, getActiveTab, tabs, switchToTab, createTab, closeTab } from "../file/tabs.js";
 import { renderRecentFiles, clearRecentFiles } from "../file/recent.js";
@@ -8,12 +8,13 @@ import { loadWorkspace, initWorkspaceControls } from "../file/workspace.js";
 import { saveCurrentFile } from "../file/operations.js";
 import { initFindBox } from "./find.js";
 
-export function initApp(): void {
+export async function initApp(): Promise<void> {
   const editor = document.querySelector<HTMLTextAreaElement>("#markdownInputMain");
   const preview = document.querySelector<HTMLElement>("#previewMain");
   const recentList = document.querySelector<HTMLElement>("#recentFilesList");
 
   initInitialState({ editor });
+  await loadCustomThemes();
   initTheme();
   initViewModeToggle({ editor, preview });
   renderRecentFiles(recentList);

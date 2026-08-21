@@ -7,6 +7,7 @@ use url::Url;
 
 const SPELLCHECK_CONFIG_FILE: &str = "spellcheck-config.json";
 const UPDATE_CONFIG_FILE: &str = "update-config.json";
+const THEMES_DIR: &str = "themes";
 const UPDATE_BASE_URL: &str = "https://update.snapdock.app";
 
 #[derive(Serialize, Deserialize, Default)]
@@ -40,6 +41,7 @@ struct RuntimeState {
     update_config_path: Mutex<Option<PathBuf>>,
     pending_update: Mutex<Option<Update>>,
     downloaded_bytes: Mutex<Option<Vec<u8>>>,
+    custom_themes_path: Mutex<Option<PathBuf>>,
 }
 
 #[derive(Serialize)]
@@ -492,6 +494,69 @@ async fn install_update(
     app.restart();
 }
 
+#[tauri::command]
+fn list_custom_themes(state: State<'_, RuntimeState>) -> Result<Vec<String>, String> {
+    let path_lock = state
+        .custom_themes_path
+        .lock()
+        .map_err(|_| "Theme path lock failed")?;
+    let Some(dir) = path_lock.as_ref() else {
+        return Ok(Vec::new());
+    };
+    if !dir.exists() {
+        return Ok(Vec::new());
+    }
+    let entries = fs::read_dir(dir).map_err(|e| format!("Failed to read themes dir: {e}"))?;
+    Ok(entries
+        .filter_map(Result::ok)
+        .filter(|e| {
+            e.path()
+                .extension()
+                .map(|ext| ext == "json")
+                .unwrap_or(false)
+        })
+        .map(|e| e.path().to_string_lossy().into_owned())
+        .collect())
+}
+
+#[tauri::command]
+fn load_theme_file(file_path: String) -> Result<Option<String>, String> {
+    match fs::read_to_string(&file_path) {
+        Ok(content) => Ok(Some(content)),
+        Err(error) => {
+            eprintln!("[SnapDock] Failed to load theme file {file_path}: {error}");
+            Ok(None)
+        }
+    }
+}
+
+#[tauri::command]
+fn save_theme_file(file_name: String, content: String, state: State<'_, RuntimeState>) -> Result<bool, String> {
+    let path_lock = state
+        .custom_themes_path
+        .lock()
+        .map_err(|_| "Theme path lock failed")?;
+    let Some(dir) = path_lock.as_ref() else {
+        return Err("Themes directory not available".into());
+    };
+    if !dir.exists() {
+        fs::create_dir_all(dir).map_err(|e| format!("Failed to create themes dir: {e}"))?;
+    }
+    let path = dir.join(&file_name);
+    fs::write(path, content).map_err(|e| format!("Failed to save theme: {e}"))?;
+    Ok(true)
+}
+
+#[tauri::command]
+fn delete_theme_file(file_path: String) -> Result<bool, String> {
+    let path = Path::new(&file_path);
+    if !path.exists() {
+        return Ok(false);
+    }
+    fs::remove_file(path).map_err(|e| format!("Failed to delete theme: {e}"))?;
+    Ok(true)
+}
+
 pub fn run() {
     tauri::Builder::default()
         .manage(RuntimeState {
@@ -503,6 +568,7 @@ pub fn run() {
             update_config_path: Mutex::new(None),
             pending_update: Mutex::new(None),
             downloaded_bytes: Mutex::new(None),
+            custom_themes_path: Mutex::new(None),
         })
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_process::init())
@@ -525,6 +591,10 @@ pub fn run() {
             check_for_updates,
             download_update,
             install_update,
+            list_custom_themes,
+            load_theme_file,
+            save_theme_file,
+            delete_theme_file,
         ])
         .setup(|app| {
             // Load config directory path (shared by spellcheck and update configs)
@@ -565,6 +635,18 @@ pub fn run() {
             if let Some(state) = app.try_state::<RuntimeState>() {
                 if let Ok(mut path_lock) = state.update_config_path.lock() {
                     *path_lock = update_config_path;
+                }
+            }
+            // Initialize custom themes directory
+            let themes_dir = config_dir.as_ref().map(|dir| dir.join(THEMES_DIR));
+            if let Some(ref path) = themes_dir {
+                if !path.exists() {
+                    let _ = fs::create_dir_all(path);
+                }
+            }
+            if let Some(state) = app.try_state::<RuntimeState>() {
+                if let Ok(mut path_lock) = state.custom_themes_path.lock() {
+                    *path_lock = themes_dir;
                 }
             }
             if let Some(window) = app.get_webview_window("main") {

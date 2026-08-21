@@ -2,6 +2,19 @@ import type { EditorFontFamily, EditorFontSize } from "../../types/ui";
 import type { UpdateChannel } from "../../types/updates";
 import { openHelpModal } from "./help.js";
 import { setEditorFont } from "./editorFont.js";
+import {
+  initTheme,
+  loadCustomThemes,
+  setTheme,
+  getThemeName,
+  getAllThemes,
+  isBuiltinTheme,
+  exportTheme,
+  importTheme,
+  saveCustomTheme,
+  deleteCustomTheme,
+} from "./themeEngine.js";
+import type { ThemeDefinition } from "../../types/themes";
 
 const fontFamilies: readonly EditorFontFamily[] = ["mono", "sans", "serif"];
 const fontSizes: readonly EditorFontSize[] = ["90%", "100%", "110%", "125%"];
@@ -40,6 +53,7 @@ export function initToolsDropdown(): void {
   initUpdateChannel();
   initAutoCheckToggle();
   attachEditorFontActions();
+  initThemePicker();
   document.getElementById("helpBtn")?.addEventListener("click", () => void openHelpModal());
 }
 
@@ -206,4 +220,42 @@ function setFooterStatus(text: string, state?: "ready" | "error"): void {
 
 function closeAll(): void {
   document.querySelectorAll(".dropdown-menu").forEach((menu) => menu.classList.remove("open"));
+}
+
+async function initThemePicker(): Promise<void> {
+  const container = document.getElementById("themePicker");
+  if (!container) return;
+  await loadCustomThemes();
+  initTheme();
+  renderThemeButtons(container);
+}
+
+function renderThemeButtons(container: HTMLElement): void {
+  container.innerHTML = "";
+  const themes = getAllThemes();
+  const activeName = getThemeName();
+  for (const theme of themes) {
+    const button = document.createElement("button");
+    button.className = "cursor-pointer whitespace-nowrap border-0 bg-transparent px-2 py-1 text-left text-[.78rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]";
+    if (theme.name === activeName) {
+      button.classList.add("active", "font-semibold", "text-[var(--tab-accent)]");
+    }
+    const swatch = document.createElement("span");
+    swatch.className = "mr-2 inline-block h-2.5 w-2.5 rounded-full border border-[var(--tab-border)]";
+    swatch.style.backgroundColor = theme.variables["--accent-blue"] ?? "#888";
+    button.appendChild(swatch);
+    button.appendChild(document.createTextNode(theme.displayName));
+    if (!isBuiltinTheme(theme.name)) {
+      const badge = document.createElement("span");
+      badge.className = "ml-2 text-[.65rem] opacity-50";
+      badge.textContent = "custom";
+      button.appendChild(badge);
+    }
+    button.addEventListener("click", () => {
+      setTheme(theme.name);
+      renderThemeButtons(container);
+      closeAll();
+    });
+    container.appendChild(button);
+  }
 }

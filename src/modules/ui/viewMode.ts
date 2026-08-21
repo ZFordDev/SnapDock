@@ -66,12 +66,18 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
     previewWrapper.style.flexBasis = "";
   };
 
-  const applyPreviewMode = (): void => {
-    const showingPreview = !previewWrapper.classList.contains("hidden");
+  const showPreview = (): void => {
     resetSplitLayout();
-    previewWrapper.classList.toggle("hidden", showingPreview);
-    editorWrapper.classList.toggle("hidden", !showingPreview);
-    if (!showingPreview) applyPreviewContent();
+    previewWrapper.classList.remove("hidden");
+    editorWrapper.classList.add("hidden");
+    applyPreviewContent();
+    updateToggleButton();
+  };
+
+  const showEditor = (): void => {
+    resetSplitLayout();
+    previewWrapper.classList.add("hidden");
+    editorWrapper.classList.remove("hidden");
     updateToggleButton();
   };
 
@@ -88,24 +94,22 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
     updateToggleButton();
   };
 
-  const applyLiveMode = (): void => {
-    currentMode = "preview";
-    localStorage.setItem(STORAGE_KEY, currentMode);
-    updateMenuActive();
-    applyPreviewMode();
-  };
-
   const applyCurrentMode = (): void => {
-    if (currentMode === "preview") applyPreviewMode();
+    if (currentMode === "preview") showPreview();
     else if (currentMode === "split") applySplitMode();
-    else applyLiveMode();
+    else {
+      currentMode = "preview";
+      localStorage.setItem(STORAGE_KEY, currentMode);
+      updateMenuActive();
+      showPreview();
+    }
   };
 
   const switchToEditor = (): void => {
     currentMode = "preview";
     localStorage.setItem(STORAGE_KEY, currentMode);
     updateMenuActive();
-    applyPreviewMode();
+    showEditor();
   };
 
   previewToggleBtn?.addEventListener("click", (event) => {
@@ -115,13 +119,16 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
 
   menu?.querySelectorAll<HTMLElement>(".preview-mode-option").forEach((option) => {
     option.addEventListener("click", (event) => {
-      event.stopPropagation();
       const mode = option.dataset.mode;
       if (option.classList.contains("disabled") || !isPreviewMode(mode)) return;
       currentMode = mode;
       localStorage.setItem(STORAGE_KEY, currentMode);
       updateMenuActive();
       applyCurrentMode();
+      // Close the parent dropdown menu after selection
+      if (event.currentTarget instanceof Element) {
+        event.currentTarget.closest(".dropdown-menu")?.classList.remove("open");
+      }
     });
   });
 

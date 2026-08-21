@@ -13,7 +13,7 @@
 }
 
 body.dark-theme .title-row {
-  border-bottom-color: rgba(255, 255, 255, 0.04) !important;
+  /* border removed for shadow-based separation */
 }
 
 .dropdown-panel {

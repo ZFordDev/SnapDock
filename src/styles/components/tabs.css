@@ -59,11 +59,13 @@
   height: 2px;
   background: var(--tab-accent);
   border-radius: 4px 4px 0 0;
+  transition: height 0.15s ease;
 }
 
 .tab.dragging {
   opacity: 0.4;
   transform: scale(0.95);
+  transition: all 0.15s ease;
 }
 
 .tab-drop-indicator {

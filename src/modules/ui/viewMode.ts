@@ -6,7 +6,6 @@ import { handleFileOpen } from "../file/open.js";
 const STORAGE_KEY = "snapdock:previewMode";
 
 interface ViewModeOptions {
-  toggleBtn: HTMLElement | null;
   editor: HTMLTextAreaElement | null;
   preview: HTMLElement | null;
 }
@@ -14,16 +13,13 @@ interface ViewModeOptions {
 const isPreviewMode = (value: string | undefined): value is PreviewMode =>
   value === "preview" || value === "split";
 
-export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptions): ViewModeController | undefined {
-  if (!toggleBtn || !editor || !preview) return;
+export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewModeController | undefined {
+  if (!editor || !preview) return;
   const editorWrapper = document.querySelector<HTMLElement>(".editor-wrapper");
   const previewWrapper = document.querySelector<HTMLElement>(".preview-wrapper");
   const workspace = document.querySelector<HTMLElement>(".workspace");
   const editorBubble = document.querySelector<HTMLElement>(".editor-bubble");
   const menu = document.querySelector<HTMLElement>("#previewModeMenu");
-  const label = document.querySelector<HTMLElement>("#previewModeLabel");
-  const container = document.querySelector<HTMLElement>("#previewModeDropdown");
-  const dropdownArrow = document.querySelector<HTMLElement>(".dropdown-arrow");
   if (!editorWrapper || !previewWrapper) return;
 
   let splitResizer = document.querySelector<HTMLElement>(".split-resizer");
@@ -37,41 +33,36 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
     editorBubble.insertBefore(splitResizer, previewWrapper);
   }
 
-  // FIX H3: restore view mode from localStorage instead of always starting
-  // in preview mode. Without this, user's mode preference is never restored.
-  // FIX Phoenix #5: exclude "live" until implemented — reset to preview.
   const savedMode = localStorage.getItem(STORAGE_KEY) ?? undefined;
   let currentMode: PreviewMode = isPreviewMode(savedMode) ? savedMode : "preview";
   const resizeState = { active: false, startX: 0, startEditorWidth: 0, bubbleWidth: 0 };
+
   const updateMenuActive = (): void => {
     menu?.querySelectorAll<HTMLElement>(".preview-mode-option").forEach((option) => {
       option.classList.toggle("active", option.dataset.mode === currentMode);
     });
   };
-  const updateLabel = (): void => {
-    if (!label) return;
-    const labels: Record<PreviewMode, string> = { preview: "Show Preview", split: "Split View", live: "Live View" };
-    label.textContent = currentMode === "preview" && !previewWrapper.classList.contains("hidden")
-      ? "Edit Markdown" : labels[currentMode];
-  };
+
   const applyPreviewContent = (): void => {
     const html = renderMarkdown(editor.value, { documentPath: getActiveTab()?.filePath ?? null });
     const parsed = new DOMParser().parseFromString(html, "text/html");
     preview.replaceChildren(...parsed.body.childNodes);
   };
+
   const resetSplitLayout = (): void => {
     workspace?.classList.remove("split-view");
     editorWrapper.style.flexBasis = "";
     previewWrapper.style.flexBasis = "";
   };
+
   const applyPreviewMode = (): void => {
     const showingPreview = !previewWrapper.classList.contains("hidden");
     resetSplitLayout();
     previewWrapper.classList.toggle("hidden", showingPreview);
     editorWrapper.classList.toggle("hidden", !showingPreview);
     if (!showingPreview) applyPreviewContent();
-    updateLabel();
   };
+
   const applySplitMode = (): void => {
     if (!workspace) return;
     applyPreviewContent();
@@ -82,29 +73,22 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
       editorWrapper.style.flexBasis = "50%";
       previewWrapper.style.flexBasis = "50%";
     }
-    updateLabel();
   };
-  // FIX Phoenix #5: Live View is not implemented. If "live" is somehow
-  // stored in localStorage (manual edit, future build), explicitly reset
-  // to preview instead of silently applying a broken mode.
+
   const applyLiveMode = (): void => {
     currentMode = "preview";
     localStorage.setItem(STORAGE_KEY, currentMode);
     updateMenuActive();
     applyPreviewMode();
   };
+
   const applyCurrentMode = (): void => {
     if (currentMode === "preview") applyPreviewMode();
     else if (currentMode === "split") applySplitMode();
     else applyLiveMode();
   };
-  const toggleMenu = (): void => {
-    menu?.classList.toggle("open");
-  };
-  const closeMenu = (): void => {
-    menu?.classList.remove("open");
-  };
 
+  // Wire up menu option clicks — the dropdown open/close is handled by initDropdownToggles
   menu?.querySelectorAll<HTMLElement>(".preview-mode-option").forEach((option) => {
     option.addEventListener("click", (event) => {
       event.stopPropagation();
@@ -114,24 +98,7 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
       localStorage.setItem(STORAGE_KEY, currentMode);
       updateMenuActive();
       applyCurrentMode();
-      closeMenu();
     });
-  });
-  toggleBtn.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const arrowClicked = event.target instanceof Element && Boolean(event.target.closest(".dropdown-arrow"));
-    if (event.shiftKey || arrowClicked) toggleMenu(); else applyCurrentMode();
-  });
-  container?.addEventListener("contextmenu", (event) => {
-    event.preventDefault();
-    toggleMenu();
-  });
-  dropdownArrow?.addEventListener("click", (event) => {
-    event.stopPropagation();
-    toggleMenu();
-  });
-  document.addEventListener("click", (event) => {
-    if (!container || !(event.target instanceof Node) || !container.contains(event.target)) closeMenu();
   });
 
   const resizeSplit = (event: MouseEvent): void => {
@@ -141,12 +108,14 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
     editorWrapper.style.flexBasis = `${editorPercent}%`;
     previewWrapper.style.flexBasis = `${100 - editorPercent}%`;
   };
+
   const stopSplitResize = (): void => {
     resizeState.active = false;
     document.body.classList.remove("is-resizing-split");
     document.removeEventListener("mousemove", resizeSplit);
     document.removeEventListener("mouseup", stopSplitResize);
   };
+
   splitResizer?.addEventListener("mousedown", (event) => {
     if (!workspace?.classList.contains("split-view") || !editorBubble) return;
     event.preventDefault();
@@ -178,11 +147,11 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
     event.stopPropagation();
     await handleFileOpen(resolvedPath, resolvedPath.split(/[\\/]/).pop() ?? resolvedPath);
   });
+
   document.addEventListener("snapdock:updatePreview", () => {
     if (!previewWrapper.classList.contains("hidden")) applyPreviewContent();
   });
-  // --- Live preview while typing (debounced) ---
-  // FIX M1: debounce to avoid full markdown re-render on every keystroke
+
   let previewDebounce: ReturnType<typeof setTimeout> | null = null;
   editor.addEventListener("input", () => {
     if (!previewWrapper.classList.contains("hidden")) {
@@ -191,7 +160,7 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
     }
   });
 
-  // --- Initialize --- apply saved mode or default to preview
+  // Initialize
   if (currentMode === "split") {
     applySplitMode();
   } else {
@@ -201,7 +170,6 @@ export function initViewModeToggle({ toggleBtn, editor, preview }: ViewModeOptio
     resetSplitLayout();
   }
   localStorage.setItem(STORAGE_KEY, currentMode);
-  updateLabel();
   updateMenuActive();
   return { getMode: () => currentMode };
 }

@@ -24,92 +24,63 @@
 
         <div class="header-actions box-border flex h-10 items-center gap-3 px-2.5 py-1.5">
           <div class="header-left flex shrink-0 items-center gap-0.5">
-            <button id="newFileBtn" class="cursor-pointer rounded border border-transparent bg-transparent px-2.5 py-1 text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]">New</button>
-            <!-- Open Dropdown -->
-            <div class="dropdown-menu relative flex items-center" id="openDropdown">
-              <button class="dropdown-toggle flex cursor-pointer items-center gap-1 whitespace-nowrap rounded border border-transparent bg-transparent px-2.5 py-1 text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="openToggleBtn">
-                <span>Open</span>
+            <!-- File Dropdown -->
+            <div class="dropdown-menu relative flex items-center" id="fileDropdown">
+              <button class="dropdown-toggle flex cursor-pointer items-center gap-1 whitespace-nowrap rounded border border-transparent bg-transparent px-2.5 py-1 text-[.8rem] font-semibold text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="fileToggleBtn">
+                <span>File</span>
                 <span class="dropdown-caret inline-flex text-[.65rem] opacity-60 transition-transform duration-200">▾</span>
               </button>
-              <div class="dropdown-panel absolute left-0 top-full z-[1000] mt-1 min-w-[150px] flex-col overflow-hidden rounded-lg border border-[var(--tab-border)]/50 bg-[var(--sidebar-bg)]/90 py-1 shadow-[0_6px_20px_rgba(0,0,0,.15)] backdrop-blur-xl" id="openMenu">
+              <div class="dropdown-panel absolute left-0 top-full z-[1000] mt-1 min-w-[180px] flex-col overflow-hidden rounded-lg border border-[var(--tab-border)]/50 bg-[var(--sidebar-bg)]/90 py-1 shadow-[0_6px_20px_rgba(0,0,0,.15)] backdrop-blur-xl" id="fileMenu">
+                <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="newFileBtn">New File</button>
+                <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
                 <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="openFileBtnTop">Open File</button>
                 <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="openFolderBtnTop">Open Folder</button>
-              </div>
-            </div>
-
-            <!-- Save Dropdown -->
-            <div class="dropdown-menu relative flex items-center" id="saveDropdown">
-              <button class="dropdown-toggle flex cursor-pointer items-center gap-1 whitespace-nowrap rounded border border-transparent bg-transparent px-2.5 py-1 text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="saveToggleBtn">
-                <span>Save</span>
-                <span class="dropdown-caret inline-flex text-[.65rem] opacity-60 transition-transform duration-200">▾</span>
-              </button>
-              <div class="dropdown-panel absolute left-0 top-full z-[1000] mt-1 min-w-[150px] flex-col overflow-hidden rounded-lg border border-[var(--tab-border)]/50 bg-[var(--sidebar-bg)]/90 py-1 shadow-[0_6px_20px_rgba(0,0,0,.15)] backdrop-blur-xl" id="saveMenu">
+                <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
                 <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] font-semibold text-[var(--tab-accent)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="saveFileBtnTop">Save</button>
                 <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="saveAllBtnTop">Save All</button>
-                <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="exportPdfBtn">Export</button>
+                <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="exportPdfBtn">Export PDF</button>
                 <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
                 <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="closeProjectBtn">Close Project</button>
               </div>
             </div>
 
-          <!-- Tools Dropdown -->
-          <div class="dropdown-menu relative flex items-center" id="toolsDropdown">
-            <button class="dropdown-toggle flex cursor-pointer items-center gap-1 whitespace-nowrap rounded border border-transparent bg-transparent px-2.5 py-1 text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="toolsToggleBtn">
-              <span>Tools</span>
-              <span class="dropdown-caret inline-flex text-[.65rem] opacity-60 transition-transform duration-200">▾</span>
-            </button>
-            <div class="dropdown-panel absolute left-0 top-full z-[1000] mt-1 min-w-[150px] flex-col overflow-hidden rounded-lg border border-[var(--tab-border)]/50 bg-[var(--sidebar-bg)]/90 py-1 shadow-[0_6px_20px_rgba(0,0,0,.15)] backdrop-blur-xl" id="toolsMenu">
-              <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="updateBtn">Update</button>
-              <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
-              <div class="dropdown-section-label px-3.5 pb-0.5 pt-1.5 text-[.72rem] font-bold uppercase tracking-[.08em] text-[var(--editor-text-secondary)]">Update Channel</div>
-              <div class="dropdown-subgroup flex flex-col gap-0.5 px-3 py-1">
-                <button class="update-channel cursor-pointer whitespace-nowrap border-0 bg-transparent px-2 py-1 text-left text-[.78rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-channel="latest">Latest (stable)</button>
-                <button class="update-channel cursor-pointer whitespace-nowrap border-0 bg-transparent px-2 py-1 text-left text-[.78rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-channel="pre-release">Pre-release (beta)</button>
-                <button class="update-channel cursor-pointer whitespace-nowrap border-0 bg-transparent px-2 py-1 text-left text-[.78rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-channel="nightly">Nightly (dev)</button>
-              </div>
-              <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="autoCheckBtn" aria-pressed="true">Auto-check: On</button>
-              <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
-              <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="spellcheckBtn" aria-pressed="true">Spellcheck: On</button>
-              <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
-              <div class="dropdown-section-label px-3.5 pb-0.5 pt-1.5 text-[.72rem] font-bold uppercase tracking-[.08em] text-[var(--editor-text-secondary)]">Editor Font</div>
-              <div class="dropdown-subgroup flex flex-col gap-1 px-3 pb-2 pt-1">
-                <span class="dropdown-subgroup-title text-[.72rem] font-semibold text-[var(--editor-text-secondary)]">Family</span>
-                <div class="dropdown-chip-row flex flex-wrap gap-1.5">
-                  <button class="editor-font-family rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-family="mono">Mono</button>
-                  <button class="editor-font-family rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-family="sans">Sans</button>
-                  <button class="editor-font-family rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-family="serif">Serif</button>
-                </div>
-              </div>
-              <div class="dropdown-subgroup flex flex-col gap-1 px-3 pb-2 pt-1">
-                <span class="dropdown-subgroup-title text-[.72rem] font-semibold text-[var(--editor-text-secondary)]">Size</span>
-                <div class="dropdown-chip-row flex flex-wrap gap-1.5">
-                  <button class="editor-font-size rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-size="90%">90%</button>
-                  <button class="editor-font-size rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-size="100%">100%</button>
-                  <button class="editor-font-size rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-size="110%">110%</button>
-                  <button class="editor-font-size rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-size="125%">125%</button>
-                </div>
-              </div>
-              <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
-              <button class="theme-option cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-theme="light">Light Theme</button>
-              <button class="theme-option cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-theme="dark">Dark Theme</button>
-              <button class="theme-option cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-theme="solarized">Solarized</button>
-              <button class="theme-option cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-theme="arctic">Arctic Dark</button>
-              <button class="theme-option cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-theme="forest">Forest</button>
-              <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
-              <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="helpBtn">Help</button>
-            </div>
-          </div>
-          </div>
-
-          <div id="findBarHost" class="find-bar-host flex h-full min-w-0 flex-1 items-center"></div>
-
-          <div class="header-right flex shrink-0 justify-end">
-            <div class="preview-mode-dropdown relative inline-block" id="previewModeDropdown">
-              <button class="preview-mode-btn flex cursor-pointer items-center gap-1 rounded-lg border border-[var(--tab-border)]/50 bg-[var(--tab-idle-bg)] px-2.5 py-[5px] text-[.8rem] font-semibold text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--toolbar-bg)]" id="previewToggleBtn">
-                <span id="previewModeLabel">Show Preview</span>
-                <span class="dropdown-arrow -my-[5px] -mr-2.5 ml-0.5 inline-flex min-w-7 self-stretch items-center justify-center border-l border-[var(--tab-border)] text-[.7rem]">▾</span>
+            <!-- Edit Dropdown -->
+            <div class="dropdown-menu relative flex items-center" id="editDropdown">
+              <button class="dropdown-toggle flex cursor-pointer items-center gap-1 whitespace-nowrap rounded border border-transparent bg-transparent px-2.5 py-1 text-[.8rem] font-semibold text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="editToggleBtn">
+                <span>Edit</span>
+                <span class="dropdown-caret inline-flex text-[.65rem] opacity-60 transition-transform duration-200">▾</span>
               </button>
-              <div class="preview-mode-menu absolute right-0 top-full z-[100] mt-1 min-w-[170px] overflow-hidden rounded-lg border border-[var(--tab-border)]/50 bg-[var(--editor-bg)]/95 shadow-[0_4px_12px_rgba(0,0,0,.12)] backdrop-blur-xl" id="previewModeMenu">
+              <div class="dropdown-panel absolute left-0 top-full z-[1000] mt-1 min-w-[200px] flex-col overflow-hidden rounded-lg border border-[var(--tab-border)]/50 bg-[var(--sidebar-bg)]/90 py-1 shadow-[0_6px_20px_rgba(0,0,0,.15)] backdrop-blur-xl" id="editMenu">
+                <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="spellcheckBtn" aria-pressed="true">Spellcheck: On</button>
+                <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
+                <div class="dropdown-section-label px-3.5 pb-0.5 pt-1.5 text-[.72rem] font-bold uppercase tracking-[.08em] text-[var(--editor-text-secondary)]">Editor Font</div>
+                <div class="dropdown-subgroup flex flex-col gap-1 px-3 pb-2 pt-1">
+                  <span class="dropdown-subgroup-title text-[.72rem] font-semibold text-[var(--editor-text-secondary)]">Family</span>
+                  <div class="dropdown-chip-row flex flex-wrap gap-1.5">
+                    <button class="editor-font-family rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-family="mono">Mono</button>
+                    <button class="editor-font-family rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-family="sans">Sans</button>
+                    <button class="editor-font-family rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-family="serif">Serif</button>
+                  </div>
+                </div>
+                <div class="dropdown-subgroup flex flex-col gap-1 px-3 pb-2 pt-1">
+                  <span class="dropdown-subgroup-title text-[.72rem] font-semibold text-[var(--editor-text-secondary)]">Size</span>
+                  <div class="dropdown-chip-row flex flex-wrap gap-1.5">
+                    <button class="editor-font-size rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-size="90%">90%</button>
+                    <button class="editor-font-size rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-size="100%">100%</button>
+                    <button class="editor-font-size rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-size="110%">110%</button>
+                    <button class="editor-font-size rounded-full border border-[var(--tab-border)] bg-transparent px-2 py-1 text-[.74rem]" data-size="125%">125%</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- View Dropdown -->
+            <div class="dropdown-menu relative flex items-center" id="viewDropdown">
+              <button class="dropdown-toggle flex cursor-pointer items-center gap-1 whitespace-nowrap rounded border border-transparent bg-transparent px-2.5 py-1 text-[.8rem] font-semibold text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="viewToggleBtn">
+                <span>View</span>
+                <span class="dropdown-caret inline-flex text-[.65rem] opacity-60 transition-transform duration-200">▾</span>
+              </button>
+              <div class="preview-mode-menu absolute left-0 top-full z-[1000] mt-1 min-w-[170px] overflow-hidden rounded-lg border border-[var(--tab-border)]/50 bg-[var(--sidebar-bg)]/90 shadow-[0_6px_20px_rgba(0,0,0,.15)] backdrop-blur-xl" id="previewModeMenu">
                 <button class="preview-mode-option active flex w-full cursor-pointer items-center border-0 bg-transparent px-3 py-2 text-left text-[.8rem] text-[var(--editor-text-secondary)] transition-colors duration-100 hover:bg-[var(--tab-idle-bg)]" data-mode="preview">
                   <span class="option-check mr-2 w-4 text-[.7rem]">✓</span>
                   <span class="option-label flex-1">Show Preview</span>
@@ -125,7 +96,28 @@
                 </button>
               </div>
             </div>
+
+            <!-- Help Dropdown -->
+            <div class="dropdown-menu relative flex items-center" id="helpDropdown">
+              <button class="dropdown-toggle flex cursor-pointer items-center gap-1 whitespace-nowrap rounded border border-transparent bg-transparent px-2.5 py-1 text-[.8rem] font-semibold text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="helpToggleBtn">
+                <span>?</span>
+              </button>
+              <div class="dropdown-panel absolute left-0 top-full z-[1000] mt-1 min-w-[200px] flex-col overflow-hidden rounded-lg border border-[var(--tab-border)]/50 bg-[var(--sidebar-bg)]/90 py-1 shadow-[0_6px_20px_rgba(0,0,0,.15)] backdrop-blur-xl" id="helpMenu">
+                <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="helpBtn">Help</button>
+                <div class="dropdown-separator mx-2 my-1 h-px bg-[var(--tab-border)]"></div>
+                <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="updateBtn">Check for Updates</button>
+                <div class="dropdown-section-label px-3.5 pb-0.5 pt-1.5 text-[.72rem] font-bold uppercase tracking-[.08em] text-[var(--editor-text-secondary)]">Update Channel</div>
+                <div class="dropdown-subgroup flex flex-col gap-0.5 px-3 py-1">
+                  <button class="update-channel cursor-pointer whitespace-nowrap border-0 bg-transparent px-2 py-1 text-left text-[.78rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-channel="latest">Latest (stable)</button>
+                  <button class="update-channel cursor-pointer whitespace-nowrap border-0 bg-transparent px-2 py-1 text-left text-[.78rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-channel="pre-release">Pre-release (beta)</button>
+                  <button class="update-channel cursor-pointer whitespace-nowrap border-0 bg-transparent px-2 py-1 text-left text-[.78rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" data-channel="nightly">Nightly (dev)</button>
+                </div>
+                <button class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-3.5 py-[7px] text-left text-[.8rem] text-[var(--tab-text)] transition-all duration-150 hover:bg-[var(--tab-idle-bg)] hover:text-[var(--editor-text)]" id="autoCheckBtn" aria-pressed="true">Auto-check: On</button>
+              </div>
+            </div>
           </div>
+
+          <div id="findBarHost" class="find-bar-host flex h-full min-w-0 flex-1 items-center"></div>
         </div>
       </header>
 

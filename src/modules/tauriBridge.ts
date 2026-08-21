@@ -6,12 +6,13 @@ import { relaunch } from "@tauri-apps/plugin-process";
 import { check, type DownloadEvent, type Update } from "@tauri-apps/plugin-updater";
 import type { SaveAllForCloseResult } from "../types/files";
 import type { UpdateEventInfo, UpdateProgress } from "../types/updates";
+import { isExternalLink, resolveLocalPath } from "./linkUtils";
 
 const appWindow = getCurrentWindow();
 const updateProgressCallbacks = new Set<(progress: UpdateProgress) => void>();
 const updateReadyCallbacks = new Set<(info: UpdateEventInfo) => void>();
 const updateErrorCallbacks = new Set<(message: string) => void>();
-const updateAvailableCallbacks = new Set<(info: { latestVersion: string; currentVersion: string }) => void>();
+const updateAvailableCallbacks = new Set<(info: UpdateEventInfo) => void>();
 const updateNoneCallbacks = new Set<() => void>();
 const dirtyStateCallbacks = new Set<() => void>();
 const saveAllCallbacks = new Set<() => void>();
@@ -22,27 +23,6 @@ let closeProjectRequested = false;
 let downloadedBytes = 0;
 let downloadTotal = 0;
 let dirtyStateResponseTimeout: ReturnType<typeof setTimeout> | null = null;
-
-function isExternalLink(target: string): boolean {
-  return /^(?:https?:|mailto:)/i.test(target.trim());
-}
-
-function resolveLocalPath(documentPath: string | null, target: string): string | null {
-  if (!documentPath || !target || target.startsWith("#") || isExternalLink(target)) return null;
-  const cleanTarget = target.split("#")[0]?.split("?")[0];
-  if (!cleanTarget) return null;
-  if (/^(?:[a-zA-Z]:[\\/]|[\\/])/.test(cleanTarget)) return cleanTarget;
-  const separator = documentPath.includes("\\") ? "\\" : "/";
-  const parent = documentPath.slice(0, Math.max(documentPath.lastIndexOf("/"), documentPath.lastIndexOf("\\")));
-  const parts = `${parent}${separator}${cleanTarget}`.split(/[\\/]/);
-  const normalized: string[] = [];
-  for (const part of parts) {
-    if (part === "..") normalized.pop();
-    else if (part && part !== ".") normalized.push(part);
-  }
-  const prefix = documentPath.startsWith("/") ? "/" : "";
-  return prefix + normalized.join(separator);
-}
 
 /**
  * Phoenix #1: Sanitize HTML before injecting into PDF print iframe.
@@ -169,7 +149,7 @@ window.snapdockAPI = {
       pendingUpdate = await check();
       // FIX Phoenix #6: wire update available/none callbacks
       if (pendingUpdate) {
-        const info = { latestVersion: pendingUpdate.version, currentVersion: pendingUpdate.currentVersion };
+        const info: UpdateEventInfo = { version: pendingUpdate.version };
         updateAvailableCallbacks.forEach((callback) => callback(info));
       } else {
         updateNoneCallbacks.forEach((callback) => callback());

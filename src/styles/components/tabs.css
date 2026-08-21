@@ -77,14 +77,6 @@
   to { opacity: 1; }
 }
 
-.preview-mode-menu {
-  display: none;
-}
-
-.preview-mode-menu.open {
-  display: block;
-}
-
 .preview-mode-option.active {
   color: var(--tab-accent) !important;
   font-weight: 600;

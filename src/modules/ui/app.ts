@@ -11,12 +11,11 @@ import { initFindBox } from "./find.js";
 export function initApp(): void {
   const editor = document.querySelector<HTMLTextAreaElement>("#markdownInputMain");
   const preview = document.querySelector<HTMLElement>("#previewMain");
-  const previewToggleBtn = document.querySelector<HTMLElement>("#previewToggleBtn");
   const recentList = document.querySelector<HTMLElement>("#recentFilesList");
 
   initInitialState({ editor });
   initTheme();
-  initViewModeToggle({ toggleBtn: previewToggleBtn, editor, preview });
+  initViewModeToggle({ editor, preview });
   renderRecentFiles(recentList);
   window.snapdockFind = initFindBox({
     editor,

@@ -1,10 +1,8 @@
-import type { EditorFontFamily, EditorFontSize, ThemeName } from "../../types/ui";
+import type { EditorFontFamily, EditorFontSize } from "../../types/ui";
 import type { UpdateChannel } from "../../types/updates";
-import { applyTheme } from "./theme.js";
 import { openHelpModal } from "./help.js";
 import { setEditorFont } from "./editorFont.js";
 
-const themes: readonly ThemeName[] = ["light", "dark", "solarized", "arctic", "forest"];
 const fontFamilies: readonly EditorFontFamily[] = ["mono", "sans", "serif"];
 const fontSizes: readonly EditorFontSize[] = ["90%", "100%", "110%", "125%"];
 const UPDATE_CHANNELS: readonly UpdateChannel[] = ["latest", "pre-release", "nightly"];
@@ -41,13 +39,6 @@ export function initToolsDropdown(): void {
   if (spellcheckBtn) initSpellcheckButton(spellcheckBtn);
   initUpdateChannel();
   initAutoCheckToggle();
-
-  document.querySelectorAll<HTMLElement>(".theme-option").forEach((button) => {
-    button.addEventListener("click", () => {
-      const theme = button.dataset.theme;
-      if (themes.includes(theme as ThemeName)) applyTheme(theme as ThemeName);
-    });
-  });
   attachEditorFontActions();
   document.getElementById("helpBtn")?.addEventListener("click", () => void openHelpModal());
 }

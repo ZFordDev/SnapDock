@@ -20,6 +20,7 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
   const workspace = document.querySelector<HTMLElement>(".workspace");
   const editorBubble = document.querySelector<HTMLElement>(".editor-bubble");
   const menu = document.querySelector<HTMLElement>("#previewModeMenu");
+  const previewToggleBtn = document.querySelector<HTMLButtonElement>("#previewToggleBtn");
   if (!editorWrapper || !previewWrapper) return;
 
   let splitResizer = document.querySelector<HTMLElement>(".split-resizer");
@@ -43,6 +44,16 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
     });
   };
 
+  const updateToggleButton = (): void => {
+    if (!previewToggleBtn) return;
+    const isPreviewing = currentMode === "preview" && !previewWrapper.classList.contains("hidden");
+    previewToggleBtn.classList.toggle("hidden", !isPreviewing);
+    previewToggleBtn.classList.toggle("flex", isPreviewing);
+    previewToggleBtn.classList.toggle("pointer-events-auto", isPreviewing);
+    previewToggleBtn.classList.toggle("opacity-0", !isPreviewing);
+    previewToggleBtn.classList.toggle("opacity-100", isPreviewing);
+  };
+
   const applyPreviewContent = (): void => {
     const html = renderMarkdown(editor.value, { documentPath: getActiveTab()?.filePath ?? null });
     const parsed = new DOMParser().parseFromString(html, "text/html");
@@ -61,6 +72,7 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
     previewWrapper.classList.toggle("hidden", showingPreview);
     editorWrapper.classList.toggle("hidden", !showingPreview);
     if (!showingPreview) applyPreviewContent();
+    updateToggleButton();
   };
 
   const applySplitMode = (): void => {
@@ -73,6 +85,7 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
       editorWrapper.style.flexBasis = "50%";
       previewWrapper.style.flexBasis = "50%";
     }
+    updateToggleButton();
   };
 
   const applyLiveMode = (): void => {
@@ -88,7 +101,18 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
     else applyLiveMode();
   };
 
-  // Wire up menu option clicks — the dropdown open/close is handled by initDropdownToggles
+  const switchToEditor = (): void => {
+    currentMode = "preview";
+    localStorage.setItem(STORAGE_KEY, currentMode);
+    updateMenuActive();
+    applyPreviewMode();
+  };
+
+  previewToggleBtn?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    switchToEditor();
+  });
+
   menu?.querySelectorAll<HTMLElement>(".preview-mode-option").forEach((option) => {
     option.addEventListener("click", (event) => {
       event.stopPropagation();
@@ -171,5 +195,6 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
   }
   localStorage.setItem(STORAGE_KEY, currentMode);
   updateMenuActive();
+  updateToggleButton();
   return { getMode: () => currentMode };
 }

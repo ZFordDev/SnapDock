@@ -46,11 +46,16 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
 
   const updateToggleButton = (): void => {
     if (!previewToggleBtn) return;
-    const isPreviewing = currentMode === "preview" && !previewWrapper.classList.contains("hidden");
-    previewToggleBtn.classList.toggle("hidden", !isPreviewing);
-    previewToggleBtn.classList.toggle("flex", isPreviewing);
-    previewToggleBtn.classList.toggle("opacity-0", !isPreviewing);
-    previewToggleBtn.classList.toggle("opacity-100", isPreviewing);
+    const isRawView = currentMode === "preview";
+    const isPreviewing = isRawView && !previewWrapper.classList.contains("hidden");
+    const isEditing = isRawView && previewWrapper.classList.contains("hidden");
+    previewToggleBtn.classList.toggle("hidden", !isRawView);
+    previewToggleBtn.classList.toggle("flex", isRawView);
+    previewToggleBtn.classList.toggle("opacity-0", !isRawView);
+    previewToggleBtn.classList.toggle("opacity-100", isRawView);
+    const label = previewToggleBtn.querySelector("span:last-child");
+    if (label) label.textContent = isPreviewing ? "Edit" : "Preview";
+    previewToggleBtn.setAttribute("aria-label", isPreviewing ? "Back to editor" : "Show preview");
   };
 
   const applyPreviewContent = (): void => {
@@ -104,16 +109,17 @@ export function initViewModeToggle({ editor, preview }: ViewModeOptions): ViewMo
     }
   };
 
-  const switchToEditor = (): void => {
-    currentMode = "preview";
-    localStorage.setItem(STORAGE_KEY, currentMode);
-    updateMenuActive();
-    showEditor();
+  const toggleRawView = (): void => {
+    if (previewWrapper.classList.contains("hidden")) {
+      showPreview();
+    } else {
+      showEditor();
+    }
   };
 
   previewToggleBtn?.addEventListener("click", (event) => {
     event.stopPropagation();
-    switchToEditor();
+    toggleRawView();
   });
 
   menu?.querySelectorAll<HTMLElement>(".preview-mode-option").forEach((option) => {

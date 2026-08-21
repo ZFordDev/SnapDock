@@ -148,28 +148,30 @@ async fn save_file(
 }
 
 #[tauri::command]
-fn read_text_file(file_path: String) -> Option<String> {
+fn read_text_file(file_path: String) -> Result<Option<String>, String> {
     // FIX Phoenix #21: log errors instead of silently swallowing them
+    // FIX Phoenix #27: return Result for consistency with other commands
     match fs::read_to_string(&file_path) {
-        Ok(content) => Some(content),
+        Ok(content) => Ok(Some(content)),
         Err(error) => {
             eprintln!("[SnapDock] Failed to read file {file_path}: {error}");
-            None
+            Ok(None)
         }
     }
 }
 
 #[tauri::command]
-fn list_files(dir_path: String) -> Vec<FileTreeEntry> {
+fn list_files(dir_path: String) -> Result<Vec<FileTreeEntry>, String> {
     // FIX Phoenix #21: log errors instead of silently swallowing them
+    // FIX Phoenix #27: return Result for consistency with other commands
     let entries = match fs::read_dir(&dir_path) {
         Ok(entries) => entries,
         Err(error) => {
             eprintln!("[SnapDock] Failed to list directory {dir_path}: {error}");
-            return Vec::new();
+            return Ok(Vec::new());
         }
     };
-    entries
+    Ok(entries
         .filter_map(Result::ok)
         .filter_map(|entry| {
             let file_type = entry.file_type().ok()?;
@@ -180,19 +182,20 @@ fn list_files(dir_path: String) -> Vec<FileTreeEntry> {
                 full_path: path_string(&path),
             })
         })
-        .collect()
+        .collect())
 }
 
 #[tauri::command]
-async fn confirm_tab_close(title: String) -> bool {
-    rfd::AsyncMessageDialog::new()
+async fn confirm_tab_close(title: String) -> Result<bool, String> {
+    // FIX Phoenix #27: return Result for consistency with other commands
+    Ok(rfd::AsyncMessageDialog::new()
         .set_title("Unsaved Changes")
         .set_description(format!("\"{title}\" has unsaved changes. Close anyway?"))
         .set_level(rfd::MessageLevel::Warning)
         .set_buttons(rfd::MessageButtons::OkCancel)
         .show()
         .await
-        == rfd::MessageDialogResult::Ok
+        == rfd::MessageDialogResult::Ok)
 }
 
 #[tauri::command]

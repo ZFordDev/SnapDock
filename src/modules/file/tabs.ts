@@ -22,10 +22,10 @@ const TAB_CLASSES = [
 ].join(" ");
 
 const INACTIVE_TAB_CLASSES = "h-[30px] bg-[var(--tab-idle-bg)] text-[var(--tab-text)]";
-const ACTIVE_TAB_CLASSES = "active z-[2] h-[31px] bg-[var(--tab-active-bg)] text-[var(--editor-text)]";
+const ACTIVE_TAB_CLASSES = "active z-[2] h-[31px] bg-[var(--tab-active-bg)] text-[var(--editor-text)] shadow-[0_-2px_4px_rgba(0,0,0,0.04)]";
 const TAB_LED_CLASSES = "tab-led h-[7px] w-[7px] shrink-0 rounded-full";
-const TAB_TITLE_CLASSES = "tab-title flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-[.8rem] font-medium";
-const TAB_CLOSE_CLASSES = "tab-close flex h-[18px] w-[18px] items-center justify-center rounded-[3px] p-0 text-sm opacity-50 transition-all duration-200 hover:bg-[rgba(125,125,125,.2)] hover:opacity-100";
+const TAB_TITLE_CLASSES = "tab-title flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-[.78rem] font-medium";
+const TAB_CLOSE_CLASSES = "tab-close flex h-[18px] w-[18px] items-center justify-center rounded-full p-0 text-sm opacity-50 transition-all duration-200 hover:bg-[rgba(125,125,125,.2)] hover:opacity-100";
 const DROP_INDICATOR_CLASSES = "tab-drop-indicator mx-0.5 h-7 w-[3px] shrink-0 self-end rounded-sm bg-[var(--tab-accent,#4a9eff)]";
 
 function getEditor(): HTMLTextAreaElement | null {

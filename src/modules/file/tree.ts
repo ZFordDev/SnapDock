@@ -6,14 +6,14 @@ let activeContainer: HTMLUListElement | null = null;
 
 const TREE_ITEM_CLASSES = [
   "relative", "block", "w-full", "cursor-pointer", "whitespace-nowrap",
-  "bg-transparent", "py-1", "pr-2", "pl-5", "text-[.85rem]",
+  "rounded-md", "bg-transparent", "py-1", "pr-2", "pl-5", "text-[.85rem]",
   "text-[var(--tab-text)]", "transition-colors", "duration-100",
   "hover:bg-[var(--tab-idle-bg)]", "hover:text-[var(--editor-text)]",
 ].join(" ");
 
 const NESTED_TREE_CLASSES = [
   "nested", "ml-2.5", "w-fit", "min-w-[calc(100%-10px)]", "list-none",
-  "border-l", "border-[var(--tab-border)]", "p-0",
+  "border-l", "border-[var(--tab-border)]/30", "p-0",
 ].join(" ");
 
 function createElement<K extends keyof HTMLElementTagNameMap>(

@@ -3,9 +3,8 @@ import { listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { relaunch } from "@tauri-apps/plugin-process";
-import { check, type DownloadEvent, type Update } from "@tauri-apps/plugin-updater";
 import type { SaveAllForCloseResult } from "../types/files";
-import type { UpdateEventInfo, UpdateProgress } from "../types/updates";
+import type { UpdateChannel, UpdateConfig, UpdateEventInfo, UpdateProgress } from "../types/updates";
 import { isExternalLink, resolveLocalPath } from "./linkUtils";
 
 const appWindow = getCurrentWindow();
@@ -17,11 +16,8 @@ const updateNoneCallbacks = new Set<() => void>();
 const dirtyStateCallbacks = new Set<() => void>();
 const saveAllCallbacks = new Set<() => void>();
 const clearCallbacks = new Set<() => void>();
-let pendingUpdate: Update | null = null;
 let closeRequested = false;
 let closeProjectRequested = false;
-let downloadedBytes = 0;
-let downloadTotal = 0;
 let dirtyStateResponseTimeout: ReturnType<typeof setTimeout> | null = null;
 
 /**
@@ -97,19 +93,6 @@ function requestDirtyStateWithTimeout(): void {
   dirtyStateCallbacks.forEach((callback) => callback());
 }
 
-function handleDownloadEvent(event: DownloadEvent): void {
-  if (event.event === "Started") {
-    downloadedBytes = 0;
-    downloadTotal = event.data.contentLength ?? 0;
-  } else if (event.event === "Progress") {
-    downloadedBytes += event.data.chunkLength;
-    const percent = downloadTotal ? downloadedBytes / downloadTotal * 100 : 0;
-    updateProgressCallbacks.forEach((callback) => callback({
-      bytesPerSecond: 0, percent, transferred: downloadedBytes, total: downloadTotal, delta: event.data.chunkLength,
-    }));
-  }
-}
-
 window.snapdockAPI = {
   openFile: () => invoke("open_file"),
   openFolder: () => invoke("open_folder"),
@@ -144,28 +127,56 @@ window.snapdockAPI = {
   setSpellcheckState: (enabled) => invoke("set_spellcheck_state", { enabled }),
   getVersion: () => invoke("get_version"),
   getInstallSource: () => invoke("get_install_source"),
+  getUpdateConfig: () => invoke<UpdateConfig>("get_update_config"),
+  setUpdateConfig: (channel: UpdateChannel, autoCheck: boolean) =>
+    invoke<UpdateConfig>("set_update_config", { channel, autoCheck }),
   checkForUpdates: async () => {
     try {
-      pendingUpdate = await check();
-      // FIX Phoenix #6: wire update available/none callbacks
-      if (pendingUpdate) {
-        const info: UpdateEventInfo = { version: pendingUpdate.version };
+      const result = await invoke<{
+        updateAvailable: boolean;
+        latestVersion: string | null;
+        currentVersion: string | null;
+        disabled?: boolean;
+        reason?: string;
+      }>("check_for_updates");
+      if (result.disabled) {
+        return {
+          updateAvailable: false,
+          latestVersion: null,
+          currentVersion: null,
+          disabled: true,
+          reason: result.reason as "snap" | "appimage",
+        };
+      }
+      if (result.updateAvailable) {
+        const info: UpdateEventInfo = { version: result.latestVersion ?? "unknown" };
         updateAvailableCallbacks.forEach((callback) => callback(info));
       } else {
         updateNoneCallbacks.forEach((callback) => callback());
       }
       return {
-        updateAvailable: Boolean(pendingUpdate),
-        latestVersion: pendingUpdate?.version ?? null,
-        currentVersion: pendingUpdate?.currentVersion ?? null,
+        updateAvailable: result.updateAvailable,
+        latestVersion: result.latestVersion,
+        currentVersion: result.currentVersion,
       };
     } catch (error) { return { error: error instanceof Error ? error.message : String(error) }; }
   },
   downloadUpdate: async () => {
-    if (!pendingUpdate) return { error: "No update is available." };
     try {
-      await pendingUpdate.download(handleDownloadEvent);
-      updateReadyCallbacks.forEach((callback) => callback({ version: pendingUpdate?.version ?? "unknown" }));
+      // Listen for progress events from Rust
+      const unlisten = await listen<{ chunkLength: number; total: number | null }>(
+        "updater://progress",
+        (event) => {
+          const { chunkLength, total } = event.payload;
+          const percent = total ? (chunkLength / total) * 100 : 0;
+          updateProgressCallbacks.forEach((callback) => callback({
+            bytesPerSecond: 0, percent, transferred: chunkLength, total: total ?? 0, delta: chunkLength,
+          }));
+        },
+      );
+      const version = await invoke<string>("download_update");
+      unlisten();
+      updateReadyCallbacks.forEach((callback) => callback({ version }));
       return "downloading";
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -174,8 +185,7 @@ window.snapdockAPI = {
     }
   },
   installUpdate: async () => {
-    if (!pendingUpdate) return { error: "No downloaded update is available." };
-    try { await pendingUpdate.install(); await relaunch(); }
+    try { await invoke("install_update"); }
     catch (error) { return { error: error instanceof Error ? error.message : String(error) }; }
   },
   onUpdateAvailable: (callback) => { updateAvailableCallbacks.add(callback); },

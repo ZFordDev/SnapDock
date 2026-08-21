@@ -1,4 +1,5 @@
 import type { EditorFontFamily, EditorFontSize, ThemeName } from "../../types/ui";
+import type { UpdateChannel } from "../../types/updates";
 import { applyTheme } from "./theme.js";
 import { openHelpModal } from "./help.js";
 import { setEditorFont } from "./editorFont.js";
@@ -6,6 +7,12 @@ import { setEditorFont } from "./editorFont.js";
 const themes: readonly ThemeName[] = ["light", "dark", "solarized", "arctic", "forest"];
 const fontFamilies: readonly EditorFontFamily[] = ["mono", "sans", "serif"];
 const fontSizes: readonly EditorFontSize[] = ["90%", "100%", "110%", "125%"];
+const UPDATE_CHANNELS: readonly UpdateChannel[] = ["latest", "pre-release", "nightly"];
+const CHANNEL_LABELS: Record<UpdateChannel, string> = {
+  "latest": "Latest (stable)",
+  "pre-release": "Pre-release (beta)",
+  "nightly": "Nightly (dev)",
+};
 
 export function initDropdownToggles(): void {
   const menus = document.querySelectorAll<HTMLElement>(".dropdown-menu");
@@ -32,6 +39,8 @@ export function initToolsDropdown(): void {
   if (updateBtn) initUpdateButton(updateBtn);
   const spellcheckBtn = document.querySelector<HTMLButtonElement>("#spellcheckBtn");
   if (spellcheckBtn) initSpellcheckButton(spellcheckBtn);
+  initUpdateChannel();
+  initAutoCheckToggle();
 
   document.querySelectorAll<HTMLElement>(".theme-option").forEach((button) => {
     button.addEventListener("click", () => {
@@ -131,11 +140,67 @@ function initUpdateButton(button: HTMLButtonElement): void {
 }
 
 async function checkForUpdatesOnLaunch(button: HTMLButtonElement): Promise<void> {
+  const config = await window.snapdockAPI.getUpdateConfig().catch(() => ({ channel: "latest" as UpdateChannel, autoCheck: true }));
+  if (!config.autoCheck) return;
   const result = await window.snapdockAPI.checkForUpdates();
   if ("error" in result || !hasUpdate(result)) return;
+  if ("disabled" in result && result.disabled) return;
   button.classList.add("update-available");
   button.textContent = "Update Available";
   setFooterStatus("Update available", "ready");
+}
+
+function initUpdateChannel(): void {
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".update-channel");
+  void window.snapdockAPI.getUpdateConfig().then((config) => {
+    applyChannelUI(buttons, config.channel);
+  }).catch(() => applyChannelUI(buttons, "latest"));
+  buttons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const channel = button.dataset.channel;
+      if (!UPDATE_CHANNELS.includes(channel as UpdateChannel)) return;
+      await window.snapdockAPI.setUpdateConfig(channel as UpdateChannel, getAutoCheckState());
+      applyChannelUI(buttons, channel as UpdateChannel);
+      setFooterStatus(`Switched to ${CHANNEL_LABELS[channel as UpdateChannel]} channel`);
+    });
+  });
+}
+
+function applyChannelUI(buttons: NodeListOf<HTMLButtonElement>, activeChannel: UpdateChannel): void {
+  buttons.forEach((btn) => {
+    const isActive = btn.dataset.channel === activeChannel;
+    btn.classList.toggle("active", isActive);
+    btn.textContent = `${isActive ? "● " : ""}${CHANNEL_LABELS[btn.dataset.channel as UpdateChannel]}`;
+  });
+}
+
+let cachedAutoCheck = true;
+
+function getAutoCheckState(): boolean {
+  return cachedAutoCheck;
+}
+
+function initAutoCheckToggle(): void {
+  const button = document.querySelector<HTMLButtonElement>("#autoCheckBtn");
+  if (!button) return;
+  void window.snapdockAPI.getUpdateConfig().then((config) => {
+    cachedAutoCheck = config.autoCheck;
+    applyAutoCheckUI(button, config.autoCheck);
+  }).catch(() => applyAutoCheckUI(button, true));
+  button.addEventListener("click", async () => {
+    const config = await window.snapdockAPI.getUpdateConfig().catch(() => ({ channel: "latest" as UpdateChannel, autoCheck: true }));
+    const newAutoCheck = !config.autoCheck;
+    cachedAutoCheck = newAutoCheck;
+    await window.snapdockAPI.setUpdateConfig(config.channel, newAutoCheck);
+    applyAutoCheckUI(button, newAutoCheck);
+  });
+}
+
+function applyAutoCheckUI(button: HTMLButtonElement, enabled: boolean): void {
+  button.dataset.enabled = String(enabled);
+  button.textContent = enabled ? "Auto-check: On" : "Auto-check: Off";
+  button.classList.toggle("active", enabled);
+  button.setAttribute("aria-pressed", String(enabled));
 }
 
 function setFooterStatus(text: string, state?: "ready" | "error"): void {

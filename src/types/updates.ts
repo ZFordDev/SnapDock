@@ -1,4 +1,11 @@
-export type InstallSource = "direct" | "windows-store" | "snap-store";
+export type InstallSource = "direct" | "windows-store" | "snap-store" | "snap" | "appimage";
+
+export type UpdateChannel = "latest" | "pre-release" | "nightly";
+
+export interface UpdateConfig {
+  channel: UpdateChannel;
+  autoCheck: boolean;
+}
 
 export interface VersionInfo {
   version: string;

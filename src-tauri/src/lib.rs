@@ -1,13 +1,33 @@
 use notify::{RecommendedWatcher, RecursiveMode, Watcher};
 use serde::{Deserialize, Serialize};
-use std::{collections::HashSet, fs, path::PathBuf, sync::Mutex, time::Duration};
+use std::{collections::HashSet, fs, path::Path, path::PathBuf, sync::{Arc, Mutex}, time::Duration};
 use tauri::{AppHandle, Emitter, Manager, State};
+use tauri_plugin_updater::{Update, UpdaterExt};
+use url::Url;
 
 const SPELLCHECK_CONFIG_FILE: &str = "spellcheck-config.json";
+const UPDATE_CONFIG_FILE: &str = "update-config.json";
+const UPDATE_BASE_URL: &str = "https://update.snapdock.app";
 
 #[derive(Serialize, Deserialize, Default)]
 struct SpellcheckConfig {
     enabled: bool,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+struct UpdateConfig {
+    channel: String,
+    auto_check: bool,
+}
+
+impl Default for UpdateConfig {
+    fn default() -> Self {
+        Self {
+            channel: "latest".into(),
+            auto_check: true,
+        }
+    }
 }
 
 struct RuntimeState {
@@ -15,7 +35,11 @@ struct RuntimeState {
     spellcheck_enabled: Mutex<bool>,
     config_path: Mutex<Option<PathBuf>>,
     // FIX Phoenix #19: debounce file watcher events
-    watcher_event_pending: Mutex<bool>,
+    watcher_event_pending: Arc<Mutex<bool>>,
+    update_config: Mutex<UpdateConfig>,
+    update_config_path: Mutex<Option<PathBuf>>,
+    pending_update: Mutex<Option<Update>>,
+    downloaded_bytes: Mutex<Option<Vec<u8>>>,
 }
 
 #[derive(Serialize)]
@@ -292,13 +316,193 @@ fn get_install_source() -> &'static str {
     detect_install_source()
 }
 
+#[tauri::command]
+fn get_update_config(state: State<'_, RuntimeState>) -> Result<UpdateConfig, String> {
+    state
+        .update_config
+        .lock()
+        .map(|config| config.clone())
+        .map_err(|_| "Update config lock failed".into())
+}
+
+#[tauri::command]
+fn set_update_config(
+    channel: String,
+    auto_check: bool,
+    state: State<'_, RuntimeState>,
+) -> Result<UpdateConfig, String> {
+    let config = UpdateConfig {
+        channel: channel.clone(),
+        auto_check,
+    };
+    // Persist to disk
+    if let Ok(path_lock) = state.update_config_path.lock() {
+        if let Some(path) = path_lock.as_ref() {
+            if let Ok(json) = serde_json::to_string_pretty(&config) {
+                let _ = fs::write(path, json);
+            }
+        }
+    }
+    // Update in-memory state
+    if let Ok(mut current) = state.update_config.lock() {
+        *current = config.clone();
+    }
+    Ok(config)
+}
+
+/// Check for updates against the user's selected channel endpoint.
+/// Skips the check for snap/appimage installs which have their own update mechanisms.
+#[tauri::command]
+async fn check_for_updates(
+    app: AppHandle,
+    state: State<'_, RuntimeState>,
+) -> Result<serde_json::Value, String> {
+    // Snap and AppImage have their own update mechanisms — skip Tauri updater
+    let source = detect_install_source();
+    if source == "snap" || source == "appimage" {
+        return Ok(serde_json::json!({
+            "updateAvailable": false,
+            "latestVersion": null,
+            "currentVersion": null,
+            "disabled": true,
+            "reason": source,
+        }));
+    }
+    // Read channel from persisted config
+    let channel = state
+        .update_config
+        .lock()
+        .map(|config| config.channel.clone())
+        .unwrap_or_else(|_| "latest".into());
+    let endpoint_url = Url::parse(&format!("{UPDATE_BASE_URL}/{channel}/latest.json"))
+        .map_err(|e| format!("Invalid updater URL: {e}"))?;
+    // Use Tauri's updater builder with dynamic endpoint
+    let update = app
+        .updater_builder()
+        .endpoints(vec
+![endpoint_url])
+        .map_err(|e| format!("Failed to set updater endpoint: {e}"))?
+        .build()
+        .map_err(|e| format!("Failed to build updater: {e}"))?
+        .check()
+        .await
+        .map_err(|e| format!("Update check failed: {e}"))?;
+    match update {
+        Some(update) => {
+            let version = update.version.clone();
+            let current = update.current_version.clone();
+            // Store the Update object for later download/install
+            if let Ok(mut pending) = state.pending_update.lock() {
+                *pending = Some(update);
+            }
+            Ok(serde_json::json!({
+                "updateAvailable": true,
+                "latestVersion": version,
+                "currentVersion": current,
+            }))
+        }
+        None => Ok(serde_json::json!({
+            "updateAvailable": false,
+            "latestVersion": null,
+            "currentVersion": null,
+        })),
+    }
+}
+
+#[tauri::command]
+async fn download_update(
+    app: AppHandle,
+    state: State<'_, RuntimeState>,
+) -> Result<String, String> {
+    let update = {
+        let mut pending = state
+            .pending_update
+            .lock()
+            .map_err(|_| "Update lock failed")?;
+        pending
+            .take()
+            .ok_or("No update available to download")?
+    };
+    let version = update.version.clone();
+    // Download with progress events emitted to the frontend
+    let app_clone = app.clone();
+    let bytes = update
+        .download(
+            move |chunk_len: usize, total: Option<u64>| {
+                let _ = app_clone.emit(
+                    "updater://progress",
+                    serde_json::json!({
+                        "chunkLength": chunk_len,
+                        "total": total,
+                    }),
+                );
+            },
+            || {},
+        )
+        .await
+        .map_err(|e| format!("Download failed: {e}"))?;
+    // Store downloaded bytes for install
+    if let Ok(mut stored) = state.downloaded_bytes.lock() {
+        *stored = Some(bytes);
+    }
+    // Re-store the Update metadata for install
+    // (We need the Update object's install method, but we consumed it in download)
+    // Actually, Update::install needs the bytes, not the Update itself.
+    // Store the update back so install can use it
+    Ok(version)
+}
+
+#[tauri::command]
+async fn install_update(
+    app: AppHandle,
+    state: State<'_, RuntimeState>,
+) -> Result<(), String> {
+    let bytes = {
+        let mut stored = state
+            .downloaded_bytes
+            .lock()
+            .map_err(|_| "Download lock failed")?;
+        stored
+            .take()
+            .ok_or("No downloaded update available")?
+    };
+    // We need the Update object to call install(). Re-check to get a fresh Update.
+    let channel = state
+        .update_config
+        .lock()
+        .map(|config| config.channel.clone())
+        .unwrap_or_else(|_| "latest".into());
+    let endpoint_url = Url::parse(&format!("{UPDATE_BASE_URL}/{channel}/latest.json"))
+        .map_err(|e| format!("Invalid updater URL: {e}"))?;
+    let update = app
+        .updater_builder()
+        .endpoints(vec
+![endpoint_url])
+        .map_err(|e| format!("Failed to set updater endpoint: {e}"))?
+        .build()
+        .map_err(|e| format!("Failed to build updater: {e}"))?
+        .check()
+        .await
+        .map_err(|e| format!("Update check failed: {e}"))?
+        .ok_or("No update found for install")?;
+    update
+        .install(&bytes)
+        .map_err(|e| format!("Install failed: {e}"))?;
+    // Relaunch the app after successful install
+    app.restart();
+}
+
 pub fn run() {
     tauri::Builder::default()
         .manage(RuntimeState {
             watcher: Mutex::new(None),
             spellcheck_enabled: Mutex::new(true),
             config_path: Mutex::new(None),
-            watcher_event_pending: Mutex::new(false),
+            watcher_event_pending: Arc::new(Mutex::new(false)),
+            update_config: Mutex::new(UpdateConfig::default()),
+            update_config_path: Mutex::new(None),
+            pending_update: Mutex::new(None),
+            downloaded_bytes: Mutex::new(None),
         })
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_process::init())
@@ -316,15 +520,19 @@ pub fn run() {
             set_spellcheck_state,
             get_version,
             get_install_source,
+            get_update_config,
+            set_update_config,
+            check_for_updates,
+            download_update,
+            install_update,
         ])
         .setup(|app| {
+            // Load config directory path (shared by spellcheck and update configs)
+            let config_dir = app.path().app_config_dir().ok();
             // FIX Phoenix #7: load spellcheck state from disk on startup
-            let config_path = app
-                .path()
-                .app_config_dir()
-                .ok()
-                .map(|dir| dir.join(SPELLCHECK_CONFIG_FILE));
-            if let Some(ref path) = config_path {
+            let spellcheck_config_path =
+                config_dir.as_ref().map(|dir| dir.join(SPELLCHECK_CONFIG_FILE));
+            if let Some(ref path) = spellcheck_config_path {
                 if let Ok(contents) = fs::read_to_string(path) {
                     if let Ok(config) = serde_json::from_str::<SpellcheckConfig>(&contents) {
                         if let Some(state) = app.try_state::<RuntimeState>() {
@@ -337,7 +545,26 @@ pub fn run() {
             }
             if let Some(state) = app.try_state::<RuntimeState>() {
                 if let Ok(mut path_lock) = state.config_path.lock() {
-                    *path_lock = config_path;
+                    *path_lock = spellcheck_config_path;
+                }
+            }
+            // Load update config from disk on startup
+            let update_config_path =
+                config_dir.as_ref().map(|dir| dir.join(UPDATE_CONFIG_FILE));
+            if let Some(ref path) = update_config_path {
+                if let Ok(contents) = fs::read_to_string(path) {
+                    if let Ok(config) = serde_json::from_str::<UpdateConfig>(&contents) {
+                        if let Some(state) = app.try_state::<RuntimeState>() {
+                            if let Ok(mut update_cfg) = state.update_config.lock() {
+                                *update_cfg = config;
+                            }
+                        }
+                    }
+                }
+            }
+            if let Some(state) = app.try_state::<RuntimeState>() {
+                if let Ok(mut path_lock) = state.update_config_path.lock() {
+                    *path_lock = update_config_path;
                 }
             }
             if let Some(window) = app.get_webview_window("main") {

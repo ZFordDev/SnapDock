@@ -7,6 +7,8 @@ import type {
   SaveAllForCloseResult,
   SaveFileResult,
   UpdateCheckResult,
+  UpdateConfig,
+  UpdateChannel,
   UpdateDownloadResult,
   UpdateEventInfo,
   UpdateInstallResult,
@@ -36,6 +38,8 @@ declare global {
     setSpellcheckState(enabled: boolean): Promise<boolean>;
     getVersion(): Promise<VersionInfo>;
     getInstallSource(): Promise<InstallSource>;
+    getUpdateConfig(): Promise<UpdateConfig>;
+    setUpdateConfig(channel: UpdateChannel, autoCheck: boolean): Promise<UpdateConfig>;
     checkForUpdates(): Promise<UpdateCheckResult>;
     downloadUpdate(): Promise<UpdateDownloadResult>;
     installUpdate(): Promise<UpdateInstallResult>;

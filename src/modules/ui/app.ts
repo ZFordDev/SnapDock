@@ -71,7 +71,11 @@ function initWindowControls(): void {
 
 async function setVersionTag(versionTag: HTMLElement | null): Promise<void> {
   if (!versionTag) return;
-  const info = await window.snapdockAPI.getVersion();
+  const [info, updateConfig] = await Promise.all([
+    window.snapdockAPI.getVersion(),
+    window.snapdockAPI.getUpdateConfig().catch(() => ({ channel: "latest", autoCheck: true })),
+  ]);
   const formattedDate = info.date ? new Date(info.date).toISOString().slice(0, 10) : "unknown";
-  versionTag.textContent = `SnapDock ${info.version} (${info.stage}) — ${formattedDate}`;
+  const channelLabel = updateConfig.channel === "latest" ? "" : ` — ${updateConfig.channel}`;
+  versionTag.textContent = `SnapDock ${info.version} (${info.stage})${channelLabel} — ${formattedDate}`;
 }

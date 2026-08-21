@@ -23,6 +23,7 @@ tauri = { version = "2", features = ["protocol-asset"] }
 tauri-plugin-opener = "2"
 tauri-plugin-process = "2"
 tauri-plugin-updater = "2"
+url = "2"
 
 # Keep local and CI release builds within modest laptop memory budgets. Tauri's
 # default optimized build can otherwise run several large codegen/link jobs at

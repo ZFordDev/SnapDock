@@ -11,6 +11,7 @@ import { initDropdownToggles, initToolsDropdown } from "./modules/ui/dropdownMen
 import { initMetrics } from "./modules/ui/metrics.js";
 import { initEditorFont } from "./modules/ui/editorFont.mjs";
 import { clearWorkspace } from "./modules/file/workspace.js";
+import { initEditorIndent } from "./modules/ui/editorIndent.js";
 
 // Helper
 function byId(id) {
@@ -58,6 +59,7 @@ window.addEventListener("DOMContentLoaded", () => {
   initEditorSync();
   initResizer();
   initEditorFont();
+  initEditorIndent();
 
   // File Tree
   const fileTreeList = byId("fileTreeList");

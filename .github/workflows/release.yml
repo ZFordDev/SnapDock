@@ -1,26 +1,22 @@
 name: SnapDock Release Pipeline
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
-    #  - 121-release-pipeline-improvements // test branch here
+    tags:
+      # SnapDock uses numeric tags such as 3.2.6 and 3.2.4-Pre.
+      - "[0-9]*.[0-9]*.[0-9]*"
 
 permissions:
-  contents: write
-  id-token: write
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  # ---------------------------------------------------------
-  # 1. Desktop Installers (Windows + Linux)
-  # ---------------------------------------------------------
-  desktop:
-    name: Desktop Installers
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest]
+  validate:
+    name: Validate tag and code
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -29,43 +25,146 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 24
+          cache: npm
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build Desktop Release
+      - name: Verify tag matches package version
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const tag = process.env.GITHUB_REF_NAME;
+          const version = require("./package.json").version;
+          const valid = /^\d+\.\d+\.\d+(?:-Pre)?$/.test(tag);
+          const tagVersion = tag.replace(/-Pre$/i, "");
+
+          if (!valid) {
+            console.error(`Unsupported release tag: ${tag}`);
+            process.exit(1);
+          }
+
+          if (tagVersion !== version) {
+            console.error(`Tag ${tag} does not match package version ${version}`);
+            process.exit(1);
+          }
+
+          console.log(`Validated SnapDock release ${tag}`);
+          NODE
+
+      - name: Run tests
+        run: npm test
+
+      - name: Validate renderer bundle
+        run: node scripts/bundle.js
+
+  desktop:
+    name: Desktop installer (${{ matrix.os }})
+    needs: validate
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build desktop release
         run: npm run build:release
 
-      - name: Upload Artifacts
+      - name: Validate Windows updater assets
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          if (-not (Test-Path -LiteralPath "dist/latest.yml")) {
+            throw "Missing dist/latest.yml"
+          }
+          if (-not (Get-ChildItem -LiteralPath dist -Filter "*.exe" -File)) {
+            throw "Missing Windows installer"
+          }
+          if (-not (Get-ChildItem -LiteralPath dist -Filter "*.exe.blockmap" -File)) {
+            throw "Missing Windows updater blockmap"
+          }
+
+      - name: Validate Linux release assets
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          test -f dist/latest-linux.yml
+          compgen -G "dist/*.AppImage" > /dev/null
+          compgen -G "dist/*.deb" > /dev/null
+
+      - name: Upload Windows assets
+        if: runner.os == 'Windows'
         uses: actions/upload-artifact@v7
         with:
-          name: desktop-${{ matrix.os }}
+          name: desktop-windows
           path: |
+            dist/latest.yml
             dist/*.exe
-            dist/*.deb
+            dist/*.exe.blockmap
+          if-no-files-found: error
+
+      - name: Upload Linux assets
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v7
+        with:
+          name: desktop-linux
+          path: |
+            dist/latest-linux.yml
             dist/*.AppImage
-            dist/*.zip
-            dist/*.dmg
-          if-no-files-found: ignore
+            dist/*.deb
+          if-no-files-found: error
 
-# attempted to make store releases automated via github and keep hitting issues
-# i managed to automate on my server and its a good enough fix for now but will need to look at this again in the future
-
-  # ---------------------------------------------------------
-  # 4. GitHub Release
-  # ---------------------------------------------------------
   release:
-    name: Create GitHub Release
+    name: Create GitHub release
+    needs: desktop
     runs-on: ubuntu-latest
-    needs: [desktop]
+    permissions:
+      contents: write
     steps:
-      - name: Download All Artifacts
+      - name: Download release assets
         uses: actions/download-artifact@v8
         with:
           path: release-assets
+          merge-multiple: true
 
-      - name: Create Release
+      - name: Validate assembled release
+        shell: bash
+        run: |
+          test -f release-assets/latest.yml
+          test -f release-assets/latest-linux.yml
+          windows_installer=$(compgen -G "release-assets/*.exe" | head -n 1)
+          test -n "$windows_installer"
+          test -f "${windows_installer}.blockmap"
+          grep -Fq "$(basename "$windows_installer")" release-assets/latest.yml
+
+          linux_appimage=$(compgen -G "release-assets/*.AppImage" | head -n 1)
+          test -n "$linux_appimage"
+          grep -Fq "$(basename "$linux_appimage")" release-assets/latest-linux.yml
+
+          compgen -G "release-assets/*.deb" > /dev/null
+
+      - name: Create GitHub release
         uses: softprops/action-gh-release@v3
         with:
-          files: release-assets/**
+          files: |
+            release-assets/latest.yml
+            release-assets/latest-linux.yml
+            release-assets/*.exe
+            release-assets/*.exe.blockmap
+            release-assets/*.AppImage
+            release-assets/*.deb
           generate_release_notes: true

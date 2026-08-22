@@ -14,7 +14,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "md:test": "node test/markdown-render.js",
+    "md:test": "node test/markdown-render.mjs",
+    "test": "npm run md:test && node tests/find.test.js && node tests/link-navigation.test.js",
     "build:dev": "node scripts/build-dev.js",
     "build:test": "node scripts/build-test.js",
     "build:win": "node scripts/build-win.js",

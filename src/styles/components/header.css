@@ -176,18 +176,6 @@ body.dark-theme .title-row {
   font-weight: 600;
 }
 
-/* ─── Stub / disabled items ─── */
-.dropdown-item-stub {
-  opacity: 0.45;
-  cursor: not-allowed !important;
-  font-style: italic;
-}
-
-.dropdown-item-stub:hover {
-  background: transparent !important;
-  color: var(--tab-text) !important;
-}
-
 /* ─── Separator line ─── */
 .dropdown-separator {
   height: 1px;

@@ -37,6 +37,9 @@ SnapDock gives you a focused place to write, organise, and preview Markdown with
 
 Choose your preferred store for straightforward installation and updates.
 
+> [!IMPORTANT]
+> **Microsoft Store update issue:** We are aware that updates for the Windows Store release may currently fail. We are investigating and working on a fix. Existing installations can continue to be used in the meantime; please check back here for updates.
+
 ### Microsoft Store
 
 [![Download from the Microsoft Store](https://get.microsoft.com/images/en-us%20dark.svg)](https://apps.microsoft.com/detail/9P54JC7GWK1N)

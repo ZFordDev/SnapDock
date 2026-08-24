@@ -7,11 +7,3 @@ export function initInitialState({ editor }) {
 
   editor.focus();
 }
-
-export function resetEditor({ editor, preview }) {
-  if (!editor || !preview) return;
-  editor.value = "";
-  preview.innerHTML = "";
-  preview.classList.add("hidden");
-  editor.style.display = "block";
-}

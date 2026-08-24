@@ -36,16 +36,14 @@ export function initDropdownToggles() {
     }
   });
 
-  // Auto-close after clicking an item (unless it's a stub)
+  // Auto-close after clicking an item.
   menus.forEach((menu) => {
     const panel = menu.querySelector(".dropdown-panel");
     if (!panel) return;
 
     panel.addEventListener("click", (e) => {
       const btn = e.target.closest("button");
-      if (btn && !btn.classList.contains("dropdown-item-stub")) {
-        closeAll();
-      }
+      if (btn) closeAll();
     });
   });
 }

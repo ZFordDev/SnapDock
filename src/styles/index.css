@@ -1,7 +1,5 @@
 /* Base */
 @import "./base/reset.css";
-/* REMOVE: @import "./base/variables.css"; */
-/* REMOVE: @import "./base/typography.css"; */
 @import "./base/layout.css";
 
 /* Components */
@@ -16,7 +14,7 @@
 
 /* Markdown */
 @import "./markdown/markdown.css";
-@import "./markdown/highlight.css"; /* FIXED */
+@import "./markdown/highlight.css";
 
 /* Theme */
 @import "./themes/light.css";

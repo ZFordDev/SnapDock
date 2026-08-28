@@ -193,13 +193,13 @@ jobs:
           if ("${{ github.event_name }}" -eq "pull_request") {
             Write-Host "Uploading $($msixFile.FullName) as a draft Store submission..."
             msstore publish "${{ github.workspace }}" `
-              --inputFile "$($msixFile.FullName)" `
+              --inputDirectory "$($msixFile.DirectoryName)" `
               --appId "9P54JC7GWK1N" `
               --noCommit
           } else {
             Write-Host "Publishing $($msixFile.FullName) to Microsoft Store..."
             msstore publish "${{ github.workspace }}" `
-              --inputFile "$($msixFile.FullName)" `
+              --inputDirectory "$($msixFile.DirectoryName)" `
               --appId "9P54JC7GWK1N"
           }
 

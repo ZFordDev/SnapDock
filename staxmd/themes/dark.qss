@@ -1,0 +1,172 @@
+/* StaxMD — Dark Theme (Snapdock-style) */
+
+/* ── Global defaults ─────────────────────────────────────── */
+QWidget {
+    background-color: #0f1216;
+    color: #e6e6e6;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: 13px;
+}
+
+/* ── Menu bar ────────────────────────────────────────────── */
+QMenuBar {
+    background-color: #1c1f24;
+    border-bottom: 1px solid #333333;
+    padding: 4px 8px;
+}
+
+QMenuBar::item {
+    background: transparent;
+    padding: 4px 10px;
+    color: #8b949e;
+    border-radius: 4px;
+}
+
+QMenuBar::item:selected {
+    background-color: #30363d;
+    color: #e6e6e6;
+}
+
+/* ── Dropdown menus ──────────────────────────────────────── */
+QMenu {
+    background-color: #1c1f24;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    padding: 4px 0px;
+}
+
+QMenu::item {
+    padding: 6px 20px 6px 16px;
+    color: #c7c7c7;
+}
+
+QMenu::item:selected {
+    background-color: #1e2228;
+    color: #e6e6e6;
+}
+
+/* ── Tab bar ─────────────────────────────────────────────── */
+QWidget#TabBar {
+    background-color: #1c1f24;
+    border-bottom: 1px solid #333333;
+}
+
+QTabBar#DocumentTabs {
+    background: transparent;
+    border: none;
+}
+
+QTabBar#DocumentTabs::tab {
+    background: transparent;
+    color: #8b949e;
+    padding: 8px 16px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin: 0;
+}
+
+QTabBar#DocumentTabs::tab:selected {
+    color: #e6e6e6;
+    border-bottom: 2px solid #4aa3ff;
+    background: transparent;
+}
+
+QTabBar#DocumentTabs::tab:hover {
+    color: #e6e6e6;
+    background-color: #30363d;
+}
+
+QPushButton#NewTabButton {
+    background: transparent;
+    color: #8b949e;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+QPushButton#NewTabButton:hover {
+    background-color: #30363d;
+    color: #e6e6e6;
+}
+
+/* ── Sidebar (file tree) ─────────────────────────────────── */
+QTreeView#FileTreeList {
+    background-color: #181b20;
+    border: none;
+    border-right: 1px solid #333333;
+    padding: 12px;
+    font-size: 13px;
+}
+
+QTreeView::item {
+    padding: 5px 8px;
+    border-radius: 4px;
+    color: #c7c7c7;
+    margin: 1px 4px;
+}
+
+QTreeView::item:hover {
+    background-color: #30363d;
+}
+
+QTreeView::item:selected {
+    background-color: #0d419d;
+    color: #4aa3ff;
+}
+
+/* ── Splitter handles ────────────────────────────────────── */
+QSplitter#AppContainer::handle {
+    background-color: #333333;
+    width: 1px;
+}
+
+QSplitter#WorkspaceSplitter::handle {
+    background-color: #333333;
+    width: 1px;
+}
+
+/* ── Workspace wrapper (floating bubble background) ──────── */
+QWidget#WorkspaceArea {
+    background-color: #0f1216;
+    border: none;
+}
+
+/* ── Editor (source) ─────────────────────────────────────── */
+QTextEdit#MarkdownInputMain {
+    background-color: #1c1f24;
+    color: #e6e6e6;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    padding: 20px 24px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Consolas, monospace;
+    font-size: 13px;
+    selection-background-color: #264f78;
+}
+
+/* ── Preview (rendered markdown) ─────────────────────────── */
+QTextBrowser#PreviewMain {
+    background-color: #1c1f24;
+    color: #e6e6e6;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    padding: 20px 24px;
+    selection-background-color: #264f78;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+QWidget#AppFooter {
+    background-color: #1c1f24;
+    border-top: 1px solid #333333;
+    max-height: 50px;
+}
+
+QWidget#AppFooter QLabel {
+    color: #8b949e;
+    font-size: 12px;
+}
+
+QWidget#AppFooter QLabel#FooterMode {
+    color: #4aa3ff;
+    font-weight: 600;
+}

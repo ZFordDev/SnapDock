@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "staxmd"
+version = "0.1.0"
+description = "StaxDash StaxMD — local-first desktop StaxMD application"
+readme = "README.md"
+license = { text = "EULA" }
+requires-python = ">=3.10"
+
+authors = [
+  { name = "StaxDash", email = "studio@staxdash.com" }
+]
+maintainers = [
+  { name = "StaxDash", email = "studio@staxdash.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "PySide6",,
+"markdown",
+"pymdown-extensions"
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "black", "ruff"]
+
+[tool.setuptools]
+packages = ["staxmd"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "SIM", "BLE"]
+# N802: PySide6 requires camelCase override names (insertFromMimeData, keyPressEvent).
+# BLE001: UI file/rendering code intentionally surfaces errors instead of crashing.
+ignore = ["N802", "BLE001"]
+
+[project.scripts]
+staxmd = "staxmd.main:main"

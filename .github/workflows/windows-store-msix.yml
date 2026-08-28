@@ -201,6 +201,7 @@ jobs:
             msstore publish "${{ github.workspace }}" `
               --inputFile "$($msixFile.FullName)" `
               --appId "9P54JC7GWK1N"
+          }
 
   windows-preview-publish:
     name: Publish signed preview MSIX to GitHub

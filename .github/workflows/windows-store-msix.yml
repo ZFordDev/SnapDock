@@ -182,6 +182,9 @@ jobs:
             --clientId ${{ secrets.AZURE_AD_APPLICATION_CLIENT_ID }} `
             --clientSecret ${{ secrets.AZURE_AD_APPLICATION_SECRET }}
 
+      - name: List accessible Store applications
+        run: msstore apps list
+
       - name: Publish app package
         shell: pwsh
         run: |

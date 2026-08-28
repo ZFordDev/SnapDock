@@ -1,0 +1,307 @@
+name: Windows Store MSIX Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/windows-store-msix.yml"
+      - "assets/**"
+      - "build/**"
+      - "scripts/**"
+      - "src/**"
+      - "index.html"
+      - "main.js"
+      - "package.json"
+      - "package-lock.json"
+  workflow_run:
+    workflows:
+      - SnapDock Release Pipeline
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-store-msix-${{ github.event_name == 'workflow_run' && github.event.workflow_run.id || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows-store-build:
+    name: Stage 2 - Store-specific Windows build
+    if: github.event_name == 'pull_request' || github.event.workflow_run.conclusion == 'success'
+    runs-on: windows-latest
+    outputs:
+      release_tag: ${{ steps.release.outputs.release_tag }}
+      is_prerelease: ${{ steps.release.outputs.is_prerelease }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Resolve release tag
+        id: release
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "pull_request") {
+            "release_tag=" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            "is_prerelease=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            exit 0
+          }
+
+          $expectedSha = "${{ github.event.workflow_run.head_sha }}"
+          $candidate = "${{ github.event.workflow_run.head_branch }}"
+          $releaseTag = $null
+
+          if ($candidate -match '^\d+\.\d+\.\d+(?:-Pre)?$') {
+            $candidateSha = git rev-list -n 1 $candidate
+            if ($LASTEXITCODE -eq 0 -and $candidateSha -eq $expectedSha) {
+              $releaseTag = $candidate
+            }
+          }
+
+          if (-not $releaseTag) {
+            $matchingTags = @(git tag --points-at $expectedSha | Where-Object {
+              $_ -match '^\d+\.\d+\.\d+(?:-Pre)?$'
+            })
+
+            if ($matchingTags.Count -ne 1) {
+              throw "Could not uniquely resolve the release tag for workflow commit $expectedSha."
+            }
+
+            $releaseTag = $matchingTags[0]
+          }
+
+          $isPrerelease = $releaseTag -match '-Pre$'
+          Write-Host "Resolved release tag '$releaseTag' (prerelease=$isPrerelease)."
+          "release_tag=$releaseTag" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "is_prerelease=$($isPrerelease.ToString().ToLowerInvariant())" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Microsoft Store variant
+        run: npm run build:release:store
+
+      - name: Validate Microsoft Store build
+        shell: pwsh
+        run: |
+          if (-not (Test-Path -LiteralPath "dist/win-unpacked/snapdock.exe")) {
+            throw "Store build did not produce dist/win-unpacked/snapdock.exe."
+          }
+
+          if (-not (Test-Path -LiteralPath "build/metadata.json")) {
+            throw "Store build did not produce build/metadata.json."
+          }
+
+          $metadata = Get-Content -Raw -LiteralPath "build/metadata.json" | ConvertFrom-Json
+          if ($metadata.installSource -ne "windows-store") {
+            throw "Store build has unexpected installSource '$($metadata.installSource)'."
+          }
+
+          Write-Host "Validated Store build with installSource=windows-store."
+
+      - name: Locate MakeAppx
+        id: sdk
+        shell: pwsh
+        run: |
+          $makeappx = Get-ChildItem 'C:\Program Files (x86)\Windows Kits\10\bin' -Recurse -Filter MakeAppx.exe |
+            Where-Object { $_.FullName -match '\\x64\\MakeAppx\.exe$' } |
+            Sort-Object { [version]$_.Directory.Parent.Name } -Descending |
+            Select-Object -First 1
+
+          if ($null -eq $makeappx) {
+            throw 'MakeAppx.exe was not found in an x64 Windows SDK directory.'
+          }
+
+          Write-Host "Using $($makeappx.FullName)"
+          "makeappx=$($makeappx.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Build and validate unsigned MSIX
+        shell: pwsh
+        run: |
+          if ("${{ steps.release.outputs.is_prerelease }}" -eq "true") {
+            ./scripts/build-msix.ps1 `
+              -MakeAppxPath "${{ steps.sdk.outputs.makeappx }}" `
+              -PackageName "ZFordDev.SnapDock.Preview" `
+              -DisplayName "SnapDock Preview"
+          } else {
+            ./scripts/build-msix.ps1 -MakeAppxPath "${{ steps.sdk.outputs.makeappx }}"
+          }
+
+      - name: Upload unsigned MSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-store-msix
+          path: dist/*.msix
+          if-no-files-found: error
+          retention-days: 7
+
+  windows-store-publish:
+    name: Publish to Microsoft Store
+    needs: windows-store-build
+    if: >-
+      (github.event_name == 'pull_request' &&
+       github.head_ref == 'windows-store-msix-pipeline' &&
+       github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       needs.windows-store-build.outputs.is_prerelease == 'false')
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Download built MSIX artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-store-msix
+          path: dist
+
+      - name: Setup MSStore CLI
+        uses: microsoft/microsoft-store-apppublisher@v1.4
+
+      - name: Reconfigure store credentials
+        run: |
+          msstore reconfigure `
+            --tenantId ${{ secrets.AZURE_AD_TENANT_ID }} `
+            --sellerId ${{ secrets.SELLER_ID }} `
+            --clientId ${{ secrets.AZURE_AD_APPLICATION_CLIENT_ID }} `
+            --clientSecret ${{ secrets.AZURE_AD_APPLICATION_SECRET }}
+
+      - name: Publish app package
+        shell: pwsh
+        run: |
+          $msixFile = Get-ChildItem -Path "dist" -Filter "*.msix" | Select-Object -First 1
+          if (-not $msixFile) {
+            throw "No .msix package found in dist artifact directory."
+          }
+
+          if ("${{ github.event_name }}" -eq "pull_request") {
+            Write-Host "Uploading $($msixFile.FullName) as a draft Store submission..."
+            msstore publish "${{ github.workspace }}" `
+              --inputFile "$($msixFile.FullName)" `
+              --appId "9P54JC7GWK1N" `
+              --noCommit
+          } else {
+            Write-Host "Publishing $($msixFile.FullName) to Microsoft Store..."
+            msstore publish "${{ github.workspace }}" `
+              --inputFile "$($msixFile.FullName)" `
+              --appId "9P54JC7GWK1N"
+
+  windows-preview-publish:
+    name: Publish signed preview MSIX to GitHub
+    needs: windows-store-build
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      needs.windows-store-build.outputs.is_prerelease == 'true'
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download built preview MSIX artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-store-msix
+          path: dist
+
+      - name: Locate SignTool
+        id: sdk
+        shell: pwsh
+        run: |
+          $signtool = Get-ChildItem 'C:\Program Files (x86)\Windows Kits\10\bin' -Recurse -Filter SignTool.exe |
+            Where-Object { $_.FullName -match '\\x64\\SignTool\.exe$' } |
+            Sort-Object { [version]$_.Directory.Parent.Name } -Descending |
+            Select-Object -First 1
+
+          if ($null -eq $signtool) {
+            throw 'SignTool.exe was not found in an x64 Windows SDK directory.'
+          }
+
+          Write-Host "Using $($signtool.FullName)"
+          "signtool=$($signtool.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Sign preview MSIX
+        shell: pwsh
+        env:
+          WINDOWS_CERT_BASE64: ${{ secrets.WINDOWS_CERT_BASE64 }}
+          WINDOWS_CERT_PASSWORD: ${{ secrets.WINDOWS_CERT_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:WINDOWS_CERT_BASE64)) {
+            throw "WINDOWS_CERT_BASE64 is not configured."
+          }
+          if ([string]::IsNullOrWhiteSpace($env:WINDOWS_CERT_PASSWORD)) {
+            throw "WINDOWS_CERT_PASSWORD is not configured."
+          }
+
+          $certificatePath = Join-Path $env:RUNNER_TEMP "snapdock-preview-signing.pfx"
+          $msixFile = Get-ChildItem -Path "dist" -Filter "*.msix" | Select-Object -First 1
+          if (-not $msixFile) {
+            throw "No preview .msix package found in dist artifact directory."
+          }
+
+          $releasePath = Join-Path $msixFile.DirectoryName "SnapDock-${{ needs.windows-store-build.outputs.release_tag }}.msix"
+
+          try {
+            [System.IO.File]::WriteAllBytes(
+              $certificatePath,
+              [System.Convert]::FromBase64String($env:WINDOWS_CERT_BASE64)
+            )
+
+            $securePassword = ConvertTo-SecureString $env:WINDOWS_CERT_PASSWORD -AsPlainText -Force
+            $certificate = Get-PfxCertificate -FilePath $certificatePath -Password $securePassword
+            if (-not $certificate.HasPrivateKey) {
+              throw "The configured certificate does not contain a private key."
+            }
+            if ($certificate.Subject -ne "CN=E43334AF-D75A-4768-9AE4-C8ED00E3A71B") {
+              throw "The certificate subject does not match the MSIX manifest publisher."
+            }
+            if ($certificate.NotAfter -le (Get-Date)) {
+              throw "The configured signing certificate has expired."
+            }
+
+            Move-Item -LiteralPath $msixFile.FullName -Destination $releasePath -Force
+
+            & "${{ steps.sdk.outputs.signtool }}" sign `
+              /fd SHA256 `
+              /f $certificatePath `
+              /p $env:WINDOWS_CERT_PASSWORD `
+              /tr "http://timestamp.digicert.com" `
+              /td SHA256 `
+              $releasePath
+            if ($LASTEXITCODE -ne 0) {
+              throw "SignTool failed with exit code $LASTEXITCODE."
+            }
+
+            & "${{ steps.sdk.outputs.signtool }}" verify /pa $releasePath
+            if ($LASTEXITCODE -ne 0) {
+              throw "SignTool verification failed with exit code $LASTEXITCODE."
+            }
+          } finally {
+            if (Test-Path -LiteralPath $certificatePath) {
+              Remove-Item -LiteralPath $certificatePath -Force
+            }
+          }
+
+      - name: Add signed MSIX to GitHub prerelease
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ needs.windows-store-build.outputs.release_tag }}
+          files: dist/SnapDock-${{ needs.windows-store-build.outputs.release_tag }}.msix
+          prerelease: true
+          fail_on_unmatched_files: true

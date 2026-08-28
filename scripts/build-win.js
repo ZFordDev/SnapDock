@@ -31,9 +31,14 @@ try {
   console.log("\n→ Bundling renderer (esbuild)...");
   execSync(`node "${bundler}"`, { stdio: "inherit" });
 
-  // 3. Build Windows NSIS installer
-  console.log("\n→ Running electron-builder (Windows NSIS)...");
-  execSync(`npx electron-builder --win nsis --publish never`, { stdio: "inherit" });
+  // 3. Build the requested Windows distribution
+  if (isStore) {
+    console.log("\n→ Running electron-builder (Store application payload)...");
+    execSync(`npx electron-builder --win --dir --publish never`, { stdio: "inherit" });
+  } else {
+    console.log("\n→ Running electron-builder (Windows NSIS)...");
+    execSync(`npx electron-builder --win nsis --publish never`, { stdio: "inherit" });
+  }
 
   console.log("\n✔ Windows build complete.\n");
 } catch (err) {

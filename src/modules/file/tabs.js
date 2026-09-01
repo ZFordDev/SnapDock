@@ -1,12 +1,23 @@
 // src/modules/file/tabs.js
 import { saveCurrentFile } from "./operations.js";
 import { updateMetrics } from "../ui/metrics.js";
+import { saveSession } from "./session.js";
 
 let tabs = [];
 let activeTabId = null;
 
 const getEditor = () => document.getElementById("markdownInputMain");
 let tabBarScrollSetup = false;
+
+// Persist the session (navigation metadata only) after tab mutations. Only a
+// saved-file tab can be the session's active file. This is a no-op unless
+// session restoration is enabled (see session.js).
+function persistSession() {
+  const activeFile = activeTabId
+    ? (tabs.find(t => t.id === activeTabId)?.filePath || null)
+    : null;
+  saveSession({ tabs, activeFile });
+}
 
 function isTabBarScrollable(tabBar) {
   return tabBar.scrollWidth > tabBar.clientWidth + 1;
@@ -75,6 +86,9 @@ export function createTab({ filePath = null, content = "", title = "Untitled" } 
   };
 
   tabs.push(tab);
+
+  // Only tabs that correspond to a saved file are part of a restorable session.
+  if (tab.filePath) persistSession();
   return tab;
 }
 
@@ -120,6 +134,8 @@ export function switchToTab(tabId) {
   }
 
   renderTabs();
+  // Switching the active tab changes which file is active in the session.
+  persistSession();
 }
 
 /**
@@ -150,6 +166,7 @@ export async function closeTab(tabId) {
     }
   } else {
     renderTabs();
+    persistSession();
   }
 }
 
@@ -164,6 +181,8 @@ export function moveTab(fromIndex, toIndex) {
   const [moved] = tabs.splice(fromIndex, 1);
   tabs.splice(toIndex, 0, moved);
   renderTabs();
+  // Reordering changes tab order in the session.
+  persistSession();
 }
 
 // --- Drag & Drop state ---

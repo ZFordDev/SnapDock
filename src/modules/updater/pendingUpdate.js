@@ -69,4 +69,49 @@ function clearPendingUpdate() {
   }
 }
 
-module.exports = { savePendingUpdate, getPendingUpdate, clearPendingUpdate };
+/**
+ * Resolve a persisted pending update against the version we actually
+ * launched with, so we can recover from interrupted/aborted installs.
+ *
+ * Returns one of:
+ *   - { status: "applied", version }   current app version matches the pending
+ *     update, so the install succeeded → marker is cleared.
+ *   - { status: "ready", version }     pending update still outstanding and the
+ *     app is still on the old version → update can be applied.
+ *   - { status: "stale", version }     app is neither the old nor the new
+ *     version (e.g. partial/aborted install left an inconsistent state) →
+ *     marker is cleared and the update should be re-fetched.
+ *   - null                             no pending update exists.
+ *
+ * @param {string} currentVersion - the version SnapDock launched with.
+ */
+function resolvePendingUpdate(currentVersion) {
+  const pending = getPendingUpdate();
+  if (!pending) return null;
+
+  if (pending.version === currentVersion) {
+    // The update we downloaded is the version we're now running → applied.
+    clearPendingUpdate();
+    return { status: "applied", version: pending.version };
+  }
+
+  if (pending.currentVersion === currentVersion) {
+    // Still on the version the update was meant to replace → installable.
+    return { status: "ready", version: pending.version, currentVersion };
+  }
+
+  // Neither target version matches — the install was interrupted/corrupted.
+  clearPendingUpdate();
+  log.warn(
+    `[updater] Pending update ${pending.version} did not match running ` +
+      `${currentVersion}; cleared stale marker`
+  );
+  return { status: "stale", version: pending.version, currentVersion };
+}
+
+module.exports = {
+  savePendingUpdate,
+  getPendingUpdate,
+  clearPendingUpdate,
+  resolvePendingUpdate
+};

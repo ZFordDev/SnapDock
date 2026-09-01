@@ -78,6 +78,11 @@
         "snap"
       ]
     },
+    "publish": {
+      "provider": "github",
+      "owner": "ZFordDev",
+      "repo": "SnapDock"
+    },
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",

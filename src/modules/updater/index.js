@@ -1,8 +1,8 @@
 // src/modules/updater/index.js
-const { ipcMain } = require("electron");
+const { ipcMain, app } = require("electron");
 const { getInstallSource } = require("./detectSource");
 const updater = require("./download");
-const { getPendingUpdate, clearPendingUpdate } = require("./pendingUpdate");
+const { resolvePendingUpdate, getPendingUpdate } = require("./pendingUpdate");
 
 module.exports = function setupUpdater(mainWindow) {
 
@@ -20,7 +20,11 @@ module.exports = function setupUpdater(mainWindow) {
   // Expose any persisted pending update
   // -----------------------------
   ipcMain.handle("update:pending", () => {
-    return getPendingUpdate();
+    // Resolving here also clears stale/applied markers and surfaces recovery
+    // info (ready vs applied vs stale) to the renderer on startup.
+    const resolved = resolvePendingUpdate(app.getVersion());
+    if (!resolved) return null;
+    return resolved;
   });
 
   // -----------------------------
@@ -84,9 +88,12 @@ module.exports = function setupUpdater(mainWindow) {
   // close/restart driven update applies
   // -----------------------------
   return {
-    // True when a downloaded update is persisted as pending and will be
-    // applied if the user quits or restarts.
-    hasPendingUpdate: () => !!getPendingUpdate(),
+    // True when a downloaded update is persisted as pending and is still
+    // installable (the app is on the version the update targets for replace).
+    hasPendingUpdate: () => {
+      const resolved = resolvePendingUpdate(app.getVersion());
+      return resolved && resolved.status === "ready";
+    },
     // Apply a persisted pending update immediately (used on close).
     applyPendingUpdate: () => {
       updater.installUpdate();

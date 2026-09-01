@@ -1,7 +1,7 @@
 // src/modules/updater/download.js
 const { autoUpdater } = require("electron-updater");
 const log = require("electron-log");
-const { savePendingUpdate, clearPendingUpdate } = require("./pendingUpdate");
+const { savePendingUpdate } = require("./pendingUpdate");
 
 // Logging
 autoUpdater.logger = log;
@@ -45,7 +45,10 @@ async function downloadUpdate() {
 // -----------------------------
 function installUpdate() {
   try {
-    clearPendingUpdate();
+    // NOTE: we intentionally do NOT clear the pending marker here. Leaving it
+    // in place lets us detect on next launch whether the install actually
+    // applied (see resolvePendingUpdate in pendingUpdate.js). The marker is
+    // cleared once the new version is confirmed running.
     autoUpdater.quitAndInstall();
   } catch (err) {
     log.error("[updater] Failed to install update:", err);

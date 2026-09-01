@@ -223,12 +223,17 @@ function initUpdateButton(btn) {
     });
   };
 
-  // Startup: if a download was left pending from a previous session, surface
-  // the ready state immediately instead of requiring a re-download or a
-  // specific Tools->Update sequence.
+  // Startup: check if a download was left pending from a previous session.
+  // The main process resolves it against the running version (see
+  // pendingUpdate.resolvePendingUpdate) so we know whether it is ready to
+  // apply, was already applied, or is stale after an interrupted install.
   window.electronAPI.getPendingUpdate().then((pending) => {
-    if (pending && pending.version) {
+    if (pending && pending.status === "ready") {
       applyState("ready");
+    } else if (pending && pending.status === "stale") {
+      applyState("error");
+      setFooterStatus("Previous update was interrupted — check for updates", "error");
+      setTimeout(() => applyState("idle"), 5000);
     } else {
       checkForUpdatesOnLaunch(btn, applyState);
     }

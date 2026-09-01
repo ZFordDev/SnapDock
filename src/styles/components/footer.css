@@ -73,8 +73,49 @@
   display: none;
 }
 
+/* Available — an update exists but hasn't been downloaded. */
+.update-status--available {
+  color: var(--tab-accent);
+  opacity: 1;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Ready to install — emphasise and make clickable to apply the update. */
 .update-status--ready {
   color: var(--tab-accent);
   opacity: 1;
   font-weight: 600;
+  cursor: pointer;
+}
+
+/* Downloading — show active progress colour. */
+.update-status--downloading {
+  color: #1e90ff;
+  opacity: 1;
+}
+
+/* Checking / disabled — dim slightly. */
+.update-status--checking,
+.update-status--disabled {
+  opacity: 0.6;
+}
+
+/* Error — error colour. */
+.update-status--error {
+  color: #d9534f;
+  opacity: 1;
+  font-weight: 600;
+}
+
+/* Up to date / installing states. */
+.update-status--upToDate,
+.update-status--installing {
+  opacity: 1;
+}
+
+/* Hover affordance on clickable states (ready). */
+.update-status--clickable:hover {
+  text-decoration: underline;
+  opacity: 1;
 }

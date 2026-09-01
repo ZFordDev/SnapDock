@@ -135,6 +135,8 @@ The **Tools** menu also includes Light, Dark, Solarized, Arctic Dark, and Forest
 
 Select **Tools → Update** to check for updates when that option is supported by your installation. Microsoft Store and Snap Store packages are normally updated by their stores, and update behaviour can differ for other Linux packages and WSL.
 
+Once an update has downloaded, it is kept pending until applied. You can apply it from the Tools menu, by selecting the status-bar indicator, or by closing SnapDock while the update is pending. A pending update is not lost if you close and reopen the app.
+
 You can continue using SnapDock offline; an internet connection is only needed to check for or download updates and to open online links.
 
 ## Troubleshooting

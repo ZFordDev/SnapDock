@@ -81,6 +81,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
   checkForUpdates: () =>
     ipcRenderer.invoke("update:check"),
 
+  getPendingUpdate: () =>
+    ipcRenderer.invoke("update:pending"),
+
   downloadUpdate: () =>
     ipcRenderer.invoke("update:download"),
 

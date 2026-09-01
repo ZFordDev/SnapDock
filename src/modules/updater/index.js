@@ -1,7 +1,8 @@
 // src/modules/updater/index.js
-const { ipcMain } = require("electron");
+const { ipcMain, app } = require("electron");
 const { getInstallSource } = require("./detectSource");
 const updater = require("./download");
+const { resolvePendingUpdate, getPendingUpdate } = require("./pendingUpdate");
 
 module.exports = function setupUpdater(mainWindow) {
 
@@ -13,6 +14,17 @@ module.exports = function setupUpdater(mainWindow) {
   // ---------------------------------
   ipcMain.handle("update:source", () => {
     return source;
+  });
+
+  // -----------------------------
+  // Expose any persisted pending update
+  // -----------------------------
+  ipcMain.handle("update:pending", () => {
+    // Resolving here also clears stale/applied markers and surfaces recovery
+    // info (ready vs applied vs stale) to the renderer on startup.
+    const resolved = resolvePendingUpdate(app.getVersion());
+    if (!resolved) return null;
+    return resolved;
   });
 
   // -----------------------------
@@ -37,7 +49,8 @@ module.exports = function setupUpdater(mainWindow) {
       error: "Updates disabled for this install source."
     }));
 
-    return; // Do NOT wire autoUpdater events
+    // Store installs never have a pending update to apply on close.
+    return { hasPendingUpdate: () => false };
   }
 
   // -----------------------------
@@ -69,4 +82,21 @@ module.exports = function setupUpdater(mainWindow) {
   updater.onError(err => {
     mainWindow.webContents.send("update:error", err.message);
   });
+
+  // -----------------------------
+  // API consumed by main process for
+  // close/restart driven update applies
+  // -----------------------------
+  return {
+    // True when a downloaded update is persisted as pending and is still
+    // installable (the app is on the version the update targets for replace).
+    hasPendingUpdate: () => {
+      const resolved = resolvePendingUpdate(app.getVersion());
+      return resolved && resolved.status === "ready";
+    },
+    // Apply a persisted pending update immediately (used on close).
+    applyPendingUpdate: () => {
+      updater.installUpdate();
+    }
+  };
 };

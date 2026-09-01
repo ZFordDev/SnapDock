@@ -312,7 +312,38 @@ body.dark-theme .title-row {
 }
 
 /* ─── Update button states ─── */
+/* Each updater state maps to a distinct highlight so the user can tell at a
+   glance what the updater is doing, rather than relying on button text alone.
+   (See dropdownMenus.js UPDATE_STATES for the driving state machine.) */
+
+#updateBtn {
+  color: var(--tab-text);
+}
+
 #updateBtn.update-available {
   color: var(--tab-accent);
   font-weight: 600;
+}
+
+#updateBtn.update-ready,
+#updateBtn.update-installing {
+  color: var(--tab-accent);
+  font-weight: 600;
+}
+
+#updateBtn.update-downloading {
+  color: #1e90ff; /* visible against both light and dark themes */
+}
+
+#updateBtn.update-checking {
+  opacity: 0.6;
+}
+
+#updateBtn.update-error {
+  color: #d9534f;
+  font-weight: 600;
+}
+
+#updateBtn.update-disabled {
+  opacity: 0.6;
 }

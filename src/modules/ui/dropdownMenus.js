@@ -143,76 +143,173 @@ function initSpellcheckButton(btn) {
   });
 }
 
+// Updater state machine.
+//
+// All update UI is driven from a single `state` value below, so the Tools
+// menu button and the footer indicator never drift out of sync. Each state
+// maps to a button label, footer text, and optional CSS modifiers.
+const UPDATE_STATES = {
+  idle: { btn: "Update", footer: "" },
+  available: { btn: "Update Available", footer: "Update available" },
+  checking: { btn: "Checking...", footer: "Checking for updates…" },
+  downloading: { btn: "Downloading…", footer: "Downloading update…" },
+  ready: { btn: "Restart to Update", footer: "Update ready — restart to apply" },
+  installing: { btn: "Installing…", footer: "Installing update…" },
+  upToDate: { btn: "No Updates", footer: "Up to date ✓" },
+  error: { btn: "Update Failed", footer: "Update failed" },
+  disabled: { btn: "Update (managed by store)", footer: "Updates are managed by your app store" },
+};
+
 function initUpdateButton(btn) {
-  // Check on launch
-  checkForUpdatesOnLaunch(btn);
+  let state = "idle";
 
-  // Manual check
-  btn.addEventListener("click", async () => {
-    btn.disabled = true;
-    btn.textContent = "Checking...";
-    setFooterStatus("Checking for updates…");
+  // Apply the given state to both button and footer from one source of truth.
+  const applyState = (next, extra) => {
+    state = next;
+    const spec = UPDATE_STATES[next];
 
-    const result = await window.electronAPI.checkForUpdates();
+    btn.textContent = spec.btn;
+    btn.disabled = next === "checking" || next === "downloading";
 
-    if (!result || !result.updateAvailable) {
-      btn.textContent = "No Updates";
-      setFooterStatus("Up to date ✓");
-      setTimeout(() => {
-        btn.textContent = "Update";
-        btn.disabled = false;
-        setFooterStatus("");
-      }, 2500);
-      return;
+    // Wire the button action based on state.
+    btn.onclick = null;
+    if (next === "ready" || next === "installing") {
+      btn.onclick = () => {
+        applyState("installing", "BEFORE_QUIT");
+        window.electronAPI.installUpdate();
+      };
+    } else if (next === "available") {
+      btn.onclick = async () => {
+        applyState("downloading");
+        await window.electronAPI.downloadUpdate();
+      };
+    } else if (next !== "checking" && next !== "downloading") {
+      btn.onclick = () => manualCheck(btn, applyState);
     }
 
-    btn.textContent = "Downloading...";
-    setFooterStatus("Downloading update…");
-    await window.electronAPI.downloadUpdate();
+    // Sync button modifier classes (used by header.css).
+    btn.classList.remove(
+      "update-available",
+      "update-checking",
+      "update-downloading",
+      "update-ready",
+      "update-installing",
+      "update-error",
+      "update-disabled"
+    );
+    if (next === "available") btn.classList.add("update-available");
+    else if (next === "checking") btn.classList.add("update-checking");
+    else if (next === "downloading") btn.classList.add("update-downloading");
+    else if (next === "ready") btn.classList.add("update-ready");
+    else if (next === "installing") btn.classList.add("update-installing");
+    else if (next === "error") btn.classList.add("update-error");
+    else if (next === "disabled") btn.classList.add("update-disabled");
+
+    // Update footer indicator. Browser window always shows a raw status; when
+    // the state is "ready" we also make the footer clickable to apply.
+    let footerText = spec.footer;
+    if (next === "downloading" && extra) {
+      footerText = `Downloading update… ${extra}%`;
+      btn.textContent = `Downloading ${extra}%`;
+    }
+    setFooterStatus(footerText, next, () => {
+      if (state === "ready" || state === "installing") {
+        applyState("installing", "BEFORE_QUIT");
+        window.electronAPI.installUpdate();
+      } else if (state === "available") {
+        applyState("downloading");
+        window.electronAPI.downloadUpdate();
+      }
+    });
+  };
+
+  // Startup: if a download was left pending from a previous session, surface
+  // the ready state immediately instead of requiring a re-download or a
+  // specific Tools->Update sequence.
+  window.electronAPI.getPendingUpdate().then((pending) => {
+    if (pending && pending.version) {
+      applyState("ready");
+    } else {
+      checkForUpdatesOnLaunch(btn, applyState);
+    }
   });
 
   // Progress
   window.electronAPI.onUpdateProgress((progress) => {
-    const pct = Math.floor(progress.percent);
-    btn.textContent = `Downloading ${pct}%`;
-    setFooterStatus(`Downloading update… ${pct}%`);
+    applyState("downloading", Math.floor(progress.percent));
   });
 
   // Ready
   window.electronAPI.onUpdateReady(() => {
-    btn.textContent = "Restart to Update";
-    btn.disabled = false;
-    btn.onclick = () => window.electronAPI.installUpdate();
-    setFooterStatus("Update ready — restart to apply", "ready");
+    applyState("ready");
   });
 
   // Error
   window.electronAPI.onUpdateError((err) => {
-    btn.textContent = "Update Failed";
-    setFooterStatus("Update failed");
+    applyState("error");
     console.error("Update error:", err);
   });
+
+  // No update found (either on launch check or after a manual check).
+  window.electronAPI.onUpdateNone(() => {
+    if (state !== "downloading" && state !== "ready") {
+      applyState("upToDate");
+      setTimeout(() => applyState("idle"), 2500);
+    }
+  });
+
+  // Guard against timeout/double-click by keeping a disabled state while the
+  // manual check is in flight; re-enable via applyState.
+  async function manualCheck(btn, apply) {
+    apply("checking");
+    const result = await window.electronAPI.checkForUpdates();
+    if (!result) return;
+
+    if (result.disabled) {
+      apply("disabled");
+      setTimeout(() => apply("idle"), 2500);
+      return;
+    }
+
+    if (!result.updateAvailable) {
+      apply("upToDate");
+      setTimeout(() => apply("idle"), 2500);
+      return;
+    }
+
+    apply("downloading");
+    await window.electronAPI.downloadUpdate();
+  }
 }
 
-async function checkForUpdatesOnLaunch(btn) {
+async function checkForUpdatesOnLaunch(btn, applyState) {
   const result = await window.electronAPI.checkForUpdates();
-  if (result?.updateAvailable) {
-    btn.classList.add("update-available");
-    btn.textContent = "Update Available";
-    setFooterStatus("Update available", "ready");
+  if (!result || result.disabled) {
+    applyState("disabled");
+    setTimeout(() => applyState("idle"), 5000);
+    return;
+  }
+  if (result.updateAvailable) {
+    applyState("available");
   }
 }
 
 /**
  * Mirror update status into the footer bar.
- * @param {string} text  – status text (empty string to clear)
- * @param {string} [state] – optional CSS modifier: "ready" | "error"
+ * @param {string} text – status text (empty string to clear)
+ * @param {string} [state] – optional updater state ("ready", "error", ...)
+ * @param {Function} [onClick] – optional click handler (e.g. apply update)
  */
-function setFooterStatus(text, state) {
+function setFooterStatus(text, state, onClick) {
   const el = document.getElementById("updateStatus");
   if (!el) return;
   el.textContent = text;
   el.className = "update-status" + (state ? ` update-status--${state}` : "");
+
+  // Make the footer indicator clickable when an action is available (e.g.
+  // "ready" -> apply update). Avoids relying on the Tools->Update route.
+  el.onclick = onClick || null;
+  el.classList.toggle("update-status--clickable", !!onClick);
 }
 
 // ─── Helpers ───────────────────────────────────────────────────

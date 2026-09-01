@@ -2,6 +2,7 @@
 const { ipcMain } = require("electron");
 const { getInstallSource } = require("./detectSource");
 const updater = require("./download");
+const { getPendingUpdate } = require("./pendingUpdate");
 
 module.exports = function setupUpdater(mainWindow) {
 
@@ -13,6 +14,13 @@ module.exports = function setupUpdater(mainWindow) {
   // ---------------------------------
   ipcMain.handle("update:source", () => {
     return source;
+  });
+
+  // -----------------------------
+  // Expose any persisted pending update
+  // -----------------------------
+  ipcMain.handle("update:pending", () => {
+    return getPendingUpdate();
   });
 
   // -----------------------------

@@ -1,6 +1,7 @@
 // src/modules/updater/download.js
 const { autoUpdater } = require("electron-updater");
 const log = require("electron-log");
+const { savePendingUpdate, clearPendingUpdate } = require("./pendingUpdate");
 
 // Logging
 autoUpdater.logger = log;
@@ -44,6 +45,7 @@ async function downloadUpdate() {
 // -----------------------------
 function installUpdate() {
   try {
+    clearPendingUpdate();
     autoUpdater.quitAndInstall();
   } catch (err) {
     log.error("[updater] Failed to install update:", err);
@@ -66,7 +68,12 @@ function onProgress(cb) {
 }
 
 function onReady(cb) {
-  autoUpdater.on("update-downloaded", info => cb(info));
+  autoUpdater.on("update-downloaded", info => {
+    // Persist the pending update so it survives app restarts. It remains
+    // pending until successfully installed (see installUpdate).
+    savePendingUpdate({ version: info.version, currentVersion: autoUpdater.currentVersion.version });
+    cb(info);
+  });
 }
 
 function onError(cb) {

@@ -131,6 +131,16 @@ Open **Tools** to turn spellcheck on or off. When spellcheck is enabled, right-c
 
 The **Tools** menu also includes Light, Dark, Solarized, Arctic Dark, and Forest themes. Your selected theme is remembered between sessions.
 
+## Session restoration
+
+Session restoration is an opt-in setting under **Tools → Restore Session**. When enabled, SnapDock remembers the open workspace and the saved-file tabs that were open (their order and the active tab) and reopens them on the next start.
+
+- Only **saved** files are restored. Unsaved and untitled tabs, their content, and undo/scroll position are not saved.
+- Files are reloaded from disk on start; the document contents you see come from the saved file, not a snapshot.
+- Missing, moved, or inaccessible files are skipped without blocking startup.
+
+Disable **Tools → Restore Session** to stop restoring tabs; doing so clears the stored session. Choosing **Save → Close Project** also clears the stored session. Users remain responsible for saving changes normally.
+
 ## Updates
 
 Select **Tools → Update** to check for updates when that option is supported by your installation. Microsoft Store and Snap Store packages are normally updated by their stores, and update behaviour can differ for other Linux packages and WSL.

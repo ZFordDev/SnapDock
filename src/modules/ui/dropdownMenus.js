@@ -177,10 +177,9 @@ function initSessionRestoreButton(btn) {
 
     if (enabled) {
       // Persist the current navigation state immediately so the session
-      // reflects what is open right now.
-      // note: activeFile is computed inside saveSession when not provided by
-      // reading the tabs array; pass current active tab by path.
-      const active = getActiveTab();
+      // reflects what is open right now. Guard on tabs.length because
+      // getActiveTab() creates an untitled tab when none exist.
+      const active = tabs.length ? getActiveTab() : null;
       saveSession({
         tabs,
         activeFile: active && active.filePath ? active.filePath : null,

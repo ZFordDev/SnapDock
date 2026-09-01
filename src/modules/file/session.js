@@ -26,9 +26,12 @@ export function setSessionRestoreEnabled(enabled) {
 
 // ------------------------------------------------------------------
 // Session metadata key (workspace-scoped)
-function getSessionKey() {
-  const workspace = loadWorkspace();
+function keyForWorkspace(workspace) {
   return workspace ? `${SESSION_PREFIX}${workspace}` : null;
+}
+
+function getSessionKey() {
+  return keyForWorkspace(loadWorkspace());
 }
 
 // ------------------------------------------------------------------
@@ -59,12 +62,14 @@ export function saveSession({ tabs, activeFile }) {
 }
 
 // ------------------------------------------------------------------
-// Load the stored session metadata for the current workspace.
-// Returns null when disabled, no session exists, or the data is corrupt.
-export function loadSession() {
+// Load the stored session metadata. Pass an explicit workspace path to read
+// a specific session (used at startup and to enforce workspace isolation);
+// when omitted, the current persisted workspace is used. Returns null when
+// disabled, no session exists, or the data is corrupt.
+export function loadSession(workspacePath) {
   if (!isSessionRestoreEnabled()) return null;
 
-  const key = getSessionKey();
+  const key = keyForWorkspace(workspacePath || loadWorkspace());
   if (!key) return null;
 
   let data = null;
@@ -91,3 +96,39 @@ export function clearSession() {
     }
   }
 }
+
+// ------------------------------------------------------------------
+// Reopen the saved-file tabs for a workspace, in order, and restore the
+// previously active tab. Files are (re)loaded from disk — never from
+// localStorage — and anything missing/inaccessible is skipped. This must be
+// called after the workspace is loaded (see app.js / tree.js event).
+export function initSessionRestore() {
+  document.addEventListener("snapdock:workspaceLoaded", async (e) => {
+    const workspace = e.detail.path;
+    if (!workspace) return;
+
+    const session = loadSession(workspace);
+    if (!session || !Array.isArray(session.openFiles)) return;
+
+    // Enforce workspace isolation: only restore files that live under the
+    // triggered workspace so a stale/foreign session cannot leak in.
+    const { handleFileOpen } = await import("./open.js");
+    const { switchToTabByPath } = await import("./tabs.js");
+    const sep = workspace.includes("\\") ? "\\" : "/";
+    const prefix = workspace.endsWith(sep) ? workspace : workspace + sep;
+
+    for (const filePath of session.openFiles) {
+      if (typeof filePath !== "string") continue;
+      if (!filePath.startsWith(prefix)) continue; // isolation guard
+      const name = filePath.split(/[\\/]/).pop();
+      // handleFileOpen loads from disk and returns early on missing files.
+      await handleFileOpen(filePath, name);
+    }
+
+    // Restore the previously active saved-file tab, if it was reopened.
+    if (session.activeFile) {
+      switchToTabByPath(session.activeFile);
+    }
+  });
+}
+

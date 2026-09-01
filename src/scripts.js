@@ -11,6 +11,7 @@ import { initDropdownToggles, initToolsDropdown } from "./modules/ui/dropdownMen
 import { initMetrics } from "./modules/ui/metrics.js";
 import { initEditorFont } from "./modules/ui/editorFont.mjs";
 import { clearWorkspace } from "./modules/file/workspace.js";
+import { initSessionRestore, clearSession } from "./modules/file/session.js";
 import { initEditorIndent } from "./modules/ui/editorIndent.js";
 
 // Helper
@@ -42,11 +43,16 @@ window.workspaceAPI.onSaveAllForCloseRequest(async() => {
 
 window.workspaceAPI.onClearForCloseRequest(() => {
   clearWorkspace();
+  clearSession();
   window.workspaceAPI.sendClearForCloseResult();
 });
 
 // --- MAIN BOOTSTRAP ---
 window.addEventListener("DOMContentLoaded", () => {
+
+  // Register the session restore listener BEFORE initApp() so it can catch
+  // the startup snapdock:workspaceLoaded event dispatched during initApp.
+  initSessionRestore();
 
   // Core App Initialization
   initApp();

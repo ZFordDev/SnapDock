@@ -6,6 +6,13 @@
 import { applyTheme } from "./theme.js";
 import { openHelpModal } from "./help.js";
 import { setEditorFont } from "./editorFont.mjs";
+import {
+  isSessionRestoreEnabled,
+  setSessionRestoreEnabled,
+  clearSession,
+  saveSession,
+} from "../file/session.js";
+import { tabs, getActiveTab } from "../file/tabs.js";
 
 // ─── Public API ────────────────────────────────────────────────
 
@@ -62,6 +69,12 @@ export function initToolsDropdown() {
   const spellcheckBtn = document.getElementById("spellcheckBtn");
   if (spellcheckBtn) {
     initSpellcheckButton(spellcheckBtn);
+  }
+
+  // ── Session restoration (opt-in) ──
+  const restoreSessionBtn = document.getElementById("restoreSessionBtn");
+  if (restoreSessionBtn) {
+    initSessionRestoreButton(restoreSessionBtn);
   }
 
   // ── Themes ──
@@ -139,6 +152,44 @@ function initSpellcheckButton(btn) {
   btn.addEventListener("click", async () => {
     const nextState = btn.dataset.enabled !== "true";
     const enabled = await window.electronAPI.setSpellcheckState(nextState);
+    applyState(enabled);
+  });
+}
+
+// Session restoration toggle (opt-in, issue #244).
+//
+// Turning the feature on/off is persisted. Turning it OFF clears any stored
+// session metadata (per acceptance criteria), then re-records the current
+// navigation state so that re-enabling is not fed stale tab data.
+function initSessionRestoreButton(btn) {
+  const applyState = (enabled) => {
+    btn.dataset.enabled = String(enabled);
+    btn.textContent = enabled ? "Restore Session: On" : "Restore Session: Off";
+    btn.classList.toggle("active", enabled);
+    btn.setAttribute("aria-pressed", String(enabled));
+  };
+
+  applyState(isSessionRestoreEnabled());
+
+  btn.addEventListener("click", () => {
+    const enabled = !isSessionRestoreEnabled();
+    setSessionRestoreEnabled(enabled);
+
+    if (enabled) {
+      // Persist the current navigation state immediately so the session
+      // reflects what is open right now.
+      // note: activeFile is computed inside saveSession when not provided by
+      // reading the tabs array; pass current active tab by path.
+      const active = getActiveTab();
+      saveSession({
+        tabs,
+        activeFile: active && active.filePath ? active.filePath : null,
+      });
+    } else {
+      // Disabling clears stored session metadata.
+      clearSession();
+    }
+
     applyState(enabled);
   });
 }

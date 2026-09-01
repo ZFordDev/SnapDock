@@ -39,6 +39,9 @@ let currentWorkspacePath = null;
 let mainWindow;
 let forceClose = false;
 let relaunchAfterClose = false;
+// Handle to the updater API returned by setupUpdater(); used to apply a
+// pending update when the user closes or restarts SnapDock.
+let updater = null;
 
 /**
  * FIX 241: Request dirty state from renderer with a timeout.
@@ -115,6 +118,15 @@ function applySpellcheckState(enabled, targetWindow = mainWindow) {
 }
 
 function finishWindowClose() {
+  // If a downloaded update is pending, apply it now rather than doing a
+  // plain close. This gives the "close SnapDock to update" workflow a real
+  // implementation (previously it was a no-op). quitAndInstall() quits the
+  // app and runs the installer to apply + relaunch the new version.
+  if (updater && updater.hasPendingUpdate()) {
+    updater.applyPendingUpdate();
+    return;
+  }
+
   if (relaunchAfterClose) {
     ipcMain.once("workspace:clear-for-close:result", () => {
       app.relaunch();
@@ -285,7 +297,7 @@ function createWindow() {
       finishWindowClose();
     }
   });
-  setupUpdater(mainWindow);
+  updater = setupUpdater(mainWindow);
   mainWindow.loadFile("index.html");
 
   

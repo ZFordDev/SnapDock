@@ -2,7 +2,7 @@
 const { ipcMain } = require("electron");
 const { getInstallSource } = require("./detectSource");
 const updater = require("./download");
-const { getPendingUpdate } = require("./pendingUpdate");
+const { getPendingUpdate, clearPendingUpdate } = require("./pendingUpdate");
 
 module.exports = function setupUpdater(mainWindow) {
 
@@ -45,7 +45,8 @@ module.exports = function setupUpdater(mainWindow) {
       error: "Updates disabled for this install source."
     }));
 
-    return; // Do NOT wire autoUpdater events
+    // Store installs never have a pending update to apply on close.
+    return { hasPendingUpdate: () => false };
   }
 
   // -----------------------------
@@ -77,4 +78,18 @@ module.exports = function setupUpdater(mainWindow) {
   updater.onError(err => {
     mainWindow.webContents.send("update:error", err.message);
   });
+
+  // -----------------------------
+  // API consumed by main process for
+  // close/restart driven update applies
+  // -----------------------------
+  return {
+    // True when a downloaded update is persisted as pending and will be
+    // applied if the user quits or restarts.
+    hasPendingUpdate: () => !!getPendingUpdate(),
+    // Apply a persisted pending update immediately (used on close).
+    applyPendingUpdate: () => {
+      updater.installUpdate();
+    }
+  };
 };

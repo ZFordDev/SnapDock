@@ -1,6 +1,6 @@
 name: markdown-workspace
 base: core22
-version: '3.3.1.1'
+version: '3.3.2.1'
 
 title: SnapDock - Markdown Workspace
 summary: Fast, clean Markdown editor
@@ -42,7 +42,7 @@ parts:
     source: .
     organize:
       snapdock.desktop: meta/gui/snapdock.desktop
-      assets/snapdock.png: meta/gui/snapdock.png
+      assets/icons/icon_512x512.png: meta/gui/snapdock.png
     prime:
       - meta/gui/snapdock.desktop
       - meta/gui/snapdock.png

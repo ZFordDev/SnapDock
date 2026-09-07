@@ -37,12 +37,15 @@ SnapDock gives you a focused place to write, organise, and preview Markdown with
 
 Choose your preferred store for straightforward installation and updates.
 
-> [!IMPORTANT]
-> **Microsoft Store update issue:** We are aware that updates for the Windows Store release may currently fail. We are investigating and working on a fix. Existing installations can continue to be used in the meantime; please check back here for updates.
-
 ### Microsoft Store
 
 [![Download from the Microsoft Store](https://get.microsoft.com/images/en-us%20dark.svg)](https://apps.microsoft.com/detail/9P54JC7GWK1N)
+
+Microsoft Store installations are updated through the Microsoft Store.
+
+> [!NOTE]
+>
+> Microsoft Store is excluded from pre-release
 
 ### Snap Store
 
@@ -57,6 +60,20 @@ sudo snap install markdown-workspace
 Installers and portable builds are also available from [GitHub Releases](https://github.com/ZFordDev/SnapDock/releases).
 
 > On Linux, AppImage builds may require FUSE. On Ubuntu and Debian, install it with `sudo apt install libfuse2`. Snap and `.deb` installations do not require this AppImage-specific step.
+
+## Release schedule
+
+Stable SnapDock releases are generally planned for the **second Thursday of each month**.
+
+Pre-releases may be published more frequently as changes become ready for testing, with the aim of providing a test build at least one week before the next stable release.
+
+> [!NOTE]
+>
+> Automatic updates are currently disabled in pre-release builds.
+>
+> Pre-releases are intended for testing and may report a stable release as an available update when the stable version number is lower than the installed pre-release version. Disabling the updater avoids this confusing behaviour until the multi-channel update system planned for SnapDock V4 is available.
+>
+> Pre-release users should check GitHub Releases manually for newer test builds.
 
 ## System requirements
 

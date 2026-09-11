@@ -96,8 +96,6 @@ Select **Show Preview** to replace the editor with the rendered document. Select
 
 Open the arrow beside the preview control and choose **Split View** to edit and preview side by side. Drag the divider to give either side more room. Preview content refreshes as you type.
 
-**Live View** is shown as a future option and is not currently selectable.
-
 ## Finding text
 
 Press `Ctrl + F` to search the active document. Type a word or phrase, then use the up and down controls to move between matches. Close the find bar with × when finished.

@@ -80,8 +80,9 @@ npm run tauri:build
 
 ## Project status and roadmap
 
-SnapDock is stable, actively maintained, and open to contributions. Development priorities evolve with user feedback, so the live GitHub trackers are the source of truth:
+SnapDock is stable, actively maintained, and open to contributions. The [V3 migration roadmap](assets/docs/v3-migration-roadmap.md) tracks only security, feature-parity, and release-infrastructure work still to be migrated from V3 `main` to V4 Phoenix. It is not the roadmap for completing V4 or planning new V4 functionality. Development priorities evolve with user feedback, so the live GitHub trackers are the source of truth:
 
+- [V3 migration roadmap](assets/docs/v3-migration-roadmap.md)
 - [Open issues and planned improvements](https://github.com/ZFordDev/SnapDock/issues)
 - [Latest releases and release notes](https://github.com/ZFordDev/SnapDock/releases)
 - [Contributing guide](CONTRIBUTING.md)

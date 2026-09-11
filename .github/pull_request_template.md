@@ -3,6 +3,8 @@
 Thank you for contributing to SnapDock!  
 Please complete the sections below to help us review your PR.
 
+> **Phoenix is experimental.** Confirm this PR targets `Phoenix` for V4 work. `main` is the safer branch for the stable V3 application. Things may break here; occasionally they may do it with confidence.
+
 ---
 
 ## Summary

@@ -1,181 +1,210 @@
-# Welcome to SnapDock
+<div align="center">
 
-SnapDock is a local-first Markdown workspace for writing, organising, previewing, and exporting documents. Your files remain ordinary Markdown files on your computer, and the core editor works without an internet connection.
+# 📖 Welcome to SnapDock
 
-> **New to SnapDock?** Open a folder, choose a Markdown file from **Project Files**, write in the editor, and select **Show Preview** to see the rendered result.
+SnapDock is a local-first Markdown workspace built for writing, organizing, previewing, and exporting documents. Your files stay on your computer as standard plain-text Markdown, and the core editor works completely offline.
 
-## Quick start
+> [!WARNING]
+> **Phoenix v4 Warning:** This is the experimental v4 build! It is currently being rebuilt from the ground up, so features may break, UI elements might move around, or tools may occasionally wander off on vacation. If you need 100% rock-solid stability, stick with the v3 `main` release.
 
-### Write a new document
+> [!NOTE]
+> **New to SnapDock?** Open a folder, pick a file from **Project Files**, write away, and hit **View → Raw View** to inspect your rendered document.
 
-1. Select **New** or press `Ctrl + N`.
-2. Start writing in the editor.
-3. Select **Save → Save** or press `Ctrl + S`.
-4. Choose a name and location the first time you save.
+---
 
-New documents are not written to disk until you save them. A dot on a tab indicates unsaved changes.
+## ⚡ Quick Start
 
-### Continue an existing document
+### 📝 Write a New Document
+1. Select **New** (or press `Ctrl + N`).
+2. Start typing.
+3. Select **Save → Save** (or press `Ctrl + S`).
+4. Choose a name and directory on your first save.
 
-Select **Open → Open File**, press `Ctrl + O`, or choose a document from **Recent Files**. If the file is already open, SnapDock switches to its existing tab.
+*Unsaved files live in memory until saved. An unsaved tab will display a dot indicator.*
 
-### Work with a folder
+### 📂 Open an Existing Document
+Select **Open → Open File** (`Ctrl + O`), or grab a document from **Recent Files**. If the file is already open, SnapDock will jump straight to its existing tab.
 
-Select **Open → Open Folder** or press `Ctrl + Shift + O`. The folder becomes your workspace and its Markdown files appear under **Project Files**.
+### 📁 Work with a Workspace Folder
+Select **Open → Open Folder** (`Ctrl + Shift + O`). The chosen folder becomes your active workspace, and all contained Markdown files will populate under **Project Files**.
 
-Opening a workspace does not import or move anything. SnapDock reads the files from their existing location. The most recently used workspace is restored the next time the app starts.
+Opening a workspace reads files directly in place without moving or importing them. SnapDock remembers and restores your last active workspace on launch.
 
-## Find your way around
+---
 
-- **New, Open, and Save** contain the main file actions.
-- **Recent Files** lists documents from the current workspace. Use × beside its heading to clear the list without deleting any files.
-- **Project Files** displays Markdown documents from the open folder.
-- **Tabs** let you keep several documents open and can be reordered by dragging.
-- **Show Preview** switches between editing and the rendered document. Its arrow opens the preview-mode menu.
-- **Tools** contains updates, spellcheck, themes, and this guide.
-- The **status bar** shows writing metrics and the SnapDock version.
+## 🗺️ Finding Your Way Around
 
-## Keyboard shortcuts
+- **New, Open, & Save:** Main file handling operations.
+- **Recent Files:** Quick list of recently opened workspace files. Click the **×** next to the header to clear history (your files remain safe on disk).
+- **Project Files:** File tree showing Markdown files in the active workspace.
+- **Tabs:** Drag and drop tabs to reorganize your active document workspace.
+- **View:** Toggle between **Raw View** and **Split View**. *(Live View is currently backstage getting ready for its dramatic entrance).*
+- **Edit:** Controls spellcheck, editor typography, and theme choices.
+- **Help:** Access this guide, check for updates, or switch update channels.
+- **Status Bar:** Real-time metrics (word/character counts) and build information.
+
+---
+
+## ⌨️ Keyboard Shortcuts
 
 On Windows and Linux, use `Ctrl`.
 
 | Action | Shortcut |
-| --- | --- |
-| New tab | `Ctrl + N` |
-| Open file | `Ctrl + O` |
-| Open folder | `Ctrl + Shift + O` |
-| Save active file | `Ctrl + S` |
-| Close active tab | `Ctrl + W` |
-| Find in the active document | `Ctrl + F` |
-| Next tab | `Ctrl + Shift + Right Arrow` |
-| Previous tab | `Ctrl + Shift + Left Arrow` |
-| Toggle preview | `Ctrl + Shift + P` |
-| Open this guide | `Ctrl + /` |
+| :--- | :--- |
+| **New Tab** | `Ctrl + N` |
+| **Open File** | `Ctrl + O` |
+| **Open Workspace Folder** | `Ctrl + Shift + O` |
+| **Save Active File** | `Ctrl + S` |
+| **Close Active Tab** | `Ctrl + W` |
+| **Find in Active Document** | `Ctrl + F` |
+| **Next Tab** | `Ctrl + Shift + Right Arrow` |
+| **Previous Tab** | `Ctrl + Shift + Left Arrow` |
+| **Toggle Preview** | `Ctrl + Shift + P` |
+| **Open User Guide** | `Ctrl + /` |
 
-## Writing Markdown
+---
 
-Markdown is plain text with a few characters used for formatting. Here are the essentials:
+## ✍️ Writing Markdown
+
+Markdown is simple plain text enhanced with minimal formatting characters. Here are the basics:
 
 ```markdown
-# Main heading
-## Section heading
+# Main Heading
+## Section Heading
 
 **Bold text** and *italic text*
 
-- Bulleted item
-- Another item
+- Bullet point item
+- Another bullet
 
-1. Numbered item
-2. Another item
+1. First step
+2. Second step
 
-[Link text](https://example.com)
-![Image description](image.png)
+[SnapDock Website](https://snapdock.app)
+![Sample Image](image.png)
 
-> A quotation
+> Blockquote or featured quote
 
 `inline code`
+
 ```
 
-Use three backticks before and after a block of code. Add a language name after the opening backticks, such as `javascript`, for syntax highlighting.
+For multi-line code blocks, wrap your snippet in triple backticks (`). Append the language name immediately after the opening backticks (e.g., `javascript) for syntax highlighting.
 
-SnapDock also renders tables, task lists, footnotes, emoji, highlighted text, subscript, superscript, and heading anchors.
+SnapDock also natively supports tables, task lists, footnotes, emojis, highlight formatting, subscript, superscript, and automatic heading anchors.
 
-### Images and attachments
+### 🖼️ Images & Attachments
 
-Relative image paths are resolved from the saved Markdown document's folder. For a document and image stored together, use:
+Relative image paths resolve from the saved location of your Markdown file.
+
+If your document and image are in the same directory:
 
 ```markdown
-![Description of the image](image.png)
+![Image description](image.png)
+
 ```
 
-If the image is in a nearby `images` folder, use `![Description](images/image.png)`. Save a new document before relying on relative attachments so SnapDock knows its location.
+If the image resides inside an `images` subfolder:
 
-## Previewing your work
+```markdown
+![Image description](images/image.png)
 
-Select **Show Preview** to replace the editor with the rendered document. Select **Edit Markdown** to return to editing.
+```
 
-Open the arrow beside the preview control and choose **Split View** to edit and preview side by side. Drag the divider to give either side more room. Preview content refreshes as you type.
+> [!TIP]
+> Always save new documents to disk before adding relative image attachments so SnapDock knows where to resolve the path!
 
-**Live View** is shown as a future option and is not currently selectable.
+---
 
-## Finding text
+## 👁️ Previewing Your Work
 
-Press `Ctrl + F` to search the active document. Type a word or phrase, then use the up and down controls to move between matches. Close the find bar with × when finished.
+* **Raw View:** Go to **View → Raw View** to hide the editor and view your rendered output full-width. Click **Edit** in the top bar to return to typing.
+* **Split View:** Go to **View → Split View** to edit on the left while previewing live on the right. Drag the center divider to adjust panel widths.
 
-Search applies only to the active document; it does not search the whole workspace.
+> [!NOTE]
+> **Live View** is grayed out in v4 right now. It isn't broken—it just hasn't been migrated over to Phoenix yet!
 
-## Saving and closing safely
+---
 
-- `Ctrl + S` saves the active tab.
-- **Save → Save All** saves every changed document. SnapDock asks for a location for any new document that has not been saved before.
-- Closing a tab with unsaved changes asks whether you want to discard them.
-- Closing SnapDock checks for unsaved work and attempts to protect open changes.
+## 🔍 Finding Text
 
-SnapDock does not currently provide version history or automatic backups. Keep important work in a backed-up folder or version-control repository.
+Press `Ctrl + F` to search within the open document. Use the navigation arrows to cycle through matches, and hit **×** or `Esc` when you're done.
 
-## Exporting a PDF
+*Note: Search operates on the active document only, not across the entire workspace folder.*
 
-> **Tip: Page Breaks**
-> To force a hard page break in your exported PDF, insert `<!-- pagebreak -->` on its own line where you want the split to occur. This remain invisible in the standard editor preview.
+---
+
+## 💾 Saving & Safety First
+
+* `Ctrl + S` saves the active tab instantly.
+* **Save → Save All** flushes all modified tabs to disk.
+* Closing a tab or quitting SnapDock with unsaved changes will prompt you to save or discard your work.
+
+> [!WARNING]
+> SnapDock does not currently run background automatic snapshots or local file history. Keep critical projects inside a backed-up folder or a Git repository!
+
+---
+
+## 📄 Exporting to PDF
+
+> [!TIP]
+> **Page Breaks in PDF Export:**
+> To force a clean page break in your exported PDF, insert `<!-- pagebreak -->` on its own line in your Markdown. It will stay hidden in editor previews but trigger a page break on export!
 
 1. Open the document you want to export.
-2. Check its appearance in Preview or Split View.
+2. Verify its layout in **Split View** or **Raw View**.
 3. Select **Save → Export**.
-4. SnapDock creates the PDF and opens it with your system's PDF viewer.
+4. SnapDock will render your PDF and launch it using your default system viewer.
 
-The export uses the rendered content of the active document. If something looks wrong in the PDF, check the preview first.
+---
 
-## Spellcheck and themes
+## 🎨 Themes & Customization
 
-Open **Tools** to turn spellcheck on or off. When spellcheck is enabled, right-click a marked word to see available corrections. Suggestions depend on the dictionaries provided by your operating system.
+Open **Edit** to manage your workspace settings:
 
-The **Tools** menu also includes Light, Dark, Solarized, Arctic Dark, and Forest themes. Your selected theme is remembered between sessions.
+* **Spellcheck:** Right-click flagged words to pick corrections (uses system dictionary engines).
+* **Themes:** Switch instantly between **Light**, **Dark**, **Solarized**, **Arctic Dark**, and **Forest**. Your choice persists across app restarts.
 
-## Updates
+---
 
-Select **Tools → Update** to check for updates when that option is supported by your installation. Microsoft Store and Snap Store packages are normally updated by their stores, and update behaviour can differ for other Linux packages and WSL.
+## 🔄 Updates
 
-You can continue using SnapDock offline; an internet connection is only needed to check for or download updates and to open online links.
+Navigate to **Help → Check for Updates** to check for new releases.
 
-## Troubleshooting
+> [!NOTE]
+> Store-managed versions (Snap Store, Microsoft Store) usually handle update distribution automatically through their respective package managers.
 
-### A file does not appear in Project Files
+---
 
-Confirm that you opened the correct folder and that the file uses a Markdown extension. Try reopening the workspace if another program created or moved the file while SnapDock was running.
+## 🛠️ Troubleshooting
 
-### An image does not appear
+* **File missing in Project Files:** Verify you opened the correct workspace folder and that the file uses a `.md` or `.markdown` extension. Re-open the folder if an external tool created the file while SnapDock was open.
+* **Image failed to load:** Ensure the document is saved and that the relative file path is correct (including case sensitivity on Linux).
+* **Export or Preview looks incorrect:** Ensure all code blocks, brackets, and HTML tags are closed properly in your source text.
+* **Linux display glitches:** Display server behavior can vary between Wayland and X11. When opening an issue, include your Linux distribution, desktop environment, and display server (`echo $XDG_SESSION_TYPE`).
 
-Save the Markdown document, check the spelling and letter case of the image path, and make sure the path is relative to the document rather than the workspace root.
+---
 
-### Preview or PDF output looks unexpected
+## 📬 Support & Community
 
-Check that Markdown markers and code fences are properly closed. Switch to Preview before exporting so you can identify whether the issue is in the Markdown or the PDF step.
+This guide is bundled directly inside SnapDock and is accessible offline anytime (`Ctrl + /`). When online, check out our ecosystem links:
 
-### SnapDock behaves differently on Linux
+* 🌐 [Official Website](https://snapdock.app)
+* 📖 [Online Documentation](https://docs.snapdock.app)
+* 🐛 [Report a Bug or Issue](https://github.com/ZFordDev/SnapDock/issues)
+* 📦 [GitHub Repository](https://github.com/ZFordDev/SnapDock)
 
-Window and rendering behaviour can vary between Wayland, X11, desktop environments, and package formats. When reporting the problem, include your Linux distribution, desktop environment, display server, and installation type.
+For security vulnerabilities or private inquiries, reach out directly to **zforddev@gmail.com**.
 
-### The app will not update itself
+> [!IMPORTANT]
+> Please report standard bug reports and feature requests via the public GitHub Issue tracker so the entire community can benefit from solutions and workarounds!
 
-Store-managed installations may disable SnapDock's built-in updater. Check for updates through the store or package source you used to install the app.
+---
 
-## Help, feedback, and private contact
+**Thank you for using SnapDock!**
 
-This guide is included with SnapDock and remains available offline. When you have internet access, these official resources provide current information:
+Keep writing, keep it local, and make it yours. 🚀
 
-- [Online documentation](https://docs.snapdock.app)
-- [Official SnapDock website](https://snapdock.app)
-- [Report a bug or request a feature](https://github.com/ZFordDev/SnapDock/issues)
-- [View the source and releases](https://github.com/ZFordDev/SnapDock)
+⭐ *If SnapDock helps you focus, consider throwing us a star on GitHub!* ⭐
 
-For security vulnerabilities, sensitive conduct concerns, or another issue that should not be public, email [zforddev@gmail.com](mailto:zforddev@gmail.com). Please do not include private document contents unless they are necessary and you are comfortable sharing them.
-
-> For ordinary bugs and feature requests, use the public GitHub issue tracker so progress and solutions can help everyone.
-
-## Thank you for using SnapDock
-
-Thank you for choosing SnapDock as a place for your ideas, notes, and projects. Every report, suggestion, contribution, and kind word helps make it better.
-
-If SnapDock is useful to you, use the **⭐ Star SnapDock on GitHub** button below. It opens the official repository, where one click on **Star** helps more writers discover the project.
-
-Keep writing, keep it local, and make it yours.
+</div>

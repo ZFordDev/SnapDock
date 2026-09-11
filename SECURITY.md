@@ -4,7 +4,7 @@ SnapDock welcomes responsible reports that help keep its users and their documen
 
 ## Supported versions
 
-Security fixes are targeted at the latest stable release and the current development branch. Older releases, forks, modified builds, and unofficial distributions may not receive fixes. Users should update to the latest stable release when a security update is published.
+Security fixes are targeted at the latest stable release on `main` and the current Phoenix development branch. Phoenix is experimental and may contain unfinished security hardening, so users who need the safer option should use the latest release from `main`. Older releases, forks, modified builds, and unofficial distributions may not receive fixes.
 
 ## Report a vulnerability privately
 
@@ -47,7 +47,7 @@ The following are generally outside scope unless they create a vulnerability in 
 
 ## Security characteristics
 
-SnapDock is a local-first Tauri desktop application. Renderer access to native capabilities is limited to the commands and permissions declared by SnapDock. Store packages and some Linux installation types may handle updates outside the application.
+SnapDock Phoenix is a local-first Tauri desktop application. Renderer access to native capabilities is limited to the commands and permissions declared by SnapDock, although this branch is still being hardened and should not be mistaken for a certified bunker. Store packages and some Linux installation types may handle updates outside the application.
 
 These characteristics provide context, not a guarantee that the application is vulnerability-free. Reports involving untrusted Markdown, local file access, workspace boundaries, external links, PDF export, or updates are especially useful.
 

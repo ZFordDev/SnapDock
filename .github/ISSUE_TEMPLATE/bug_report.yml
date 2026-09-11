@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Thank you for helping improve SnapDock!  
-        Please provide as much detail as possible.
+        Phoenix is experimental and things are expected to break while V4 is assembled. If you need the safer app, use `main`. Please provide as much detail as possible.
 
   - type: input
     id: version

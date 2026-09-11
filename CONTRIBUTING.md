@@ -1,10 +1,12 @@
 # Contributing to SnapDock
 
-Thank you for helping improve SnapDock. Contributions of all sizes are welcome, including bug reports, feature ideas, documentation, design feedback, testing, and code.
+Thank you for helping improve SnapDock. Contributions of all sizes are welcome, including bug reports, feature ideas, documentation, design feedback, testing, and code. Phoenix is the experimental V4 branch, so things may wobble, break, or briefly develop opinions of their own. If you need the dependable version, use `main`.
 
 By participating, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md). Please report security vulnerabilities through the private process in [SECURITY.md](SECURITY.md).
 
 ## Before you begin
+
+Phoenix is not the safe everyday-use branch. It is where V4 is being assembled and tested, and it is expected to contain unfinished work and regressions. Use `main` if you need SnapDock to behave predictably.
 
 - Search the [issue tracker](https://github.com/ZFordDev/SnapDock/issues) before opening a new report.
 - Use the repository's issue forms for [bugs](https://github.com/ZFordDev/SnapDock/issues/new?template=bug_report.yml), [features](https://github.com/ZFordDev/SnapDock/issues/new?template=feature_request.yml), and [documentation](https://github.com/ZFordDev/SnapDock/issues/new?template=documentation.yml).
@@ -23,10 +25,10 @@ cd SnapDock
 npm install
 ```
 
-Create a focused branch from the latest `main` branch:
+Create a focused branch from the latest `Phoenix` branch:
 
 ```bash
-git switch -c feature/short-description
+git switch -c feature/short-description Phoenix
 ```
 
 Useful development commands include:
@@ -37,13 +39,13 @@ npm start            # Launch the Tauri development application
 npm run tauri:build  # Create native installers for the current platform
 ```
 
-macOS builds are not currently supported.
+macOS builds are not currently supported. Phoenix builds also need the Rust toolchain and Tauri's platform prerequisites.
 
 ## Making changes
 
 - Keep each pull request limited to one logical change.
-- Follow the existing JavaScript and CSS style in the files you touch.
-- Place application logic in the appropriate area of `src/modules/`.
+- Follow the existing TypeScript, Rust, and CSS style in the files you touch.
+- Place renderer application logic in `src/modules/` and native application logic in `src-tauri/`.
 - Extend the existing theme variables and theme files for visual changes; check all five built-in themes.
 - Avoid large dependencies unless their value clearly outweighs the download, startup, and maintenance cost.
 - Do not introduce network services, telemetry, or cloud requirements without prior discussion.
@@ -51,21 +53,23 @@ macOS builds are not currently supported.
 
 ## Testing
 
-The repository does not currently provide a complete automated test suite, so contributors should perform focused manual testing and document it in the pull request.
+Phoenix is experimental, which is a polite way of saying that manual testing is not optional. The repository has automated checks, but they cannot yet predict every way a desktop webview can become dramatic.
 
 At minimum:
 
 1. Confirm the app starts or produces the relevant development build.
 2. Exercise the changed workflow and likely edge cases.
 3. Check that opening, editing, saving, and previewing Markdown still work when your change affects shared application code.
-4. Test on Windows and Linux when the change is platform-sensitive. If you cannot test a platform, say so in the pull request.
-5. For UI work, check the Light, Dark, Solarized, Arctic Dark, and Forest themes and include screenshots when useful.
+4. Run `npm run verify` for renderer, Rust-facing TypeScript, tests, and bundling.
+5. Run `cargo fmt --check` when Rust files are changed.
+6. Test on Windows and Linux when the change is platform-sensitive. If you cannot test a platform, say so in the pull request.
+7. For UI work, check the Light, Dark, Solarized, Arctic Dark, and Forest themes and include screenshots when useful.
 
 ## Pull requests
 
 When your change is ready:
 
-1. Push the branch to your fork and open a pull request against `main`.
+1. Push the branch to your fork and open a pull request against `Phoenix` for V4 work. Do not aim experimental Phoenix work at `main`.
 2. Complete the pull request template.
 3. Explain what changed, why it changed, and how you tested it.
 4. Link related issues with a keyword such as `Fixes #123` when appropriate.

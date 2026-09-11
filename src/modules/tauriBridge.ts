@@ -17,6 +17,7 @@ const dirtyStateCallbacks = new Set<() => void>();
 const saveAllCallbacks = new Set<() => void>();
 const clearCallbacks = new Set<() => void>();
 let closeRequested = false;
+let closeFlowActive = false;
 let closeProjectRequested = false;
 let dirtyStateResponseTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -60,9 +61,18 @@ function printHtml(html: string): void {
 
 async function finishClose(): Promise<void> {
   closeRequested = true;
+  closeFlowActive = false;
   clearCallbacks.forEach((callback) => callback());
   if (closeProjectRequested) await relaunch();
   else await appWindow.close();
+}
+
+function requestWindowClose(): boolean {
+  if (closeRequested || closeFlowActive) return false;
+  void appWindow.close().catch(() => {
+    closeFlowActive = false;
+  });
+  return true;
 }
 
 /**
@@ -78,7 +88,10 @@ async function respondToDirtyState(isDirty: boolean): Promise<void> {
   const choice = await invoke<string>("prompt_app_close");
   if (choice === "discard") await finishClose();
   else if (choice === "save") saveAllCallbacks.forEach((callback) => callback());
-  else closeProjectRequested = false;
+  else {
+    closeProjectRequested = false;
+    closeFlowActive = false;
+  }
 }
 
 /**
@@ -112,8 +125,7 @@ window.snapdockAPI = {
     return path ? convertFileSrc(path) : attachmentPath;
   },
   closeProject: () => {
-    closeProjectRequested = true;
-    void appWindow.close();
+    if (requestWindowClose()) closeProjectRequested = true;
   },
   onWorkspaceUpdated: (callback) => { void listen("workspace-updated", callback); },
   exportToPDF: async (html) => printHtml(html),
@@ -198,7 +210,7 @@ window.snapdockAPI = {
 window.windowControls = {
   minimize: () => { void appWindow.minimize(); },
   toggleMaximize: () => { void appWindow.toggleMaximize(); },
-  close: () => { void appWindow.close(); },
+  close: requestWindowClose,
   isMaximized: () => appWindow.isMaximized(),
   onMaximizeChange: (callback) => { void listen<boolean>("window-is-maximized", (event) => callback(event.payload)); },
 };
@@ -209,6 +221,7 @@ window.workspaceAPI = {
   onSaveAllForCloseRequest: (callback) => { saveAllCallbacks.add(callback); },
   sendSaveAllForCloseResult: (result: SaveAllForCloseResult) => {
     if (result.ok) void finishClose(); else closeProjectRequested = false;
+    if (!result.ok) closeFlowActive = false;
   },
   onClearForCloseRequest: (callback) => { clearCallbacks.add(callback); },
   sendClearForCloseResult: () => {},
@@ -216,6 +229,11 @@ window.workspaceAPI = {
 
 void appWindow.onCloseRequested((event) => {
   if (closeRequested) return;
+  if (closeFlowActive) {
+    event.preventDefault();
+    return;
+  }
+  closeFlowActive = true;
   event.preventDefault();
   // FIX Phoenix #18: use timeout safety net for dirty state check
   requestDirtyStateWithTimeout();

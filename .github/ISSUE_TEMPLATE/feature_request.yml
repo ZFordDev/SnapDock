@@ -6,8 +6,7 @@ body:
     attributes:
       value: |
         Thanks for your idea!  
-        SnapDock aims to stay minimal, stable, and distraction‑free.  
-        Please describe the problem your feature solves.
+        Phoenix is experimental and is where V4 features are being built. It may break before it becomes impressive. If you need the safer app, use `main`. Please describe the problem your feature solves.
 
   - type: textarea
     id: problem

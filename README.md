@@ -2,108 +2,172 @@
 
 # SnapDock
 
-### A calm, modern Markdown editor for Windows and Linux
-
-[Website](https://snapdock.app) · [Documentation](https://docs.snapdock.app) · [Downloads](https://snapdock.app/downloads) · [Report a bug](https://github.com/ZFordDev/SnapDock/issues/new/choose)
-
-[![Status](https://img.shields.io/badge/status-active-4CAF50?style=flat-square)](https://github.com/ZFordDev/SnapDock)
-[![Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux-0078D4?style=flat-square)](#installation)
-[![GitHub downloads](https://img.shields.io/github/downloads/ZFordDev/SnapDock/total?style=flat-square)](https://github.com/ZFordDev/SnapDock/releases)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-
-</div>
-
-SnapDock gives you a focused place to write, organise, and preview Markdown without turning your editor into an IDE. It is local-first, offline-friendly, and designed to stay out of your way.
+### 🌟 Phoenix 🌟
 
 <p align="center">
-  <img src="assets/screenshots/snapdock-light.png" width="48%" alt="SnapDock in the light theme on Ubuntu" />
-  <img src="assets/screenshots/snapdock-dark.png" width="48%" alt="SnapDock in the dark theme on Windows 11" />
+  <a href="https://snapdock.app"><b>🌐 Mainframe</b></a> •
+  <a href="https://docs.snapdock.app"><b>📖 The Grimoire</b></a> •
+  <a href="https://snapdock.app/downloads"><b>📦 Grab Builds</b></a> •
+  <a href="https://github.com/ZFordDev/SnapDock/issues/new/choose"><b>💥 Sound the Alarm</b></a>
 </p>
 
-## Features
+> [!IMPORTANT]
+> **Welcome to SnapDock v4 (The Wild West Edition)** 🤠  
+> 
+> You’ve stumbled into the experimental branch. Things might break, things might fly, and things might occasionally do a backflip.  
+> 
+> If you're brave enough to test drive v4, we’d love your feedback, bug reports, and chaos reports. The more eyes we get on this, the faster we can polish it up and ship it out! Help us build something awesome! 🚀
 
-- **Workspace-based file management** with a file tree and workspace-scoped recent files
-- **Multi-tab editing** with drag-and-drop tab reordering and unsaved-change protection
-- **Flexible previews** with full-page and resizable split views
-- **Rich Markdown rendering** including syntax highlighting, footnotes, task lists, emoji, anchors, marks, subscript, and superscript
-- **Find in document** with keyboard navigation between matches
-- **Writing metrics** for words and characters
-- **PDF export** directly from the rendered preview
-- **Built-in spellcheck** with correction suggestions from the native context menu
-- **Five included themes**: Light, Dark, Solarized, Arctic Dark, and Forest
-- **Local-first workflow** that keeps your Markdown files on your computer
 
-## Installation
 
-Choose your preferred store for straightforward installation and updates.
+---
 
-### Microsoft Store
+## 💡 What is SnapDock?
 
-[![Download from the Microsoft Store](https://get.microsoft.com/images/en-us%20dark.svg)](https://apps.microsoft.com/detail/9P54JC7GWK1N)
+Look, standard text editors are great, but sometimes you just want to write Markdown without setting up a 12-step build pipeline or configuring 40 VS Code extensions. 
 
-### Snap Store
+SnapDock is a clean, hyper-focused writing environment. No bloat, no subscription traps, no mandatory cloud sync, just your notes, your local files, and absolute speed. 
+
+<!-- Main Showpieces -->
+<p align="center">
+  <img src="assets/screenshots/snapdock-light.png" width="48%" alt="SnapDock Light Theme" />
+  <img src="assets/screenshots/snapdock-dark.png" width="48%" alt="SnapDock Dark Theme" />
+</p>
+
+<!-- Video + Extra Screenshots Dropdown -->
+<details>
+  <summary><b>🍿 Want to see more? (Video Demo & Screenshot Gallery)</b></summary>
+  <br>
+
+  <p align="center">
+    <a href="https://www.youtube.com/watch?v=NCIC2UwcUgE" target="_blank">
+      <img src="https://img.youtube.com/vi/NCIC2UwcUgE/hqdefault.jpg" width="80%" alt="SnapDock Demo Video" />
+    </a>
+    <br>
+    <sub>▶️ <i>Click to watch the demo on YouTube</i></sub>
+  </p>
+
+  <p align="center">
+    <img src="assets/screenshots/pic3.png" width="48%" alt="Feature 3" />
+    <img src="assets/screenshots/pic4.png" width="48%" alt="Feature 4" />
+  </p>
+  <p align="center">
+    <img src="assets/screenshots/pic5.png" width="48%" alt="Feature 5" />
+    <img src="assets/screenshots/pic6.png" width="48%" alt="Feature 6" />
+  </p>
+  <p align="center">
+    <img src="assets/screenshots/pic7.png" width="48%" alt="Feature 7" />
+    <img src="assets/screenshots/pic8.png" width="48%" alt="Feature 8" />
+  </p>
+</details>
+
+---
+
+## ✨ Features
+
+> [!NOTE]
+> **Out with the old, in with the rust.**  
+> I'll save you the trouble, the old feature list got vaporized in the rebuild. New superpowers are actively landing, so check back soon (or poke around the codebase and help us add them!).
+
+---
+
+## 🚀 Installation
+
+For the brave pioneers testing v4 right now, installing via **Snap Edge** is the recommended flavor.
+
+### 🐧 Snap Store (Recommended for v4)
 
 [![Get it from the Snap Store](https://snapcraft.io/en/dark/install.svg)](https://snapcraft.io/markdown-workspace)
 
 ```bash
-sudo snap install markdown-workspace
+# Jump on the bleeding edge!
+sudo snap install markdown-workspace --edge
+
 ```
 
-### GitHub Releases
+### 🪟 Microsoft Store
 
-Installers and portable builds are also available from [GitHub Releases](https://github.com/ZFordDev/SnapDock/releases).
+> [!NOTE]
+> Currently serving stable **v3** while v4 cooks in the oven.
 
-> On Linux, AppImage builds may require FUSE. On Ubuntu and Debian, install it with `sudo apt install libfuse2`. Snap and `.deb` installations do not require this AppImage-specific step.
+### 📦 GitHub Releases
 
-## System requirements
+Yeah, you're already here anyway! Since the in-app auto-updater for v4 isn't wired up yet, you'll need to check back here for fresh release builds manually. *(Sorry! We're workin' on it!)*
 
-- Windows 10 or later, or a modern Linux distribution
-- 2 GHz processor
-- 2 GB RAM
-- 2 GB available disk space
+---
 
-_macOS is not currently supported._
+## ⚡ System Requirements
 
-## Build from source
+> [!IMPORTANT]
+> Official benchmarking is still pending, but let’s just say... it’s lightyears lighter than Electron. ⚡  
+>  
+> `#TeamTauri` `#SnapDockRules` `#PhoenixNoFear` `#HashtagsAreBack`
 
-You will need current Node.js and Rust toolchains, plus the platform prerequisites listed by Tauri.
+---
+
+## 🛠️ Build from Source
+
+Got Node.js, Rust, and Tauri's system prerequisites installed? Cool. Let's build this rocket:
 
 ```bash
+# 1. Grab the repo
 git clone https://github.com/ZFordDev/SnapDock.git
 cd SnapDock
+
+# 2. Install dependencies & launch dev server
 npm install
 npm start
 
-# Create native installers
+# 3. Package native installers
 npm run tauri:build
+
 ```
 
-## Project status and roadmap
+---
 
-SnapDock is stable, actively maintained, and open to contributions. The [V3 migration roadmap](assets/docs/v3-migration-roadmap.md) tracks only security, feature-parity, and release-infrastructure work still to be migrated from V3 `main` to V4 Phoenix. It is not the roadmap for completing V4 or planning new V4 functionality. Development priorities evolve with user feedback, so the live GitHub trackers are the source of truth:
+## 🗺️ Project Status & Roadmap
 
-- [V3 migration roadmap](assets/docs/v3-migration-roadmap.md)
-- [Open issues and planned improvements](https://github.com/ZFordDev/SnapDock/issues)
-- [Latest releases and release notes](https://github.com/ZFordDev/SnapDock/releases)
-- [Contributing guide](CONTRIBUTING.md)
+SnapDock is undergoing an ambitious v4 rebirth under project **Phoenix**.
 
-## Known limitations
+The [V3 Migration Roadmap](https://www.google.com/search?q=assets/docs/v3-migration-roadmap.md) details our parity checks and feature migration progress from the legacy branch. However, since things move fast in the wild west, the live GitHub trackers are your source of truth:
 
-- Live preview is not yet available; standard and split previews update while you work.
-- Tauri's system webview can behave differently across Linux display servers and desktop environments. Please [report reproducible issues](https://github.com/ZFordDev/SnapDock/issues/new/choose) with your distribution, desktop environment, and display server.
+* 📋 [V3 Migration Roadmap Doc](https://www.google.com/search?q=assets/docs/v3-migration-roadmap.md)
+* 🐛 [Open Issues & Feature Requests](https://github.com/ZFordDev/SnapDock/issues)
+* 🏷️ [Releases & Changelogs](https://github.com/ZFordDev/SnapDock/releases)
+* 🤝 [Contributing Guide](https://www.google.com/search?q=CONTRIBUTING.md)
 
-## Support and contributing
+---
 
-Bug reports, feature ideas, documentation improvements, and code contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a change, and use the [issue tracker](https://github.com/ZFordDev/SnapDock/issues) for bugs and suggestions.
+## ⚠️ Known Limitations & Quirks
 
-Security vulnerabilities should be reported using the process in [SECURITY.md](SECURITY.md), not through a public issue.
+* **Live Sync Preview:** Standard and split previews render while you type, but dynamic real-time sync is still being polished.
+* **Linux WebViews:** Tauri relies on system webviews (`webkit2gtk`). Depending on whether you're running X11, Wayland, Hyprland, or Gnome, mileage may vary. If something looks funky, [scream at us in the issues](https://github.com/ZFordDev/SnapDock/issues/new/choose) with your distro and display server specs!
 
-If SnapDock is useful to you, starring the repository or sharing the project also helps.
+---
 
-## License
+## 🤝 Join the Madness (Contributing)
 
-SnapDock is free and open-source software released under the [MIT License](LICENSE).
+Whether you want to squash bugs, refactor Rust backend calls, tweak UI components, or just fix typos in the docs **you are welcome here!**
 
-## About
+1. Take a peak at [CONTRIBUTING.md](https://www.google.com/search?q=CONTRIBUTING.md) to get primed.
+2. Check [Open Issues](https://github.com/ZFordDev/SnapDock/issues) for something to tackle (or open one if you found something broken).
+3. Drop a pull request and help us bring v4 home!
 
-SnapDock is part of the [SnapDock ecosystem](https://snapdock.app), a collection of focused tools for writing, planning, and creating. It is built and maintained by [ZFordDev](https://github.com/ZFordDev).
+*Found a critical security vulnerability? Please check [SECURITY.md](SECURITY.md) to report it responsibly rather than opening a public issue.*
+
+---
+
+## 📜 License
+
+SnapDock is free, open-source software released under the [MIT License](https://www.google.com/search?q=LICENSE). Build with it, break it, hack on it.
+
+---
+
+Crafted with 🧠 & ☕ by **[ZFordDev](https://github.com/ZFordDev)**
+
+*Part of the [SnapDock Ecosystem](https://snapdock.app) - tools built for speed, privacy, and focus.*
+
+⭐ **If SnapDock makes your writing life easier, throw us a star on GitHub!** ⭐
+
+
+</div>

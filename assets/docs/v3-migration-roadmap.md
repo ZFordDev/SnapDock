@@ -1,5 +1,7 @@
 # V3 Migration Roadmap
 
+> **Phoenix warning:** Phoenix is the experimental V4 branch. It may break, misbehave, or discover new and creative interpretations of "ready." Use `main` if you need the safer, established SnapDock experience.
+
 This roadmap tracks work that still needs to be migrated from the V3 `main` line to the V4 Phoenix branch. It is a parity and hardening checklist only. It does not describe the roadmap for completing V4, the Phoenix UI, or any new V4 product features.
 
 ## Security and data protection

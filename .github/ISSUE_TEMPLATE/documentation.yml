@@ -2,6 +2,11 @@ name: Documentation Update
 description: Suggest improvements to documentation or examples
 labels: [documentation]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Phoenix is experimental and its documentation may briefly chase the code around the room. Use `main` if you need the safer app, and mention whether the documentation concerns Phoenix or the stable V3 line.
+
   - type: textarea
     id: update
     attributes:

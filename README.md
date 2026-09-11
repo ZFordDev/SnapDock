@@ -11,14 +11,14 @@
   <a href="https://github.com/ZFordDev/SnapDock/issues/new/choose"><b>💥 Sound the Alarm</b></a>
 </p>
 
+</div>
+
 > [!IMPORTANT]
 > **Welcome to SnapDock v4 (The Wild West Edition)** 🤠  
 > 
 > You’ve stumbled into the experimental branch. Things might break, things might fly, and things might occasionally do a backflip.  
 > 
 > If you're brave enough to test drive v4, we’d love your feedback, bug reports, and chaos reports. The more eyes we get on this, the faster we can polish it up and ship it out! Help us build something awesome! 🚀
-
-
 
 ---
 
@@ -168,6 +168,3 @@ Crafted with 🧠 & ☕ by **[ZFordDev](https://github.com/ZFordDev)**
 *Part of the [SnapDock Ecosystem](https://snapdock.app) - tools built for speed, privacy, and focus.*
 
 ⭐ **If SnapDock makes your writing life easier, throw us a star on GitHub!** ⭐
-
-
-</div>

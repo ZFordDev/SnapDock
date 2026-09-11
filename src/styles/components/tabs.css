@@ -239,7 +239,7 @@
   transition: background 0.1s ease;
 }
 
-.preview-mode-option:hover:not(.disabled) {
+.preview-mode-option:hover {
   /* Mapped to idle tab / light hover background */
   background: var(--tab-idle-bg);
 }
@@ -247,12 +247,6 @@
 .preview-mode-option.active {
   color: var(--tab-accent);
   font-weight: 600;
-}
-
-.preview-mode-option.disabled {
-  /* Mapped to border/muted gray */
-  color: var(--border-color);
-  cursor: not-allowed;
 }
 
 .preview-mode-option .option-check {
@@ -268,14 +262,6 @@
 
 .preview-mode-option .option-label {
   flex-grow: 1;
-}
-
-.preview-mode-option .option-badge {
-  font-size: 0.65rem;
-  padding: 1px 6px;
-  border-radius: 3px;
-  background: var(--inline-code-bg);
-  color: var(--editor-text-secondary);
 }
 
 /* --- Split View --- */

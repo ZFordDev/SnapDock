@@ -7,10 +7,9 @@ const STORAGE_KEY = "snapdock:previewMode";
 /**
  * Initialize the preview mode dropdown (replaces old toggle button).
  *
- * Supports three modes:
+ * Supports two modes:
  *   - "preview": full editor / full preview toggle (current behavior, active)
  *   - "split":   side-by-side editor + preview
- *   - "live":    live preview auto-refresh (disabled, future)
  *
  * The selected mode is persisted to localStorage.
  */
@@ -63,7 +62,6 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
     const modeLabels = {
       preview: "Show Preview",
       split: "Split View",
-      live: "Live View",
     };
     // If preview is currently showing, show "Edit Markdown"
     const previewVisible = previewWrapper && !previewWrapper.classList.contains("hidden");
@@ -146,15 +144,6 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
     updateLabel();
   }
 
-  // --- Mode: Live View (disabled for now) ---
-  function applyLiveMode() {
-    // Live View is not yet implemented — silently fall back to preview mode
-    currentMode = "preview";
-    localStorage.setItem(STORAGE_KEY, currentMode);
-    updateMenuActive();
-    applyPreviewMode();
-  }
-
   // --- Reset any split view styles when switching modes ---
   function resetSplitLayout() {
     if (workspace) workspace.classList.remove("split-view");
@@ -230,7 +219,6 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
 
         if (mode === "preview") applyPreviewMode();
         else if (mode === "split") applySplitMode();
-        else if (mode === "live") applyLiveMode();
 
         closeMenu();
       });
@@ -250,8 +238,6 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
       applyPreviewMode();
     } else if (currentMode === "split") {
       applySplitMode();
-    } else if (currentMode === "live") {
-      applyLiveMode();
     }
   });
 

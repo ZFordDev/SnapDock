@@ -2,6 +2,22 @@ name: Documentation Update
 description: Suggest improvements to documentation or examples
 labels: [documentation]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Start the issue title with `main:`, `v3:`, `beta:`, `v4:`, or `Phoenix:` and select the release line this documentation concerns.
+
+  - type: dropdown
+    id: release_line
+    attributes:
+      label: Release Line
+      description: Which release line does this documentation concern?
+      options:
+        - "main: / v3 (current application)"
+        - "beta: / v4 / Phoenix (edge and beta)"
+    validations:
+      required: true
+
   - type: textarea
     id: update
     attributes:

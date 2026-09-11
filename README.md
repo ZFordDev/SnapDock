@@ -103,6 +103,8 @@ SnapDock is stable, actively maintained, and open to contributions. Development 
 - [Latest releases and release notes](https://github.com/ZFordDev/SnapDock/releases)
 - [Contributing guide](CONTRIBUTING.md)
 
+When opening an issue, start its title with `main:`, `v3:`, `beta:`, `v4:`, or `Phoenix:` to identify the release line. Feature requests are for V4/Phoenix only; bug reports and documentation issues may target either line.
+
 ## Known limitations
 
 - Live preview is not yet available; standard and split previews update while you work.

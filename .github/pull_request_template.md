@@ -3,6 +3,8 @@
 Thank you for contributing to SnapDock!  
 Please complete the sections below to help us review your PR.
 
+> **Before submitting:** Confirm that this PR targets the correct branch: `main` for V3 work or `Phoenix` for V4/Phoenix work.
+
 ---
 
 ## Summary

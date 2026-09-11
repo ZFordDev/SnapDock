@@ -11,6 +11,15 @@ By participating, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 - For a substantial change, open an issue before investing significant time so the scope and approach can be discussed.
 - Keep changes aligned with SnapDock's local-first, focused writing experience.
 
+### Issue and branch targeting
+
+Start every issue title with a release-line prefix followed by a colon so its ownership is clear:
+
+- `main:` or `v3:` for the current V3 application line. V3 produces both stable and pre-release builds.
+- `beta:`, `v4:`, or `Phoenix:` for V4, code-named Phoenix. V4 is released through the edge and beta channels.
+
+Bug reports and documentation issues may belong to either release line. Feature requests are exclusively for V4/Phoenix and must use the `beta:`, `v4:`, or `Phoenix:` prefix. Select the matching target branch when opening a pull request: `main` for V3 work and `Phoenix` for V4 work.
+
 SnapDock also follows the broader [ZFordDev project standards](https://github.com/ZFordDev/ZFordDev/blob/main/STANDARDS.md).
 
 ## Development setup

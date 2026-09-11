@@ -6,7 +6,18 @@ body:
     attributes:
       value: |
         Thank you for helping improve SnapDock!  
-        Please provide as much detail as possible.
+        Please provide as much detail as possible. Start the issue title with `main:`, `v3:`, `beta:`, `v4:`, or `Phoenix:`.
+
+  - type: dropdown
+    id: release_line
+    attributes:
+      label: Release Line
+      description: Which release line does this bug affect?
+      options:
+        - "main: / v3 (current application)"
+        - "beta: / v4 / Phoenix (edge and beta)"
+    validations:
+      required: true
 
   - type: input
     id: version

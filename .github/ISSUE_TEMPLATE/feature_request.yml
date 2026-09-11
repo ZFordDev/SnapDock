@@ -1,13 +1,14 @@
 name: Feature Request
 description: Suggest an improvement or new feature for SnapDock
 labels: [enhancement]
+title: "v4: "
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for your idea!  
         SnapDock aims to stay minimal, stable, and distraction‑free.  
-        Please describe the problem your feature solves.
+        Feature requests are for V4/Phoenix only. Keep the `v4:` prefix in the title, or replace it with `beta:` or `Phoenix:`. Please describe the problem your feature solves.
 
   - type: textarea
     id: problem

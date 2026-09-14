@@ -40,8 +40,8 @@ SnapDock is a clean, hyper-focused writing environment. No bloat, no subscriptio
   <br>
 
   <p align="center">
-    <a href="https://www.youtube.com/watch?v=NCIC2UwcUgE" target="_blank">
-      <img src="https://img.youtube.com/vi/NCIC2UwcUgE/hqdefault.jpg" width="80%" alt="SnapDock Demo Video" />
+    <a href="https://www.youtube.com/watch?v=Kial0IJP6Zs" target="_blank">
+      <img src="https://img.youtube.com/vi/Kial0IJP6Zs/hqdefault.jpg" width="80%" alt="SnapDock Demo Video" />
     </a>
     <br>
     <sub>▶️ <i>Click to watch the demo on YouTube</i></sub>

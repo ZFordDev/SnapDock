@@ -48,16 +48,16 @@ SnapDock is a clean, hyper-focused writing environment. No bloat, no subscriptio
   </p>
 
   <p align="center">
-    <img src="assets/screenshots/pic3.png" width="48%" alt="Feature 3" />
-    <img src="assets/screenshots/pic4.png" width="48%" alt="Feature 4" />
+    <img src="https://snapdock.app/assets/screenshots/Screenshot%20From%202026-08-10%2019-49-24.png" width="48%" alt="Feature 3" />
+    <img src="https://snapdock.app/assets/screenshots/Screenshot From 2026-08-10 19-49-38.png" width="48%" alt="Feature 4" />
   </p>
   <p align="center">
-    <img src="assets/screenshots/pic5.png" width="48%" alt="Feature 5" />
-    <img src="assets/screenshots/pic6.png" width="48%" alt="Feature 6" />
+    <img src="https://snapdock.app/assets/screenshots/Screenshot From 2026-08-10 19-49-47.png" width="48%" alt="Feature 5" />
+    <img src="https://snapdock.app/assets/screenshots/Screenshot From 2026-08-10 19-49-55.png" width="48%" alt="Feature 6" />
   </p>
   <p align="center">
-    <img src="assets/screenshots/pic7.png" width="48%" alt="Feature 7" />
-    <img src="assets/screenshots/pic8.png" width="48%" alt="Feature 8" />
+    <img src="https://snapdock.app/assets/screenshots/Screenshot From 2026-08-10 19-50-03.png" width="48%" alt="Feature 7" />
+    <img src="https://snapdock.app/assets/screenshots/Screenshot From 2026-08-10 19-51-20.png" width="48%" alt="Feature 8" />
   </p>
 </details>
 

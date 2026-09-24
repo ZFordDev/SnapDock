@@ -64,7 +64,7 @@ class _TabCloseButton(QPushButton):
         self._tab_idx = idx
 
 
-class StaxMDTabBar(QWidget):
+class SnapDockTabBar(QWidget):
     """Tab bar with close buttons, dirty indicator, and a + button."""
 
     tab_changed = Signal(int)

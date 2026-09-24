@@ -4,7 +4,7 @@ import sys
 
 from PySide6.QtWidgets import QApplication
 
-from .ui.window import StaxMDWindow
+from .ui.window import SnapDockWindow
 
 
 def _get_version() -> str:
@@ -17,12 +17,12 @@ def _get_version() -> str:
 
 
 def launch(file_path: str | None = None) -> int:
-    """Launch StaxMD as an independent application."""
+    """Launch SnapDock as an independent application."""
     app = QApplication.instance()
     if app is None:
         app = QApplication(sys.argv)
 
-    window = StaxMDWindow()
+    window = SnapDockWindow()
     if file_path:
         window.load_file(file_path)
     window.show()

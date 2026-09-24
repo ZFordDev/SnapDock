@@ -1,6 +1,6 @@
 import unittest
 
-from staxmd.ui.preview import render_markdown
+from snapdock.ui.preview import render_markdown
 
 
 class RenderMarkdownTests(unittest.TestCase):

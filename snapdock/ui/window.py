@@ -13,14 +13,14 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from staxmd import persistence
+from snapdock import persistence
 
-from .editor import StaxMDEditor
-from .filetree import StaxMDFileTree
-from .footer import StaxMDFooter
-from .menubar import StaxMDMenuBar
-from .preview import StaxMDPreview, render_markdown
-from .tabs import StaxMDTabBar, TabDocument
+from .editor import SnapDockEditor
+from .filetree import SnapDockFileTree
+from .footer import SnapDockFooter
+from .menubar import SnapDockMenuBar
+from .preview import SnapDockPreview, render_markdown
+from .tabs import SnapDockTabBar, TabDocument
 
 
 class ViewMode(Enum):
@@ -30,10 +30,10 @@ class ViewMode(Enum):
     LIVE = "live"
 
 
-class StaxMDWindow(QWidget):
+class SnapDockWindow(QWidget):
     def __init__(self, version: str = "0.2.0") -> None:
         super().__init__()
-        self.setWindowTitle("StaxMD - Markdown Editor")
+        self.setWindowTitle("SnapDock - Markdown Editor")
         self.resize(1200, 800)
         self._current_mode = ViewMode.SPLIT
 
@@ -46,11 +46,11 @@ class StaxMDWindow(QWidget):
         layout.setSpacing(0)
 
         # Top Menu Bar
-        self.menu_bar = StaxMDMenuBar()
+        self.menu_bar = SnapDockMenuBar()
         layout.addWidget(self.menu_bar)
 
         # Tab Bar
-        self.tab_bar = StaxMDTabBar()
+        self.tab_bar = SnapDockTabBar()
         layout.addWidget(self.tab_bar)
 
         # Main Splitter (File Tree + Workspace)
@@ -59,7 +59,7 @@ class StaxMDWindow(QWidget):
         main_splitter.setHandleWidth(1)
         main_splitter.setChildrenCollapsible(False)
 
-        self.file_tree = StaxMDFileTree()
+        self.file_tree = SnapDockFileTree()
         main_splitter.addWidget(self.file_tree)
 
         # Workspace wrapper
@@ -70,8 +70,8 @@ class StaxMDWindow(QWidget):
         workspace_layout.setSpacing(0)
 
         # Single shared editor + preview — always in the same splitter parent.
-        self.editor = StaxMDEditor()
-        self.preview = StaxMDPreview()
+        self.editor = SnapDockEditor()
+        self.preview = SnapDockPreview()
 
         # Splitter: editor + preview side by side (for Split, Source, Preview modes)
         self._splitter = QSplitter(Qt.Horizontal)
@@ -99,7 +99,7 @@ class StaxMDWindow(QWidget):
         layout.addWidget(main_splitter, 1)
 
         # Footer
-        self.footer = StaxMDFooter(version)
+        self.footer = SnapDockFooter(version)
         layout.addWidget(self.footer)
 
         # --- Load persisted settings ---
@@ -472,13 +472,13 @@ class StaxMDWindow(QWidget):
         html = render_markdown(self.editor.toPlainText())
         document = (
             "<!doctype html>\n<html lang=\"en\">\n<head>\n"
-            "<meta charset=\"utf-8\">\n<title>StaxMD Export</title>\n</head>\n<body>\n"
+            "<meta charset=\"utf-8\">\n<title>SnapDock Export</title>\n</head>\n<body>\n"
             f"{html}\n</body>\n</html>\n"
         )
         try:
             Path(result).write_text(document, encoding="utf-8")
         except Exception as exc:  # pragma: no cover - defensive
-            print(f"[StaxMD] Export failed: {exc}")
+            print(f"[SnapDock] Export failed: {exc}")
 
     def _persist_on_close(self) -> None:
         geometry = self.geometry()
@@ -496,7 +496,7 @@ class StaxMDWindow(QWidget):
     # ---------------------------------------------------------
 
     def _update_title_dirty(self, dirty: bool) -> None:
-        title = "StaxMD - Markdown Editor"
+        title = "SnapDock - Markdown Editor"
         if 0 <= self._active_tab < len(self._tabs):
             doc = self._tabs[self._active_tab]
             if doc.path:

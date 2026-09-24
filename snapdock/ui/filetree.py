@@ -4,7 +4,7 @@ from PySide6.QtCore import QDir, Signal
 from PySide6.QtWidgets import QFileSystemModel, QTreeView
 
 
-class StaxMDFileTree(QTreeView):
+class SnapDockFileTree(QTreeView):
     file_opened = Signal(str)
 
     def __init__(self) -> None:

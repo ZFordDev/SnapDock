@@ -1,6 +1,6 @@
-"""Local-first persistence for StaxMD.
+"""Local-first persistence for SnapDock.
 
-Everything StaxMD remembers between runs — settings, recent files, and the open
+Everything SnapDock remembers between runs — settings, recent files, and the open
 session (so an unsaved document survives a crash) — lives in a single JSON file
 in a platform-appropriate config directory. No cloud, no accounts.
 """
@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-SETTINGS_FILENAME = "staxmd.json"
+SETTINGS_FILENAME = "snapdock.json"
 AUTOSAVE_INTERVAL_MS = 30_000
 MAX_RECENT_FILES = 12
 DEFAULT_THEME = "light"
@@ -25,10 +25,10 @@ DEFAULT_VIEW_MODE = "split"
 def _default_config_dir() -> Path:
     if sys.platform.startswith("win"):
         base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
-        return Path(base) / "StaxMD"
+        return Path(base) / "SnapDock"
     if sys.platform == "darwin":
-        return Path.home() / "Library" / "Application Support" / "StaxMD"
-    return Path.home() / ".config" / "staxmd"
+        return Path.home() / "Library" / "Application Support" / "SnapDock"
+    return Path.home() / ".config" / "snapdock"
 
 
 def app_config_dir() -> Path:

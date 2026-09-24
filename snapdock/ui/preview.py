@@ -192,7 +192,7 @@ def render_markdown(text: str) -> str:
     return _PREVIEW_STYLE + html
 
 
-class StaxMDPreview(QTextBrowser):
+class SnapDockPreview(QTextBrowser):
 
     def __init__(self) -> None:
         super().__init__()

@@ -3,7 +3,7 @@ import os
 import tempfile
 import unittest
 
-import staxmd.persistence as persistence
+import snapdock.persistence as persistence
 
 
 class PersistenceTests(unittest.TestCase):

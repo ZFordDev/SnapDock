@@ -3,14 +3,14 @@ from __future__ import annotations
 from PySide6.QtCore import Qt, QTimer, Signal
 from PySide6.QtWidgets import QTextEdit
 
-from staxmd.fonts import MONO, make_font
+from snapdock.fonts import MONO, make_font
 
 # Delay (ms) before emitting preview_changed after the last keystroke.
 # Prevents re-rendering on every character while the user is typing fast.
 _PREVIEW_DEBOUNCE_MS = 150
 
 
-class StaxMDEditor(QTextEdit):
+class SnapDockEditor(QTextEdit):
     # Signals emitted to window.py
     metrics_changed = Signal(int, int)  # words, chars
     preview_changed = Signal(str)  # raw Markdown text
@@ -22,7 +22,7 @@ class StaxMDEditor(QTextEdit):
         self.setObjectName("MarkdownInputMain")
         self.setFont(make_font(MONO, 12))
         self.setPlaceholderText(
-            "# Welcome to StaxMD\n\nStart typing your Markdown content here..."
+            "# Welcome to SnapDock\n\nStart typing your Markdown content here..."
         )
         self.setFrameStyle(0)
 
@@ -69,7 +69,7 @@ class StaxMDEditor(QTextEdit):
             self.file_dirty_changed.emit(False)
             self.preview_changed.emit(self.toPlainText())
         except Exception as e:
-            print(f"[StaxMD] Failed to load file: {e}")
+            print(f"[SnapDock] Failed to load file: {e}")
 
     def save_file(self, path: str | None = None) -> None:
         """Save the editor contents to a file."""
@@ -77,7 +77,7 @@ class StaxMDEditor(QTextEdit):
             path = self._current_path
 
         if path is None:
-            print("[StaxMD] No file path provided for save.")
+            print("[SnapDock] No file path provided for save.")
             return
 
         try:
@@ -86,7 +86,7 @@ class StaxMDEditor(QTextEdit):
             self._dirty = False
             self.file_dirty_changed.emit(False)
         except Exception as e:
-            print(f"[StaxMD] Failed to save file: {e}")
+            print(f"[SnapDock] Failed to save file: {e}")
 
     # ---------------------------------------------------------
     # Metrics

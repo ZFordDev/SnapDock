@@ -17,7 +17,7 @@ jobs:
         python: ['3.10', '3.12']
     env:
       QT_QPA_PLATFORM: offscreen
-      STAXMD_CONFIG_DIR: ${{ runner.temp }}/staxmd-test
+      SNAPDOCK_CONFIG_DIR: ${{ runner.temp }}/snapdock-test
     steps:
       - uses: actions/checkout@v4
       - name: Install Qt runtime libraries (Linux)

@@ -43,25 +43,25 @@ jobs:
 
       - name: Build standalone binary
         run: >
-          pyinstaller --onefile --name staxmd
-          --add-data "staxmd/themes/*${{ steps.sep.outputs.sep }}staxmd/themes"
+          pyinstaller --onefile --name snapdock-guppy
+          --add-data "snapdock/themes/*${{ steps.sep.outputs.sep }}snapdock/themes"
           --hidden-import pymdownx
-          --hidden-import staxmd.fonts
-          --hidden-import staxmd.persistence
-          --hidden-import staxmd.ui
-          --hidden-import staxmd.ui.window
-          --hidden-import staxmd.ui.editor
-          --hidden-import staxmd.ui.preview
-          --hidden-import staxmd.ui.tabs
-          --hidden-import staxmd.ui.menubar
-          --hidden-import staxmd.ui.footer
-          --hidden-import staxmd.ui.filetree
-          staxmd/main.py
+          --hidden-import snapdock.fonts
+          --hidden-import snapdock.persistence
+          --hidden-import snapdock.ui
+          --hidden-import snapdock.ui.window
+          --hidden-import snapdock.ui.editor
+          --hidden-import snapdock.ui.preview
+          --hidden-import snapdock.ui.tabs
+          --hidden-import snapdock.ui.menubar
+          --hidden-import snapdock.ui.footer
+          --hidden-import snapdock.ui.filetree
+          snapdock/main.py
 
       - name: Smoke test the binary
         shell: bash
         run: |
-          if [ "$RUNNER_OS" = "Windows" ]; then BIN="dist/staxmd.exe"; else BIN="dist/staxmd"; fi
+          if [ "$RUNNER_OS" = "Windows" ]; then BIN="dist/snapdock-guppy.exe"; else BIN="dist/snapdock-guppy"; fi
           "$BIN" --version || true
 
       - name: Upload release assets
@@ -69,6 +69,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            dist/staxmd
-            dist/staxmd.exe
+            dist/snapdock-guppy
+            dist/snapdock-guppy.exe
           fail_on_unmatched_files: false

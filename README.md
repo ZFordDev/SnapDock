@@ -1,14 +1,11 @@
-# StaxMD
+# SnapDock (Guppy)
 
-A local-first StaxMD desktop application from the StaxDash **StaxSuite** family.
-Runs entirely on your own machine � no cloud account, no telemetry.
+A local-first Markdown desktop application in the **SnapDock** family.
+Runs entirely on your own machine — no cloud account, no telemetry.
 
-Part of the StaxSuite desktop suite (launched by **StaxOffice**), but also runs
-standalone via its own command:
-
-`
-staxmd
-`
+This is the **Guppy** line — a Python/Qt prototype of SnapDock built with
+PySide6. It develops alongside the Electron (v3) and Tauri (v4) releases and
+is tracked on the `guppy` branch of the SnapDock repository.
 
 ## Requirements
 
@@ -27,9 +24,9 @@ python -m pip install -e .
 ## Running
 
 `
-staxmd                 # open the editor
-staxmd file.ext        # open a file directly
-staxmd --version       # print version
+snapdock-guppy                 # open the editor
+snapdock-guppy file.ext        # open a file directly
+snapdock-guppy --version       # print version
 `
 
 ## Features
@@ -45,8 +42,11 @@ staxmd --version       # print version
 - **Export to HTML** — File ▸ Export HTML (Ctrl+E) renders the current document to a standalone `.html` file.
 - **Theme & layout memory** — light/dark theme, view mode, and window geometry are remembered between runs.
 
-Settings live in a platform config directory (e.g. `~/.config/staxmd` on Linux,
-`%LOCALAPPDATA%/StaxMD` on Windows, `~/Library/Application Support/StaxMD` on macOS).
+Settings live in the SnapDock family config directory
+(`%LOCALAPPDATA%\ZFordDev\SnapDock` on Windows,
+`~/Library/Application Support/ZFordDev/SnapDock` on macOS,
+`~/.config/ZFordDev/SnapDock` on Linux) inside `settings.json`.
+The `SNAPDOCK_CONFIG_DIR` environment variable overrides this location.
 
 ## Packaging
 
@@ -54,7 +54,7 @@ A standalone binary is produced with PyInstaller and published as a GitHub Relea
 
 `
 python -m pip install -e ".[dev]" pyinstaller
-pyinstaller --onefile --name staxmd --add-data "staxmd/themes/*:staxmd/themes" staxmd/main.py
+pyinstaller --onefile --name snapdock-guppy --add-data "snapdock/themes/*:snapdock/themes" snapdock/main.py
 `
 
 ## Development & tests
@@ -66,4 +66,4 @@ python -m unittest discover -s tests -v
 
 ## Licence
 
-Proprietary � see [EULA.md](EULA.md). Not open-source licensed.
+MIT — see [LICENSE](LICENSE).

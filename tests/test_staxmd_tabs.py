@@ -1,3 +1,4 @@
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -6,6 +7,21 @@ from PySide6.QtWidgets import QApplication, QTabBar
 
 from staxmd.ui.tabs import StaxMDTabBar, TabDocument
 from staxmd.ui.window import StaxMDWindow
+
+_ORIG_CONFIG_DIR = None
+
+
+def setUpModule() -> None:
+    global _ORIG_CONFIG_DIR
+    _ORIG_CONFIG_DIR = os.environ.get("STAXMD_CONFIG_DIR")
+    os.environ["STAXMD_CONFIG_DIR"] = tempfile.mkdtemp()
+
+
+def tearDownModule() -> None:
+    if _ORIG_CONFIG_DIR is None:
+        os.environ.pop("STAXMD_CONFIG_DIR", None)
+    else:
+        os.environ["STAXMD_CONFIG_DIR"] = _ORIG_CONFIG_DIR
 
 
 class TabDocumentTests(unittest.TestCase):
@@ -77,6 +93,17 @@ class StaxMDWindowTabTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.app = QApplication.instance() or QApplication([])
+
+    def setUp(self) -> None:
+        self._cfg = tempfile.mkdtemp()
+        self._prev = os.environ.get("STAXMD_CONFIG_DIR")
+        os.environ["STAXMD_CONFIG_DIR"] = self._cfg
+
+    def tearDown(self) -> None:
+        if self._prev is None:
+            os.environ.pop("STAXMD_CONFIG_DIR", None)
+        else:
+            os.environ["STAXMD_CONFIG_DIR"] = self._prev
 
     def test_window_starts_with_one_tab(self) -> None:
         window = StaxMDWindow()

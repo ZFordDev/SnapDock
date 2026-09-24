@@ -3,7 +3,7 @@ from __future__ import annotations
 from enum import Enum
 from pathlib import Path
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import (
     QFileDialog,
     QMessageBox,
@@ -13,11 +13,13 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from staxmd import persistence
+
 from .editor import StaxMDEditor
 from .filetree import StaxMDFileTree
 from .footer import StaxMDFooter
 from .menubar import StaxMDMenuBar
-from .preview import StaxMDPreview
+from .preview import StaxMDPreview, render_markdown
 from .tabs import StaxMDTabBar, TabDocument
 
 
@@ -29,7 +31,7 @@ class ViewMode(Enum):
 
 
 class StaxMDWindow(QWidget):
-    def __init__(self, version: str = "0.1.0") -> None:
+    def __init__(self, version: str = "0.2.0") -> None:
         super().__init__()
         self.setWindowTitle("StaxMD - Markdown Editor")
         self.resize(1200, 800)
@@ -100,8 +102,9 @@ class StaxMDWindow(QWidget):
         self.footer = StaxMDFooter(version)
         layout.addWidget(self.footer)
 
-        # Default Theme
-        self.apply_theme("light")
+        # --- Load persisted settings ---
+        self._settings = persistence.load_settings()
+        self.apply_theme(self._settings.theme)
 
         # --- Wire editor signals ---
         self.editor.preview_changed.connect(self.preview.update_preview)
@@ -114,21 +117,42 @@ class StaxMDWindow(QWidget):
         self.menu_bar.action_open.triggered.connect(self._on_open)
         self.menu_bar.action_save.triggered.connect(self._on_save)
         self.menu_bar.action_save_as.triggered.connect(self._on_save_as)
+        self.menu_bar.action_export_html.triggered.connect(self._on_export_html)
         self.menu_bar.action_view_source.triggered.connect(lambda: self.set_view_mode(ViewMode.SOURCE))
         self.menu_bar.action_view_preview.triggered.connect(lambda: self.set_view_mode(ViewMode.PREVIEW))
         self.menu_bar.action_view_split.triggered.connect(lambda: self.set_view_mode(ViewMode.SPLIT))
         self.menu_bar.action_view_live.triggered.connect(lambda: self.set_view_mode(ViewMode.LIVE))
         self.menu_bar.action_theme_light.triggered.connect(lambda: self.apply_theme("light"))
         self.menu_bar.action_theme_dark.triggered.connect(lambda: self.apply_theme("dark"))
+        self.menu_bar.action_clear_recent.triggered.connect(self._on_clear_recent)
 
         # --- Wire tab bar ---
         self.tab_bar.tab_changed.connect(self._on_tab_changed)
         self.tab_bar.tab_close_requested.connect(self._on_tab_close_requested)
         self.tab_bar.new_tab_requested.connect(self._new_tab)
 
-        # Create first tab and default to split
-        self._new_tab()
-        self.set_view_mode(ViewMode.SPLIT)
+        # Restore previous session (or start with a blank tab)
+        self._restore_session()
+
+        # Apply persisted view mode
+        try:
+            start_mode = ViewMode(self._settings.view_mode)
+        except ValueError:
+            start_mode = ViewMode.SPLIT
+        self.set_view_mode(start_mode)
+
+        # Restore window geometry
+        if self._settings.geometry and len(self._settings.geometry) == 4:
+            self.setGeometry(*self._settings.geometry)
+
+        # Populate recent-files menu
+        self._refresh_recent()
+
+        # Autosave / crash-recovery: persist the session periodically
+        self._autosave = QTimer(self)
+        self._autosave.setInterval(persistence.AUTOSAVE_INTERVAL_MS)
+        self._autosave.timeout.connect(self._persist_session)
+        self._autosave.start()
 
     # ---------------------------------------------------------
     # Tab management
@@ -318,6 +342,7 @@ class StaxMDWindow(QWidget):
             doc.dirty = False
             self.tab_bar.set_tab_dirty(self._active_tab, False)
             self._update_title_dirty(False)
+            self._add_recent(doc.path)
         else:
             self._on_save_as()
 
@@ -338,6 +363,7 @@ class StaxMDWindow(QWidget):
                 self.tab_bar.set_tab_label(self._active_tab, doc.label)
                 self.tab_bar.set_tab_dirty(self._active_tab, False)
             self._update_title_dirty(False)
+            self._add_recent(path)
 
     # ---------------------------------------------------------
     # Theme
@@ -350,6 +376,120 @@ class StaxMDWindow(QWidget):
             self.setStyleSheet(qss_path.read_text(encoding="utf-8"))
         else:
             self.setStyleSheet("")
+        self._settings.theme = theme_name
+
+    # ---------------------------------------------------------
+    # Persistence — session restore, autosave, recent files
+    # ---------------------------------------------------------
+
+    def _restore_session(self) -> None:
+        session = self._settings.session
+        if not session:
+            self._new_tab()
+            return
+
+        for entry in session:
+            path = entry.get("path")
+            text = entry.get("text")
+            if text is None:
+                text = ""
+            dirty = bool(entry.get("dirty", False))
+            label = entry.get("label") or "Untitled"
+
+            # Saved-on-disk files aren't snapshotted; reload current content.
+            if path and not text and Path(path).is_file():
+                load_doc = TabDocument.from_path(path)
+                text = load_doc.text
+                if not entry.get("label"):
+                    label = load_doc.label
+
+            doc = TabDocument(
+                path=path,
+                text=text,
+                cursor_block=int(entry.get("cursor_block") or 0),
+                cursor_col=int(entry.get("cursor_col") or 0),
+                dirty=dirty,
+                label=label,
+            )
+            self.tab_bar.add_tab(doc.label)
+            self._tabs.append(doc)
+            self.tab_bar.set_tab_dirty(len(self._tabs) - 1, doc.dirty)
+
+        active = self._settings.active_tab
+        if active < 0 or active >= len(self._tabs):
+            active = 0
+        self._active_tab = active
+        self._load_tab_state(active)
+        self.tab_bar.set_current_index(active)
+
+    def _persist_session(self) -> None:
+        self._save_tab_state(self._active_tab)
+        open_docs = []
+        for doc in self._tabs:
+            # For saved-on-disk files we only need the path; for unsaved or
+            # dirty documents we also snapshot the text so it survives a crash.
+            store_text = doc.text if (doc.path is None or doc.dirty) else None
+            open_docs.append(
+                {
+                    "path": doc.path,
+                    "text": store_text,
+                    "cursor_block": doc.cursor_block,
+                    "cursor_col": doc.cursor_col,
+                    "dirty": doc.dirty,
+                    "label": doc.label,
+                }
+            )
+        self._settings.session = open_docs
+        self._settings.active_tab = (
+            self._active_tab if 0 <= self._active_tab < len(self._tabs) else 0
+        )
+        persistence.save_settings(self._settings)
+
+    def _add_recent(self, path: str) -> None:
+        if not path:
+            return
+        self._settings = persistence.add_recent_file(path, self._settings)
+        self._refresh_recent()
+        self._persist_session()
+
+    def _refresh_recent(self) -> None:
+        self.menu_bar.populate_recent(self._settings.recent_files, self.load_file)
+
+    def _on_clear_recent(self) -> None:
+        self._settings = persistence.clear_recent_files(self._settings)
+        self._refresh_recent()
+        self._persist_session()
+
+    def _on_export_html(self) -> None:
+        result, _ = QFileDialog.getSaveFileName(
+            self,
+            "Export HTML",
+            "",
+            "HTML Files (*.html);;All Files (*)",
+        )
+        if not result:
+            return
+        html = render_markdown(self.editor.toPlainText())
+        document = (
+            "<!doctype html>\n<html lang=\"en\">\n<head>\n"
+            "<meta charset=\"utf-8\">\n<title>StaxMD Export</title>\n</head>\n<body>\n"
+            f"{html}\n</body>\n</html>\n"
+        )
+        try:
+            Path(result).write_text(document, encoding="utf-8")
+        except Exception as exc:  # pragma: no cover - defensive
+            print(f"[StaxMD] Export failed: {exc}")
+
+    def _persist_on_close(self) -> None:
+        geometry = self.geometry()
+        self._settings.geometry = [
+            geometry.x(),
+            geometry.y(),
+            geometry.width(),
+            geometry.height(),
+        ]
+        self._settings.view_mode = self._current_mode.value
+        self._persist_session()
 
     # ---------------------------------------------------------
     # Title / dirty state
@@ -373,12 +513,14 @@ class StaxMDWindow(QWidget):
         for idx, doc in enumerate(self._tabs):
             if doc.path == path:
                 self.tab_bar.set_current_index(idx)
+                self._add_recent(path)
                 return
 
         doc = TabDocument.from_path(path)
         idx = self.tab_bar.add_tab(doc.label)
         self._tabs.append(doc)
         self.tab_bar.set_current_index(idx)
+        self._add_recent(path)
 
     # ---------------------------------------------------------
     # Footer cursor position
@@ -398,6 +540,7 @@ class StaxMDWindow(QWidget):
         dirty_tabs = [doc for doc in self._tabs if doc.dirty]
         if not dirty_tabs:
             event.accept()
+            self._persist_on_close()
             return
 
         reply = QMessageBox.question(
@@ -416,7 +559,9 @@ class StaxMDWindow(QWidget):
                     self.editor.save_file()
                     doc.dirty = False
             event.accept()
+            self._persist_on_close()
         elif reply == QMessageBox.Discard:
             event.accept()
+            self._persist_on_close()
         else:
             event.ignore()

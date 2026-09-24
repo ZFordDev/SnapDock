@@ -24,6 +24,15 @@ class StaxMDMenuBar(QMenuBar):
         file_menu.addAction(self.action_save)
         file_menu.addAction(self.action_save_as)
 
+        self.action_export_html = QAction("Export HTML", action_parent)
+        self.action_export_html.setShortcut(QKeySequence("Ctrl+E"))
+        file_menu.addAction(self.action_export_html)
+
+        file_menu.addSeparator()
+        self.recent_menu = file_menu.addMenu("Recent Files")
+        self.action_clear_recent = QAction("Clear Recent", action_parent)
+        self.recent_menu.addAction(self.action_clear_recent)
+
         # --- View Menu (checkable, radio-style) ---
         view_menu = self.addMenu("View")
 
@@ -78,3 +87,21 @@ class StaxMDMenuBar(QMenuBar):
         }
         for name, action in mapping.items():
             action.setChecked(name == mode)
+
+    def populate_recent(self, files: list[str], on_open) -> None:
+        """Rebuild the Recent Files submenu.
+
+        ``on_open`` is called with a file path when a recent entry is chosen.
+        """
+        self.recent_menu.clear()
+        if not files:
+            empty = QAction("(no recent files)", self)
+            empty.setEnabled(False)
+            self.recent_menu.addAction(empty)
+            return
+        for path in files:
+            action = QAction(path, self)
+            action.triggered.connect(lambda _checked=False, p=path: on_open(p))
+            self.recent_menu.addAction(action)
+        self.recent_menu.addSeparator()
+        self.recent_menu.addAction(self.action_clear_recent)

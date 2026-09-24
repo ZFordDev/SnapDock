@@ -11,9 +11,9 @@ def _get_version() -> str:
     try:
         from importlib.metadata import version as _pkg_version
 
-        return _pkg_version("staxmd")
+        return _pkg_version("snapdock-guppy")
     except Exception:
-        return "0.2.0"
+        return "5.0.0"
 
 
 def launch(file_path: str | None = None) -> int:
@@ -33,7 +33,7 @@ def launch(file_path: str | None = None) -> int:
 def main() -> int:
     args = sys.argv[1:]
     if args and args[0] in ("--version", "-v", "-V"):
-        print(f"staxmd {_get_version()}")
+        print(f"SnapDock-Guppy {_get_version()}")
         return 0
 
     return launch(args[0] if args else None)

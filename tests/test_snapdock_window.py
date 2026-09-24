@@ -16,15 +16,15 @@ _ORIG_CONFIG_DIR = None
 
 def setUpModule() -> None:
     global _ORIG_CONFIG_DIR
-    _ORIG_CONFIG_DIR = os.environ.get("STAXMD_CONFIG_DIR")
-    os.environ["STAXMD_CONFIG_DIR"] = tempfile.mkdtemp()
+    _ORIG_CONFIG_DIR = os.environ.get("SNAPDOCK_CONFIG_DIR")
+    os.environ["SNAPDOCK_CONFIG_DIR"] = tempfile.mkdtemp()
 
 
 def tearDownModule() -> None:
     if _ORIG_CONFIG_DIR is None:
-        os.environ.pop("STAXMD_CONFIG_DIR", None)
+        os.environ.pop("SNAPDOCK_CONFIG_DIR", None)
     else:
-        os.environ["STAXMD_CONFIG_DIR"] = _ORIG_CONFIG_DIR
+        os.environ["SNAPDOCK_CONFIG_DIR"] = _ORIG_CONFIG_DIR
 
 
 class SnapDockWindowTests(unittest.TestCase):
@@ -34,14 +34,14 @@ class SnapDockWindowTests(unittest.TestCase):
 
     def setUp(self) -> None:
         self._cfg = tempfile.mkdtemp()
-        self._prev = os.environ.get("STAXMD_CONFIG_DIR")
-        os.environ["STAXMD_CONFIG_DIR"] = self._cfg
+        self._prev = os.environ.get("SNAPDOCK_CONFIG_DIR")
+        os.environ["SNAPDOCK_CONFIG_DIR"] = self._cfg
 
     def tearDown(self) -> None:
         if self._prev is None:
-            os.environ.pop("STAXMD_CONFIG_DIR", None)
+            os.environ.pop("SNAPDOCK_CONFIG_DIR", None)
         else:
-            os.environ["STAXMD_CONFIG_DIR"] = self._prev
+            os.environ["SNAPDOCK_CONFIG_DIR"] = self._prev
 
     def test_light_and_dark_theme_assets_exist(self) -> None:
         self.assertTrue((THEMES_DIR / "light.qss").is_file())

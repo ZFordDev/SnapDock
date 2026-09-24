@@ -9,16 +9,16 @@ import snapdock.persistence as persistence
 class PersistenceTests(unittest.TestCase):
     def setUp(self) -> None:
         self._tmp = tempfile.mkdtemp()
-        self._prev = os.environ.get("STAXMD_CONFIG_DIR")
-        os.environ["STAXMD_CONFIG_DIR"] = self._tmp
+        self._prev = os.environ.get("SNAPDOCK_CONFIG_DIR")
+        os.environ["SNAPDOCK_CONFIG_DIR"] = self._tmp
         # A fresh dir means no settings file yet.
         persistence.settings_path().unlink(missing_ok=True)
 
     def tearDown(self) -> None:
         if self._prev is None:
-            os.environ.pop("STAXMD_CONFIG_DIR", None)
+            os.environ.pop("SNAPDOCK_CONFIG_DIR", None)
         else:
-            os.environ["STAXMD_CONFIG_DIR"] = self._prev
+            os.environ["SNAPDOCK_CONFIG_DIR"] = self._prev
 
     def test_default_settings(self) -> None:
         settings = persistence.load_settings()

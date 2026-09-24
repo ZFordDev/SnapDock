@@ -3,22 +3,22 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "staxmd"
-version = "0.2.0"
-description = "StaxDash StaxMD — local-first desktop Markdown application"
+name = "snapdock-guppy"
+version = "5.0.0"
+description = "SnapDock — local-first desktop Markdown application"
 readme = "README.md"
-license = { text = "EULA" }
+license = { text = "MIT" }
 requires-python = ">=3.10"
 
 authors = [
-  { name = "StaxDash", email = "studio@staxdash.com" }
+  { name = "ZFordDev", email = "zforddev@gmail.com" }
 ]
 maintainers = [
-  { name = "StaxDash", email = "studio@staxdash.com" }
+  { name = "ZFordDev", email = "zforddev@gmail.com" }
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: Other/Proprietary License",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 
@@ -32,7 +32,7 @@ dependencies = [
 dev = ["pytest", "black", "ruff", "pyinstaller"]
 
 [tool.setuptools]
-packages = ["staxmd"]
+packages = ["snapdock"]
 
 [tool.ruff]
 target-version = "py310"
@@ -45,4 +45,4 @@ select = ["E", "F", "I", "N", "UP", "SIM", "BLE"]
 ignore = ["N802", "BLE001"]
 
 [project.scripts]
-staxmd = "staxmd.main:main"
+snapdock-guppy = "snapdock.main:main"

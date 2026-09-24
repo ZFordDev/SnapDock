@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-SETTINGS_FILENAME = "snapdock.json"
+SETTINGS_FILENAME = "settings.json"
 AUTOSAVE_INTERVAL_MS = 30_000
 MAX_RECENT_FILES = 12
 DEFAULT_THEME = "light"
@@ -25,14 +25,14 @@ DEFAULT_VIEW_MODE = "split"
 def _default_config_dir() -> Path:
     if sys.platform.startswith("win"):
         base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
-        return Path(base) / "SnapDock"
+        return Path(base) / "ZFordDev" / "SnapDock"
     if sys.platform == "darwin":
-        return Path.home() / "Library" / "Application Support" / "SnapDock"
-    return Path.home() / ".config" / "snapdock"
+        return Path.home() / "Library" / "Application Support" / "ZFordDev" / "SnapDock"
+    return Path.home() / ".config" / "ZFordDev" / "SnapDock"
 
 
 def app_config_dir() -> Path:
-    override = os.environ.get("STAXMD_CONFIG_DIR")
+    override = os.environ.get("SNAPDOCK_CONFIG_DIR")
     base = Path(override) if override else _default_config_dir()
     base.mkdir(parents=True, exist_ok=True)
     return base

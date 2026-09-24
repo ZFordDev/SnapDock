@@ -31,7 +31,7 @@ class ViewMode(Enum):
 
 
 class SnapDockWindow(QWidget):
-    def __init__(self, version: str = "0.2.0") -> None:
+    def __init__(self, version: str = "5.0.0") -> None:
         super().__init__()
         self.setWindowTitle("SnapDock - Markdown Editor")
         self.resize(1200, 800)

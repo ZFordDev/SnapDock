@@ -109,6 +109,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: desktop-windows
+          retention-days: 1
           path: |
             dist/latest.yml
             dist/*.exe
@@ -120,6 +121,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: desktop-linux
+          retention-days: 1
           path: |
             dist/latest-linux.yml
             dist/*.AppImage

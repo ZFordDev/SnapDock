@@ -1,11 +1,14 @@
-# Disable routine version updates; retain security-update grouping.
+# Check for version updates every Wednesday at 6 am Brisbane time.
 version: 2
 updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 0
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Australia/Brisbane"
+    open-pull-requests-limit: 5
     groups:
       security-patches:
         applies-to: security-updates
@@ -15,4 +18,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 0
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Australia/Brisbane"
+    open-pull-requests-limit: 5

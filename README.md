@@ -2,18 +2,20 @@
 
 # SnapDock
 
-### A calm, modern Markdown editor for Windows and Linux
+### The writers Markdown workspace
 
-[Website](https://snapdock.app) · [Documentation](https://docs.snapdock.app) · [Downloads](https://snapdock.app/downloads) · [Report a bug](https://github.com/ZFordDev/SnapDock/issues/new/choose)
+[Website](https://snapdock.app) · [Documentation](https://docs.snapdock.app/docs/ZFordDev/SnapDock/) · [Downloads](https://snapdock.app/downloads) · [Report a bug](https://github.com/ZFordDev/SnapDock/issues/new/choose)
 
 [![Status](https://img.shields.io/badge/status-active-4CAF50?style=flat-square)](https://github.com/ZFordDev/SnapDock)
 [![Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux-0078D4?style=flat-square)](#installation)
 [![GitHub downloads](https://img.shields.io/github/downloads/ZFordDev/SnapDock/total?style=flat-square)](https://github.com/ZFordDev/SnapDock/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
+###### _downloads shown above are from github release and also indicate apps getting updates_ 
+
 </div>
 
-SnapDock gives you a focused place to write, organise, and preview Markdown without turning your editor into an IDE. It is local-first, offline-friendly, and designed to stay out of your way.
+SnapDock gives you a focused place to write, organise, and preview Markdown without turning your editor into an IDE. It is local-first, offline-friendly, and designed to actually look good!
 
 <p align="center">
   <img src="assets/screenshots/snapdock-light.png" width="48%" alt="SnapDock in the light theme on Ubuntu" />
@@ -22,7 +24,7 @@ SnapDock gives you a focused place to write, organise, and preview Markdown with
 
 ## Features
 
-- **Workspace-based file management** with a file tree and workspace-scoped recent files
+- **Workspace-based file management** with a file tree open to your workspace 
 - **Multi-tab editing** with drag-and-drop tab reordering and unsaved-change protection
 - **Flexible previews** with full-page and resizable split views
 - **Rich Markdown rendering** including syntax highlighting, footnotes, task lists, emoji, anchors, marks, subscript, and superscript
@@ -31,7 +33,7 @@ SnapDock gives you a focused place to write, organise, and preview Markdown with
 - **PDF export** directly from the rendered preview
 - **Built-in spellcheck** with correction suggestions from the native context menu
 - **Five included themes**: Light, Dark, Solarized, Arctic Dark, and Forest
-- **Local-first workflow** that keeps your Markdown files on your computer
+- **Local-first workflow** that keeps your Markdown files on your computer as it should be.
 
 ## Installation
 
@@ -103,11 +105,9 @@ SnapDock is stable, actively maintained, and open to contributions. Development 
 - [Latest releases and release notes](https://github.com/ZFordDev/SnapDock/releases)
 - [Contributing guide](CONTRIBUTING.md)
 
-When opening an issue, start its title with `main:`, `v3:`, `beta:`, `v4:`, or `Phoenix:` to identify the release line. Feature requests are for V4/Phoenix only; bug reports and documentation issues may target either line.
-
 ## Known limitations
 
-- Live preview is not yet available; standard and split previews update while you work.
+- Live preview is not yet available, standard and split previews update while you work.
 - Electron and Chromium can behave differently across Linux display servers and desktop environments. Please [report reproducible issues](https://github.com/ZFordDev/SnapDock/issues/new/choose) with your distribution, desktop environment, and display server.
 
 ## Support and contributing
@@ -121,7 +121,3 @@ If SnapDock is useful to you, starring the repository or sharing the project als
 ## License
 
 SnapDock is free and open-source software released under the [MIT License](LICENSE).
-
-## About
-
-SnapDock is part of the [SnapDock ecosystem](https://snapdock.app), a collection of focused tools for writing, planning, and creating. It is built and maintained by [ZFordDev](https://github.com/ZFordDev).

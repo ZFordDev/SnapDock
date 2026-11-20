@@ -102,33 +102,42 @@ export function clearSession() {
 // previously active tab. Files are (re)loaded from disk — never from
 // localStorage — and anything missing/inaccessible is skipped. This must be
 // called after the workspace is loaded (see app.js / tree.js event).
+// ZFordDev: OS-requested files should open after restored tabs and stay selected.
+let sessionRestore = Promise.resolve();
+export function waitForSessionRestore() {
+  return sessionRestore;
+}
+
 export function initSessionRestore() {
-  document.addEventListener("snapdock:workspaceLoaded", async (e) => {
-    const workspace = e.detail.path;
-    if (!workspace) return;
-
-    const session = loadSession(workspace);
-    if (!session || !Array.isArray(session.openFiles)) return;
-
-    // Enforce workspace isolation: only restore files that live under the
-    // triggered workspace so a stale/foreign session cannot leak in.
-    const { handleFileOpen } = await import("./open.js");
-    const { switchToTabByPath } = await import("./tabs.js");
-    const sep = workspace.includes("\\") ? "\\" : "/";
-    const prefix = workspace.endsWith(sep) ? workspace : workspace + sep;
-
-    for (const filePath of session.openFiles) {
-      if (typeof filePath !== "string") continue;
-      if (!filePath.startsWith(prefix)) continue; // isolation guard
-      const name = filePath.split(/[\\/]/).pop();
-      // handleFileOpen loads from disk and returns early on missing files.
-      await handleFileOpen(filePath, name);
-    }
-
-    // Restore the previously active saved-file tab, if it was reopened.
-    if (session.activeFile) {
-      switchToTabByPath(session.activeFile);
-    }
+  document.addEventListener("snapdock:workspaceLoaded", (e) => {
+    sessionRestore = restoreSession(e.detail.path);
   });
+}
+
+async function restoreSession(workspace) {
+  if (!workspace) return;
+
+  const session = loadSession(workspace);
+  if (!session || !Array.isArray(session.openFiles)) return;
+
+  // Enforce workspace isolation: only restore files that live under the
+  // triggered workspace so a stale/foreign session cannot leak in.
+  const { handleFileOpen } = await import("./open.js");
+  const { switchToTabByPath } = await import("./tabs.js");
+  const sep = workspace.includes("\\") ? "\\" : "/";
+  const prefix = workspace.endsWith(sep) ? workspace : workspace + sep;
+
+  for (const filePath of session.openFiles) {
+    if (typeof filePath !== "string") continue;
+    if (!filePath.startsWith(prefix)) continue; // isolation guard
+    const name = filePath.split(/[\\/]/).pop();
+    // handleFileOpen loads from disk and returns early on missing files.
+    await handleFileOpen(filePath, name);
+  }
+
+  // Restore the previously active saved-file tab, if it was reopened.
+  if (session.activeFile) {
+    switchToTabByPath(session.activeFile);
+  }
 }
 

@@ -4,14 +4,14 @@ import { initApp } from "./modules/ui/app.js";
 import { initEditorSync } from "./modules/ui/editorSync.js";
 import { initFileTree } from "./modules/file/tree.js";
 import { initResizer } from "./modules/ui/resizer.js";
-import { openFileDialog } from "./modules/file/open.js";
+import { openFileDialog, handleFileOpen } from "./modules/file/open.js";
 import { respondToDirtyStateRequest } from "./modules/system/dirtyState.js";
 import { save_all_tabs } from "./modules/file/tabs.js";
 import { initDropdownToggles, initToolsDropdown } from "./modules/ui/dropdownMenus.js";
 import { initMetrics } from "./modules/ui/metrics.js";
 import { initEditorFont } from "./modules/ui/editorFont.mjs";
 import { clearWorkspace } from "./modules/file/workspace.js";
-import { initSessionRestore, clearSession } from "./modules/file/session.js";
+import { initSessionRestore, clearSession, waitForSessionRestore } from "./modules/file/session.js";
 import { initEditorIndent } from "./modules/ui/editorIndent.js";
 
 // Helper
@@ -77,5 +77,14 @@ window.addEventListener("DOMContentLoaded", () => {
   // metrics for footer
   const editor = document.getElementById("markdownInputMain");
   initMetrics(editor);
+
+  // ZFordDev: serialize OS opens so existing tab handling and file checks are reused.
+  let pendingOpen = waitForSessionRestore().catch(console.error);
+  window.electronAPI.onOpenFile((filePath) => {
+    pendingOpen = pendingOpen.then(() =>
+      handleFileOpen(filePath, filePath.split(/[\\/]/).pop())
+    ).catch(console.error);
+  });
+  pendingOpen.then(() => window.electronAPI.filesReady());
 
 });

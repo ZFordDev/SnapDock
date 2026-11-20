@@ -2,6 +2,7 @@ const { app, BrowserWindow, dialog, ipcMain, shell } = require("electron");
 const chokidar = require("chokidar");
 const fs = require("fs");
 const path = require("path");
+const { fileURLToPath } = require("url");
 const pkg = require("./package.json");
 const pdfModule = require("./src/modules/pdf/pdf.js");
 const { isExternalLink } = require("./src/modules/linkNavigation.js");
@@ -37,6 +38,36 @@ const setupUpdater = require("./src/modules/updater/index.js");
 let workspaceWatcher = null;
 let currentWorkspacePath = null;
 let mainWindow;
+// ZFordDev: only files explicitly supplied by the OS may bypass workspace limits.
+const externallyOpenedFiles = new Set();
+const pendingOpenFiles = [];
+let editorReady = false;
+
+function sendPendingOpenFiles() {
+  if (!editorReady || !mainWindow || mainWindow.isDestroyed()) return;
+  for (const filePath of pendingOpenFiles.splice(0)) {
+    mainWindow.webContents.send("files:open", filePath);
+  }
+}
+
+// ZFordDev: Windows passes paths; Linux launchers may pass file:// URLs instead.
+function queueLaunchFiles(argv, workingDirectory) {
+  const args = argv.slice(app.isPackaged ? 1 : 2);
+  for (const arg of args) {
+    if (!arg || arg.startsWith("-")) continue;
+    try {
+      const filePath = arg.startsWith("file:")
+        ? fileURLToPath(arg)
+        : path.resolve(workingDirectory, arg);
+      if (!fs.statSync(filePath).isFile()) continue;
+      externallyOpenedFiles.add(filePath);
+      pendingOpenFiles.push(filePath);
+    } catch {
+      // Ignore launcher arguments and files that no longer exist.
+    }
+  }
+  sendPendingOpenFiles();
+}
 let forceClose = false;
 let relaunchAfterClose = false;
 // Handle to the updater API returned by setupUpdater(); used to apply a
@@ -141,6 +172,7 @@ function finishWindowClose() {
 }
 
 function createWindow() {
+  editorReady = false;
   mainWindow = new BrowserWindow({
     width: 1100,
     height: 800,
@@ -317,21 +349,65 @@ ipcMain.handle("spellcheck:set-state", (_event, enabled) => {
   return spellcheckEnabled;
 });
 
-app.whenReady().then(createWindow);
+// ZFordDev: open subsequent OS requests in the existing window and keep its tabs.
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+} else {
+  app.on("second-instance", (_event, argv, workingDirectory) => {
+    queueLaunchFiles(argv, workingDirectory);
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.show();
+      mainWindow.focus();
+    }
+  });
+  app.whenReady().then(() => {
+    queueLaunchFiles(process.argv, process.cwd());
+    createWindow();
+  });
+}
+
+// ZFordDev: hold startup files until the editor has finished restoring its session.
+ipcMain.on("files:ready", (event) => {
+  if (event.sender !== mainWindow?.webContents) return;
+  editorReady = true;
+  sendPendingOpenFiles();
+});
 
   // -----------------------------
   // FILE OPERATIONS
   // -----------------------------
 
+  // ZFordDev: keep unsupported files out of the editor using the tree's file types.
+  async function canOpenTextFile(filePath) {
+    if (typeof filePath === "string" && /\.(md|markdown|txt)$/i.test(filePath)) {
+      return true;
+    }
+
+    // ZFordDev: explain the rejection without changing the current document.
+    await dialog.showMessageBox(mainWindow, {
+      type: "info",
+      buttons: ["OK"],
+      defaultId: 0,
+      cancelId: 0,
+      title: "Unsupported File",
+      message: "Sorry i cant read that one! try a markdown file or raise a issue",
+    });
+    return false;
+  }
+
   ipcMain.handle("open-file", async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({
       properties: ["openFile"],
-      filters: [{ name: "Markdown", extensions: ["md"] }],
+      // ZFordDev: offer the same supported files shown in the file tree.
+      filters: [{ name: "Markdown and Text", extensions: ["md", "markdown", "txt"] }],
     });
 
     if (canceled || filePaths.length === 0) return null;
 
     const filePath = filePaths[0];
+    // ZFordDev: reject unsupported selections before reading any file contents.
+    if (!(await canOpenTextFile(filePath))) return null;
     const content = fs.readFileSync(filePath, "utf-8");
 
     return { content, filePath };
@@ -402,7 +478,8 @@ app.whenReady().then(createWindow);
       // FIX C3: prevent path traversal — when a workspace is open, only allow
       // writing to files within it. Without this a compromised renderer could
       // overwrite any writable file on disk.
-      if (currentWorkspacePath) {
+      // ZFordDev: allow saving an OS-opened document without switching projects.
+      if (currentWorkspacePath && !externallyOpenedFiles.has(path.resolve(filePath))) {
         const resolved = path.resolve(filePath);
         if (!resolved.startsWith(currentWorkspacePath + path.sep) && resolved !== currentWorkspacePath) {
           console.error("save-file rejected: path outside workspace", resolved);
@@ -419,6 +496,8 @@ app.whenReady().then(createWindow);
   });
 
   ipcMain.handle("open-recent-file", async (event, filePath) => {
+    // ZFordDev: older recent-file entries must pass the same file type check.
+    if (!(await canOpenTextFile(filePath))) return null;
     try {
       return fs.readFileSync(filePath, "utf-8");
     } catch (err) {
@@ -464,7 +543,8 @@ app.whenReady().then(createWindow);
     // FIX C2: prevent path traversal — when a workspace is open, only allow
     // reading files within it. Without this a compromised renderer could read
     // any file on disk (e.g. /etc/passwd, ~/.ssh/id_rsa).
-    if (currentWorkspacePath && pathArg) {
+    // ZFordDev: allow only the exact OS-opened path outside the current project.
+    if (currentWorkspacePath && pathArg && !externallyOpenedFiles.has(path.resolve(pathArg))) {
       const resolved = path.resolve(pathArg);
       if (!resolved.startsWith(currentWorkspacePath + path.sep) && resolved !== currentWorkspacePath) {
         console.error("open-file-by-path rejected: path outside workspace", resolved);
@@ -472,6 +552,8 @@ app.whenReady().then(createWindow);
       }
     }
 
+    // ZFordDev: guard tree, recent, restored, and linked files before reading them.
+    if (!(await canOpenTextFile(pathArg))) return null;
     try {
       return await fs.promises.readFile(pathArg, "utf8");
     } catch {

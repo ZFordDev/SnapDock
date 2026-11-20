@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=SnapDock
 Exec=snapdock %U
+MimeType=text/markdown;text/plain;
 Terminal=false
 Type=Application
 Icon=${SNAP}/meta/gui/snapdock.png

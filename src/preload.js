@@ -41,6 +41,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("confirm-tab-close", title),
   openFileByPath: (path) =>
     ipcRenderer.invoke("open-file-by-path", path),
+  // ZFordDev: pass OS file requests to the editor only after it is ready.
+  onOpenFile: (callback) =>
+    ipcRenderer.on("files:open", (_, filePath) => callback(filePath)),
+  filesReady: () => ipcRenderer.send("files:ready"),
   openExternalLink: (target) =>
     ipcRenderer.invoke("open-external-link", target),
   isExternalLink,

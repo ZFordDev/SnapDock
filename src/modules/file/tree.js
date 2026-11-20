@@ -30,7 +30,10 @@ export function initFileTree(container) {
 // Render directory contents (container MUST be a <ul>)
 export async function renderFileTree(container, dirPath) {
   const emptyState = document.getElementById("fileTreeEmptyState");
-  const entries = await window.electronAPI.listFiles(dirPath);
+  // ZFordDev: filter out the junk from the file tree
+  const entries = (await window.electronAPI.listFiles(dirPath)).filter(
+    entry => entry.type === "folder" || /\.(md|markdown|txt)$/i.test(entry.name)
+  );
 
   for (const entry of entries) {
     const li = createElement("li", entry.type, entry.name);
@@ -61,10 +64,8 @@ export async function renderFileTree(container, dirPath) {
   }
 
   // Empty-state toggle
-  if (container.childElementCount === 0) {
-    emptyState.style.display = "block";
-  } else {
-    emptyState.style.display = "none";
+  if (container === activeContainer) {
+    emptyState.style.display = container.childElementCount === 0 ? "block" : "none";
   }
 }
 

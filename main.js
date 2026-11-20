@@ -323,15 +323,36 @@ app.whenReady().then(createWindow);
   // FILE OPERATIONS
   // -----------------------------
 
+  // ZFordDev: keep unsupported files out of the editor using the tree's file types.
+  async function canOpenTextFile(filePath) {
+    if (typeof filePath === "string" && /\.(md|markdown|txt)$/i.test(filePath)) {
+      return true;
+    }
+
+    // ZFordDev: explain the rejection without changing the current document.
+    await dialog.showMessageBox(mainWindow, {
+      type: "info",
+      buttons: ["OK"],
+      defaultId: 0,
+      cancelId: 0,
+      title: "Unsupported File",
+      message: "Sorry i cant read that one! try a markdown file or raise a issue",
+    });
+    return false;
+  }
+
   ipcMain.handle("open-file", async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({
       properties: ["openFile"],
-      filters: [{ name: "Markdown", extensions: ["md"] }],
+      // ZFordDev: offer the same supported files shown in the file tree.
+      filters: [{ name: "Markdown and Text", extensions: ["md", "markdown", "txt"] }],
     });
 
     if (canceled || filePaths.length === 0) return null;
 
     const filePath = filePaths[0];
+    // ZFordDev: reject unsupported selections before reading any file contents.
+    if (!(await canOpenTextFile(filePath))) return null;
     const content = fs.readFileSync(filePath, "utf-8");
 
     return { content, filePath };
@@ -419,6 +440,8 @@ app.whenReady().then(createWindow);
   });
 
   ipcMain.handle("open-recent-file", async (event, filePath) => {
+    // ZFordDev: older recent-file entries must pass the same file type check.
+    if (!(await canOpenTextFile(filePath))) return null;
     try {
       return fs.readFileSync(filePath, "utf-8");
     } catch (err) {
@@ -472,6 +495,8 @@ app.whenReady().then(createWindow);
       }
     }
 
+    // ZFordDev: guard tree, recent, restored, and linked files before reading them.
+    if (!(await canOpenTextFile(pathArg))) return null;
     try {
       return await fs.promises.readFile(pathArg, "utf8");
     } catch {

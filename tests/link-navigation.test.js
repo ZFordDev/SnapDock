@@ -1,7 +1,10 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const path = require("node:path");
 
 const { isExternalLink, resolveLocalPath } = require("../src/modules/linkNavigation.js");
+const documentDir = path.resolve("test-documents", "project", "docs");
+const documentPath = path.join(documentDir, "guide.md");
 
 test("classifies external URLs correctly", () => {
   assert.equal(isExternalLink("https://google.com"), true);
@@ -15,22 +18,22 @@ test("classifies external URLs correctly", () => {
 
 test("resolves relative links against the current document directory", () => {
   assert.equal(
-    resolveLocalPath("/home/user/project/docs/guide.md", "./README.md"),
-    "/home/user/project/docs/README.md"
+    resolveLocalPath(documentPath, "./README.md"),
+    path.join(documentDir, "README.md")
   );
   assert.equal(
-    resolveLocalPath("/home/user/project/docs/guide.md", "../README.md"),
-    "/home/user/project/README.md"
+    resolveLocalPath(documentPath, "../README.md"),
+    path.join(path.dirname(documentDir), "README.md")
   );
 });
 
 test("strips anchors and queries before resolving a local path", () => {
   assert.equal(
-    resolveLocalPath("/home/user/project/docs/guide.md", "./README.md#section"),
-    "/home/user/project/docs/README.md"
+    resolveLocalPath(documentPath, "./README.md#section"),
+    path.join(documentDir, "README.md")
   );
   assert.equal(
-    resolveLocalPath("/home/user/project/docs/guide.md", "./README.md?view=full"),
-    "/home/user/project/docs/README.md"
+    resolveLocalPath(documentPath, "./README.md?view=full"),
+    path.join(documentDir, "README.md")
   );
 });

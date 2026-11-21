@@ -1,59 +1,47 @@
-name: Bug Report
-description: Report a reproducible issue in SnapDock
-labels: [bug]
+name: 🐛 Something's broken!
+description: Found a bug? Let me know and I'll take a look.
+labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for helping improve SnapDock!  
-        Please provide as much detail as possible. Start the issue title with `main:`, `v3:`, `beta:`, `v4:`, or `Phoenix:`.
+        Thanks for reporting a bug! 🐛
 
-  - type: dropdown
-    id: release_line
+        Don't worry about technical details. Just tell me what's happening and we'll figure it out together.
+
+  - type: textarea
+    id: problem
     attributes:
-      label: Release Line
-      description: Which release line does this bug affect?
-      options:
-        - "main: / v3 (current application)"
-        - "beta: / v4 / Phoenix (edge and beta)"
+      label: What's going wrong?
+      description: Tell me what happened, in your own words.
+      placeholder: |
+        I was editing a Markdown file and when I switched to preview, the app froze.
     validations:
       required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Can you make it happen again?
+      description: If you know how to trigger it, let me know. If not, that's okay!
+      placeholder: |
+        It seems to happen whenever I switch to preview with a large file.
 
   - type: input
     id: version
     attributes:
-      label: SnapDock Version
-      placeholder: e.g., 2.3.1
+      label: Which SnapDock version?
+      description: If you're not sure, feel free to leave this blank.
+      placeholder: e.g. 3.3.3
 
   - type: input
     id: os
     attributes:
-      label: Operating System
-      placeholder: e.g., Windows 11, Ubuntu 26, Fedora 40
+      label: What are you running SnapDock on?
+      placeholder: e.g. Windows 11, Ubuntu, Fedora
 
   - type: textarea
-    id: steps
+    id: extras
     attributes:
-      label: Steps to Reproduce
-      description: List each step clearly.
-      placeholder: |
-        1. Open SnapDock
-        2. Load a Markdown file
-        3. Switch preview mode
-        4. Crash occurs
-
-  - type: textarea
-    id: expected
-    attributes:
-      label: Expected Behavior
-
-  - type: textarea
-    id: actual
-    attributes:
-      label: Actual Behavior
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: Logs / Screenshots (optional)
-      description: Attach anything helpful.
+      label: Anything else?
+      description: Screenshots, error messages, logs, or anything you think might help. Please remove any private information before sharing.

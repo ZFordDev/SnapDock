@@ -1,104 +1,89 @@
 # Contributing to SnapDock
 
-Thank you for helping improve SnapDock. Contributions of all sizes are welcome, including bug reports, feature ideas, documentation, design feedback, testing, and code.
+Thanks for helping make SnapDock better!
 
-By participating, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md). Please report security vulnerabilities through the private process in [SECURITY.md](SECURITY.md).
+Whether you're fixing bugs, adding features, improving documentation, or just sharing ideas, contributions are always welcome.
 
-## Before you begin
+You don't need to be an expert. Just bring an idea and a willingness to give it a go!
 
-- Search the [issue tracker](https://github.com/ZFordDev/SnapDock/issues) before opening a new report.
-- Use the repository's issue forms for [bugs](https://github.com/ZFordDev/SnapDock/issues/new?template=bug_report.yml), [features](https://github.com/ZFordDev/SnapDock/issues/new?template=feature_request.yml), and [documentation](https://github.com/ZFordDev/SnapDock/issues/new?template=documentation.yml).
-- For a substantial change, open an issue before investing significant time so the scope and approach can be discussed.
-- Keep changes aligned with SnapDock's local-first, focused writing experience.
+## Where are we heading?
 
-### Issue and branch targeting
+**V3 (`main`) is our current focus.**
 
-Start every issue title with a release-line prefix followed by a colon so its ownership is clear:
+> [!IMPORTANT]
+> We're stepping back from V4 (Phoenix) for now to make V3 the best it can be. That means new features, bug fixes, and general improvements are all welcome.
 
-- `main:` or `v3:` for the current V3 application line. V3 produces both stable and pre-release builds.
-- `beta:`, `v4:`, or `Phoenix:` for V4, code-named Phoenix. V4 is released through the edge and beta channels.
+V4 isn't officially cancelled, but it may be restarted or replaced. To avoid anyone losing work, please target `main` for new contributions.
 
-Bug reports and documentation issues may belong to either release line. Feature requests are exclusively for V4/Phoenix and must use the `beta:`, `v4:`, or `Phoenix:` prefix. Select the matching target branch when opening a pull request: `main` for V3 work and `Phoenix` for V4 work.
+Interested in V4? Have a chat with us first!
 
-SnapDock also follows the broader [ZFordDev project standards](https://github.com/ZFordDev/ZFordDev/blob/main/STANDARDS.md).
+More details: [Discussion #271](https://github.com/ZFordDev/SnapDock/discussions/271).
 
-## Development setup
+## Getting started
 
-SnapDock requires Node.js and npm. Fork the repository, clone your fork, and install its dependencies:
+SnapDock V3 uses Electron, JavaScript, HTML, and CSS. You'll need Git, Node.js, and npm.
+
+Fork the repository, then:
 
 ```bash
 git clone https://github.com/YOUR-USERNAME/SnapDock.git
 cd SnapDock
+git switch -c feature/my-improvement
 npm install
+npm run build:dev
+npm test
+npm start
 ```
 
-Create a focused branch from the latest `main` branch:
+`build:dev` prepares the development build, including the renderer bundle, so don't skip it!
+
+Other useful commands:
 
 ```bash
-git switch -c feature/short-description
+npm run build:win    # Windows build
+npm run build:linux  # Linux build
 ```
 
-Useful development commands include:
+Windows and Linux are supported. macOS isn't officially supported yet.
 
-```bash
-node scripts/bundle.js # Bundle the renderer into dist/bundle.js
-npm start             # Launch Electron after bundling
-npm run build:dev     # Create an unpacked development build
-npm run build:win     # Build the Windows installer (Windows only)
-npm run build:linux   # Build AppImage and Debian packages (Linux only)
-```
-
-macOS builds are not currently supported.
+> [!NOTE]
+> New to development? Don't be afraid to ask questions!
+>
+> I'd rather have my inbox flooded with little questions than see someone spend hours on a contribution only to have their PR sent back for changes we could've discussed beforehand.
+>
+> Emails, issue comments, discussions, or even Discord if you catch me online. Seriously, spam away! 😂
 
 ## Making changes
 
-- Keep each pull request limited to one logical change.
-- Follow the existing JavaScript and CSS style in the files you touch.
-- Place application logic in the appropriate area of `src/modules/`.
-- Extend the existing theme variables and theme files for visual changes; check all five built-in themes.
-- Avoid large dependencies unless their value clearly outweighs the download, startup, and maintenance cost.
-- Do not introduce network services, telemetry, or cloud requirements without prior discussion.
-- Update user-facing documentation when behaviour, installation, or supported platforms change.
+A few things to keep in mind:
 
-## Testing
+- Keep changes focused and follow the existing code style.
+- SnapDock is local-first and aims to stay lightweight.
+- Avoid unnecessary dependencies, telemetry, or cloud requirements.
+- For bigger changes, open an issue or discussion first so we can share ideas.
 
-The repository does not currently provide a complete automated test suite, so contributors should perform focused manual testing and document it in the pull request.
+## Testing and pull requests
 
-At minimum:
+Run `npm test` to check your changes, then `npm start` to try them in the app.
 
-1. Confirm the app starts or produces the relevant development build.
-2. Exercise the changed workflow and likely edge cases.
-3. Check that opening, editing, saving, and previewing Markdown still work when your change affects shared application code.
-4. Test on Windows and Linux when the change is platform-sensitive. If you cannot test a platform, say so in the pull request.
-5. For UI work, check the Light, Dark, Solarized, Arctic Dark, and Forest themes and include screenshots when useful.
+For editor changes, check that opening, editing, saving, and previewing Markdown still work. For visual changes, check the built-in themes where possible.
 
-## Pull requests
+When you're ready, open a PR against **`main`**.
 
-When your change is ready:
+Tell us what changed, link any related issues, and mention what you've tested. Screenshots are welcome for UI changes.
 
-1. Push the branch to your fork and open a pull request against `main`.
-2. Complete the pull request template.
-3. Explain what changed, why it changed, and how you tested it.
-4. Link related issues with a keyword such as `Fixes #123` when appropriate.
-5. Keep unrelated formatting or refactoring out of the pull request.
-6. Respond constructively to review feedback and update the branch as needed.
+Don't worry if everything isn't perfect. Reviews are a conversation, not an exam!
 
-Clear, present-tense commit messages are appreciated. Maintainers may ask for commits to be reorganised before merging.
+## Bugs, ideas, and questions
 
-## Good bug reports
+Found something broken? [Report a bug](https://github.com/ZFordDev/SnapDock/issues/new?template=bug_report.yml).
 
-Please include:
+Have an idea? [Suggest a feature](https://github.com/ZFordDev/SnapDock/issues/new?template=feature_request.yml).
 
-- SnapDock version and installation source
-- Operating system, version, desktop environment, and display server where relevant
-- Clear reproduction steps
-- Expected and actual behaviour
-- Logs, screenshots, or a small example Markdown file when they help reproduce the problem
+Just want to chat? [Join the discussions](https://github.com/ZFordDev/SnapDock/discussions).
 
-Remove personal information, credentials, private document content, and sensitive file paths before attaching logs or screenshots.
+Please follow our [Code of Conduct](CODE_OF_CONDUCT.md), and report security issues privately using [SECURITY.md](SECURITY.md).
 
-## Feature requests
+---
 
-Describe the problem and use case before proposing an implementation. Strong proposals explain who benefits, what alternatives exist, and how the idea preserves SnapDock's simple, predictable workflow.
-
-Thank you for contributing to SnapDock.
+**Thanks for being part of SnapDock!** Every contribution counts, big or small. 🚀

@@ -1,25 +1,28 @@
 name: Documentation Update
-description: Suggest improvements to documentation or examples
-labels: [documentation]
+description: Found something confusing, missing, or outdated? Let me know!
+labels: ["documentation"]
 body:
   - type: markdown
     attributes:
       value: |
-        Start the issue title with `main:`, `v3:`, `beta:`, `v4:`, or `Phoenix:` and select the release line this documentation concerns.
+        Thanks for helping improve the docs!
 
-  - type: dropdown
-    id: release_line
+        Found a typo, outdated instructions, or something that just doesn't make sense? Let me know and we'll get it sorted!
+
+  - type: textarea
+    id: problem
     attributes:
-      label: Release Line
-      description: Which release line does this documentation concern?
-      options:
-        - "main: / v3 (current application)"
-        - "beta: / v4 / Phoenix (edge and beta)"
+      label: What needs fixing?
+      description: Tell me what's missing, confusing, or incorrect.
+      placeholder: |
+        The installation instructions are missing a step, or this section could use a better explanation.
     validations:
       required: true
 
   - type: textarea
-    id: update
+    id: location
     attributes:
-      label: What needs to be updated?
-      placeholder: Describe the missing, unclear, or incorrect documentation.
+      label: Where did you find it?
+      description: A link, file name, screenshot, or anything that helps me find it. No worries if you're not sure!
+      placeholder: |
+        CONTRIBUTING.md, README.md, or a link to the page.

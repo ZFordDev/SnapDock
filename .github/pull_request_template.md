@@ -1,53 +1,67 @@
+
 # Pull Request
 
-Thank you for contributing to SnapDock!  
-Please complete the sections below to help us review your PR.
+Thanks for contributing to SnapDock!
 
-> **Before submitting:** Confirm that this PR targets the correct branch: `main` for V3 work or `Phoenix` for V4/Phoenix work.
+Before we merge anything, let's make sure it works and doesn't accidentally break something else.
 
----
+> [!IMPORTANT]
+> All new PRs should target **`main` (V3)**.
+> V4/Phoenix is currently paused. Please discuss any V4 contributions before opening a PR.
 
-## Summary
+## What changed?
 
-Describe what this PR changes and why.
+Tell us what you've changed and why.
 
----
+## Type of change
 
-## Type of Change
-
-- [ ] Bug fix  
-- [ ] New feature  
-- [ ] UI/UX improvement  
-- [ ] Documentation update  
-- [ ] Refactor / cleanup  
-
----
-
-## Details
-
-Explain the implementation, any decisions made, and any side effects.
-
----
+- [ ] Bug fix
+- [ ] New feature
+- [ ] UI/UX improvement
+- [ ] Documentation
+- [ ] Refactor / cleanup
+- [ ] Other
 
 ## Testing
 
-Describe how you tested your changes:
+Please check what you've completed:
 
-- [ ] Builds successfully  
-- [ ] Tested on Windows  
-- [ ] Tested on Linux  
-- [ ] No regressions found  
+- [ ] I've run `npm test` and the tests pass.
+- [ ] I've run the application and tested my changes.
+- [ ] I've checked that existing functionality still works.
+- [ ] I've added or updated tests where appropriate.
+- [ ] I've checked the relevant themes (if changing the UI).
+
+**Tested on:**
+
+- [ ] Windows
+- [ ] Linux
+- [ ] Other / Not applicable
+
+**Anything we should know about testing?**
+
+Mention anything you couldn't test, known issues, or unexpected behaviour.
+
+## Before submitting
+
+- [ ] My PR targets the correct branch.
+- [ ] My changes are focused on one feature or fix.
+- [ ] I've avoided unrelated changes and unnecessary dependencies.
+- [ ] I've checked that no personal information, credentials, or debug files are included.
+- [ ] I've updated documentation if my changes affect how SnapDock works.
+
+## Related issues
+
+Link any relevant issues or discussions.
+
+Example: `Fixes #123` or `Related to #456`
+
+## Anything else? (Optional)
+
+Screenshots for UI changes, implementation details, questions, or anything else worth mentioning.
 
 ---
 
-## Related Issues
+**Thanks again for helping improve SnapDock!**
 
-Link any related issues or discussions:
-
-`Fixes #123` or `Related to #456`
-
----
-
-## Additional Notes (optional)
-
-Anything else reviewers should know.
+Don't worry if something needs adjusting during review. That's what reviews are for!

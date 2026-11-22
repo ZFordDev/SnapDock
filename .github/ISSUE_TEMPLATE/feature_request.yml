@@ -1,33 +1,30 @@
-name: Feature Request
-description: Suggest an improvement or new feature for SnapDock
-labels: [enhancement]
-title: "v4: "
+name: 💡 Feature Request
+description: Got an idea for SnapDock? I'd love to hear it!
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for your idea!  
-        SnapDock aims to stay minimal, stable, and distraction‑free.  
-        Feature requests are for V4/Phoenix only. Keep the `v4:` prefix in the title, or replace it with `beta:` or `Phoenix:`. Please describe the problem your feature solves.
+        Got an idea? Awesome! 💡
+
+        Big or small, practical or a little crazy, I'd love to hear it!
+
+        Not every idea will make it into SnapDock, but that doesn't mean it isn't worth sharing.
 
   - type: textarea
-    id: problem
+    id: idea
     attributes:
-      label: Problem / Use Case
-      placeholder: What problem does this solve?
+      label: What's your idea?
+      description: Tell me what you'd like to see added or improved.
+      placeholder: |
+        It would be cool if SnapDock could...
+    validations:
+      required: true
 
   - type: textarea
-    id: proposal
+    id: details
     attributes:
-      label: Proposed Solution
-      placeholder: Describe the feature or workflow.
-
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: Alternatives Considered (optional)
-
-  - type: textarea
-    id: notes
-    attributes:
-      label: Additional Notes (optional)
+      label: Anything else?
+      description: How you'd use it, examples, screenshots, sketches, or anything else you'd like to share. All optional!
+      placeholder: |
+        I saw something similar in another editor, or here's how I imagine it working...

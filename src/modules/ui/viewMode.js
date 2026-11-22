@@ -1,8 +1,9 @@
-import { renderMarkdown } from "../markdown.js";
 import { getActiveTab } from "../file/tabs.js";
 import { handleFileOpen } from "../file/open.js";
 
 const STORAGE_KEY = "snapdock:previewMode";
+// ZFordDev: keep Markdown plugins and highlighting out of ordinary editor startup.
+let markdownRenderer = null;
 
 /**
  * Initialize the preview mode dropdown (replaces old toggle button).
@@ -73,12 +74,31 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
   }
 
   // --- Update preview content ---
-  const applyPreviewContent = () => {
-    const html = renderMarkdown(editor.value, {
-      documentPath: getActiveTab()?.filePath,
-    });
-    const parsed = new DOMParser().parseFromString(html, "text/html");
-    preview.replaceChildren(...parsed.body.childNodes);
+  let previewRenderId = 0;
+  const applyPreviewContent = async () => {
+    if (previewWrapper.classList.contains("hidden")) return;
+    const renderId = ++previewRenderId;
+    preview.setAttribute("aria-busy", "true");
+    try {
+      markdownRenderer ||= import("../markdown.js");
+      const { renderMarkdown } = await markdownRenderer;
+      // ZFordDev: a tab, edit, or mode change during loading must not show stale content.
+      if (renderId !== previewRenderId || previewWrapper.classList.contains("hidden")) return;
+      const html = renderMarkdown(editor.value, {
+        documentPath: getActiveTab()?.filePath,
+      });
+      const parsed = new DOMParser().parseFromString(html, "text/html");
+      preview.replaceChildren(...parsed.body.childNodes);
+    } catch (error) {
+      // ZFordDev: keep editing available and allow another preview attempt after a failure.
+      markdownRenderer = null;
+      if (renderId === previewRenderId && !previewWrapper.classList.contains("hidden")) {
+        preview.textContent = "Unable to load preview. Please try again.";
+      }
+      console.error("Unable to render preview:", error);
+    } finally {
+      if (renderId === previewRenderId) preview.removeAttribute("aria-busy");
+    }
   };
 
   const handlePreviewLinkClick = async (event) => {
@@ -120,9 +140,9 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
       editorWrapper.classList.remove("hidden");
     } else {
       // Switch to preview
-      applyPreviewContent();
       previewWrapper.classList.remove("hidden");
       editorWrapper.classList.add("hidden");
+      applyPreviewContent();
     }
 
     updateLabel();
@@ -132,10 +152,10 @@ export function initViewModeToggle({ toggleBtn, editor, preview }) {
   function applySplitMode() {
     if (!previewWrapper || !editorWrapper || !workspace) return;
 
-    applyPreviewContent();
     workspace.classList.add("split-view");
     editorWrapper.classList.remove("hidden");
     previewWrapper.classList.remove("hidden");
+    applyPreviewContent();
 
     if (!editorWrapper.style.flexBasis && !previewWrapper.style.flexBasis) {
       editorWrapper.style.flexBasis = "50%";

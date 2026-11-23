@@ -40,6 +40,14 @@ Internal Link: [Jump](#title-test)
 <!-- pagebreak -->
 
 Content on the next page.
+
+~~~javascript
+const answer = 42;
+~~~
+
+~~~not-a-language
+<script>alert(1)</script>
+~~~
 `;
 
 try {
@@ -56,7 +64,9 @@ try {
     { label: "Link Attributes External (MILA)", pass: html.includes('href="https://staxdash.com"') && html.includes('target="_blank"') },
     { label: "Link Attributes Internal (MILA bypass)", pass: html.includes('href="#title-test"') && !html.includes('href="#title-test" target="_blank"') },
     { label: "Electron Attachment Hook", pass: html.includes('src="app://local-assets/attachment.png"') },
-    { label: "PDF Page Break", pass: html.includes('<div class="page-break" aria-hidden="true"></div>') }
+    { label: "PDF Page Break", pass: html.includes('<div class="page-break" aria-hidden="true"></div>') },
+    { label: "Fenced Code Highlighting", pass: html.includes('<span class="hljs-keyword">const</span>') && html.includes('<span class="hljs-number">42</span>') },
+    { label: "Unknown Code Language Fallback", pass: html.includes('&lt;script&gt;alert(1)&lt;/script&gt;') }
   ];
 
   console.log("--- Feature Render Verification ---");

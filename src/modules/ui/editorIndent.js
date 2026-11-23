@@ -1,4 +1,4 @@
-export const MARKDOWN_INDENT = "    ";
+export const MARKDOWN_INDENT = "\t";
 
 function lineStartAt(value, position) {
   return value.lastIndexOf("\n", Math.max(0, position - 1)) + 1;
@@ -23,7 +23,7 @@ function outdentWidth(value, lineStart) {
   if (value[lineStart] === "\t") return 1;
 
   let spaces = 0;
-  while (spaces < MARKDOWN_INDENT.length && value[lineStart + spaces] === " ") {
+  while (spaces < 4 && value[lineStart + spaces] === " ") {
     spaces += 1;
   }
   return spaces;
